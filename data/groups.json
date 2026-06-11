@@ -1,74 +1,74 @@
 {
   "A": [
-    { "code": "MEX", "name": "Mexico",       "flag": "🇲🇽", "color": "#006847" },
-    { "code": "RSA", "name": "South Africa", "flag": "🇿🇦", "color": "#007A4D" },
-    { "code": "KOR", "name": "South Korea",  "flag": "🇰🇷", "color": "#C8102E" },
-    { "code": "CZE", "name": "Czechia",      "flag": "🇨🇿", "color": "#D7141A" }
+    { "code": "MEX", "name": "Mexico",       "flag": "🇲🇽", "color": "#006847", "fifaRank": 14, "fifaPoints": 1687.48 },
+    { "code": "RSA", "name": "South Africa", "flag": "🇿🇦", "color": "#007A4D", "fifaRank": 60, "fifaPoints": 1428.38 },
+    { "code": "KOR", "name": "South Korea",  "flag": "🇰🇷", "color": "#C8102E", "fifaRank": 25, "fifaPoints": 1591.63 },
+    { "code": "CZE", "name": "Czechia",      "flag": "🇨🇿", "color": "#D7141A", "fifaRank": 40, "fifaPoints": 1505.74 }
   ],
   "B": [
-    { "code": "CAN", "name": "Canada",                   "flag": "🇨🇦", "color": "#FF0000" },
-    { "code": "BIH", "name": "Bosnia & Herzegovina",     "flag": "🇧🇦", "color": "#002395" },
-    { "code": "QAT", "name": "Qatar",                    "flag": "🇶🇦", "color": "#8D1B3D" },
-    { "code": "SUI", "name": "Switzerland",              "flag": "🇨🇭", "color": "#FF0000" }
+    { "code": "CAN", "name": "Canada",                   "flag": "🇨🇦", "color": "#FF0000", "fifaRank": 30, "fifaPoints": 1559.48 },
+    { "code": "BIH", "name": "Bosnia & Herzegovina",     "flag": "🇧🇦", "color": "#002395", "fifaRank": 64, "fifaPoints": 1387.22 },
+    { "code": "QAT", "name": "Qatar",                    "flag": "🇶🇦", "color": "#8D1B3D", "fifaRank": 56, "fifaPoints": 1450.31 },
+    { "code": "SUI", "name": "Switzerland",              "flag": "🇨🇭", "color": "#FF0000", "fifaRank": 19, "fifaPoints": 1650.06 }
   ],
   "C": [
-    { "code": "BRA", "name": "Brazil",   "flag": "🇧🇷", "color": "#FFD400" },
-    { "code": "MAR", "name": "Morocco",  "flag": "🇲🇦", "color": "#C1272D" },
-    { "code": "HAI", "name": "Haiti",    "flag": "🇭🇹", "color": "#00209F" },
-    { "code": "SCO", "name": "Scotland", "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "color": "#003DA5" }
+    { "code": "BRA", "name": "Brazil",   "flag": "🇧🇷", "color": "#FFD400", "fifaRank": 6,  "fifaPoints": 1765.86 },
+    { "code": "MAR", "name": "Morocco",  "flag": "🇲🇦", "color": "#C1272D", "fifaRank": 7,  "fifaPoints": 1755.10 },
+    { "code": "HAI", "name": "Haiti",    "flag": "🇭🇹", "color": "#00209F", "fifaRank": 83, "fifaPoints": 1293.10 },
+    { "code": "SCO", "name": "Scotland", "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "color": "#003DA5", "fifaRank": 42, "fifaPoints": 1503.34 }
   ],
   "D": [
-    { "code": "USA", "name": "United States", "flag": "🇺🇸", "color": "#1B3A8F" },
-    { "code": "PAR", "name": "Paraguay",      "flag": "🇵🇾", "color": "#D52B1E" },
-    { "code": "AUS", "name": "Australia",     "flag": "🇦🇺", "color": "#FFCD00" },
-    { "code": "TUR", "name": "Türkiye",       "flag": "🇹🇷", "color": "#E30A17" }
+    { "code": "USA", "name": "United States", "flag": "🇺🇸", "color": "#1B3A8F", "fifaRank": 17, "fifaPoints": 1671.23 },
+    { "code": "PAR", "name": "Paraguay",      "flag": "🇵🇾", "color": "#D52B1E", "fifaRank": 41, "fifaPoints": 1505.35 },
+    { "code": "AUS", "name": "Australia",     "flag": "🇦🇺", "color": "#FFCD00", "fifaRank": 27, "fifaPoints": 1579.34 },
+    { "code": "TUR", "name": "Türkiye",       "flag": "🇹🇷", "color": "#E30A17", "fifaRank": 22, "fifaPoints": 1605.73 }
   ],
   "E": [
-    { "code": "GER", "name": "Germany",      "flag": "🇩🇪", "color": "#1A1A1A" },
-    { "code": "CUW", "name": "Curaçao",      "flag": "🇨🇼", "color": "#003DA5" },
-    { "code": "CIV", "name": "Ivory Coast",  "flag": "🇨🇮", "color": "#F77F00" },
-    { "code": "ECU", "name": "Ecuador",      "flag": "🇪🇨", "color": "#FFD100" }
+    { "code": "GER", "name": "Germany",      "flag": "🇩🇪", "color": "#1A1A1A", "fifaRank": 10, "fifaPoints": 1735.77 },
+    { "code": "CUW", "name": "Curaçao",      "flag": "🇨🇼", "color": "#003DA5", "fifaRank": 82, "fifaPoints": 1294.77 },
+    { "code": "CIV", "name": "Ivory Coast",  "flag": "🇨🇮", "color": "#F77F00", "fifaRank": 33, "fifaPoints": 1540.87 },
+    { "code": "ECU", "name": "Ecuador",      "flag": "🇪🇨", "color": "#FFD100", "fifaRank": 23, "fifaPoints": 1598.52 }
   ],
   "F": [
-    { "code": "NED", "name": "Netherlands", "flag": "🇳🇱", "color": "#FF6A13" },
-    { "code": "JPN", "name": "Japan",       "flag": "🇯🇵", "color": "#0B1F66" },
-    { "code": "SWE", "name": "Sweden",      "flag": "🇸🇪", "color": "#006AA7" },
-    { "code": "TUN", "name": "Tunisia",     "flag": "🇹🇳", "color": "#E70013" }
+    { "code": "NED", "name": "Netherlands", "flag": "🇳🇱", "color": "#FF6A13", "fifaRank": 8,  "fifaPoints": 1753.57 },
+    { "code": "JPN", "name": "Japan",       "flag": "🇯🇵", "color": "#0B1F66", "fifaRank": 18, "fifaPoints": 1661.58 },
+    { "code": "SWE", "name": "Sweden",      "flag": "🇸🇪", "color": "#006AA7", "fifaRank": 38, "fifaPoints": 1509.79 },
+    { "code": "TUN", "name": "Tunisia",     "flag": "🇹🇳", "color": "#E70013", "fifaRank": 45, "fifaPoints": 1476.41 }
   ],
   "G": [
-    { "code": "BEL", "name": "Belgium",     "flag": "🇧🇪", "color": "#C8102E" },
-    { "code": "EGY", "name": "Egypt",       "flag": "🇪🇬", "color": "#CE1126" },
-    { "code": "IRN", "name": "Iran",        "flag": "🇮🇷", "color": "#239F40" },
-    { "code": "NZL", "name": "New Zealand", "flag": "🇳🇿", "color": "#00247D" }
+    { "code": "BEL", "name": "Belgium",     "flag": "🇧🇪", "color": "#C8102E", "fifaRank": 9,  "fifaPoints": 1742.24 },
+    { "code": "EGY", "name": "Egypt",       "flag": "🇪🇬", "color": "#CE1126", "fifaRank": 29, "fifaPoints": 1562.37 },
+    { "code": "IRN", "name": "Iran",        "flag": "🇮🇷", "color": "#239F40", "fifaRank": 20, "fifaPoints": 1619.58 },
+    { "code": "NZL", "name": "New Zealand", "flag": "🇳🇿", "color": "#00247D", "fifaRank": 85, "fifaPoints": 1275.58 }
   ],
   "H": [
-    { "code": "ESP", "name": "Spain",        "flag": "🇪🇸", "color": "#C60B1E" },
-    { "code": "CPV", "name": "Cape Verde",   "flag": "🇨🇻", "color": "#003893" },
-    { "code": "KSA", "name": "Saudi Arabia", "flag": "🇸🇦", "color": "#006C35" },
-    { "code": "URU", "name": "Uruguay",      "flag": "🇺🇾", "color": "#5BC2E7" }
+    { "code": "ESP", "name": "Spain",        "flag": "🇪🇸", "color": "#C60B1E", "fifaRank": 2,  "fifaPoints": 1874.71 },
+    { "code": "CPV", "name": "Cape Verde",   "flag": "🇨🇻", "color": "#003893", "fifaRank": 67, "fifaPoints": 1371.11 },
+    { "code": "KSA", "name": "Saudi Arabia", "flag": "🇸🇦", "color": "#006C35", "fifaRank": 61, "fifaPoints": 1423.88 },
+    { "code": "URU", "name": "Uruguay",      "flag": "🇺🇾", "color": "#5BC2E7", "fifaRank": 16, "fifaPoints": 1673.07 }
   ],
   "I": [
-    { "code": "FRA", "name": "France",  "flag": "🇫🇷", "color": "#1A2A6C" },
-    { "code": "SEN", "name": "Senegal", "flag": "🇸🇳", "color": "#00853F" },
-    { "code": "IRQ", "name": "Iraq",    "flag": "🇮🇶", "color": "#007A3D" },
-    { "code": "NOR", "name": "Norway",  "flag": "🇳🇴", "color": "#EF2B2D" }
+    { "code": "FRA", "name": "France",  "flag": "🇫🇷", "color": "#1A2A6C", "fifaRank": 3,  "fifaPoints": 1870.70 },
+    { "code": "SEN", "name": "Senegal", "flag": "🇸🇳", "color": "#00853F", "fifaRank": 15, "fifaPoints": 1684.07 },
+    { "code": "IRQ", "name": "Iraq",    "flag": "🇮🇶", "color": "#007A3D", "fifaRank": 57, "fifaPoints": 1446.28 },
+    { "code": "NOR", "name": "Norway",  "flag": "🇳🇴", "color": "#EF2B2D", "fifaRank": 31, "fifaPoints": 1557.44 }
   ],
   "J": [
-    { "code": "ARG", "name": "Argentina", "flag": "🇦🇷", "color": "#75AADB" },
-    { "code": "ALG", "name": "Algeria",   "flag": "🇩🇿", "color": "#006233" },
-    { "code": "AUT", "name": "Austria",   "flag": "🇦🇹", "color": "#ED2939" },
-    { "code": "JOR", "name": "Jordan",    "flag": "🇯🇴", "color": "#007A3D" }
+    { "code": "ARG", "name": "Argentina", "flag": "🇦🇷", "color": "#75AADB", "fifaRank": 1,  "fifaPoints": 1877.27 },
+    { "code": "ALG", "name": "Algeria",   "flag": "🇩🇿", "color": "#006233", "fifaRank": 28, "fifaPoints": 1571.03 },
+    { "code": "AUT", "name": "Austria",   "flag": "🇦🇹", "color": "#ED2939", "fifaRank": 24, "fifaPoints": 1597.40 },
+    { "code": "JOR", "name": "Jordan",    "flag": "🇯🇴", "color": "#007A3D", "fifaRank": 63, "fifaPoints": 1387.74 }
   ],
   "K": [
-    { "code": "POR", "name": "Portugal",   "flag": "🇵🇹", "color": "#C60B1E" },
-    { "code": "COD", "name": "DR Congo",   "flag": "🇨🇩", "color": "#007FFF" },
-    { "code": "UZB", "name": "Uzbekistan", "flag": "🇺🇿", "color": "#1EB53A" },
-    { "code": "COL", "name": "Colombia",   "flag": "🇨🇴", "color": "#FCD116" }
+    { "code": "POR", "name": "Portugal",   "flag": "🇵🇹", "color": "#C60B1E", "fifaRank": 5,  "fifaPoints": 1767.85 },
+    { "code": "COD", "name": "DR Congo",   "flag": "🇨🇩", "color": "#007FFF", "fifaRank": 46, "fifaPoints": 1474.43 },
+    { "code": "UZB", "name": "Uzbekistan", "flag": "🇺🇿", "color": "#1EB53A", "fifaRank": 50, "fifaPoints": 1458.73 },
+    { "code": "COL", "name": "Colombia",   "flag": "🇨🇴", "color": "#FCD116", "fifaRank": 13, "fifaPoints": 1698.35 }
   ],
   "L": [
-    { "code": "ENG", "name": "England", "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "color": "#FFFFFF" },
-    { "code": "CRO", "name": "Croatia", "flag": "🇭🇷", "color": "#FF0000" },
-    { "code": "GHA", "name": "Ghana",   "flag": "🇬🇭", "color": "#006B3F" },
-    { "code": "PAN", "name": "Panama",  "flag": "🇵🇦", "color": "#005293" }
+    { "code": "ENG", "name": "England", "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "color": "#FFFFFF", "fifaRank": 4,  "fifaPoints": 1828.02 },
+    { "code": "CRO", "name": "Croatia", "flag": "🇭🇷", "color": "#FF0000", "fifaRank": 11, "fifaPoints": 1714.87 },
+    { "code": "GHA", "name": "Ghana",   "flag": "🇬🇭", "color": "#006B3F", "fifaRank": 73, "fifaPoints": 1346.88 },
+    { "code": "PAN", "name": "Panama",  "flag": "🇵🇦", "color": "#005293", "fifaRank": 34, "fifaPoints": 1539.16 }
   ]
 }
