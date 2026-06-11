@@ -19,4 +19,5 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
 .fx-row .home{text-align:right}.fx-row .score{font-weight:700;font-variant-numeric:tabular-nums;min-width:46px;text-align:center}
 .fx-row .flag{font-size:18px}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.66);display:flex;align-items:center;justify-content:center;padding:24px;z-index:10}
+.modal[hidden]{display:none}
 .modal-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;width:min(760px,96vw)}
