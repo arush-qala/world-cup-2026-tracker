@@ -74,7 +74,29 @@ function showUpdated(){
   document.getElementById('updated').textContent = `${done}/${DATA.fixtures.length} matches played`;
 }
 
-// Implemented in Task 7 (Fixtures tab). Stub keeps boot() working until then.
-function renderFixtures(){}
+function flagOf(code){ for(const g of Object.values(DATA.groups)){ const t=g.find(x=>x.code===code); if(t) return t.flag; } return '🏳️'; }
+function ukTime(iso){ return new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'}); }
+
+function renderFixtures(){
+  const wrap = document.getElementById('fixtures-list'); wrap.innerHTML='';
+  const byDate = {};
+  for(const f of DATA.fixtures){ (byDate[f.dateUK] ??= []).push(f); }
+  for(const date of Object.keys(byDate).sort()){
+    const h = document.createElement('div'); h.className='fx-date';
+    h.textContent = new Date(date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'Europe/London'});
+    wrap.appendChild(h);
+    for(const f of byDate[date].sort((a,b)=>a.kickoffUK.localeCompare(b.kickoffUK))){
+      const played = f.status==='finished';
+      const score = played ? `${f.score.home}–${f.score.away}` : ukTime(f.kickoffUK);
+      const row = document.createElement('div'); row.className='fx-row';
+      row.innerHTML =
+        `<span class="time">${played?ukTime(f.kickoffUK):'KO'}</span>`+
+        `<span class="home">${f.home} <span class="flag">${flagOf(f.home)}</span></span>`+
+        `<span class="score">${score}</span>`+
+        `<span class="away"><span class="flag">${flagOf(f.away)}</span> ${f.away}</span>`;
+      wrap.appendChild(row);
+    }
+  }
+}
 
 boot();
