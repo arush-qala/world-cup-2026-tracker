@@ -2,7 +2,7 @@
  * chart.js — Reusable midnight SVG line-chart renderer for World Cup 2026 tracker.
  *
  * Exports one function:
- *   renderChart(svg, { series, colors, qualifiers, view, animate })
+ *   renderChart(svg, { series, qualifiers, view, animate })
  *
  * Visual style is LOCKED (not configurable) — see STYLE / THEME constants below.
  * Per-chart hover state is local to each svg call, so 12 charts on one page work correctly.
@@ -11,24 +11,16 @@
 /* ------------------------------------------------------------------ */
 /* Locked visual style                                                  */
 /* ------------------------------------------------------------------ */
+// Only live style knobs: thickness, glowI, flagSize, speed.
 const STYLE = {
-  curve:     'smooth',
   thickness: 3,
-  glow:      true,
-  glowI:     16,        // feGaussianBlur stdDeviation = glowI / 3
-  markers:   'flag',
+  glowI:     8,         // feGaussianBlur stdDeviation = glowI / 3
   flagSize:  17,
-  endLabel:  'flag',
-  qual:      true,
-  hover:     true,
-  grid:      false,
-  anim:      'draw',
   speed:     0.5,       // draw-on duration = 1.1 / speed seconds
 };
 
 const THEME = {
   bg:   '#0d1018',
-  text: '#e8ebf2',
   sub:  '#8b93a7',
 };
 
@@ -51,8 +43,7 @@ function xFor(i, n) {
 }
 
 /**
- * Build an SVG path `d` string.
- * Only smooth (catmull-rom → cubic bezier) is used; kept here for completeness.
+ * Build a smooth SVG path `d` string using catmull-rom → cubic bezier interpolation.
  */
 function pathD(pts) {
   if (pts.length === 0) return '';
@@ -92,32 +83,37 @@ function el(tag, attrs) {
  * @param {SVGElement} svg         - Target <svg> element (viewBox="0 0 640 320").
  * @param {object}     opts
  * @param {Array}      opts.series     - [{code, name, flag, color, points:[0..3], rank:[1..3]}]
- * @param {object}     opts.colors     - {code: hex}  (de-collided; may also use series[i].color)
  * @param {string[]}   opts.qualifiers - Team codes that are top-2 (advancing).
  * @param {'points'|'rank'} opts.view  - Which view to render.
  * @param {boolean}    opts.animate    - Play draw-on entrance animation on first draw.
  */
-export function renderChart(svg, { series, colors, qualifiers, view, animate }) {
+export function renderChart(svg, { series, qualifiers, view, animate }) {
   // Build per-team pixel coords for this view.
+  // In points view, also returns maxP so it can be reused for the cutoff line.
   function buildSeriesCoords() {
     if (view === 'points') {
       const n = 4; // MD0..MD3
       const allVals = series.flatMap(s => s.points);
       const maxP = Math.max(1, ...allVals); // guard against 0
       const yFor = p => plot.y1 - (plot.y1 - plot.y0) * (p / maxP);
-      return series.map(s => ({
-        s,
-        pts: s.points.map((p, i) => ({ x: xFor(i, n), y: yFor(p), v: p })),
+      return {
+        coordSeries: series.map(s => ({
+          s,
+          pts: s.points.map((p, i) => ({ x: xFor(i, n), y: yFor(p) })),
+        })),
         maxP,
-      }));
+      };
     } else {
       // rank view: MD1..MD3 (3 points)
       const n = 3;
       const yFor = r => plot.y0 + (plot.y1 - plot.y0) * ((r - 1) / 3); // rank 1 at top
-      return series.map(s => ({
-        s,
-        pts: s.rank.map((r, i) => ({ x: xFor(i, n), y: yFor(r), v: r })),
-      }));
+      return {
+        coordSeries: series.map(s => ({
+          s,
+          pts: s.rank.map((r, i) => ({ x: xFor(i, n), y: yFor(r) })),
+        })),
+        maxP: null,
+      };
     }
   }
 
@@ -143,7 +139,7 @@ export function renderChart(svg, { series, colors, qualifiers, view, animate }) 
       svg.appendChild(defs);
     }
 
-    const coordSeries = buildSeriesCoords();
+    const { coordSeries, maxP } = buildSeriesCoords();
     const n = view === 'points' ? 4 : 3;
 
     /* --- x-axis labels (no gridlines) --- */
@@ -210,8 +206,6 @@ export function renderChart(svg, { series, colors, qualifiers, view, animate }) 
       // points view: dashed line at 2nd-placed team's FINAL points value
       const finals = series.map(s => s.points[s.points.length - 1]).sort((a, b) => b - a);
       const cut = finals[1] ?? 0;
-      const allVals = series.flatMap(s => s.points);
-      const maxP = Math.max(1, ...allVals);
       if (cut > 0) {
         const yCut = plot.y1 - (plot.y1 - plot.y0) * (cut / maxP);
         svg.appendChild(el('line', {
