@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup 2026 — Group Tracker</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1>World Cup 2026 · Group Tracker</h1>
+    <nav class="tabs">
+      <button class="tab active" data-tab="groups">Groups</button>
+      <button class="tab" data-tab="fixtures">Fixtures</button>
+    </nav>
+  </header>
+
+  <section id="groups-view">
+    <div class="viewbar">
+      <div class="seg" id="viewseg">
+        <button data-view="points" class="active">Points</button>
+        <button data-view="rank">Rank</button>
+      </div>
+      <span class="updated" id="updated"></span>
+    </div>
+    <div class="group-grid" id="group-grid"></div>
+  </section>
+
+  <section id="fixtures-view" hidden>
+    <div class="fixtures-list" id="fixtures-list"></div>
+  </section>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modal-card" id="modal-card"></div>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
