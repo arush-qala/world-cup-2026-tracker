@@ -1,0 +1,74 @@
+{
+  "A": [
+    { "code": "MEX", "name": "Mexico",       "flag": "🇲🇽", "color": "#006847" },
+    { "code": "RSA", "name": "South Africa", "flag": "🇿🇦", "color": "#007A4D" },
+    { "code": "KOR", "name": "South Korea",  "flag": "🇰🇷", "color": "#C8102E" },
+    { "code": "CZE", "name": "Czechia",      "flag": "🇨🇿", "color": "#D7141A" }
+  ],
+  "B": [
+    { "code": "CAN", "name": "Canada",                   "flag": "🇨🇦", "color": "#FF0000" },
+    { "code": "BIH", "name": "Bosnia & Herzegovina",     "flag": "🇧🇦", "color": "#002395" },
+    { "code": "QAT", "name": "Qatar",                    "flag": "🇶🇦", "color": "#8D1B3D" },
+    { "code": "SUI", "name": "Switzerland",              "flag": "🇨🇭", "color": "#FF0000" }
+  ],
+  "C": [
+    { "code": "BRA", "name": "Brazil",   "flag": "🇧🇷", "color": "#FFD400" },
+    { "code": "MAR", "name": "Morocco",  "flag": "🇲🇦", "color": "#C1272D" },
+    { "code": "HAI", "name": "Haiti",    "flag": "🇭🇹", "color": "#00209F" },
+    { "code": "SCO", "name": "Scotland", "flag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "color": "#003DA5" }
+  ],
+  "D": [
+    { "code": "USA", "name": "United States", "flag": "🇺🇸", "color": "#1B3A8F" },
+    { "code": "PAR", "name": "Paraguay",      "flag": "🇵🇾", "color": "#D52B1E" },
+    { "code": "AUS", "name": "Australia",     "flag": "🇦🇺", "color": "#FFCD00" },
+    { "code": "TUR", "name": "Türkiye",       "flag": "🇹🇷", "color": "#E30A17" }
+  ],
+  "E": [
+    { "code": "GER", "name": "Germany",      "flag": "🇩🇪", "color": "#1A1A1A" },
+    { "code": "CUW", "name": "Curaçao",      "flag": "🇨🇼", "color": "#003DA5" },
+    { "code": "CIV", "name": "Ivory Coast",  "flag": "🇨🇮", "color": "#F77F00" },
+    { "code": "ECU", "name": "Ecuador",      "flag": "🇪🇨", "color": "#FFD100" }
+  ],
+  "F": [
+    { "code": "NED", "name": "Netherlands", "flag": "🇳🇱", "color": "#FF6A13" },
+    { "code": "JPN", "name": "Japan",       "flag": "🇯🇵", "color": "#0B1F66" },
+    { "code": "SWE", "name": "Sweden",      "flag": "🇸🇪", "color": "#006AA7" },
+    { "code": "TUN", "name": "Tunisia",     "flag": "🇹🇳", "color": "#E70013" }
+  ],
+  "G": [
+    { "code": "BEL", "name": "Belgium",     "flag": "🇧🇪", "color": "#C8102E" },
+    { "code": "EGY", "name": "Egypt",       "flag": "🇪🇬", "color": "#CE1126" },
+    { "code": "IRN", "name": "Iran",        "flag": "🇮🇷", "color": "#239F40" },
+    { "code": "NZL", "name": "New Zealand", "flag": "🇳🇿", "color": "#00247D" }
+  ],
+  "H": [
+    { "code": "ESP", "name": "Spain",        "flag": "🇪🇸", "color": "#C60B1E" },
+    { "code": "CPV", "name": "Cape Verde",   "flag": "🇨🇻", "color": "#003893" },
+    { "code": "KSA", "name": "Saudi Arabia", "flag": "🇸🇦", "color": "#006C35" },
+    { "code": "URU", "name": "Uruguay",      "flag": "🇺🇾", "color": "#5BC2E7" }
+  ],
+  "I": [
+    { "code": "FRA", "name": "France",  "flag": "🇫🇷", "color": "#1A2A6C" },
+    { "code": "SEN", "name": "Senegal", "flag": "🇸🇳", "color": "#00853F" },
+    { "code": "IRQ", "name": "Iraq",    "flag": "🇮🇶", "color": "#007A3D" },
+    { "code": "NOR", "name": "Norway",  "flag": "🇳🇴", "color": "#EF2B2D" }
+  ],
+  "J": [
+    { "code": "ARG", "name": "Argentina", "flag": "🇦🇷", "color": "#75AADB" },
+    { "code": "ALG", "name": "Algeria",   "flag": "🇩🇿", "color": "#006233" },
+    { "code": "AUT", "name": "Austria",   "flag": "🇦🇹", "color": "#ED2939" },
+    { "code": "JOR", "name": "Jordan",    "flag": "🇯🇴", "color": "#007A3D" }
+  ],
+  "K": [
+    { "code": "POR", "name": "Portugal",   "flag": "🇵🇹", "color": "#C60B1E" },
+    { "code": "COD", "name": "DR Congo",   "flag": "🇨🇩", "color": "#007FFF" },
+    { "code": "UZB", "name": "Uzbekistan", "flag": "🇺🇿", "color": "#1EB53A" },
+    { "code": "COL", "name": "Colombia",   "flag": "🇨🇴", "color": "#FCD116" }
+  ],
+  "L": [
+    { "code": "ENG", "name": "England", "flag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "color": "#FFFFFF" },
+    { "code": "CRO", "name": "Croatia", "flag": "🇭🇷", "color": "#FF0000" },
+    { "code": "GHA", "name": "Ghana",   "flag": "🇬🇭", "color": "#006B3F" },
+    { "code": "PAN", "name": "Panama",  "flag": "🇵🇦", "color": "#005293" }
+  ]
+}
