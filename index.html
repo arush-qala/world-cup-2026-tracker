@@ -12,6 +12,7 @@
     <nav class="tabs">
       <button class="tab active" data-tab="groups">Groups</button>
       <button class="tab" data-tab="fixtures">Fixtures</button>
+      <button class="tab" data-tab="strength">Strength</button>
     </nav>
   </header>
 
@@ -28,6 +29,17 @@
 
   <section id="fixtures-view" hidden>
     <div class="fixtures-list" id="fixtures-list"></div>
+  </section>
+
+  <section id="strength-view" hidden>
+    <div class="viewbar">
+      <div class="seg" id="strengthseg">
+        <button data-metric="positions" class="active">Positions</button>
+        <button data-metric="points">Points</button>
+      </div>
+      <span class="updated" id="strength-caption"></span>
+    </div>
+    <div class="strength-list" id="strength-list"></div>
   </section>
 
   <div class="modal" id="modal" hidden>

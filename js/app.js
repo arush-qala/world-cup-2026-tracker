@@ -4,6 +4,7 @@ import { renderChart } from './chart.js';
 
 let DATA = { groups:{}, fixtures:[] };
 let view = 'points';
+let strengthMetric = 'positions';
 
 async function boot(){
   const [groups, fixtures] = await Promise.all([
@@ -13,7 +14,8 @@ async function boot(){
   DATA = { groups, fixtures };
   renderGroups(true);
   renderFixtures();
-  wireTabs(); wireToggle();
+  renderStrength('positions');
+  wireTabs(); wireToggle(); wireStrengthToggle();
   showUpdated();
 }
 
@@ -64,8 +66,62 @@ function wireTabs(){
   document.querySelectorAll('.tab').forEach(t=>{
     t.onclick = () => {
       document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));
-      document.getElementById('groups-view').hidden = t.dataset.tab!=='groups';
+      document.getElementById('groups-view').hidden   = t.dataset.tab!=='groups';
       document.getElementById('fixtures-view').hidden = t.dataset.tab!=='fixtures';
+      document.getElementById('strength-view').hidden = t.dataset.tab!=='strength';
+    };
+  });
+}
+
+function renderStrength(metric){
+  const list = document.getElementById('strength-list'); list.innerHTML='';
+  // Build group sums
+  const rows = Object.entries(DATA.groups).map(([letter, teams])=>{
+    const sum = teams.reduce((acc,t)=> acc + (metric==='positions' ? t.fifaRank : t.fifaPoints), 0);
+    return { letter, sum, teams };
+  });
+  // Sort descending (highest sum at top)
+  rows.sort((a,b)=>b.sum - a.sum);
+  const sums = rows.map(r=>r.sum);
+  const minS = Math.min(...sums), maxS = Math.max(...sums);
+  // Caption
+  const caption = document.getElementById('strength-caption');
+  caption.textContent = metric==='positions'
+    ? 'Sum of FIFA ranking positions — higher = weaker group'
+    : 'Sum of FIFA ranking points — higher = stronger group';
+  rows.forEach((row, idx)=>{
+    const frac = maxS===minS ? 1 : 0.18 + 0.82*((row.sum - minS)/(maxS - minS));
+    // Badge
+    let badge = '';
+    if(idx===0) badge = metric==='positions' ? '🍃 Weakest' : '🔥 Group of Death';
+    else if(idx===rows.length-1) badge = metric==='positions' ? '🔥 Group of Death' : '🍃 Weakest';
+    // Sort teams: best first (lowest fifaRank / highest fifaPoints)
+    const sorted = [...row.teams].sort((a,b)=>
+      metric==='positions' ? a.fifaRank - b.fifaRank : b.fifaPoints - a.fifaPoints
+    );
+    const teamsHtml = sorted.map(t=>{
+      const val = metric==='positions'
+        ? `#${t.fifaRank}`
+        : `${Math.round(t.fifaPoints)}`;
+      return `<span class="str-chip"><span class="str-flag">${t.flag}</span><span class="str-code">${t.code}</span><span class="str-val">${val}</span></span>`;
+    }).join('');
+    const badgeHtml = badge ? `<span class="str-badge">${badge}</span>` : '';
+    const sumDisplay = metric==='positions' ? row.sum : Math.round(row.sum);
+    const el = document.createElement('div'); el.className='str-row';
+    el.innerHTML =
+      `<div class="str-head"><span class="str-rank">${idx+1}</span><span class="str-title">GROUP ${row.letter}</span>${badgeHtml}<span class="str-sum">${sumDisplay}</span></div>`+
+      `<div class="str-bar-wrap"><div class="str-bar-fill" style="width:${(frac*100).toFixed(1)}%"></div></div>`+
+      `<div class="str-teams">${teamsHtml}</div>`;
+    list.appendChild(el);
+  });
+}
+
+function wireStrengthToggle(){
+  document.querySelectorAll('#strengthseg button').forEach(b=>{
+    b.onclick = () => {
+      strengthMetric = b.dataset.metric;
+      document.querySelectorAll('#strengthseg button').forEach(x=>x.classList.toggle('active',x===b));
+      renderStrength(strengthMetric);
     };
   });
 }

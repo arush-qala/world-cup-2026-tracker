@@ -21,3 +21,19 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.66);display:flex;align-items:center;justify-content:center;padding:24px;z-index:10}
 .modal[hidden]{display:none}
 .modal-card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px;width:min(760px,96vw)}
+
+/* ── Strength tab ─────────────────────────────────────── */
+.strength-list{max-width:860px;margin:0 auto;padding:0 28px 48px}
+.str-row{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin-bottom:10px;display:flex;flex-direction:column;gap:10px}
+.str-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.str-rank{color:var(--muted);font-size:12px;font-weight:700;min-width:22px;text-align:right}
+.str-title{font-size:13px;font-weight:700;letter-spacing:.4px}
+.str-sum{margin-left:auto;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.str-badge{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:rgba(74,222,128,.15);color:var(--accent);border:1px solid rgba(74,222,128,.25);white-space:nowrap}
+.str-bar-wrap{height:8px;background:var(--line);border-radius:4px;overflow:hidden}
+.str-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#22c55e,#4ade80);transition:width .35s ease}
+.str-teams{display:flex;flex-wrap:wrap;gap:8px}
+.str-chip{display:inline-flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:12px}
+.str-flag{font-size:16px;line-height:1}
+.str-code{font-weight:700;letter-spacing:.3px}
+.str-val{color:var(--muted);font-variant-numeric:tabular-nums}
