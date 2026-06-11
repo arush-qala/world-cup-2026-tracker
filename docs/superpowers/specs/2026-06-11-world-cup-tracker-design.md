@@ -127,13 +127,13 @@ For each group, fold its finished fixtures in matchday order:
 
 Computed client-side so a single fixtures.json edit refreshes every chart.
 
-## 7. Update flow & "3h after" trigger
+## 7. Update flow & "kickoff + 3h" trigger
 
 The Claude routine (configured via the `/schedule` skill) runs on a cadence set
 from the actual fixture timings once sourced. Each run:
 
-1. Reads fixtures.json, selects matches where `now ≥ kickoff + 5h` and
-   `status == "scheduled"` (≈2h play + 3h buffer ⇒ results within ~3h of FT).
+1. Reads fixtures.json, selects matches where `now ≥ kickoff + 3h` and
+   `status == "scheduled"` (a match runs ~2h, so this checks ≈1h after FT).
 2. Web-fetches each eligible match's final score.
 3. Patches fixtures.json (`status: "finished"`, `score`).
 4. Redeploys to Vercel.
