@@ -1,0 +1,48 @@
+# Result-update runbook
+
+The procedure to refresh the tracker with finished-match results. Run on a
+schedule (see "Scheduling" below) or on demand ("update the tracker").
+
+Live site: https://world-cup-2026-tracker-iota.vercel.app
+Data source of truth: `data/fixtures.json` (project root).
+
+## Procedure
+
+1. **Read** `data/fixtures.json`.
+2. **Select eligible matches** — those where BOTH:
+   - `status === "scheduled"`, AND
+   - the current UK time is at least **kickoff + 3 hours** (i.e. `now >= new Date(kickoffUK) + 3h`).
+   A match runs ~2h, so this checks roughly 1 hour after full-time.
+3. If no matches are eligible, **stop** (nothing to do).
+4. For each eligible match, **web-fetch the final score** from a reputable source
+   (FIFA, BBC Sport, Sky Sports, ESPN). Confirm the result from at least one
+   authoritative source; if a match was postponed/abandoned, leave it
+   `scheduled` and note it.
+5. **Patch the record in place**: set `status: "finished"` and
+   `score: { home: <int>, away: <int> }`. Do NOT change any other field
+   (id, kickoffUK, teams, venue, etc.).
+6. **Save** `data/fixtures.json`.
+7. **Commit**: `git add data/fixtures.json && git commit -m "data: results through <date>"`.
+8. **Redeploy**: `vercel deploy --prod --yes` from the project root.
+9. **Report** which matches were updated (and any that were postponed/uncertain).
+
+## Notes
+- Standings (points, rank, qualification) are computed in the browser from
+  `data/fixtures.json`, so patching scores is all that's needed — no other files
+  change when results come in.
+- Group stage runs **11–28 June 2026** (72 matches). After that, the group
+  tracker is final.
+- The single kickoff time flagged as uncertain during data sourcing
+  (M36 TUN vs JPN, Monterrey) should be double-checked when its result is fetched.
+
+## Scheduling
+
+The cadence must be frequent enough that every match is picked up within ~3h of
+kickoff during the group stage. Two supported substrates:
+
+- **Cloud (recommended for a true self-updating site):** push this repo to
+  GitHub, connect the Vercel project to it (so commits auto-deploy), and register
+  a scheduled cloud agent (via the `/schedule` skill) that runs this runbook,
+  committing results to GitHub. Runs independently of any local machine.
+- **Local:** run this runbook via the `/loop` skill or a local `cron` on the
+  Mac. Only updates while the machine is on.
