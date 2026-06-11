@@ -36,7 +36,7 @@ Two tabs:
 ## 3. Visual direction (locked from playground)
 
 Theme **Midnight**. Smooth eased curves at **3px** weight with a **neon glow**
-(intensity ~16). **Flag-emoji chips at each matchday**, sized **+30% vs the
+(intensity ~8 — halved from the initial 16 at the user's request). **Flag-emoji chips at each matchday**, sized **+30% vs the
 playground default (≈17px)**. **Flag + country-code labels** at the end of each
 line. **Qualification emphasis**: brighten the top-2 (advancing) teams, dim the
 rest, dashed top-2 cutoff line. **Hover** spotlights a team's line and fades the
