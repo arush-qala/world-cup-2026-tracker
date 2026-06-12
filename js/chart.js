@@ -14,7 +14,7 @@
 // Only live style knobs: thickness, glowI, flagSize, speed.
 const STYLE = {
   thickness: 3,
-  glowI:     8,         // feGaussianBlur stdDeviation = glowI / 3
+  glowI:     4,         // feGaussianBlur stdDeviation = glowI / 3
   flagSize:  17,
   speed:     0.5,       // draw-on duration = 1.1 / speed seconds
 };
