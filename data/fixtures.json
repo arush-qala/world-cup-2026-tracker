@@ -18,7 +18,7 @@
     "dateUK": "2026-06-12", "kickoffUK": "2026-06-12T20:00:00+01:00",
     "venue": "BMO Field, Toronto",
     "home": "CAN", "away": "BIH",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "status": "finished", "score": { "home": 1, "away": 1 }
   },
   {
     "id": "M04", "stage": "group", "group": "D", "matchday": 1,
