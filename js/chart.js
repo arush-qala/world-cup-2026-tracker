@@ -37,6 +37,35 @@ const plot = {
   y1: H - PAD.b,
 };
 
+/** px to separate teams that share the same value at a matchday, so tied lines stay visible */
+const DODGE = 9;
+
+/**
+ * Spread apart points that coincide at the same column (matchday).
+ * Tied teams would otherwise draw directly on top of each other (e.g. two teams
+ * level on points). For each column we group near-equal y values and fan the
+ * members out symmetrically around their shared y, ordered stably by team code
+ * so a given team stays on the same side across matchdays.
+ */
+function applyDodge(coordSeries, n) {
+  for (let i = 0; i < n; i++) {
+    const groups = {};
+    coordSeries.forEach((cs, idx) => {
+      const key = Math.round(cs.pts[i].y);
+      (groups[key] ??= []).push(idx);
+    });
+    for (const key in groups) {
+      const members = groups[key];
+      if (members.length < 2) continue;
+      members.sort((a, b) => (coordSeries[a].s.code < coordSeries[b].s.code ? -1 : 1));
+      const baseY = coordSeries[members[0]].pts[i].y;
+      members.forEach((idx, k) => {
+        coordSeries[idx].pts[i].y = baseY + (k - (members.length - 1) / 2) * DODGE;
+      });
+    }
+  }
+}
+
 /** x pixel for data-index i out of n total points */
 function xFor(i, n) {
   return plot.x0 + (plot.x1 - plot.x0) * (i / (n - 1));
@@ -96,24 +125,22 @@ export function renderChart(svg, { series, qualifiers, view, animate }) {
       const allVals = series.flatMap(s => s.points);
       const maxP = Math.max(1, ...allVals); // guard against 0
       const yFor = p => plot.y1 - (plot.y1 - plot.y0) * (p / maxP);
-      return {
-        coordSeries: series.map(s => ({
-          s,
-          pts: s.points.map((p, i) => ({ x: xFor(i, n), y: yFor(p) })),
-        })),
-        maxP,
-      };
+      const coordSeries = series.map(s => ({
+        s,
+        pts: s.points.map((p, i) => ({ x: xFor(i, n), y: yFor(p) })),
+      }));
+      applyDodge(coordSeries, n);
+      return { coordSeries, maxP };
     } else {
       // rank view: MD1..MD3 (3 points)
       const n = 3;
       const yFor = r => plot.y0 + (plot.y1 - plot.y0) * ((r - 1) / 3); // rank 1 at top
-      return {
-        coordSeries: series.map(s => ({
-          s,
-          pts: s.rank.map((r, i) => ({ x: xFor(i, n), y: yFor(r) })),
-        })),
-        maxP: null,
-      };
+      const coordSeries = series.map(s => ({
+        s,
+        pts: s.rank.map((r, i) => ({ x: xFor(i, n), y: yFor(r) })),
+      }));
+      applyDodge(coordSeries, n);
+      return { coordSeries, maxP: null };
     }
   }
 
