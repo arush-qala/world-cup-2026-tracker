@@ -1,7 +1,7 @@
 // teams: [{code}], matches: [{matchday,home,away,status,score:{home,away}}]
 export function computeGroup(teams, matches){
   const codes = teams.map(t=>t.code);
-  const blank = () => ({ pts:0, gf:0, ga:0, played:0 });
+  const blank = () => ({ pts:0, gf:0, ga:0, played:0, w:0, d:0, l:0 });
   const perMD = {};
   const acc = Object.fromEntries(codes.map(c=>[c, blank()]));
   const cumPoints = Object.fromEntries(codes.map(c=>[c, [0]]));
@@ -12,9 +12,16 @@ export function computeGroup(teams, matches){
       const {home,away,score}=m;
       acc[home].gf+=score.home; acc[home].ga+=score.away; acc[home].played++;
       acc[away].gf+=score.away; acc[away].ga+=score.home; acc[away].played++;
-      if(score.home>score.away){ acc[home].pts+=3; }
-      else if(score.home<score.away){ acc[away].pts+=3; }
-      else { acc[home].pts+=1; acc[away].pts+=1; }
+      if(score.home>score.away){
+        acc[home].pts+=3; acc[home].w++; acc[away].l++;
+      }
+      else if(score.home<score.away){
+        acc[away].pts+=3; acc[away].w++; acc[home].l++;
+      }
+      else {
+        acc[home].pts+=1; acc[home].d++;
+        acc[away].pts+=1; acc[away].d++;
+      }
     }
     for(const c of codes) cumPoints[c].push(acc[c].pts);
     perMD[md] = rankTable(codes, acc, matches, md);
@@ -26,6 +33,10 @@ export function computeGroup(teams, matches){
       points: cumPoints[c],
       rank: [perMD[1][c], perMD[2][c], perMD[3][c]],
       qualified: perMD[3][c] <= 2,
+      stats: {
+        ...acc[c],
+        gd: acc[c].gf - acc[c].ga,
+      },
     };
   }
   return out;

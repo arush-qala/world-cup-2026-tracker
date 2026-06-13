@@ -28,6 +28,7 @@ function groupModel(letter){
   const series = teams.map(t=>({
     code:t.code, name:t.name, flag:t.flag, color:colors[t.code],
     points: standings[t.code].points, rank: standings[t.code].rank,
+    stats: standings[t.code].stats,
   }));
   const finishedMatches = matches.filter(m=>m.status==='finished');
   const maxPlayedMD = finishedMatches.reduce((max, m) => Math.max(max, m.matchday), 0);
@@ -49,7 +50,57 @@ function renderGroups(animate){
 function openModal(letter){
   const m = groupModel(letter);
   const card = document.getElementById('modal-card');
-  card.innerHTML = `<div class="gc-title">GROUP ${letter}</div><svg viewBox="0 0 640 320"></svg>`;
+  
+  // Sort by final rank
+  const sortedSeries = [...m.series].sort((a,b) => a.rank.at(-1) - b.rank.at(-1));
+  const tableRows = sortedSeries.map(s => {
+    const st = s.stats;
+    const sign = st.gd > 0 ? '+' : '';
+    return `
+      <tr>
+        <td class="col-num col-bold">${s.rank.at(-1)}</td>
+        <td>
+          <div class="team-cell">
+            <span class="team-flag">${s.flag}</span>
+            <span class="team-name">${s.name}</span>
+            <span class="team-code" style="color:${s.color}; font-weight:700; font-size:11px;">(${s.code})</span>
+          </div>
+        </td>
+        <td class="col-num">${st.played}</td>
+        <td class="col-num">${st.w}</td>
+        <td class="col-num">${st.d}</td>
+        <td class="col-num">${st.l}</td>
+        <td class="col-num">${st.gf}</td>
+        <td class="col-num">${st.ga}</td>
+        <td class="col-num">${sign}${st.gd}</td>
+        <td class="col-num col-bold">${st.pts}</td>
+      </tr>
+    `;
+  }).join('');
+
+  const tableHtml = `
+    <table class="modal-table">
+      <thead>
+        <tr>
+          <th style="width: 40px; text-align: center;">Pos</th>
+          <th>Team</th>
+          <th style="text-align: center;">P</th>
+          <th style="text-align: center;">W</th>
+          <th style="text-align: center;">D</th>
+          <th style="text-align: center;">L</th>
+          <th style="text-align: center;">GF</th>
+          <th style="text-align: center;">GA</th>
+          <th style="text-align: center;">GD</th>
+          <th style="text-align: center;">Pts</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${tableRows}
+      </tbody>
+    </table>
+  `;
+
+  card.innerHTML = `<div class="gc-title">GROUP ${letter}</div><svg viewBox="0 0 640 320"></svg>${tableHtml}`;
   renderChart(card.querySelector('svg'), { ...m, view, animate:true });
   document.getElementById('modal').hidden = false;
 }
