@@ -18,14 +18,14 @@
     "dateUK": "2026-06-12", "kickoffUK": "2026-06-12T20:00:00+01:00",
     "venue": "BMO Field, Toronto",
     "home": "CAN", "away": "BIH",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "status": "finished", "score": { "home": 1, "away": 1 }
   },
   {
     "id": "M04", "stage": "group", "group": "D", "matchday": 1,
     "dateUK": "2026-06-13", "kickoffUK": "2026-06-13T02:00:00+01:00",
     "venue": "SoFi Stadium, Los Angeles",
     "home": "USA", "away": "PAR",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "status": "finished", "score": { "home": 4, "away": 1 }
   },
   {
     "id": "M05", "stage": "group", "group": "B", "matchday": 1,
