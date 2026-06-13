@@ -29,7 +29,9 @@ function groupModel(letter){
     code:t.code, name:t.name, flag:t.flag, color:colors[t.code],
     points: standings[t.code].points, rank: standings[t.code].rank,
   }));
-  return { letter, series, colors, qualifiers };
+  const finishedMatches = matches.filter(m=>m.status==='finished');
+  const maxPlayedMD = finishedMatches.reduce((max, m) => Math.max(max, m.matchday), 0);
+  return { letter, series, colors, qualifiers, maxPlayedMD };
 }
 
 function renderGroups(animate){

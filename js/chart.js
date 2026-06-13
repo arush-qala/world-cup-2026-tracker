@@ -51,6 +51,7 @@ function applyDodge(coordSeries, n) {
   for (let i = 0; i < n; i++) {
     const groups = {};
     coordSeries.forEach((cs, idx) => {
+      if (!cs.pts[i]) return;
       const key = Math.round(cs.pts[i].y);
       (groups[key] ??= []).push(idx);
     });
@@ -65,6 +66,7 @@ function applyDodge(coordSeries, n) {
     }
   }
 }
+
 
 /** x pixel for data-index i out of n total points */
 function xFor(i, n) {
@@ -116,29 +118,36 @@ function el(tag, attrs) {
  * @param {'points'|'rank'} opts.view  - Which view to render.
  * @param {boolean}    opts.animate    - Play draw-on entrance animation on first draw.
  */
-export function renderChart(svg, { series, qualifiers, view, animate }) {
+export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedMD }) {
   // Build per-team pixel coords for this view.
   // In points view, also returns maxP so it can be reused for the cutoff line.
   function buildSeriesCoords() {
+    const limit = maxPlayedMD !== undefined ? maxPlayedMD : 3;
     if (view === 'points') {
       const n = 4; // MD0..MD3
       const allVals = series.flatMap(s => s.points);
       const maxP = Math.max(1, ...allVals); // guard against 0
       const yFor = p => plot.y1 - (plot.y1 - plot.y0) * (p / maxP);
-      const coordSeries = series.map(s => ({
-        s,
-        pts: s.points.map((p, i) => ({ x: xFor(i, n), y: yFor(p) })),
-      }));
+      const coordSeries = series.map(s => {
+        const slicedPoints = s.points.slice(0, limit + 1);
+        return {
+          s,
+          pts: slicedPoints.map((p, i) => ({ x: xFor(i, n), y: yFor(p) })),
+        };
+      });
       applyDodge(coordSeries, n);
       return { coordSeries, maxP };
     } else {
       // rank view: MD1..MD3 (3 points)
       const n = 3;
       const yFor = r => plot.y0 + (plot.y1 - plot.y0) * ((r - 1) / 3); // rank 1 at top
-      const coordSeries = series.map(s => ({
-        s,
-        pts: s.rank.map((r, i) => ({ x: xFor(i, n), y: yFor(r) })),
-      }));
+      const coordSeries = series.map(s => {
+        const slicedRank = s.rank.slice(0, limit);
+        return {
+          s,
+          pts: slicedRank.map((r, i) => ({ x: xFor(i, n), y: yFor(r) })),
+        };
+      });
       applyDodge(coordSeries, n);
       return { coordSeries, maxP: null };
     }
@@ -285,7 +294,7 @@ export function renderChart(svg, { series, qualifiers, view, animate }) {
       svg.appendChild(path);
 
       /* draw-on animation (first draw only) */
-      if (isFirstDraw && animate) {
+      if (isFirstDraw && animate && pts.length > 1) {
         const len = path.getTotalLength();
         path.style.strokeDasharray = len;
         path.style.strokeDashoffset = len;
@@ -314,7 +323,7 @@ export function renderChart(svg, { series, qualifiers, view, animate }) {
       });
 
       /* end-of-line label: "{flag} {CODE}" */
-      {
+      if (pts.length > 0) {
         const last = pts[pts.length - 1];
         const tx = el('text', {
           x: last.x + 10,
