@@ -38,3 +38,16 @@ test('unplayed matchdays carry points forward', () => {
   const g = computeGroup(teams, matches.filter(m=>m.matchday===1));
   assert.deepEqual(g.BRA.points, [0,3,3,3]); // only MD1 played
 });
+
+test('tied teams receive the same rank', () => {
+  const g = computeGroup(teams, [
+    F(1, 'POR', 'ARG', 1, 1), // Draw
+    F(1, 'BRA', 'ESP', 2, 2), // Draw
+  ]);
+  // All teams are tied on points (1), GD (0), GF (POR/ARG: 1, BRA/ESP: 2)
+  // BRA and ESP should be tied at rank 1, POR and ARG should be tied at rank 3
+  assert.equal(g.BRA.rank[0], 1);
+  assert.equal(g.ESP.rank[0], 1);
+  assert.equal(g.POR.rank[0], 3);
+  assert.equal(g.ARG.rank[0], 3);
+});

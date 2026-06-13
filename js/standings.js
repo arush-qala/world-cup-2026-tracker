@@ -39,7 +39,22 @@ function rankTable(codes, acc, matches, md){
     if(acc[b].gf!==acc[a].gf) return acc[b].gf-acc[a].gf;
     return headToHead(a,b,matches,md);
   });
-  const rank={}; sorted.forEach((c,i)=>rank[c]=i+1); return rank;
+  const rank = {};
+  sorted.forEach((c, i) => {
+    if (i > 0) {
+      const prev = sorted[i - 1];
+      const tied = acc[c].pts === acc[prev].pts &&
+                   gd(acc[c]) === gd(acc[prev]) &&
+                   acc[c].gf === acc[prev].gf &&
+                   headToHead(c, prev, matches, md) === 0;
+      if (tied) {
+        rank[c] = rank[prev];
+        return;
+      }
+    }
+    rank[c] = i + 1;
+  });
+  return rank;
 }
 function headToHead(a,b,matches,md){
   for(const m of matches){
