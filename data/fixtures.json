@@ -60,28 +60,28 @@
     "dateUK": "2026-06-14", "kickoffUK": "2026-06-14T19:00:00+01:00",
     "venue": "NRG Stadium, Houston",
     "home": "GER", "away": "CUW",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "status": "finished", "score": { "home": 7, "away": 1 }
   },
   {
     "id": "M10", "stage": "group", "group": "F", "matchday": 1,
     "dateUK": "2026-06-14", "kickoffUK": "2026-06-14T22:00:00+01:00",
     "venue": "AT&T Stadium, Arlington",
     "home": "NED", "away": "JPN",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "status": "finished", "score": { "home": 2, "away": 2 }
   },
   {
     "id": "M11", "stage": "group", "group": "E", "matchday": 1,
     "dateUK": "2026-06-15", "kickoffUK": "2026-06-15T00:00:00+01:00",
     "venue": "Lincoln Financial Field, Philadelphia",
     "home": "CIV", "away": "ECU",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "status": "finished", "score": { "home": 1, "away": 0 }
   },
   {
     "id": "M12", "stage": "group", "group": "F", "matchday": 1,
     "dateUK": "2026-06-15", "kickoffUK": "2026-06-15T04:00:00+01:00",
     "venue": "Estadio BBVA, Monterrey",
     "home": "SWE", "away": "TUN",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "status": "finished", "score": { "home": 5, "away": 1 }
   },
   {
     "id": "M13", "stage": "group", "group": "H", "matchday": 1,
