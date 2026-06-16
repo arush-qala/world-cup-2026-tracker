@@ -28,6 +28,58 @@
   </section>
 
   <section id="fixtures-view" hidden>
+    <div class="viewbar" style="padding-bottom: 0;">
+      <span class="updated" id="fixtures-count"></span>
+    </div>
+    <div class="filter-bar" id="fixtures-filter-bar">
+      <div class="filter-group">
+        <label for="filter-stage">Stage</label>
+        <select id="filter-stage">
+          <option value="ALL">All Stages</option>
+          <option value="group">Group Stage (All)</option>
+          <option value="group-md1">Group Matchday 1</option>
+          <option value="group-md2">Group Matchday 2</option>
+          <option value="group-md3">Group Matchday 3</option>
+          <option value="round of 32">Round of 32</option>
+          <option value="round of 16">Round of 16</option>
+          <option value="quarter-finals">Quarter-finals</option>
+          <option value="semi-finals">Semi-finals</option>
+          <option value="third-place match">Third-place match</option>
+          <option value="final">Final</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-group-letter">Group</label>
+        <select id="filter-group-letter">
+          <option value="ALL">All Groups</option>
+          <option value="A">Group A</option>
+          <option value="B">Group B</option>
+          <option value="C">Group C</option>
+          <option value="D">Group D</option>
+          <option value="E">Group E</option>
+          <option value="F">Group F</option>
+          <option value="G">Group G</option>
+          <option value="H">Group H</option>
+          <option value="I">Group I</option>
+          <option value="J">Group J</option>
+          <option value="K">Group K</option>
+          <option value="L">Group L</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-country">Country</label>
+        <select id="filter-country">
+          <option value="ALL">All Countries</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-date">Date</label>
+        <select id="filter-date">
+          <option value="ALL">All Dates</option>
+        </select>
+      </div>
+      <button class="btn-reset" id="btn-reset-filters">Reset</button>
+    </div>
     <div class="fixtures-list" id="fixtures-list"></div>
   </section>
 

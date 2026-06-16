@@ -5,6 +5,12 @@ import { renderChart } from './chart.js';
 let DATA = { groups:{}, fixtures:[] };
 let view = 'points';
 let strengthMetric = 'positions';
+let activeFilters = {
+  stage: 'ALL',
+  group: 'ALL',
+  country: 'ALL',
+  date: 'ALL'
+};
 
 async function boot(){
   const [groups, fixtures] = await Promise.all([
@@ -13,6 +19,7 @@ async function boot(){
   ]);
   DATA = { groups, fixtures };
   renderGroups(true);
+  initFilters();
   renderFixtures();
   renderStrength('positions');
   wireTabs(); wireToggle(); wireStrengthToggle();
@@ -186,10 +193,148 @@ function showUpdated(){
 function flagOf(code){ for(const g of Object.values(DATA.groups)){ const t=g.find(x=>x.code===code); if(t) return t.flag; } return '🏳️'; }
 function ukTime(iso){ return new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'}); }
 
-function renderFixtures(){
+function initFilters(){
+  // Populate country filter
+  const allTeams = [];
+  for(const teams of Object.values(DATA.groups)){
+    allTeams.push(...teams);
+  }
+  allTeams.sort((a,b)=>a.name.localeCompare(b.name));
+  const countrySelect = document.getElementById('filter-country');
+  countrySelect.innerHTML = '<option value="ALL">All Countries</option>';
+  for(const team of allTeams){
+    const opt = document.createElement('option');
+    opt.value = team.code;
+    opt.textContent = `${team.flag} ${team.name}`;
+    countrySelect.appendChild(opt);
+  }
+
+  // Populate date filter
+  const uniqueDates = [...new Set(DATA.fixtures.map(f=>f.dateUK))].sort();
+  const dateSelect = document.getElementById('filter-date');
+  dateSelect.innerHTML = '<option value="ALL">All Dates</option>';
+  for(const date of uniqueDates){
+    const opt = document.createElement('option');
+    opt.value = date;
+    opt.textContent = new Date(date).toLocaleDateString('en-GB',{
+      weekday:'short',day:'numeric',month:'short',timeZone:'Europe/London'
+    });
+    dateSelect.appendChild(opt);
+  }
+
+  // Bind change events
+  const stageSelect = document.getElementById('filter-stage');
+  const groupSelect = document.getElementById('filter-group-letter');
+  
+  const handleFilterChange = () => {
+    activeFilters.stage = stageSelect.value;
+    activeFilters.group = groupSelect.value;
+    activeFilters.country = countrySelect.value;
+    activeFilters.date = dateSelect.value;
+
+    // Disable group filter if stage is not group-related
+    const isGroupStageSelected = activeFilters.stage === 'ALL' || 
+                                 activeFilters.stage === 'group' || 
+                                 activeFilters.stage.startsWith('group-');
+    groupSelect.disabled = !isGroupStageSelected;
+
+    applyFilters();
+  };
+
+  stageSelect.onchange = handleFilterChange;
+  groupSelect.onchange = handleFilterChange;
+  countrySelect.onchange = handleFilterChange;
+  dateSelect.onchange = handleFilterChange;
+
+  // Reset button
+  document.getElementById('btn-reset-filters').onclick = resetFilters;
+}
+
+function resetFilters(){
+  document.getElementById('filter-stage').value = 'ALL';
+  document.getElementById('filter-group-letter').value = 'ALL';
+  document.getElementById('filter-group-letter').disabled = false;
+  document.getElementById('filter-country').value = 'ALL';
+  document.getElementById('filter-date').value = 'ALL';
+  
+  activeFilters = {
+    stage: 'ALL',
+    group: 'ALL',
+    country: 'ALL',
+    date: 'ALL'
+  };
+  
+  renderFixtures(DATA.fixtures);
+}
+
+function applyFilters(){
+  let filtered = DATA.fixtures.filter(f => {
+    // 1. Stage filter
+    if (activeFilters.stage !== 'ALL') {
+      if (activeFilters.stage === 'group') {
+        if (f.stage !== 'group') return false;
+      } else if (activeFilters.stage === 'group-md1') {
+        if (f.stage !== 'group' || f.matchday !== 1) return false;
+      } else if (activeFilters.stage === 'group-md2') {
+        if (f.stage !== 'group' || f.matchday !== 2) return false;
+      } else if (activeFilters.stage === 'group-md3') {
+        if (f.stage !== 'group' || f.matchday !== 3) return false;
+      } else {
+        const matchStage = f.stage ? f.stage.toLowerCase() : '';
+        const selectedStage = activeFilters.stage.toLowerCase();
+        if (matchStage !== selectedStage) return false;
+      }
+    }
+
+    // 2. Group filter (only if enabled)
+    const groupSelect = document.getElementById('filter-group-letter');
+    if (!groupSelect.disabled && activeFilters.group !== 'ALL') {
+      if (f.group !== activeFilters.group) return false;
+    }
+
+    // 3. Country filter
+    if (activeFilters.country !== 'ALL') {
+      if (f.home !== activeFilters.country && f.away !== activeFilters.country) return false;
+    }
+
+    // 4. Date filter
+    if (activeFilters.date !== 'ALL') {
+      if (f.dateUK !== activeFilters.date) return false;
+    }
+
+    return true;
+  });
+
+  renderFixtures(filtered);
+}
+
+function renderFixtures(fixturesToRender = DATA.fixtures){
   const wrap = document.getElementById('fixtures-list'); wrap.innerHTML='';
+  
+  // Update count indicator
+  const countEl = document.getElementById('fixtures-count');
+  if (countEl) {
+    if (fixturesToRender.length === DATA.fixtures.length) {
+      countEl.textContent = `Showing all ${DATA.fixtures.length} matches`;
+    } else {
+      countEl.textContent = `Showing ${fixturesToRender.length} of ${DATA.fixtures.length} matches`;
+    }
+  }
+
+  if (fixturesToRender.length === 0) {
+    wrap.innerHTML = `
+      <div class="no-fixtures">
+        <div class="no-fixtures-title">No matching fixtures found</div>
+        <div class="no-fixtures-desc">Try adjusting your filters or resetting them to see the full schedule.</div>
+        <button class="btn-clear-filters" id="btn-clear-filters-empty">Reset Filters</button>
+      </div>
+    `;
+    document.getElementById('btn-clear-filters-empty').onclick = resetFilters;
+    return;
+  }
+
   const byDate = {};
-  for(const f of DATA.fixtures){ (byDate[f.dateUK] ??= []).push(f); }
+  for(const f of fixturesToRender){ (byDate[f.dateUK] ??= []).push(f); }
   for(const date of Object.keys(byDate).sort()){
     const h = document.createElement('div'); h.className='fx-date';
     h.textContent = new Date(date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'Europe/London'});
