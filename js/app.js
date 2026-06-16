@@ -7,8 +7,8 @@ let view = 'points';
 let strengthMetric = 'positions';
 let activeFilters = {
   stage: 'ALL',
-  group: 'ALL',
-  country: 'ALL',
+  group: [],
+  country: [],
   date: 'ALL'
 };
 
@@ -202,20 +202,99 @@ function showUpdated(){
 function flagOf(code){ for(const g of Object.values(DATA.groups)){ const t=g.find(x=>x.code===code); if(t) return t.flag; } return '🏳️'; }
 function ukTime(iso){ return new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'}); }
 
+function setupCustomMultiSelect(containerId, onChange){
+  const container = document.getElementById(containerId);
+  const trigger = container.querySelector('.custom-select-trigger');
+  const options = container.querySelector('.custom-select-options');
+
+  trigger.onclick = (e) => {
+    e.stopPropagation();
+    // Close other custom selects first
+    document.querySelectorAll('.custom-select-options').forEach(el => {
+      if (el !== options) el.classList.remove('open');
+    });
+    // Toggle this one
+    if (!trigger.disabled) {
+      options.classList.toggle('open');
+    }
+  };
+
+  container.onclick = (e) => {
+    e.stopPropagation(); // Prevent closing when clicking inside options menu
+  };
+
+  options.onchange = () => {
+    const checked = Array.from(options.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+    onChange(checked);
+  };
+}
+
+function findTeamByCode(code){
+  for(const groupTeams of Object.values(DATA.groups)){
+    const t = groupTeams.find(x => x.code === code);
+    if(t) return t;
+  }
+  return null;
+}
+
+function updateGroupTriggerLabel(selectedGroups){
+  const trigger = document.getElementById('group-select-trigger');
+  if (selectedGroups.length === 0) {
+    trigger.textContent = 'All Groups';
+  } else if (selectedGroups.length === 1) {
+    trigger.textContent = `Group ${selectedGroups[0]}`;
+  } else if (selectedGroups.length === 2) {
+    trigger.textContent = `Groups ${selectedGroups.join(', ')}`;
+  } else {
+    trigger.textContent = `${selectedGroups.length} Groups selected`;
+  }
+}
+
+function updateCountryTriggerLabel(selectedCountries){
+  const trigger = document.getElementById('country-select-trigger');
+  if (selectedCountries.length === 0) {
+    trigger.textContent = 'All Countries';
+  } else if (selectedCountries.length === 1) {
+    const team = findTeamByCode(selectedCountries[0]);
+    trigger.textContent = team ? `${team.flag} ${team.name}` : selectedCountries[0];
+  } else if (selectedCountries.length === 2) {
+    trigger.textContent = selectedCountries.join(', ');
+  } else {
+    trigger.textContent = `${selectedCountries.length} Countries selected`;
+  }
+}
+
 function initFilters(){
-  // Populate country filter
+  // Populate group checkboxes
+  const groupOptions = document.getElementById('group-select-options');
+  groupOptions.innerHTML = '';
+  const letters = 'ABCDEFGHIJKL'.split('');
+  for(const l of letters){
+    const label = document.createElement('label');
+    label.className = 'custom-option';
+    label.innerHTML = `
+      <input type="checkbox" value="${l}">
+      <span>Group ${l}</span>
+    `;
+    groupOptions.appendChild(label);
+  }
+
+  // Populate country checkboxes
   const allTeams = [];
   for(const teams of Object.values(DATA.groups)){
     allTeams.push(...teams);
   }
   allTeams.sort((a,b)=>a.name.localeCompare(b.name));
-  const countrySelect = document.getElementById('filter-country');
-  countrySelect.innerHTML = '<option value="ALL">All Countries</option>';
+  const countryOptions = document.getElementById('country-select-options');
+  countryOptions.innerHTML = '';
   for(const team of allTeams){
-    const opt = document.createElement('option');
-    opt.value = team.code;
-    opt.textContent = `${team.flag} ${team.name}`;
-    countrySelect.appendChild(opt);
+    const label = document.createElement('label');
+    label.className = 'custom-option';
+    label.innerHTML = `
+      <input type="checkbox" value="${team.code}">
+      <span>${team.flag} ${team.name}</span>
+    `;
+    countryOptions.appendChild(label);
   }
 
   // Populate date filter
@@ -231,29 +310,54 @@ function initFilters(){
     dateSelect.appendChild(opt);
   }
 
-  // Bind change events
+  // Bind change events for standard inputs
   const stageSelect = document.getElementById('filter-stage');
-  const groupSelect = document.getElementById('filter-group-letter');
+  const dateSelectEl = document.getElementById('filter-date');
   
-  const handleFilterChange = () => {
+  const handleStageOrDateChange = () => {
     activeFilters.stage = stageSelect.value;
-    activeFilters.group = groupSelect.value;
-    activeFilters.country = countrySelect.value;
-    activeFilters.date = dateSelect.value;
+    activeFilters.date = dateSelectEl.value;
+
+    const groupTrigger = document.getElementById('group-select-trigger');
+    const groupOptionsEl = document.getElementById('group-select-options');
 
     // Disable group filter if stage is not group-related
     const isGroupStageSelected = activeFilters.stage === 'ALL' || 
                                  activeFilters.stage === 'group' || 
                                  activeFilters.stage.startsWith('group-');
-    groupSelect.disabled = !isGroupStageSelected;
+    
+    if (!isGroupStageSelected) {
+      groupTrigger.disabled = true;
+      groupTrigger.classList.add('disabled');
+      groupOptionsEl.classList.remove('open');
+    } else {
+      groupTrigger.disabled = false;
+      groupTrigger.classList.remove('disabled');
+    }
 
     applyFilters();
   };
 
-  stageSelect.onchange = handleFilterChange;
-  groupSelect.onchange = handleFilterChange;
-  countrySelect.onchange = handleFilterChange;
-  dateSelect.onchange = handleFilterChange;
+  stageSelect.onchange = handleStageOrDateChange;
+  dateSelectEl.onchange = handleStageOrDateChange;
+
+  // Bind custom selects
+  setupCustomMultiSelect('group-select-container', (selectedGroups) => {
+    activeFilters.group = selectedGroups;
+    updateGroupTriggerLabel(selectedGroups);
+    applyFilters();
+  });
+
+  setupCustomMultiSelect('country-select-container', (selectedCountries) => {
+    activeFilters.country = selectedCountries;
+    updateCountryTriggerLabel(selectedCountries);
+    applyFilters();
+  });
+
+  // Global document click to close options when tapping outside
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.custom-select-options').forEach(el => el.classList.remove('open'));
+  });
 
   // Reset button
   document.getElementById('btn-reset-filters').onclick = resetFilters;
@@ -261,17 +365,30 @@ function initFilters(){
 
 function resetFilters(){
   document.getElementById('filter-stage').value = 'ALL';
-  document.getElementById('filter-group-letter').value = 'ALL';
-  document.getElementById('filter-group-letter').disabled = false;
-  document.getElementById('filter-country').value = 'ALL';
+  
+  // Uncheck group checkboxes
+  const groupOptions = document.getElementById('group-select-options');
+  groupOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+  const groupTrigger = document.getElementById('group-select-trigger');
+  groupTrigger.disabled = false;
+  groupTrigger.classList.remove('disabled');
+  updateGroupTriggerLabel([]);
+
+  // Uncheck country checkboxes
+  const countryOptions = document.getElementById('country-select-options');
+  countryOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+  updateCountryTriggerLabel([]);
+
   document.getElementById('filter-date').value = 'ALL';
   
   activeFilters = {
     stage: 'ALL',
-    group: 'ALL',
-    country: 'ALL',
+    group: [],
+    country: [],
     date: 'ALL'
   };
+
+  document.querySelectorAll('.custom-select-options').forEach(el => el.classList.remove('open'));
   
   renderFixtures(DATA.fixtures);
 }
@@ -295,15 +412,15 @@ function applyFilters(){
       }
     }
 
-    // 2. Group filter (only if enabled)
-    const groupSelect = document.getElementById('filter-group-letter');
-    if (!groupSelect.disabled && activeFilters.group !== 'ALL') {
-      if (f.group !== activeFilters.group) return false;
+    // 2. Group filter (only if enabled and selected)
+    const groupTrigger = document.getElementById('group-select-trigger');
+    if (!groupTrigger.disabled && activeFilters.group && activeFilters.group.length > 0) {
+      if (!activeFilters.group.includes(f.group)) return false;
     }
 
-    // 3. Country filter
-    if (activeFilters.country !== 'ALL') {
-      if (f.home !== activeFilters.country && f.away !== activeFilters.country) return false;
+    // 3. Country filter (only if selected)
+    if (activeFilters.country && activeFilters.country.length > 0) {
+      if (!activeFilters.country.includes(f.home) && !activeFilters.country.includes(f.away)) return false;
     }
 
     // 4. Date filter
