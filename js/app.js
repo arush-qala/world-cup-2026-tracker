@@ -107,8 +107,17 @@ function openModal(letter){
     </table>
   `;
 
-  card.innerHTML = `<div class="gc-title">GROUP ${letter}</div><svg viewBox="0 0 640 320"></svg>${tableHtml}`;
+  card.innerHTML = `
+    <button class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
+    <div class="gc-title">GROUP ${letter}</div>
+    <svg viewBox="0 0 640 320"></svg>
+    ${tableHtml}
+  `;
   renderChart(card.querySelector('svg'), { ...m, view, animate:true });
+  
+  document.getElementById('modal-close-btn').onclick = () => {
+    document.getElementById('modal').hidden = true;
+  };
   document.getElementById('modal').hidden = false;
 }
 document.getElementById('modal').onclick = e => { if(e.target.id==='modal') e.currentTarget.hidden=true; };

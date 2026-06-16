@@ -349,9 +349,19 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
       });
       hit.addEventListener('mouseenter', () => draw(s.code, false));
       hit.addEventListener('mouseleave', () => draw(null, false));
+      hit.addEventListener('touchstart', (e) => {
+        draw(s.code, false);
+      }, { passive: true });
       svg.appendChild(hit);
     });
   }
+
+  // Clear highlight when tapping on the empty space of SVG
+  svg.addEventListener('touchstart', (e) => {
+    if (e.target === svg) {
+      draw(null, false);
+    }
+  }, { passive: true });
 
   // Initial render (entrance animation if requested)
   draw(null, true);
