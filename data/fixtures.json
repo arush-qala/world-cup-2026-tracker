@@ -169,10 +169,10 @@
     "venue": "Lincoln Financial Field, Philadelphia",
     "home": "CIV",
     "away": "ECU",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 0
     }
   },
   {
@@ -185,10 +185,10 @@
     "venue": "Estadio BBVA, Monterrey",
     "home": "SWE",
     "away": "TUN",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 5,
+      "away": 1
     }
   },
   {
@@ -201,10 +201,10 @@
     "venue": "Mercedes-Benz Stadium, Atlanta",
     "home": "ESP",
     "away": "CPV",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 0
     }
   },
   {
@@ -217,10 +217,10 @@
     "venue": "Lumen Field, Seattle",
     "home": "BEL",
     "away": "EGY",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 1
     }
   },
   {
@@ -233,10 +233,10 @@
     "venue": "Hard Rock Stadium, Miami",
     "home": "KSA",
     "away": "URU",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 1
     }
   },
   {
@@ -249,10 +249,10 @@
     "venue": "SoFi Stadium, Los Angeles",
     "home": "IRN",
     "away": "NZL",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 2,
+      "away": 2
     }
   },
   {
