@@ -10,13 +10,13 @@
   <header class="topbar">
     <h1>World Cup 2026 · Group Tracker</h1>
     <nav class="tabs">
-      <button class="tab active" data-tab="groups">Groups</button>
-      <button class="tab" data-tab="fixtures">Fixtures</button>
+      <button class="tab active" data-tab="fixtures">Fixtures</button>
+      <button class="tab" data-tab="groups">Groups</button>
       <button class="tab" data-tab="strength">Strength</button>
     </nav>
   </header>
 
-  <section id="groups-view">
+  <section id="groups-view" hidden>
     <div class="viewbar">
       <div class="seg" id="viewseg">
         <button data-view="points" class="active">Points</button>
@@ -27,7 +27,7 @@
     <div class="group-grid" id="group-grid"></div>
   </section>
 
-  <section id="fixtures-view" hidden>
+  <section id="fixtures-view">
     <div class="viewbar" style="padding-bottom: 0;">
       <span class="updated" id="fixtures-count"></span>
     </div>
