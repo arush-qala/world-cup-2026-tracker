@@ -5,6 +5,7 @@ import { renderChart } from './chart.js';
 let DATA = { groups:{}, fixtures:[] };
 let view = 'points';
 let strengthMetric = 'positions';
+let fixtureStatus = 'ALL';
 let activeFilters = {
   stage: 'ALL',
   group: [],
@@ -20,9 +21,9 @@ async function boot(){
   DATA = { groups, fixtures };
   renderGroups(true);
   initFilters();
-  renderFixtures();
+  applyFilters();
   renderStrength('positions');
-  wireTabs(); wireToggle(); wireStrengthToggle();
+  wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle();
   showUpdated();
 }
 
@@ -390,11 +391,17 @@ function resetFilters(){
 
   document.querySelectorAll('.custom-select-options').forEach(el => el.classList.remove('open'));
   
-  renderFixtures(DATA.fixtures);
+  applyFilters();
 }
 
 function applyFilters(){
   let filtered = DATA.fixtures.filter(f => {
+    // 0. Status filter (All / Upcoming / Results)
+    if (fixtureStatus !== 'ALL') {
+      if (fixtureStatus === 'upcoming' && f.status !== 'scheduled') return false;
+      if (fixtureStatus === 'results' && f.status !== 'finished') return false;
+    }
+
     // 1. Stage filter
     if (activeFilters.stage !== 'ALL') {
       if (activeFilters.stage === 'group') {
@@ -432,6 +439,16 @@ function applyFilters(){
   });
 
   renderFixtures(filtered);
+}
+
+function wireFixtureToggle(){
+  document.querySelectorAll('#fixtureseg button').forEach(b=>{
+    b.onclick = () => {
+      fixtureStatus = b.dataset.status;
+      document.querySelectorAll('#fixtureseg button').forEach(x=>x.classList.toggle('active',x===b));
+      applyFilters();
+    };
+  });
 }
 
 function renderFixtures(fixturesToRender = DATA.fixtures){
