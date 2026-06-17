@@ -1,506 +1,1154 @@
 [
   {
-    "id": "M01", "stage": "group", "group": "A", "matchday": 1,
-    "dateUK": "2026-06-11", "kickoffUK": "2026-06-11T20:00:00+01:00",
+    "id": "M01",
+    "stage": "group",
+    "group": "A",
+    "matchday": 1,
+    "dateUK": "2026-06-11",
+    "kickoffUK": "2026-06-11T20:00:00+01:00",
     "venue": "Estadio Azteca, Mexico City",
-    "home": "MEX", "away": "RSA",
-    "status": "finished", "score": { "home": 2, "away": 0 }
+    "home": "MEX",
+    "away": "RSA",
+    "status": "finished",
+    "score": {
+      "home": 2,
+      "away": 0
+    }
   },
   {
-    "id": "M02", "stage": "group", "group": "A", "matchday": 1,
-    "dateUK": "2026-06-12", "kickoffUK": "2026-06-12T03:00:00+01:00",
+    "id": "M02",
+    "stage": "group",
+    "group": "A",
+    "matchday": 1,
+    "dateUK": "2026-06-12",
+    "kickoffUK": "2026-06-12T03:00:00+01:00",
     "venue": "Estadio Akron, Guadalajara",
-    "home": "KOR", "away": "CZE",
-    "status": "finished", "score": { "home": 2, "away": 1 }
+    "home": "KOR",
+    "away": "CZE",
+    "status": "finished",
+    "score": {
+      "home": 2,
+      "away": 1
+    }
   },
   {
-    "id": "M03", "stage": "group", "group": "B", "matchday": 1,
-    "dateUK": "2026-06-12", "kickoffUK": "2026-06-12T20:00:00+01:00",
+    "id": "M03",
+    "stage": "group",
+    "group": "B",
+    "matchday": 1,
+    "dateUK": "2026-06-12",
+    "kickoffUK": "2026-06-12T20:00:00+01:00",
     "venue": "BMO Field, Toronto",
-    "home": "CAN", "away": "BIH",
-    "status": "finished", "score": { "home": 1, "away": 1 }
+    "home": "CAN",
+    "away": "BIH",
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 1
+    }
   },
   {
-    "id": "M04", "stage": "group", "group": "D", "matchday": 1,
-    "dateUK": "2026-06-13", "kickoffUK": "2026-06-13T02:00:00+01:00",
+    "id": "M04",
+    "stage": "group",
+    "group": "D",
+    "matchday": 1,
+    "dateUK": "2026-06-13",
+    "kickoffUK": "2026-06-13T02:00:00+01:00",
     "venue": "SoFi Stadium, Los Angeles",
-    "home": "USA", "away": "PAR",
-    "status": "finished", "score": { "home": 4, "away": 1 }
+    "home": "USA",
+    "away": "PAR",
+    "status": "finished",
+    "score": {
+      "home": 4,
+      "away": 1
+    }
   },
   {
-    "id": "M05", "stage": "group", "group": "B", "matchday": 1,
-    "dateUK": "2026-06-13", "kickoffUK": "2026-06-13T20:00:00+01:00",
+    "id": "M05",
+    "stage": "group",
+    "group": "B",
+    "matchday": 1,
+    "dateUK": "2026-06-13",
+    "kickoffUK": "2026-06-13T20:00:00+01:00",
     "venue": "Levi's Stadium, Santa Clara",
-    "home": "QAT", "away": "SUI",
-    "status": "finished", "score": { "home": 1, "away": 1 }
+    "home": "QAT",
+    "away": "SUI",
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 1
+    }
   },
   {
-    "id": "M06", "stage": "group", "group": "C", "matchday": 1,
-    "dateUK": "2026-06-13", "kickoffUK": "2026-06-13T23:00:00+01:00",
+    "id": "M06",
+    "stage": "group",
+    "group": "C",
+    "matchday": 1,
+    "dateUK": "2026-06-13",
+    "kickoffUK": "2026-06-13T23:00:00+01:00",
     "venue": "MetLife Stadium, East Rutherford",
-    "home": "BRA", "away": "MAR",
-    "status": "finished", "score": { "home": 1, "away": 1 }
+    "home": "BRA",
+    "away": "MAR",
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 1
+    }
   },
   {
-    "id": "M07", "stage": "group", "group": "C", "matchday": 1,
-    "dateUK": "2026-06-14", "kickoffUK": "2026-06-14T02:00:00+01:00",
+    "id": "M07",
+    "stage": "group",
+    "group": "C",
+    "matchday": 1,
+    "dateUK": "2026-06-14",
+    "kickoffUK": "2026-06-14T02:00:00+01:00",
     "venue": "Gillette Stadium, Foxborough",
-    "home": "HAI", "away": "SCO",
-    "status": "finished", "score": { "home": 0, "away": 1 }
+    "home": "HAI",
+    "away": "SCO",
+    "status": "finished",
+    "score": {
+      "home": 0,
+      "away": 1
+    }
   },
   {
-    "id": "M08", "stage": "group", "group": "D", "matchday": 1,
-    "dateUK": "2026-06-14", "kickoffUK": "2026-06-14T05:00:00+01:00",
+    "id": "M08",
+    "stage": "group",
+    "group": "D",
+    "matchday": 1,
+    "dateUK": "2026-06-14",
+    "kickoffUK": "2026-06-14T05:00:00+01:00",
     "venue": "BC Place, Vancouver",
-    "home": "AUS", "away": "TUR",
-    "status": "finished", "score": { "home": 2, "away": 0 }
+    "home": "AUS",
+    "away": "TUR",
+    "status": "finished",
+    "score": {
+      "home": 2,
+      "away": 0
+    }
   },
   {
-    "id": "M09", "stage": "group", "group": "E", "matchday": 1,
-    "dateUK": "2026-06-14", "kickoffUK": "2026-06-14T19:00:00+01:00",
+    "id": "M09",
+    "stage": "group",
+    "group": "E",
+    "matchday": 1,
+    "dateUK": "2026-06-14",
+    "kickoffUK": "2026-06-14T19:00:00+01:00",
     "venue": "NRG Stadium, Houston",
-    "home": "GER", "away": "CUW",
-    "status": "finished", "score": { "home": 7, "away": 1 }
+    "home": "GER",
+    "away": "CUW",
+    "status": "finished",
+    "score": {
+      "home": 7,
+      "away": 1
+    }
   },
   {
-    "id": "M10", "stage": "group", "group": "F", "matchday": 1,
-    "dateUK": "2026-06-14", "kickoffUK": "2026-06-14T22:00:00+01:00",
+    "id": "M10",
+    "stage": "group",
+    "group": "F",
+    "matchday": 1,
+    "dateUK": "2026-06-14",
+    "kickoffUK": "2026-06-14T22:00:00+01:00",
     "venue": "AT&T Stadium, Arlington",
-    "home": "NED", "away": "JPN",
-    "status": "finished", "score": { "home": 2, "away": 2 }
+    "home": "NED",
+    "away": "JPN",
+    "status": "finished",
+    "score": {
+      "home": 2,
+      "away": 2
+    }
   },
   {
-    "id": "M11", "stage": "group", "group": "E", "matchday": 1,
-    "dateUK": "2026-06-15", "kickoffUK": "2026-06-15T00:00:00+01:00",
+    "id": "M11",
+    "stage": "group",
+    "group": "E",
+    "matchday": 1,
+    "dateUK": "2026-06-15",
+    "kickoffUK": "2026-06-15T00:00:00+01:00",
     "venue": "Lincoln Financial Field, Philadelphia",
-    "home": "CIV", "away": "ECU",
-    "status": "finished", "score": { "home": 1, "away": 0 }
+    "home": "CIV",
+    "away": "ECU",
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 0
+    }
   },
   {
-    "id": "M12", "stage": "group", "group": "F", "matchday": 1,
-    "dateUK": "2026-06-15", "kickoffUK": "2026-06-15T04:00:00+01:00",
+    "id": "M12",
+    "stage": "group",
+    "group": "F",
+    "matchday": 1,
+    "dateUK": "2026-06-15",
+    "kickoffUK": "2026-06-15T04:00:00+01:00",
     "venue": "Estadio BBVA, Monterrey",
-    "home": "SWE", "away": "TUN",
-    "status": "finished", "score": { "home": 5, "away": 1 }
+    "home": "SWE",
+    "away": "TUN",
+    "status": "finished",
+    "score": {
+      "home": 5,
+      "away": 1
+    }
   },
   {
-    "id": "M13", "stage": "group", "group": "H", "matchday": 1,
-    "dateUK": "2026-06-15", "kickoffUK": "2026-06-15T17:00:00+01:00",
+    "id": "M13",
+    "stage": "group",
+    "group": "H",
+    "matchday": 1,
+    "dateUK": "2026-06-15",
+    "kickoffUK": "2026-06-15T17:00:00+01:00",
     "venue": "Mercedes-Benz Stadium, Atlanta",
-    "home": "ESP", "away": "CPV",
-    "status": "finished", "score": { "home": 0, "away": 0 }
+    "home": "ESP",
+    "away": "CPV",
+    "status": "finished",
+    "score": {
+      "home": 0,
+      "away": 0
+    }
   },
   {
-    "id": "M14", "stage": "group", "group": "G", "matchday": 1,
-    "dateUK": "2026-06-15", "kickoffUK": "2026-06-15T20:00:00+01:00",
+    "id": "M14",
+    "stage": "group",
+    "group": "G",
+    "matchday": 1,
+    "dateUK": "2026-06-15",
+    "kickoffUK": "2026-06-15T20:00:00+01:00",
     "venue": "Lumen Field, Seattle",
-    "home": "BEL", "away": "EGY",
-    "status": "finished", "score": { "home": 1, "away": 1 }
+    "home": "BEL",
+    "away": "EGY",
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 1
+    }
   },
   {
-    "id": "M15", "stage": "group", "group": "H", "matchday": 1,
-    "dateUK": "2026-06-15", "kickoffUK": "2026-06-15T23:00:00+01:00",
+    "id": "M15",
+    "stage": "group",
+    "group": "H",
+    "matchday": 1,
+    "dateUK": "2026-06-15",
+    "kickoffUK": "2026-06-15T23:00:00+01:00",
     "venue": "Hard Rock Stadium, Miami",
-    "home": "KSA", "away": "URU",
-    "status": "finished", "score": { "home": 1, "away": 1 }
+    "home": "KSA",
+    "away": "URU",
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 1
+    }
   },
   {
-    "id": "M16", "stage": "group", "group": "G", "matchday": 1,
-    "dateUK": "2026-06-16", "kickoffUK": "2026-06-16T02:00:00+01:00",
+    "id": "M16",
+    "stage": "group",
+    "group": "G",
+    "matchday": 1,
+    "dateUK": "2026-06-16",
+    "kickoffUK": "2026-06-16T02:00:00+01:00",
     "venue": "SoFi Stadium, Los Angeles",
-    "home": "IRN", "away": "NZL",
-    "status": "finished", "score": { "home": 2, "away": 2 }
+    "home": "IRN",
+    "away": "NZL",
+    "status": "finished",
+    "score": {
+      "home": 2,
+      "away": 2
+    }
   },
   {
-    "id": "M17", "stage": "group", "group": "I", "matchday": 1,
-    "dateUK": "2026-06-16", "kickoffUK": "2026-06-16T20:00:00+01:00",
+    "id": "M17",
+    "stage": "group",
+    "group": "I",
+    "matchday": 1,
+    "dateUK": "2026-06-16",
+    "kickoffUK": "2026-06-16T20:00:00+01:00",
     "venue": "MetLife Stadium, East Rutherford",
-    "home": "FRA", "away": "SEN",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "FRA",
+    "away": "SEN",
+    "status": "finished",
+    "score": {
+      "home": 3,
+      "away": 1
+    }
   },
   {
-    "id": "M18", "stage": "group", "group": "I", "matchday": 1,
-    "dateUK": "2026-06-16", "kickoffUK": "2026-06-16T23:00:00+01:00",
+    "id": "M18",
+    "stage": "group",
+    "group": "I",
+    "matchday": 1,
+    "dateUK": "2026-06-16",
+    "kickoffUK": "2026-06-16T23:00:00+01:00",
     "venue": "Gillette Stadium, Foxborough",
-    "home": "IRQ", "away": "NOR",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "IRQ",
+    "away": "NOR",
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 4
+    }
   },
   {
-    "id": "M19", "stage": "group", "group": "J", "matchday": 1,
-    "dateUK": "2026-06-17", "kickoffUK": "2026-06-17T02:00:00+01:00",
+    "id": "M19",
+    "stage": "group",
+    "group": "J",
+    "matchday": 1,
+    "dateUK": "2026-06-17",
+    "kickoffUK": "2026-06-17T02:00:00+01:00",
     "venue": "Arrowhead Stadium, Kansas City",
-    "home": "ARG", "away": "ALG",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "ARG",
+    "away": "ALG",
+    "status": "finished",
+    "score": {
+      "home": 3,
+      "away": 0
+    }
   },
   {
-    "id": "M20", "stage": "group", "group": "J", "matchday": 1,
-    "dateUK": "2026-06-17", "kickoffUK": "2026-06-17T05:00:00+01:00",
+    "id": "M20",
+    "stage": "group",
+    "group": "J",
+    "matchday": 1,
+    "dateUK": "2026-06-17",
+    "kickoffUK": "2026-06-17T05:00:00+01:00",
     "venue": "Levi's Stadium, Santa Clara",
-    "home": "AUT", "away": "JOR",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "AUT",
+    "away": "JOR",
+    "status": "finished",
+    "score": {
+      "home": 3,
+      "away": 1
+    }
   },
   {
-    "id": "M21", "stage": "group", "group": "K", "matchday": 1,
-    "dateUK": "2026-06-17", "kickoffUK": "2026-06-17T19:00:00+01:00",
+    "id": "M21",
+    "stage": "group",
+    "group": "K",
+    "matchday": 1,
+    "dateUK": "2026-06-17",
+    "kickoffUK": "2026-06-17T19:00:00+01:00",
     "venue": "NRG Stadium, Houston",
-    "home": "POR", "away": "COD",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "POR",
+    "away": "COD",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M22", "stage": "group", "group": "L", "matchday": 1,
-    "dateUK": "2026-06-17", "kickoffUK": "2026-06-17T22:00:00+01:00",
+    "id": "M22",
+    "stage": "group",
+    "group": "L",
+    "matchday": 1,
+    "dateUK": "2026-06-17",
+    "kickoffUK": "2026-06-17T22:00:00+01:00",
     "venue": "AT&T Stadium, Arlington",
-    "home": "ENG", "away": "CRO",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "ENG",
+    "away": "CRO",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M23", "stage": "group", "group": "L", "matchday": 1,
-    "dateUK": "2026-06-18", "kickoffUK": "2026-06-18T00:00:00+01:00",
+    "id": "M23",
+    "stage": "group",
+    "group": "L",
+    "matchday": 1,
+    "dateUK": "2026-06-18",
+    "kickoffUK": "2026-06-18T00:00:00+01:00",
     "venue": "BMO Field, Toronto",
-    "home": "GHA", "away": "PAN",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "GHA",
+    "away": "PAN",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M24", "stage": "group", "group": "K", "matchday": 1,
-    "dateUK": "2026-06-18", "kickoffUK": "2026-06-18T04:00:00+01:00",
+    "id": "M24",
+    "stage": "group",
+    "group": "K",
+    "matchday": 1,
+    "dateUK": "2026-06-18",
+    "kickoffUK": "2026-06-18T04:00:00+01:00",
     "venue": "Estadio Azteca, Mexico City",
-    "home": "UZB", "away": "COL",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "UZB",
+    "away": "COL",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M25", "stage": "group", "group": "A", "matchday": 2,
-    "dateUK": "2026-06-18", "kickoffUK": "2026-06-18T17:00:00+01:00",
+    "id": "M25",
+    "stage": "group",
+    "group": "A",
+    "matchday": 2,
+    "dateUK": "2026-06-18",
+    "kickoffUK": "2026-06-18T17:00:00+01:00",
     "venue": "Mercedes-Benz Stadium, Atlanta",
-    "home": "CZE", "away": "RSA",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "CZE",
+    "away": "RSA",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M26", "stage": "group", "group": "B", "matchday": 2,
-    "dateUK": "2026-06-18", "kickoffUK": "2026-06-18T20:00:00+01:00",
+    "id": "M26",
+    "stage": "group",
+    "group": "B",
+    "matchday": 2,
+    "dateUK": "2026-06-18",
+    "kickoffUK": "2026-06-18T20:00:00+01:00",
     "venue": "SoFi Stadium, Los Angeles",
-    "home": "SUI", "away": "BIH",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "SUI",
+    "away": "BIH",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M27", "stage": "group", "group": "B", "matchday": 2,
-    "dateUK": "2026-06-18", "kickoffUK": "2026-06-18T23:00:00+01:00",
+    "id": "M27",
+    "stage": "group",
+    "group": "B",
+    "matchday": 2,
+    "dateUK": "2026-06-18",
+    "kickoffUK": "2026-06-18T23:00:00+01:00",
     "venue": "BC Place, Vancouver",
-    "home": "CAN", "away": "QAT",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "CAN",
+    "away": "QAT",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M28", "stage": "group", "group": "A", "matchday": 2,
-    "dateUK": "2026-06-19", "kickoffUK": "2026-06-19T02:00:00+01:00",
+    "id": "M28",
+    "stage": "group",
+    "group": "A",
+    "matchday": 2,
+    "dateUK": "2026-06-19",
+    "kickoffUK": "2026-06-19T02:00:00+01:00",
     "venue": "Estadio Akron, Guadalajara",
-    "home": "MEX", "away": "KOR",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "MEX",
+    "away": "KOR",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M29", "stage": "group", "group": "C", "matchday": 2,
-    "dateUK": "2026-06-19", "kickoffUK": "2026-06-19T23:00:00+01:00",
+    "id": "M29",
+    "stage": "group",
+    "group": "C",
+    "matchday": 2,
+    "dateUK": "2026-06-19",
+    "kickoffUK": "2026-06-19T23:00:00+01:00",
     "venue": "Gillette Stadium, Foxborough",
-    "home": "SCO", "away": "MAR",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "SCO",
+    "away": "MAR",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M30", "stage": "group", "group": "D", "matchday": 2,
-    "dateUK": "2026-06-19", "kickoffUK": "2026-06-19T20:00:00+01:00",
+    "id": "M30",
+    "stage": "group",
+    "group": "D",
+    "matchday": 2,
+    "dateUK": "2026-06-19",
+    "kickoffUK": "2026-06-19T20:00:00+01:00",
     "venue": "Lumen Field, Seattle",
-    "home": "USA", "away": "AUS",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "USA",
+    "away": "AUS",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M31", "stage": "group", "group": "C", "matchday": 2,
-    "dateUK": "2026-06-20", "kickoffUK": "2026-06-20T01:30:00+01:00",
+    "id": "M31",
+    "stage": "group",
+    "group": "C",
+    "matchday": 2,
+    "dateUK": "2026-06-20",
+    "kickoffUK": "2026-06-20T01:30:00+01:00",
     "venue": "Lincoln Financial Field, Philadelphia",
-    "home": "BRA", "away": "HAI",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "BRA",
+    "away": "HAI",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M32", "stage": "group", "group": "D", "matchday": 2,
-    "dateUK": "2026-06-20", "kickoffUK": "2026-06-20T05:00:00+01:00",
+    "id": "M32",
+    "stage": "group",
+    "group": "D",
+    "matchday": 2,
+    "dateUK": "2026-06-20",
+    "kickoffUK": "2026-06-20T05:00:00+01:00",
     "venue": "Levi's Stadium, Santa Clara",
-    "home": "TUR", "away": "PAR",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "TUR",
+    "away": "PAR",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M33", "stage": "group", "group": "F", "matchday": 2,
-    "dateUK": "2026-06-20", "kickoffUK": "2026-06-20T19:00:00+01:00",
+    "id": "M33",
+    "stage": "group",
+    "group": "F",
+    "matchday": 2,
+    "dateUK": "2026-06-20",
+    "kickoffUK": "2026-06-20T19:00:00+01:00",
     "venue": "NRG Stadium, Houston",
-    "home": "NED", "away": "SWE",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "NED",
+    "away": "SWE",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M34", "stage": "group", "group": "E", "matchday": 2,
-    "dateUK": "2026-06-20", "kickoffUK": "2026-06-20T21:00:00+01:00",
+    "id": "M34",
+    "stage": "group",
+    "group": "E",
+    "matchday": 2,
+    "dateUK": "2026-06-20",
+    "kickoffUK": "2026-06-20T21:00:00+01:00",
     "venue": "BMO Field, Toronto",
-    "home": "GER", "away": "CIV",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "GER",
+    "away": "CIV",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M35", "stage": "group", "group": "E", "matchday": 2,
-    "dateUK": "2026-06-21", "kickoffUK": "2026-06-21T00:00:00+01:00",
+    "id": "M35",
+    "stage": "group",
+    "group": "E",
+    "matchday": 2,
+    "dateUK": "2026-06-21",
+    "kickoffUK": "2026-06-21T00:00:00+01:00",
     "venue": "Arrowhead Stadium, Kansas City",
-    "home": "ECU", "away": "CUW",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "ECU",
+    "away": "CUW",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M36", "stage": "group", "group": "F", "matchday": 2,
-    "dateUK": "2026-06-21", "kickoffUK": "2026-06-21T04:00:00+01:00",
+    "id": "M36",
+    "stage": "group",
+    "group": "F",
+    "matchday": 2,
+    "dateUK": "2026-06-21",
+    "kickoffUK": "2026-06-21T04:00:00+01:00",
     "venue": "Estadio BBVA, Monterrey",
-    "home": "TUN", "away": "JPN",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "TUN",
+    "away": "JPN",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M37", "stage": "group", "group": "H", "matchday": 2,
-    "dateUK": "2026-06-21", "kickoffUK": "2026-06-21T17:00:00+01:00",
+    "id": "M37",
+    "stage": "group",
+    "group": "H",
+    "matchday": 2,
+    "dateUK": "2026-06-21",
+    "kickoffUK": "2026-06-21T17:00:00+01:00",
     "venue": "Mercedes-Benz Stadium, Atlanta",
-    "home": "ESP", "away": "KSA",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "ESP",
+    "away": "KSA",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M38", "stage": "group", "group": "G", "matchday": 2,
-    "dateUK": "2026-06-21", "kickoffUK": "2026-06-21T20:00:00+01:00",
+    "id": "M38",
+    "stage": "group",
+    "group": "G",
+    "matchday": 2,
+    "dateUK": "2026-06-21",
+    "kickoffUK": "2026-06-21T20:00:00+01:00",
     "venue": "SoFi Stadium, Los Angeles",
-    "home": "BEL", "away": "IRN",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "BEL",
+    "away": "IRN",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M39", "stage": "group", "group": "H", "matchday": 2,
-    "dateUK": "2026-06-21", "kickoffUK": "2026-06-21T23:00:00+01:00",
+    "id": "M39",
+    "stage": "group",
+    "group": "H",
+    "matchday": 2,
+    "dateUK": "2026-06-21",
+    "kickoffUK": "2026-06-21T23:00:00+01:00",
     "venue": "Hard Rock Stadium, Miami",
-    "home": "URU", "away": "CPV",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "URU",
+    "away": "CPV",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M40", "stage": "group", "group": "G", "matchday": 2,
-    "dateUK": "2026-06-22", "kickoffUK": "2026-06-22T02:00:00+01:00",
+    "id": "M40",
+    "stage": "group",
+    "group": "G",
+    "matchday": 2,
+    "dateUK": "2026-06-22",
+    "kickoffUK": "2026-06-22T02:00:00+01:00",
     "venue": "BC Place, Vancouver",
-    "home": "NZL", "away": "EGY",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "NZL",
+    "away": "EGY",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M41", "stage": "group", "group": "J", "matchday": 2,
-    "dateUK": "2026-06-22", "kickoffUK": "2026-06-22T19:00:00+01:00",
+    "id": "M41",
+    "stage": "group",
+    "group": "J",
+    "matchday": 2,
+    "dateUK": "2026-06-22",
+    "kickoffUK": "2026-06-22T19:00:00+01:00",
     "venue": "AT&T Stadium, Arlington",
-    "home": "ARG", "away": "AUT",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "ARG",
+    "away": "AUT",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M42", "stage": "group", "group": "I", "matchday": 2,
-    "dateUK": "2026-06-22", "kickoffUK": "2026-06-22T22:00:00+01:00",
+    "id": "M42",
+    "stage": "group",
+    "group": "I",
+    "matchday": 2,
+    "dateUK": "2026-06-22",
+    "kickoffUK": "2026-06-22T22:00:00+01:00",
     "venue": "Lincoln Financial Field, Philadelphia",
-    "home": "FRA", "away": "IRQ",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "FRA",
+    "away": "IRQ",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M43", "stage": "group", "group": "I", "matchday": 2,
-    "dateUK": "2026-06-23", "kickoffUK": "2026-06-23T01:00:00+01:00",
+    "id": "M43",
+    "stage": "group",
+    "group": "I",
+    "matchday": 2,
+    "dateUK": "2026-06-23",
+    "kickoffUK": "2026-06-23T01:00:00+01:00",
     "venue": "MetLife Stadium, East Rutherford",
-    "home": "NOR", "away": "SEN",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "NOR",
+    "away": "SEN",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M44", "stage": "group", "group": "J", "matchday": 2,
-    "dateUK": "2026-06-23", "kickoffUK": "2026-06-23T04:00:00+01:00",
+    "id": "M44",
+    "stage": "group",
+    "group": "J",
+    "matchday": 2,
+    "dateUK": "2026-06-23",
+    "kickoffUK": "2026-06-23T04:00:00+01:00",
     "venue": "Levi's Stadium, Santa Clara",
-    "home": "JOR", "away": "ALG",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "JOR",
+    "away": "ALG",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M45", "stage": "group", "group": "K", "matchday": 2,
-    "dateUK": "2026-06-23", "kickoffUK": "2026-06-23T19:00:00+01:00",
+    "id": "M45",
+    "stage": "group",
+    "group": "K",
+    "matchday": 2,
+    "dateUK": "2026-06-23",
+    "kickoffUK": "2026-06-23T19:00:00+01:00",
     "venue": "NRG Stadium, Houston",
-    "home": "POR", "away": "UZB",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "POR",
+    "away": "UZB",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M46", "stage": "group", "group": "L", "matchday": 2,
-    "dateUK": "2026-06-23", "kickoffUK": "2026-06-23T21:00:00+01:00",
+    "id": "M46",
+    "stage": "group",
+    "group": "L",
+    "matchday": 2,
+    "dateUK": "2026-06-23",
+    "kickoffUK": "2026-06-23T21:00:00+01:00",
     "venue": "Gillette Stadium, Foxborough",
-    "home": "ENG", "away": "GHA",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "ENG",
+    "away": "GHA",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M47", "stage": "group", "group": "L", "matchday": 2,
-    "dateUK": "2026-06-24", "kickoffUK": "2026-06-24T00:00:00+01:00",
+    "id": "M47",
+    "stage": "group",
+    "group": "L",
+    "matchday": 2,
+    "dateUK": "2026-06-24",
+    "kickoffUK": "2026-06-24T00:00:00+01:00",
     "venue": "BMO Field, Toronto",
-    "home": "PAN", "away": "CRO",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "PAN",
+    "away": "CRO",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M48", "stage": "group", "group": "K", "matchday": 2,
-    "dateUK": "2026-06-24", "kickoffUK": "2026-06-24T04:00:00+01:00",
+    "id": "M48",
+    "stage": "group",
+    "group": "K",
+    "matchday": 2,
+    "dateUK": "2026-06-24",
+    "kickoffUK": "2026-06-24T04:00:00+01:00",
     "venue": "Estadio Akron, Guadalajara",
-    "home": "COL", "away": "COD",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "COL",
+    "away": "COD",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M49", "stage": "group", "group": "B", "matchday": 3,
-    "dateUK": "2026-06-24", "kickoffUK": "2026-06-24T20:00:00+01:00",
+    "id": "M49",
+    "stage": "group",
+    "group": "B",
+    "matchday": 3,
+    "dateUK": "2026-06-24",
+    "kickoffUK": "2026-06-24T20:00:00+01:00",
     "venue": "BC Place, Vancouver",
-    "home": "SUI", "away": "CAN",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "SUI",
+    "away": "CAN",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M50", "stage": "group", "group": "B", "matchday": 3,
-    "dateUK": "2026-06-24", "kickoffUK": "2026-06-24T20:00:00+01:00",
+    "id": "M50",
+    "stage": "group",
+    "group": "B",
+    "matchday": 3,
+    "dateUK": "2026-06-24",
+    "kickoffUK": "2026-06-24T20:00:00+01:00",
     "venue": "Lumen Field, Seattle",
-    "home": "BIH", "away": "QAT",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "BIH",
+    "away": "QAT",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M51", "stage": "group", "group": "C", "matchday": 3,
-    "dateUK": "2026-06-24", "kickoffUK": "2026-06-24T23:00:00+01:00",
+    "id": "M51",
+    "stage": "group",
+    "group": "C",
+    "matchday": 3,
+    "dateUK": "2026-06-24",
+    "kickoffUK": "2026-06-24T23:00:00+01:00",
     "venue": "Hard Rock Stadium, Miami",
-    "home": "SCO", "away": "BRA",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "SCO",
+    "away": "BRA",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M52", "stage": "group", "group": "C", "matchday": 3,
-    "dateUK": "2026-06-24", "kickoffUK": "2026-06-24T23:00:00+01:00",
+    "id": "M52",
+    "stage": "group",
+    "group": "C",
+    "matchday": 3,
+    "dateUK": "2026-06-24",
+    "kickoffUK": "2026-06-24T23:00:00+01:00",
     "venue": "Mercedes-Benz Stadium, Atlanta",
-    "home": "MAR", "away": "HAI",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "MAR",
+    "away": "HAI",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M53", "stage": "group", "group": "A", "matchday": 3,
-    "dateUK": "2026-06-25", "kickoffUK": "2026-06-25T03:00:00+01:00",
+    "id": "M53",
+    "stage": "group",
+    "group": "A",
+    "matchday": 3,
+    "dateUK": "2026-06-25",
+    "kickoffUK": "2026-06-25T03:00:00+01:00",
     "venue": "Estadio Azteca, Mexico City",
-    "home": "CZE", "away": "MEX",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "CZE",
+    "away": "MEX",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M54", "stage": "group", "group": "A", "matchday": 3,
-    "dateUK": "2026-06-25", "kickoffUK": "2026-06-25T03:00:00+01:00",
+    "id": "M54",
+    "stage": "group",
+    "group": "A",
+    "matchday": 3,
+    "dateUK": "2026-06-25",
+    "kickoffUK": "2026-06-25T03:00:00+01:00",
     "venue": "Estadio BBVA, Monterrey",
-    "home": "RSA", "away": "KOR",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "RSA",
+    "away": "KOR",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M55", "stage": "group", "group": "E", "matchday": 3,
-    "dateUK": "2026-06-25", "kickoffUK": "2026-06-25T21:00:00+01:00",
+    "id": "M55",
+    "stage": "group",
+    "group": "E",
+    "matchday": 3,
+    "dateUK": "2026-06-25",
+    "kickoffUK": "2026-06-25T21:00:00+01:00",
     "venue": "MetLife Stadium, East Rutherford",
-    "home": "ECU", "away": "GER",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "ECU",
+    "away": "GER",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M56", "stage": "group", "group": "E", "matchday": 3,
-    "dateUK": "2026-06-25", "kickoffUK": "2026-06-25T21:00:00+01:00",
+    "id": "M56",
+    "stage": "group",
+    "group": "E",
+    "matchday": 3,
+    "dateUK": "2026-06-25",
+    "kickoffUK": "2026-06-25T21:00:00+01:00",
     "venue": "Lincoln Financial Field, Philadelphia",
-    "home": "CUW", "away": "CIV",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "CUW",
+    "away": "CIV",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M57", "stage": "group", "group": "F", "matchday": 3,
-    "dateUK": "2026-06-26", "kickoffUK": "2026-06-26T00:00:00+01:00",
+    "id": "M57",
+    "stage": "group",
+    "group": "F",
+    "matchday": 3,
+    "dateUK": "2026-06-26",
+    "kickoffUK": "2026-06-26T00:00:00+01:00",
     "venue": "AT&T Stadium, Arlington",
-    "home": "JPN", "away": "SWE",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "JPN",
+    "away": "SWE",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M58", "stage": "group", "group": "F", "matchday": 3,
-    "dateUK": "2026-06-26", "kickoffUK": "2026-06-26T00:00:00+01:00",
+    "id": "M58",
+    "stage": "group",
+    "group": "F",
+    "matchday": 3,
+    "dateUK": "2026-06-26",
+    "kickoffUK": "2026-06-26T00:00:00+01:00",
     "venue": "Arrowhead Stadium, Kansas City",
-    "home": "TUN", "away": "NED",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "TUN",
+    "away": "NED",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M59", "stage": "group", "group": "D", "matchday": 3,
-    "dateUK": "2026-06-26", "kickoffUK": "2026-06-26T03:00:00+01:00",
+    "id": "M59",
+    "stage": "group",
+    "group": "D",
+    "matchday": 3,
+    "dateUK": "2026-06-26",
+    "kickoffUK": "2026-06-26T03:00:00+01:00",
     "venue": "SoFi Stadium, Los Angeles",
-    "home": "TUR", "away": "USA",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "TUR",
+    "away": "USA",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M60", "stage": "group", "group": "D", "matchday": 3,
-    "dateUK": "2026-06-26", "kickoffUK": "2026-06-26T03:00:00+01:00",
+    "id": "M60",
+    "stage": "group",
+    "group": "D",
+    "matchday": 3,
+    "dateUK": "2026-06-26",
+    "kickoffUK": "2026-06-26T03:00:00+01:00",
     "venue": "Levi's Stadium, Santa Clara",
-    "home": "PAR", "away": "AUS",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "PAR",
+    "away": "AUS",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M61", "stage": "group", "group": "I", "matchday": 3,
-    "dateUK": "2026-06-26", "kickoffUK": "2026-06-26T20:00:00+01:00",
+    "id": "M61",
+    "stage": "group",
+    "group": "I",
+    "matchday": 3,
+    "dateUK": "2026-06-26",
+    "kickoffUK": "2026-06-26T20:00:00+01:00",
     "venue": "Gillette Stadium, Foxborough",
-    "home": "NOR", "away": "FRA",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "NOR",
+    "away": "FRA",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M62", "stage": "group", "group": "I", "matchday": 3,
-    "dateUK": "2026-06-26", "kickoffUK": "2026-06-26T20:00:00+01:00",
+    "id": "M62",
+    "stage": "group",
+    "group": "I",
+    "matchday": 3,
+    "dateUK": "2026-06-26",
+    "kickoffUK": "2026-06-26T20:00:00+01:00",
     "venue": "BMO Field, Toronto",
-    "home": "SEN", "away": "IRQ",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "SEN",
+    "away": "IRQ",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M63", "stage": "group", "group": "H", "matchday": 3,
-    "dateUK": "2026-06-27", "kickoffUK": "2026-06-27T01:00:00+01:00",
+    "id": "M63",
+    "stage": "group",
+    "group": "H",
+    "matchday": 3,
+    "dateUK": "2026-06-27",
+    "kickoffUK": "2026-06-27T01:00:00+01:00",
     "venue": "NRG Stadium, Houston",
-    "home": "CPV", "away": "KSA",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "CPV",
+    "away": "KSA",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M64", "stage": "group", "group": "H", "matchday": 3,
-    "dateUK": "2026-06-27", "kickoffUK": "2026-06-27T01:00:00+01:00",
+    "id": "M64",
+    "stage": "group",
+    "group": "H",
+    "matchday": 3,
+    "dateUK": "2026-06-27",
+    "kickoffUK": "2026-06-27T01:00:00+01:00",
     "venue": "Estadio Akron, Guadalajara",
-    "home": "URU", "away": "ESP",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "URU",
+    "away": "ESP",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M65", "stage": "group", "group": "G", "matchday": 3,
-    "dateUK": "2026-06-27", "kickoffUK": "2026-06-27T04:00:00+01:00",
+    "id": "M65",
+    "stage": "group",
+    "group": "G",
+    "matchday": 3,
+    "dateUK": "2026-06-27",
+    "kickoffUK": "2026-06-27T04:00:00+01:00",
     "venue": "Lumen Field, Seattle",
-    "home": "EGY", "away": "IRN",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "EGY",
+    "away": "IRN",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M66", "stage": "group", "group": "G", "matchday": 3,
-    "dateUK": "2026-06-27", "kickoffUK": "2026-06-27T04:00:00+01:00",
+    "id": "M66",
+    "stage": "group",
+    "group": "G",
+    "matchday": 3,
+    "dateUK": "2026-06-27",
+    "kickoffUK": "2026-06-27T04:00:00+01:00",
     "venue": "BC Place, Vancouver",
-    "home": "NZL", "away": "BEL",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "NZL",
+    "away": "BEL",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M67", "stage": "group", "group": "L", "matchday": 3,
-    "dateUK": "2026-06-27", "kickoffUK": "2026-06-27T22:00:00+01:00",
+    "id": "M67",
+    "stage": "group",
+    "group": "L",
+    "matchday": 3,
+    "dateUK": "2026-06-27",
+    "kickoffUK": "2026-06-27T22:00:00+01:00",
     "venue": "MetLife Stadium, East Rutherford",
-    "home": "PAN", "away": "ENG",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "PAN",
+    "away": "ENG",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M68", "stage": "group", "group": "L", "matchday": 3,
-    "dateUK": "2026-06-27", "kickoffUK": "2026-06-27T22:00:00+01:00",
+    "id": "M68",
+    "stage": "group",
+    "group": "L",
+    "matchday": 3,
+    "dateUK": "2026-06-27",
+    "kickoffUK": "2026-06-27T22:00:00+01:00",
     "venue": "Lincoln Financial Field, Philadelphia",
-    "home": "CRO", "away": "GHA",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "CRO",
+    "away": "GHA",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M69", "stage": "group", "group": "K", "matchday": 3,
-    "dateUK": "2026-06-28", "kickoffUK": "2026-06-28T00:30:00+01:00",
+    "id": "M69",
+    "stage": "group",
+    "group": "K",
+    "matchday": 3,
+    "dateUK": "2026-06-28",
+    "kickoffUK": "2026-06-28T00:30:00+01:00",
     "venue": "Hard Rock Stadium, Miami",
-    "home": "COL", "away": "POR",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "COL",
+    "away": "POR",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M70", "stage": "group", "group": "K", "matchday": 3,
-    "dateUK": "2026-06-28", "kickoffUK": "2026-06-28T00:30:00+01:00",
+    "id": "M70",
+    "stage": "group",
+    "group": "K",
+    "matchday": 3,
+    "dateUK": "2026-06-28",
+    "kickoffUK": "2026-06-28T00:30:00+01:00",
     "venue": "Mercedes-Benz Stadium, Atlanta",
-    "home": "COD", "away": "UZB",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "COD",
+    "away": "UZB",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M71", "stage": "group", "group": "J", "matchday": 3,
-    "dateUK": "2026-06-28", "kickoffUK": "2026-06-28T03:00:00+01:00",
+    "id": "M71",
+    "stage": "group",
+    "group": "J",
+    "matchday": 3,
+    "dateUK": "2026-06-28",
+    "kickoffUK": "2026-06-28T03:00:00+01:00",
     "venue": "Arrowhead Stadium, Kansas City",
-    "home": "ALG", "away": "AUT",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "ALG",
+    "away": "AUT",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   },
   {
-    "id": "M72", "stage": "group", "group": "J", "matchday": 3,
-    "dateUK": "2026-06-28", "kickoffUK": "2026-06-28T03:00:00+01:00",
+    "id": "M72",
+    "stage": "group",
+    "group": "J",
+    "matchday": 3,
+    "dateUK": "2026-06-28",
+    "kickoffUK": "2026-06-28T03:00:00+01:00",
     "venue": "AT&T Stadium, Arlington",
-    "home": "JOR", "away": "ARG",
-    "status": "scheduled", "score": { "home": null, "away": null }
+    "home": "JOR",
+    "away": "ARG",
+    "status": "scheduled",
+    "score": {
+      "home": null,
+      "away": null
+    }
   }
 ]
