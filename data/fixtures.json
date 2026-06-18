@@ -329,10 +329,10 @@
     "venue": "NRG Stadium, Houston",
     "home": "POR",
     "away": "COD",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 1
     }
   },
   {
@@ -345,10 +345,10 @@
     "venue": "AT&T Stadium, Arlington",
     "home": "ENG",
     "away": "CRO",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 4,
+      "away": 2
     }
   },
   {
@@ -361,10 +361,10 @@
     "venue": "BMO Field, Toronto",
     "home": "GHA",
     "away": "PAN",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 0
     }
   },
   {
@@ -377,10 +377,10 @@
     "venue": "Estadio Azteca, Mexico City",
     "home": "UZB",
     "away": "COL",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 3
     }
   },
   {
