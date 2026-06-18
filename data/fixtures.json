@@ -393,10 +393,10 @@
     "venue": "Mercedes-Benz Stadium, Atlanta",
     "home": "CZE",
     "away": "RSA",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 1
     }
   },
   {
