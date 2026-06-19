@@ -409,10 +409,10 @@
     "venue": "SoFi Stadium, Los Angeles",
     "home": "SUI",
     "away": "BIH",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 4,
+      "away": 1
     }
   },
   {
@@ -425,10 +425,10 @@
     "venue": "BC Place, Vancouver",
     "home": "CAN",
     "away": "QAT",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 6,
+      "away": 0
     }
   },
   {
