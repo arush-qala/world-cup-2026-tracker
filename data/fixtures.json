@@ -441,10 +441,10 @@
     "venue": "Estadio Akron, Guadalajara",
     "home": "MEX",
     "away": "KOR",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 0
     }
   },
   {
