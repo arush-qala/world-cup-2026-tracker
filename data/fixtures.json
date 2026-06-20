@@ -457,10 +457,10 @@
     "venue": "Lumen Field, Seattle",
     "home": "USA",
     "away": "AUS",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 2,
+      "away": 0
     }
   },
   {
@@ -473,10 +473,10 @@
     "venue": "Gillette Stadium, Foxborough",
     "home": "SCO",
     "away": "MAR",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 1
     }
   },
   {
@@ -489,10 +489,10 @@
     "venue": "Lincoln Financial Field, Philadelphia",
     "home": "BRA",
     "away": "HAI",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 3,
+      "away": 0
     }
   },
   {
@@ -505,10 +505,10 @@
     "venue": "Levi's Stadium, Santa Clara",
     "home": "TUR",
     "away": "PAR",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 1
     }
   },
   {
