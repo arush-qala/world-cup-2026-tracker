@@ -8,23 +8,26 @@ Data source of truth: `data/fixtures.json` (project root).
 
 ## Procedure
 
-1. **Read** `data/fixtures.json`.
-2. **Select eligible matches** — those where BOTH:
+1. **Pull Latest Changes**: Run `git pull --rebase` first to ensure any recent user UI or codebase modifications are fetched and integrated.
+2. **Read** `data/fixtures.json`.
+3. **Select eligible matches** — those where BOTH:
    - `status === "scheduled"`, AND
    - the current UK time is at least **kickoff + 3 hours** (i.e. `now >= new Date(kickoffUK) + 3h`).
    A match runs ~2h, so this checks roughly 1 hour after full-time.
-3. If no matches are eligible, **stop** (nothing to do).
-4. For each eligible match, **web-fetch the final score** from a reputable source
+4. If no matches are eligible, **stop** (nothing to do).
+5. For each eligible match, **web-fetch the final score** from a reputable source
    (FIFA, BBC Sport, Sky Sports, ESPN). Confirm the result from at least one
    authoritative source; if a match was postponed/abandoned, leave it
    `scheduled` and note it.
-5. **Patch the record in place**: set `status: "finished"` and
+6. **Patch the record in place**: set `status: "finished"` and
    `score: { home: <int>, away: <int> }`. Do NOT change any other field
    (id, kickoffUK, teams, venue, etc.).
-6. **Save** `data/fixtures.json`.
-7. **Commit**: `git add data/fixtures.json && git commit -m "data: results through <date>"`.
-8. **Redeploy**: `vercel deploy --prod --yes` from the project root.
-9. **Report** which matches were updated (and any that were postponed/uncertain).
+7. **Save** `data/fixtures.json`.
+8. **Verify Isolation**: Run `git status` to ensure **ONLY** `data/fixtures.json` has been modified. If any other files (e.g. `index.html`, `js/app.js`, `css/style.css`, etc.) show up as modified, restore them (e.g. `git checkout -- <file>`) to ensure no UI/code changes are overwritten.
+9. **Commit**: `git add data/fixtures.json && git commit -m "data: results through <date>"`.
+10. **Push**: Push the commit to the remote repository: `git push origin main`.
+11. **Redeploy**: `vercel deploy --prod --yes` from the project root (if auto-deploy from GitHub is not configured, or to force-push the live site).
+12. **Report** which matches were updated (and any that were postponed/uncertain).
 
 ## Notes
 - Standings (points, rank, qualification) are computed in the browser from
