@@ -521,10 +521,10 @@
     "venue": "NRG Stadium, Houston",
     "home": "NED",
     "away": "SWE",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 5,
+      "away": 1
     }
   },
   {
