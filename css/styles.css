@@ -7,6 +7,7 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
 .tab,.seg button{border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:600;padding:7px 18px;border-radius:8px;cursor:pointer}
 .tab.active,.seg button.active{background:var(--accent);color:#06210f}
 .viewbar{display:flex;align-items:center;gap:16px;padding:18px 28px}
+#fixtures-view .viewbar{padding-bottom:14px}
 .updated{color:var(--muted);font-size:12px}
 .group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:0 28px 40px}
 .group-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px 10px;cursor:pointer;transition:.12s}
