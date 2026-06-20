@@ -265,6 +265,41 @@ function updateCountryTriggerLabel(selectedCountries){
   }
 }
 
+function getDefaultDate(){
+  const todayUK = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(new Date());
+  
+  // If there are matches today, use today
+  if (DATA.fixtures.some(f => f.dateUK === todayUK)) {
+    return todayUK;
+  }
+  
+  const uniqueDates = [...new Set(DATA.fixtures.map(f => f.dateUK))].sort();
+  if (uniqueDates.length === 0) return 'ALL';
+  
+  // If today is before the first date, default to the first date
+  if (todayUK < uniqueDates[0]) {
+    return uniqueDates[0];
+  }
+  
+  // If today is after the last date, default to "ALL"
+  if (todayUK > uniqueDates[uniqueDates.length - 1]) {
+    return 'ALL';
+  }
+  
+  // Find the closest date with matches
+  let closestDate = uniqueDates[0];
+  let minDiff = Infinity;
+  const todayTime = new Date(todayUK).getTime();
+  for (const d of uniqueDates) {
+    const diff = Math.abs(new Date(d).getTime() - todayTime);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestDate = d;
+    }
+  }
+  return closestDate;
+}
+
 function initFilters(){
   // Populate group checkboxes
   const groupOptions = document.getElementById('group-select-options');
@@ -310,6 +345,11 @@ function initFilters(){
     });
     dateSelect.appendChild(opt);
   }
+
+  // Default to today's date (or nearest date with matches)
+  const defaultDate = getDefaultDate();
+  activeFilters.date = defaultDate;
+  dateSelect.value = defaultDate;
 
   // Bind change events for standard inputs
   const stageSelect = document.getElementById('filter-stage');
