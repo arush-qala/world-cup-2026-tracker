@@ -5,7 +5,7 @@ import { renderChart } from './chart.js';
 let DATA = { groups:{}, fixtures:[] };
 let view = 'points';
 let strengthMetric = 'positions';
-let fixtureStatus = 'ALL';
+let fixtureStatus = 'today';
 let activeFilters = {
   stage: 'ALL',
   group: [],
