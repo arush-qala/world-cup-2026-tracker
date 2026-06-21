@@ -3,6 +3,7 @@ import { computeGroup } from './standings.js';
 import { renderChart } from './chart.js';
 
 let DATA = { groups:{}, fixtures:[] };
+let FANTASY = { setPieces: {}, injuries: [] };
 let view = 'points';
 let strengthMetric = 'positions';
 let fixtureStatus = 'today';
@@ -14,16 +15,19 @@ let activeFilters = {
 };
 
 async function boot(){
-  const [groups, fixtures] = await Promise.all([
+  const [groups, fixtures, fantasy] = await Promise.all([
     fetch('data/groups.json').then(r=>r.json()),
     fetch('data/fixtures.json').then(r=>r.json()),
+    fetch('data/fantasy.json').then(r=>r.json()),
   ]);
   DATA = { groups, fixtures };
+  FANTASY = fantasy;
   renderGroups(true);
   initFilters();
   applyFilters();
   renderStrength('positions');
-  wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle();
+  renderFantasyHub();
+  wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch();
   showUpdated();
 }
 
@@ -139,6 +143,7 @@ function wireTabs(){
       document.getElementById('groups-view').hidden   = t.dataset.tab!=='groups';
       document.getElementById('fixtures-view').hidden = t.dataset.tab!=='fixtures';
       document.getElementById('strength-view').hidden = t.dataset.tab!=='strength';
+      document.getElementById('fantasy-view').hidden  = t.dataset.tab!=='fantasy';
     };
   });
 }
@@ -498,6 +503,112 @@ function renderFixtures(fixturesToRender = DATA.fixtures){
       wrap.appendChild(row);
     }
   }
+}
+
+function renderFantasyHub(setpieceFilter = '', injuryFilter = '') {
+  // 1. Render set-pieces
+  const setpiecesList = document.getElementById('setpiece-list');
+  setpiecesList.innerHTML = '';
+  
+  const allTeams = [];
+  for (const groupTeams of Object.values(DATA.groups)) {
+    allTeams.push(...groupTeams);
+  }
+  allTeams.sort((a, b) => a.name.localeCompare(b.name));
+
+  const filteredTeams = allTeams.filter(t => {
+    const sp = FANTASY.setPieces[t.code] || { penalties: 'N/A', freeKicks: 'N/A', corners: 'N/A' };
+    const query = setpieceFilter.toLowerCase();
+    return t.name.toLowerCase().includes(query) || 
+           t.code.toLowerCase().includes(query) || 
+           sp.penalties.toLowerCase().includes(query) || 
+           sp.freeKicks.toLowerCase().includes(query) || 
+           sp.corners.toLowerCase().includes(query);
+  });
+
+  filteredTeams.forEach(t => {
+    const sp = FANTASY.setPieces[t.code] || { penalties: 'N/A', freeKicks: 'N/A', corners: 'N/A' };
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>
+        <div class="team-cell" style="font-weight: 700;">
+          <span class="team-flag">${t.flag}</span>
+          <span class="team-name">${t.name}</span>
+          <span class="team-code" style="color: var(--muted); font-size: 11px;">(${t.code})</span>
+        </div>
+      </td>
+      <td>${sp.penalties}</td>
+      <td>${sp.freeKicks}</td>
+      <td>${sp.corners}</td>
+    `;
+    setpiecesList.appendChild(tr);
+  });
+
+  // 2. Render injury status feed
+  const injuryList = document.getElementById('injury-list');
+  injuryList.innerHTML = '';
+  
+  const filteredInjuries = FANTASY.injuries.filter(inj => {
+    const team = findTeamByCode(inj.country);
+    const teamName = team ? team.name : '';
+    const query = injuryFilter.toLowerCase();
+    return inj.name.toLowerCase().includes(query) || 
+           inj.reason.toLowerCase().includes(query) || 
+           inj.status.toLowerCase().includes(query) || 
+           inj.country.toLowerCase().includes(query) ||
+           teamName.toLowerCase().includes(query);
+  });
+
+  if (filteredInjuries.length === 0) {
+    injuryList.innerHTML = `
+      <div style="text-align: center; color: var(--muted); padding: 40px 10px; font-size: 13px;">
+        No players match your search filter.
+      </div>
+    `;
+  } else {
+    filteredInjuries.forEach(inj => {
+      const team = findTeamByCode(inj.country);
+      const flag = team ? team.flag : '🏳️';
+      const el = document.createElement('div');
+      el.className = 'injury-item';
+      
+      const badgeClass = inj.status.toLowerCase();
+      const returnIcon = badgeClass === 'suspended' ? '🚫' : '🩹';
+      
+      el.innerHTML = `
+        <div class="injury-header">
+          <span class="injury-team-flag">${flag}</span>
+          <span class="injury-team-code">${inj.country}</span>
+          <span class="injury-name" style="font-size: 14px; font-weight:700;">${inj.name}</span>
+          <span class="status-badge ${badgeClass}">${inj.status}</span>
+        </div>
+        <div class="injury-detail" style="margin-top: 4px;">Reason: ${inj.reason}</div>
+        <div class="injury-return" style="margin-top: 4px; display:flex; align-items:center; gap:4px; font-size:11px;">
+          <span>${returnIcon}</span>
+          <span>Return Estimate: <strong>${inj.returnDate}</strong></span>
+        </div>
+      `;
+      injuryList.appendChild(el);
+    });
+  }
+}
+
+function wireFantasySearch() {
+  const setpieceSearch = document.getElementById('setpiece-search');
+  const injurySearch = document.getElementById('injury-search');
+  
+  let setpieceVal = '';
+  let injuryVal = '';
+  
+  setpieceSearch.oninput = () => {
+    setpieceVal = setpieceSearch.value;
+    renderFantasyHub(setpieceVal, injuryVal);
+  };
+  
+  injurySearch.oninput = () => {
+    injuryVal = injurySearch.value;
+    renderFantasyHub(setpieceVal, injuryVal);
+  };
 }
 
 boot();

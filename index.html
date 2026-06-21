@@ -13,6 +13,7 @@
       <button class="tab active" data-tab="fixtures">Fixtures</button>
       <button class="tab" data-tab="groups">Groups</button>
       <button class="tab" data-tab="strength">Strength</button>
+      <button class="tab" data-tab="fantasy">Fantasy Hub</button>
     </nav>
   </header>
 
@@ -92,6 +93,55 @@
       <span class="updated" id="strength-caption"></span>
     </div>
     <div class="strength-list" id="strength-list"></div>
+  </section>
+
+  <section id="fantasy-view" hidden>
+    <div class="viewbar">
+      <h2>Fantasy Football Hub</h2>
+      <span class="updated">Injuries & Expected Set-Pieces Takers</span>
+    </div>
+    
+    <div class="fantasy-grid">
+      <!-- Section 1: Set Piece Tracker -->
+      <div class="fantasy-card">
+        <div class="fantasy-card-title">🎯 Expected Set-Piece Takers</div>
+        <div class="fantasy-card-desc">Find the primary takers for penalties, free kicks, and corners by team.</div>
+        
+        <div class="search-box">
+          <input type="text" id="setpiece-search" placeholder="Search team or player...">
+        </div>
+        
+        <div class="setpiece-table-wrap">
+          <table class="fantasy-table">
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>Penalties ⚽</th>
+                <th>Free Kicks 📐</th>
+                <th>Corners 🚩</th>
+              </tr>
+            </thead>
+            <tbody id="setpiece-list">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Section 2: Injury & Suspension Feed -->
+      <div class="fantasy-card">
+        <div class="fantasy-card-title">🏥 Injury & Suspension Feed</div>
+        <div class="fantasy-card-desc">Real-time tracker of unavailable players, doubtful status, and expected return times.</div>
+        
+        <div class="search-box">
+          <input type="text" id="injury-search" placeholder="Search player or team...">
+        </div>
+        
+        <div class="injury-feed-list" id="injury-list">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+    </div>
   </section>
 
   <div class="modal" id="modal" hidden>

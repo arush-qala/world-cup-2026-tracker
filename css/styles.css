@@ -408,3 +408,167 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
   cursor: pointer;
 }
 
+/* ── Fantasy Hub Tab ─────────────────────────────────── */
+.fantasy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 20px;
+  padding: 0 28px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.fantasy-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 620px;
+}
+.fantasy-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--accent);
+}
+.fantasy-card-desc {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+.search-box {
+  margin-bottom: 12px;
+}
+.search-box input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 13px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.search-box input:focus {
+  border-color: var(--accent);
+}
+.setpiece-table-wrap {
+  overflow-y: auto;
+  flex: 1;
+}
+.fantasy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.fantasy-table th {
+  position: sticky;
+  top: 0;
+  background: var(--panel);
+  color: var(--muted);
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  z-index: 2;
+}
+.fantasy-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+.fantasy-table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+.injury-feed-list {
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.injury-item {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.12s;
+}
+.injury-item:hover {
+  border-color: #33405a;
+}
+.injury-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.injury-name {
+  font-weight: 600;
+  font-size: 13px;
+}
+.injury-team-flag {
+  font-size: 16px;
+}
+.injury-team-code {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+.status-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: auto;
+  border: 1px solid transparent;
+}
+.status-badge.injured {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+.status-badge.doubtful {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border-color: rgba(245, 158, 11, 0.25);
+}
+.status-badge.suspended {
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.25);
+}
+.injury-detail {
+  font-size: 12px;
+  color: var(--muted);
+}
+.injury-return {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+@media (max-width: 600px) {
+  .fantasy-grid {
+    padding: 0 16px 30px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .fantasy-card {
+    height: 500px;
+    padding: 16px;
+  }
+}
+
