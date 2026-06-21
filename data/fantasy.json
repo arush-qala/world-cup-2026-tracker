@@ -50,17 +50,15 @@
     "PAN": { "penalties": "Adalberto Carrasquilla", "freeKicks": "Ismael Díaz", "corners": "Yoel Bárcenas" }
   },
   "injuries": [
-    { "country": "FRA", "name": "Kylian Mbappé", "status": "doubtful", "reason": "Nose injury (broken nose vs AUT)", "returnDate": "Round of 32" },
-    { "country": "PAR", "name": "Miguel Almirón", "status": "suspended", "reason": "Red card vs TUR", "returnDate": "Group Matchday 3" },
-    { "country": "ENG", "name": "Bukayo Saka", "status": "doubtful", "reason": "Hamstring tightness", "returnDate": "Group Matchday 3" },
-    { "country": "BRA", "name": "Vinícius Júnior", "status": "suspended", "reason": "Yellow card accumulation", "returnDate": "Round of 32" },
-    { "country": "GER", "name": "Florian Wirtz", "status": "doubtful", "reason": "Ankle knock", "returnDate": "Group Matchday 3" },
-    { "country": "USA", "name": "Sergiño Dest", "status": "injured", "reason": "ACL Tear", "returnDate": "Out of Tournament" },
-    { "country": "NED", "name": "Frenkie de Jong", "status": "injured", "reason": "Chronic ankle instability", "returnDate": "Out of Tournament" },
-    { "country": "ESP", "name": "Rodri", "status": "doubtful", "reason": "Knee contusion", "returnDate": "Group Matchday 3" },
-    { "country": "BEL", "name": "Kevin De Bruyne", "status": "doubtful", "reason": "Groin strain", "returnDate": "Group Matchday 3" },
-    { "country": "COL", "name": "James Rodríguez", "status": "doubtful", "reason": "Muscle fatigue", "returnDate": "Group Matchday 3" },
-    { "country": "ARG", "name": "Enzo Fernández", "status": "doubtful", "reason": "Hernia discomfort recovery", "returnDate": "Group Matchday 3" },
-    { "country": "SWE", "name": "Emil Forsberg", "status": "doubtful", "reason": "Calf strain", "returnDate": "Group Matchday 3" }
+    { "country": "ENG", "name": "Declan Rice", "status": "doubtful", "reason": "Hamstring tightness", "returnDate": "Group Matchday 3" },
+    { "country": "ENG", "name": "Bukayo Saka", "status": "doubtful", "reason": "Achilles discomfort", "returnDate": "Group Matchday 3" },
+    { "country": "ENG", "name": "Marcus Rashford", "status": "doubtful", "reason": "Hamstring strain", "returnDate": "Group Matchday 3" },
+    { "country": "CAN", "name": "Alphonso Davies", "status": "doubtful", "reason": "Hamstring injury", "returnDate": "Group Matchday 3" },
+    { "country": "PAR", "name": "Miguel Almirón", "status": "suspended", "reason": "Straight red card vs Türkiye", "returnDate": "Group Matchday 3" },
+    { "country": "BRA", "name": "Rodrygo", "status": "injured", "reason": "ACL Tear (sidelined pre-tournament)", "returnDate": "Out of Tournament" },
+    { "country": "BRA", "name": "Éder Militão", "status": "injured", "reason": "Muscle tear", "returnDate": "Out of Tournament" },
+    { "country": "GER", "name": "Serge Gnabry", "status": "injured", "reason": "Knee ligament injury", "returnDate": "Out of Tournament" },
+    { "country": "NED", "name": "Xavi Simons", "status": "injured", "reason": "Meniscus tear", "returnDate": "Out of Tournament" },
+    { "country": "FRA", "name": "Hugo Ekitiké", "status": "injured", "reason": "Muscle tear", "returnDate": "Out of Tournament" }
   ]
 }
