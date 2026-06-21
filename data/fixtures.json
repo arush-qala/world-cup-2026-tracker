@@ -601,10 +601,10 @@
     "venue": "SoFi Stadium, Los Angeles",
     "home": "BEL",
     "away": "IRN",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 0
     }
   },
   {
