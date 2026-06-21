@@ -537,10 +537,10 @@
     "venue": "BMO Field, Toronto",
     "home": "GER",
     "away": "CIV",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 2,
+      "away": 1
     }
   },
   {
@@ -553,10 +553,10 @@
     "venue": "Arrowhead Stadium, Kansas City",
     "home": "ECU",
     "away": "CUW",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 0
     }
   },
   {
@@ -569,10 +569,10 @@
     "venue": "Estadio BBVA, Monterrey",
     "home": "TUN",
     "away": "JPN",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 4
     }
   },
   {
