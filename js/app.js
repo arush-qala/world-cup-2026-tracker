@@ -505,8 +505,8 @@ function renderFixtures(fixturesToRender = DATA.fixtures){
   }
 }
 
-function renderFantasyHub(setpieceFilter = '', injuryFilter = '') {
-  // 1. Render set-pieces
+function renderFantasyHub(setpieceFilter = '') {
+  // Render set-pieces
   const setpiecesList = document.getElementById('setpiece-list');
   setpiecesList.innerHTML = '';
   
@@ -543,71 +543,12 @@ function renderFantasyHub(setpieceFilter = '', injuryFilter = '') {
     `;
     setpiecesList.appendChild(tr);
   });
-
-  // 2. Render injury status feed
-  const injuryList = document.getElementById('injury-list');
-  injuryList.innerHTML = '';
-  
-  const filteredInjuries = FANTASY.injuries.filter(inj => {
-    const team = findTeamByCode(inj.country);
-    const teamName = team ? team.name : '';
-    const query = injuryFilter.toLowerCase();
-    return inj.name.toLowerCase().includes(query) || 
-           inj.reason.toLowerCase().includes(query) || 
-           inj.status.toLowerCase().includes(query) || 
-           inj.country.toLowerCase().includes(query) ||
-           teamName.toLowerCase().includes(query);
-  });
-
-  if (filteredInjuries.length === 0) {
-    injuryList.innerHTML = `
-      <div style="text-align: center; color: var(--muted); padding: 40px 10px; font-size: 13px;">
-        No players match your search filter.
-      </div>
-    `;
-  } else {
-    filteredInjuries.forEach(inj => {
-      const team = findTeamByCode(inj.country);
-      const flag = team ? team.flag : '🏳️';
-      const el = document.createElement('div');
-      el.className = 'injury-item';
-      
-      const badgeClass = inj.status.toLowerCase();
-      const returnIcon = badgeClass === 'suspended' ? '🚫' : '🩹';
-      
-      el.innerHTML = `
-        <div class="injury-header">
-          <span class="injury-team-flag">${flag}</span>
-          <span class="injury-team-code">${inj.country}</span>
-          <span class="injury-name" style="font-size: 14px; font-weight:700;">${inj.name}</span>
-          <span class="status-badge ${badgeClass}">${inj.status}</span>
-        </div>
-        <div class="injury-detail" style="margin-top: 4px;">Reason: ${inj.reason}</div>
-        <div class="injury-return" style="margin-top: 4px; display:flex; align-items:center; gap:4px; font-size:11px;">
-          <span>${returnIcon}</span>
-          <span>Return Estimate: <strong>${inj.returnDate}</strong></span>
-        </div>
-      `;
-      injuryList.appendChild(el);
-    });
-  }
 }
 
 function wireFantasySearch() {
   const setpieceSearch = document.getElementById('setpiece-search');
-  const injurySearch = document.getElementById('injury-search');
-  
-  let setpieceVal = '';
-  let injuryVal = '';
-  
   setpieceSearch.oninput = () => {
-    setpieceVal = setpieceSearch.value;
-    renderFantasyHub(setpieceVal, injuryVal);
-  };
-  
-  injurySearch.oninput = () => {
-    injuryVal = injurySearch.value;
-    renderFantasyHub(setpieceVal, injuryVal);
+    renderFantasyHub(setpieceSearch.value);
   };
 }
 

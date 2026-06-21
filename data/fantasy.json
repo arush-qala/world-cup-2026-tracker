@@ -48,17 +48,5 @@
     "UZB": { "penalties": "Abbosbek Fayzullaev", "freeKicks": "Oston Urunov", "corners": "Jaloliddin Masharipov" },
     "GHA": { "penalties": "Mohammed Kudus", "freeKicks": "Jordan Ayew", "corners": "Jordan Ayew" },
     "PAN": { "penalties": "Adalberto Carrasquilla", "freeKicks": "Ismael Díaz", "corners": "Yoel Bárcenas" }
-  },
-  "injuries": [
-    { "country": "ENG", "name": "Declan Rice", "status": "doubtful", "reason": "Hamstring tightness", "returnDate": "Group Matchday 3" },
-    { "country": "ENG", "name": "Bukayo Saka", "status": "doubtful", "reason": "Achilles discomfort", "returnDate": "Group Matchday 3" },
-    { "country": "ENG", "name": "Marcus Rashford", "status": "doubtful", "reason": "Hamstring strain", "returnDate": "Group Matchday 3" },
-    { "country": "CAN", "name": "Alphonso Davies", "status": "doubtful", "reason": "Hamstring injury", "returnDate": "Group Matchday 3" },
-    { "country": "PAR", "name": "Miguel Almirón", "status": "suspended", "reason": "Straight red card vs Türkiye", "returnDate": "Group Matchday 3" },
-    { "country": "BRA", "name": "Rodrygo", "status": "injured", "reason": "ACL Tear (sidelined pre-tournament)", "returnDate": "Out of Tournament" },
-    { "country": "BRA", "name": "Éder Militão", "status": "injured", "reason": "Muscle tear", "returnDate": "Out of Tournament" },
-    { "country": "GER", "name": "Serge Gnabry", "status": "injured", "reason": "Knee ligament injury", "returnDate": "Out of Tournament" },
-    { "country": "NED", "name": "Xavi Simons", "status": "injured", "reason": "Meniscus tear", "returnDate": "Out of Tournament" },
-    { "country": "FRA", "name": "Hugo Ekitiké", "status": "injured", "reason": "Muscle tear", "returnDate": "Out of Tournament" }
-  ]
+  }
 }
