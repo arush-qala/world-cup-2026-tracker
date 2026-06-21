@@ -1,7 +1,7 @@
 {
   "setPieces": {
     "ARG": { "penalties": "Lionel Messi", "freeKicks": "Lionel Messi", "corners": "Alexis Mac Allister" },
-    "FRA": { "penalties": "Kylian Mbappé", "freeKicks": "Antoine Griezmann", "corners": "Antoine Griezmann" },
+    "FRA": { "penalties": "Kylian Mbappé", "freeKicks": "Michael Olise", "corners": "Michael Olise" },
     "ENG": { "penalties": "Harry Kane", "freeKicks": "Phil Foden", "corners": "Declan Rice" },
     "POR": { "penalties": "Cristiano Ronaldo", "freeKicks": "Bruno Fernandes", "corners": "Bruno Fernandes" },
     "BRA": { "penalties": "Vinícius Júnior", "freeKicks": "Raphinha", "corners": "Vinícius Júnior" },
