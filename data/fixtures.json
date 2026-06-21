@@ -585,10 +585,10 @@
     "venue": "Mercedes-Benz Stadium, Atlanta",
     "home": "ESP",
     "away": "KSA",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 4,
+      "away": 0
     }
   },
   {
