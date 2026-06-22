@@ -14,6 +14,7 @@
       <button class="tab" data-tab="groups">Groups</button>
       <button class="tab" data-tab="strength">Strength</button>
       <button class="tab" data-tab="fantasy">Fantasy Hub</button>
+      <button class="tab" data-tab="knockout">Knockouts</button>
     </nav>
   </header>
 
@@ -125,6 +126,54 @@
               <!-- Dynamically populated -->
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="knockout-view" hidden>
+    <div class="viewbar">
+      <div class="seg" id="knockoutseg">
+        <button data-view="bracket" class="active">Bracket</button>
+        <button data-view="third-place">3rd Place Standings</button>
+      </div>
+      <span class="updated" id="knockout-caption"></span>
+    </div>
+
+    <!-- View 1: Bracket -->
+    <div id="knockout-bracket-container" class="bracket-container">
+      <!-- Dynamically populated bracket -->
+    </div>
+
+    <!-- View 2: 3rd Place Standings Table -->
+    <div id="knockout-third-place-container" class="third-place-container" hidden>
+      <div class="fantasy-grid" style="max-width: 900px;">
+        <div class="fantasy-card" style="height: auto; max-height: none;">
+          <div class="fantasy-card-title">🥉 3rd Place Teams Comparison</div>
+          <div class="fantasy-card-desc">The top 8 third-placed teams across the 12 groups qualify for the Round of 32. Ranked by: Points ➔ Goal Difference ➔ Goals Scored ➔ FIFA Rank.</div>
+          <div class="setpiece-table-wrap">
+            <table class="fantasy-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px; text-align: center;">Pos</th>
+                  <th>Group</th>
+                  <th>Team</th>
+                  <th style="text-align: center;">P</th>
+                  <th style="text-align: center;">W</th>
+                  <th style="text-align: center;">D</th>
+                  <th style="text-align: center;">L</th>
+                  <th style="text-align: center;">GF</th>
+                  <th style="text-align: center;">GA</th>
+                  <th style="text-align: center;">GD</th>
+                  <th style="text-align: center;">Pts</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="third-place-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

@@ -27,7 +27,8 @@ async function boot(){
   applyFilters();
   renderStrength('positions');
   renderFantasyHub();
-  wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch();
+  renderKnockouts();
+  wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
   showUpdated();
 }
 
@@ -144,6 +145,7 @@ function wireTabs(){
       document.getElementById('fixtures-view').hidden = t.dataset.tab!=='fixtures';
       document.getElementById('strength-view').hidden = t.dataset.tab!=='strength';
       document.getElementById('fantasy-view').hidden  = t.dataset.tab!=='fantasy';
+      document.getElementById('knockout-view').hidden = t.dataset.tab!=='knockout';
     };
   });
 }
@@ -542,6 +544,361 @@ function renderFantasyHub(setpieceFilter = '') {
       <td>${sp.corners}</td>
     `;
     setpiecesList.appendChild(tr);
+  });
+}
+
+function getSortedGroupTeams(letter) {
+  const teams = DATA.groups[letter];
+  const matches = DATA.fixtures.filter(m => m.stage === 'group' && m.group === letter);
+  const standings = computeGroup(teams, matches);
+  return [...teams].map(t => {
+    const s = standings[t.code];
+    return {
+      ...t,
+      pts: s.points.at(-1),
+      rank: s.rank.at(-1),
+      stats: s.stats
+    };
+  }).sort((a, b) => a.rank - b.rank);
+}
+
+function getThirdPlaceStandings() {
+  const letters = 'ABCDEFGHIJKL'.split('');
+  const thirds = letters.map(l => {
+    const sorted = getSortedGroupTeams(l);
+    const team = sorted[2]; // 3rd place team (index 2)
+    return {
+      group: l,
+      code: team.code,
+      name: team.name,
+      flag: team.flag,
+      fifaRank: team.fifaRank,
+      fifaPoints: team.fifaPoints,
+      stats: team.stats,
+      pts: team.pts
+    };
+  });
+
+  thirds.sort((a, b) => {
+    if (b.pts !== a.pts) return b.pts - a.pts;
+    if (b.stats.gd !== a.stats.gd) return b.stats.gd - a.stats.gd;
+    if (b.stats.gf !== a.stats.gf) return b.stats.gf - a.stats.gf;
+    return a.fifaRank - b.fifaRank;
+  });
+
+  return thirds;
+}
+
+function solveThirdPlaceMatchups(qualifiedGroups) {
+  const winners = [
+    { key: 'E', options: ['A', 'B', 'C', 'D', 'F'] },
+    { key: 'I', options: ['C', 'D', 'F', 'G', 'H'] },
+    { key: 'A', options: ['C', 'E', 'F', 'H', 'I'] },
+    { key: 'L', options: ['E', 'H', 'I', 'J', 'K'] },
+    { key: 'D', options: ['B', 'E', 'F', 'I', 'J'] },
+    { key: 'G', options: ['A', 'E', 'H', 'I', 'J'] },
+    { key: 'B', options: ['E', 'F', 'G', 'I', 'J'] },
+    { key: 'K', options: ['D', 'E', 'I', 'J', 'L'] },
+  ];
+
+  const assignments = {};
+  const used = new Set();
+
+  function solve(idx) {
+    if (idx === winners.length) return true;
+    const w = winners[idx];
+    for (const g of qualifiedGroups) {
+      if (!used.has(g) && w.options.includes(g) && w.key !== g) {
+        used.add(g);
+        assignments[w.key] = g;
+        if (solve(idx + 1)) return true;
+        used.delete(g);
+        delete assignments[w.key];
+      }
+    }
+    return false;
+  }
+
+  if (solve(0)) {
+    return assignments;
+  }
+  
+  const fallback = {};
+  const usedFallback = new Set();
+  for (const w of winners) {
+    for (const g of qualifiedGroups) {
+      if (!usedFallback.has(g) && w.options.includes(g) && w.key !== g) {
+        usedFallback.add(g);
+        fallback[w.key] = g;
+        break;
+      }
+    }
+  }
+  return fallback;
+}
+
+function getTeamBySlot(slot, assignments) {
+  const rankNum = parseInt(slot[0]);
+  let groupLetter = slot[1];
+  
+  if (rankNum === 3) {
+    groupLetter = assignments[groupLetter];
+    if (!groupLetter) return { label: `3rd Group ${slot[1]}`, flag: '🏳️', code: slot, dummy: true, fifaPoints: 0 };
+  }
+
+  const sorted = getSortedGroupTeams(groupLetter);
+  const team = sorted[rankNum - 1];
+  if (!team) {
+    return { label: `Group ${slot[1]} R${rankNum}`, flag: '🏳️', code: slot, dummy: true, fifaPoints: 0 };
+  }
+  return {
+    label: team.name,
+    flag: team.flag,
+    code: team.code,
+    dummy: false,
+    fifaPoints: team.fifaPoints
+  };
+}
+
+function getMatchWinner(matchId, homeTeam, awayTeam) {
+  const f = DATA.fixtures.find(m => m.id === matchId);
+  if (f && f.status === 'finished') {
+    if (f.score.home > f.score.away) return homeTeam;
+    if (f.score.home < f.score.away) return awayTeam;
+    return homeTeam.fifaPoints >= awayTeam.fifaPoints ? homeTeam : awayTeam;
+  }
+
+  const homePoints = homeTeam.dummy ? 0 : (homeTeam.fifaPoints || 0);
+  const awayPoints = awayTeam.dummy ? 0 : (awayTeam.fifaPoints || 0);
+  return homePoints >= awayPoints ? homeTeam : awayTeam;
+}
+
+function getMatchDetails(matchId, projectedHome, projectedAway) {
+  const f = DATA.fixtures.find(m => m.id === matchId);
+  if (f) {
+    const homeTeamInfo = findTeamByCode(f.home) || { name: f.home, flag: flagOf(f.home), code: f.home, fifaPoints: 0 };
+    const awayTeamInfo = findTeamByCode(f.away) || { name: f.away, flag: flagOf(f.away), code: f.away, fifaPoints: 0 };
+    return {
+      id: f.id,
+      home: { label: homeTeamInfo.name, flag: homeTeamInfo.flag, code: homeTeamInfo.code, dummy: false, fifaPoints: homeTeamInfo.fifaPoints },
+      away: { label: awayTeamInfo.name, flag: awayTeamInfo.flag, code: awayTeamInfo.code, dummy: false, fifaPoints: awayTeamInfo.fifaPoints },
+      status: f.status,
+      score: f.score,
+      venue: f.venue,
+      dateUK: f.dateUK,
+      kickoffUK: f.kickoffUK
+    };
+  }
+  
+  return {
+    id: matchId,
+    home: projectedHome,
+    away: projectedAway,
+    status: 'scheduled',
+    score: { home: null, away: null },
+    venue: '',
+    dateUK: '',
+    kickoffUK: ''
+  };
+}
+
+let knockoutView = 'bracket';
+
+function renderKnockouts() {
+  const thirds = getThirdPlaceStandings();
+  const qualifiedThirds = thirds.slice(0, 8);
+  const qualifiedGroups = qualifiedThirds.map(t => t.group).sort();
+  const assignments = solveThirdPlaceMatchups(qualifiedGroups);
+
+  const tableBody = document.getElementById('third-place-table-body');
+  tableBody.innerHTML = '';
+  thirds.forEach((t, idx) => {
+    const isQualifying = idx < 8;
+    const sign = t.stats.gd > 0 ? '+' : '';
+    const tr = document.createElement('tr');
+    if (isQualifying) {
+      tr.className = 'third-place-row-qualified';
+    }
+    tr.innerHTML = `
+      <td class="col-num col-bold">${idx + 1}</td>
+      <td style="font-weight: 700; text-align: center;">Group ${t.group}</td>
+      <td>
+        <div class="team-cell">
+          <span class="team-flag">${t.flag}</span>
+          <span class="team-name">${t.name}</span>
+          <span class="team-code" style="color: var(--muted); font-size: 11px;">(${t.code})</span>
+        </div>
+      </td>
+      <td class="col-num">${t.stats.played}</td>
+      <td class="col-num">${t.stats.w}</td>
+      <td class="col-num">${t.stats.d}</td>
+      <td class="col-num">${t.stats.l}</td>
+      <td class="col-num">${t.stats.gf}</td>
+      <td class="col-num">${t.stats.ga}</td>
+      <td class="col-num">${sign}${t.stats.gd}</td>
+      <td class="col-num col-bold">${t.pts}</td>
+      <td>
+        <span class="status-pill ${isQualifying ? 'qualifying' : 'eliminated'}">
+          ${isQualifying ? 'Qualifying' : 'Eliminated'}
+        </span>
+      </td>
+    `;
+    tableBody.appendChild(tr);
+  });
+
+  const r32MatchesData = [
+    { id: 'M73', name: 'Match 73', homeSlot: '2A', awaySlot: '2B' },
+    { id: 'M74', name: 'Match 74', homeSlot: '1E', awaySlot: '3E' },
+    { id: 'M75', name: 'Match 75', homeSlot: '1F', awaySlot: '2C' },
+    { id: 'M76', name: 'Match 76', homeSlot: '1C', awaySlot: '2F' },
+    { id: 'M77', name: 'Match 77', homeSlot: '1I', awaySlot: '3I' },
+    { id: 'M78', name: 'Match 78', homeSlot: '2E', awaySlot: '2I' },
+    { id: 'M79', name: 'Match 79', homeSlot: '1A', awaySlot: '3A' },
+    { id: 'M80', name: 'Match 80', homeSlot: '1L', awaySlot: '3L' },
+    { id: 'M81', name: 'Match 81', homeSlot: '1D', awaySlot: '3D' },
+    { id: 'M82', name: 'Match 82', homeSlot: '1G', awaySlot: '3G' },
+    { id: 'M83', name: 'Match 83', homeSlot: '2K', awaySlot: '2L' },
+    { id: 'M84', name: 'Match 84', homeSlot: '1H', awaySlot: '2J' },
+    { id: 'M85', name: 'Match 85', homeSlot: '1B', awaySlot: '3B' },
+    { id: 'M86', name: 'Match 86', homeSlot: '1J', awaySlot: '2H' },
+    { id: 'M87', name: 'Match 87', homeSlot: '1K', awaySlot: '3K' },
+    { id: 'M88', name: 'Match 88', homeSlot: '2D', awaySlot: '2G' }
+  ].map(m => {
+    const homeProj = getTeamBySlot(m.homeSlot, assignments);
+    const awayProj = getTeamBySlot(m.awaySlot, assignments);
+    return getMatchDetails(m.id, homeProj, awayProj);
+  });
+
+  const r16Pairings = [
+    { id: 'M89', name: 'Match 89', homeM: 'M74', awayM: 'M77' },
+    { id: 'M90', name: 'Match 90', homeM: 'M73', awayM: 'M75' },
+    { id: 'M91', name: 'Match 91', homeM: 'M76', awayM: 'M78' },
+    { id: 'M92', name: 'Match 92', homeM: 'M79', awayM: 'M80' },
+    { id: 'M93', name: 'Match 93', homeM: 'M83', awayM: 'M84' },
+    { id: 'M94', name: 'Match 94', homeM: 'M81', awayM: 'M82' },
+    { id: 'M95', name: 'Match 95', homeM: 'M86', awayM: 'M88' },
+    { id: 'M96', name: 'Match 96', homeM: 'M85', awayM: 'M87' }
+  ];
+  const r16MatchesData = r16Pairings.map(p => {
+    const homeR32 = r32MatchesData.find(x => x.id === p.homeM);
+    const awayR32 = r32MatchesData.find(x => x.id === p.awayM);
+    const homeProj = getMatchWinner(homeR32.id, homeR32.home, homeR32.away);
+    const awayProj = getMatchWinner(awayR32.id, awayR32.home, awayR32.away);
+    return getMatchDetails(p.id, homeProj, awayProj);
+  });
+
+  const qfPairings = [
+    { id: 'M97', name: 'Match 97', homeM: 'M89', awayM: 'M90' },
+    { id: 'M98', name: 'Match 98', homeM: 'M93', awayM: 'M94' },
+    { id: 'M99', name: 'Match 99', homeM: 'M91', awayM: 'M92' },
+    { id: 'M100', name: 'Match 100', homeM: 'M95', awayM: 'M96' }
+  ];
+  const qfMatchesData = qfPairings.map(p => {
+    const homeR16 = r16MatchesData.find(x => x.id === p.homeM);
+    const awayR16 = r16MatchesData.find(x => x.id === p.awayM);
+    const homeProj = getMatchWinner(homeR16.id, homeR16.home, homeR16.away);
+    const awayProj = getMatchWinner(awayR16.id, awayR16.home, awayR16.away);
+    return getMatchDetails(p.id, homeProj, awayProj);
+  });
+
+  const sfPairings = [
+    { id: 'M101', name: 'Match 101', homeM: 'M97', awayM: 'M98' },
+    { id: 'M102', name: 'Match 102', homeM: 'M99', awayM: 'M100' }
+  ];
+  const sfMatchesData = sfPairings.map(p => {
+    const homeQF = qfMatchesData.find(x => x.id === p.homeM);
+    const awayQF = qfMatchesData.find(x => x.id === p.awayM);
+    const homeProj = getMatchWinner(homeQF.id, homeQF.home, homeQF.away);
+    const awayProj = getMatchWinner(awayQF.id, awayQF.home, awayQF.away);
+    return getMatchDetails(p.id, homeProj, awayProj);
+  });
+
+  const sf1 = sfMatchesData.find(x => x.id === 'M101');
+  const sf2 = sfMatchesData.find(x => x.id === 'M102');
+  
+  const finalHomeProj = getMatchWinner(sf1.id, sf1.home, sf1.away);
+  const finalAwayProj = getMatchWinner(sf2.id, sf2.home, sf2.away);
+  const finalMatchData = getMatchDetails('M104', finalHomeProj, finalAwayProj);
+
+  const getMatchLoser = (matchId, home, away) => {
+    const winner = getMatchWinner(matchId, home, away);
+    return winner.code === home.code ? away : home;
+  };
+  const thirdHomeProj = getMatchLoser(sf1.id, sf1.home, sf1.away);
+  const thirdAwayProj = getMatchLoser(sf2.id, sf2.home, sf2.away);
+  const thirdMatchData = getMatchDetails('M103', thirdHomeProj, thirdAwayProj);
+
+  const container = document.getElementById('knockout-bracket-container');
+  container.innerHTML = '';
+
+  const renderMatchCardHTML = (m) => {
+    const played = m.status === 'finished';
+    const homeScore = played ? m.score.home : '';
+    const awayScore = played ? m.score.away : '';
+    const homeWinner = played && m.score.home > m.score.away;
+    const awayWinner = played && m.score.away > m.score.home;
+    const detailsLabel = played ? `${m.score.home}–${m.score.away}` : (m.kickoffUK ? ukTime(m.kickoffUK) : 'Proj');
+
+    return `
+      <div class="bracket-match">
+        <div class="bracket-match-header">
+          <span>${m.id}</span>
+          <span style="font-size: 9px; font-weight: 600;">${m.venue || ''}</span>
+        </div>
+        <div class="bracket-match-teams">
+          <div class="bracket-match-team ${m.home.dummy ? 'dummy' : ''} ${homeWinner ? 'winner' : ''}">
+            <span class="flag">${m.home.flag}</span>
+            <span>${m.home.label}</span>
+            <span class="code">${m.home.code}</span>
+            ${played ? `<span class="score">${homeScore}</span>` : ''}
+          </div>
+          <div class="bracket-match-team ${m.away.dummy ? 'dummy' : ''} ${awayWinner ? 'winner' : ''}">
+            <span class="flag">${m.away.flag}</span>
+            <span>${m.away.label}</span>
+            <span class="code">${m.away.code}</span>
+            ${played ? `<span class="score">${awayScore}</span>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  };
+
+  const columns = [
+    { title: 'Round of 32', matches: r32MatchesData },
+    { title: 'Round of 16', matches: r16MatchesData },
+    { title: 'Quarter-finals', matches: qfMatchesData },
+    { title: 'Semi-finals', matches: sfMatchesData },
+    { title: 'Final & 3rd Place', matches: [finalMatchData, thirdMatchData] }
+  ];
+
+  columns.forEach(col => {
+    const colDiv = document.createElement('div');
+    colDiv.className = 'bracket-column';
+    colDiv.innerHTML = `<div class="bracket-column-title">${col.title}</div>`;
+    col.matches.forEach(m => {
+      colDiv.innerHTML += renderMatchCardHTML(m);
+    });
+    container.appendChild(colDiv);
+  });
+
+  const countCaption = document.getElementById('knockout-caption');
+  if (knockoutView === 'bracket') {
+    countCaption.textContent = 'Dynamic World Cup 2026 bracket pathway projection';
+  } else {
+    const currentFinishedCount = DATA.fixtures.filter(m => m.stage === 'group' && m.status === 'finished').length;
+    countCaption.textContent = `${currentFinishedCount}/72 group stage matches finished`;
+  }
+}
+
+function wireKnockoutToggle() {
+  document.querySelectorAll('#knockoutseg button').forEach(b => {
+    b.onclick = () => {
+      knockoutView = b.dataset.view;
+      document.querySelectorAll('#knockoutseg button').forEach(x => x.classList.toggle('active', x === b));
+      document.getElementById('knockout-bracket-container').style.display = knockoutView === 'bracket' ? 'flex' : 'none';
+      document.getElementById('knockout-third-place-container').hidden = knockoutView !== 'third-place';
+      renderKnockouts();
+    };
   });
 }
 
