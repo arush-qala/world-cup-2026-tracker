@@ -637,27 +637,75 @@ function solveThirdPlaceMatchups(qualifiedGroups) {
   return fallback;
 }
 
+function isGroupFinished(groupLetter) {
+  const groupMatches = DATA.fixtures.filter(m => m.stage === 'group' && m.group === groupLetter);
+  return groupMatches.length === 6 && groupMatches.every(m => m.status === 'finished');
+}
+
+function isGroupStageFinished() {
+  const groupMatches = DATA.fixtures.filter(m => m.stage === 'group');
+  return groupMatches.length === 72 && groupMatches.every(m => m.status === 'finished');
+}
+
 function getTeamBySlot(slot, assignments) {
   const rankNum = parseInt(slot[0]);
-  let groupLetter = slot[1];
+  const groupLetter = slot[1];
   
   if (rankNum === 3) {
-    groupLetter = assignments[groupLetter];
-    if (!groupLetter) return { label: `3rd Group ${slot[1]}`, flag: '🏳️', code: slot, dummy: true, fifaPoints: 0 };
+    const isStageFinal = isGroupStageFinished();
+    if (isStageFinal) {
+      const assignedGroup = assignments[groupLetter];
+      const sorted = getSortedGroupTeams(assignedGroup);
+      const team = sorted[2]; // 3rd place team (index 2)
+      return {
+        label: team.name,
+        flag: team.flag,
+        code: team.code,
+        dummy: false,
+        fifaPoints: team.fifaPoints
+      };
+    } else {
+      const optionsMap = {
+        'E': 'A/B/C/D/F',
+        'I': 'C/D/F/G/H',
+        'A': 'C/E/F/H/I',
+        'L': 'E/H/I/J/K',
+        'D': 'B/E/F/I/J',
+        'G': 'A/E/H/I/J',
+        'B': 'E/F/G/I/J',
+        'K': 'D/E/I/J/L'
+      };
+      const opts = optionsMap[groupLetter] || '';
+      return {
+        label: `3rd Group ${opts}`,
+        flag: '🏳️',
+        code: `3rd ${groupLetter}`,
+        dummy: true,
+        fifaPoints: 0
+      };
+    }
   }
 
-  const sorted = getSortedGroupTeams(groupLetter);
-  const team = sorted[rankNum - 1];
-  if (!team) {
-    return { label: `Group ${slot[1]} R${rankNum}`, flag: '🏳️', code: slot, dummy: true, fifaPoints: 0 };
+  const isFinal = isGroupFinished(groupLetter);
+  if (isFinal) {
+    const sorted = getSortedGroupTeams(groupLetter);
+    const team = sorted[rankNum - 1];
+    return {
+      label: team.name,
+      flag: team.flag,
+      code: team.code,
+      dummy: false,
+      fifaPoints: team.fifaPoints
+    };
+  } else {
+    return {
+      label: `${rankNum === 1 ? 'Winner' : 'Runner-up'} Group ${groupLetter}`,
+      flag: '🏳️',
+      code: `${rankNum}${groupLetter}`,
+      dummy: true,
+      fifaPoints: 0
+    };
   }
-  return {
-    label: team.name,
-    flag: team.flag,
-    code: team.code,
-    dummy: false,
-    fifaPoints: team.fifaPoints
-  };
 }
 
 function getMatchWinner(matchId, homeTeam, awayTeam) {
@@ -668,9 +716,13 @@ function getMatchWinner(matchId, homeTeam, awayTeam) {
     return homeTeam.fifaPoints >= awayTeam.fifaPoints ? homeTeam : awayTeam;
   }
 
-  const homePoints = homeTeam.dummy ? 0 : (homeTeam.fifaPoints || 0);
-  const awayPoints = awayTeam.dummy ? 0 : (awayTeam.fifaPoints || 0);
-  return homePoints >= awayPoints ? homeTeam : awayTeam;
+  return {
+    label: `Winner Match ${matchId.replace('M', '')}`,
+    flag: '🏳️',
+    code: `W${matchId.replace('M', '')}`,
+    dummy: true,
+    fifaPoints: 0
+  };
 }
 
 function getMatchDetails(matchId, projectedHome, projectedAway) {
@@ -821,8 +873,18 @@ function renderKnockouts() {
   const finalMatchData = getMatchDetails('M104', finalHomeProj, finalAwayProj);
 
   const getMatchLoser = (matchId, home, away) => {
-    const winner = getMatchWinner(matchId, home, away);
-    return winner.code === home.code ? away : home;
+    const f = DATA.fixtures.find(m => m.id === matchId);
+    if (f && f.status === 'finished') {
+      const winner = getMatchWinner(matchId, home, away);
+      return winner.code === home.code ? away : home;
+    }
+    return {
+      label: `Loser Match ${matchId.replace('M', '')}`,
+      flag: '🏳️',
+      code: `L${matchId.replace('M', '')}`,
+      dummy: true,
+      fifaPoints: 0
+    };
   };
   const thirdHomeProj = getMatchLoser(sf1.id, sf1.home, sf1.away);
   const thirdAwayProj = getMatchLoser(sf2.id, sf2.home, sf2.away);
