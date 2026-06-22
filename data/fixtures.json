@@ -649,10 +649,10 @@
     "venue": "AT&T Stadium, Arlington",
     "home": "ARG",
     "away": "AUT",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 2,
+      "away": 0
     }
   },
   {
