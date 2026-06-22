@@ -617,10 +617,10 @@
     "venue": "Hard Rock Stadium, Miami",
     "home": "URU",
     "away": "CPV",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 2,
+      "away": 2
     }
   },
   {
@@ -633,10 +633,10 @@
     "venue": "BC Place, Vancouver",
     "home": "NZL",
     "away": "EGY",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 3
     }
   },
   {
