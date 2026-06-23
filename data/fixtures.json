@@ -729,10 +729,10 @@
     "venue": "Gillette Stadium, Foxborough",
     "home": "ENG",
     "away": "GHA",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 0
     }
   },
   {
