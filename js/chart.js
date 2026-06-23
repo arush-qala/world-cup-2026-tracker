@@ -165,7 +165,14 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
     /* --- glow filter --- */
     {
       const defs = el('defs', {});
-      const f = el('filter', { id: 'glow', x: '-30%', y: '-30%', width: '160%', height: '160%' });
+      const f = el('filter', { 
+        id: 'glow', 
+        filterUnits: 'userSpaceOnUse',
+        x: '-20%', 
+        y: '-20%', 
+        width: '140%', 
+        height: '140%' 
+      });
       f.appendChild(el('feGaussianBlur', { stdDeviation: STYLE.glowI / 3, result: 'b' }));
       const m = el('feMerge', {});
       m.appendChild(el('feMergeNode', { in: 'b' }));
