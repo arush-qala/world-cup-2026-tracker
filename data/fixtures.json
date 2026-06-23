@@ -665,10 +665,10 @@
     "venue": "Lincoln Financial Field, Philadelphia",
     "home": "FRA",
     "away": "IRQ",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 3,
+      "away": 0
     }
   },
   {
@@ -681,10 +681,10 @@
     "venue": "MetLife Stadium, East Rutherford",
     "home": "NOR",
     "away": "SEN",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 3,
+      "away": 2
     }
   },
   {
@@ -697,10 +697,10 @@
     "venue": "Levi's Stadium, Santa Clara",
     "home": "JOR",
     "away": "ALG",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 2
     }
   },
   {
