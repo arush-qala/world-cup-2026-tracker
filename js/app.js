@@ -53,8 +53,67 @@ function renderGroups(animate){
   for(const letter of Object.keys(DATA.groups).sort()){
     const m = groupModel(letter);
     const card = document.createElement('div'); card.className='group-card';
-    card.innerHTML = `<div class="gc-title">GROUP ${letter}</div><svg viewBox="0 0 640 320"></svg>`;
-    renderChart(card.querySelector('svg'), { ...m, view, animate });
+    
+    if (view === 'standings') {
+      // Sort by final rank
+      const sortedSeries = [...m.series].sort((a,b) => a.rank.at(-1) - b.rank.at(-1));
+      const tableRows = sortedSeries.map(s => {
+        const st = s.stats;
+        const sign = st.gd > 0 ? '+' : '';
+        const pos = s.rank.at(-1);
+        let posClass = 'pos-qualify';
+        if (pos === 3) posClass = 'pos-third';
+        if (pos === 4) posClass = 'pos-eliminated';
+        
+        return `
+          <tr class="${posClass}">
+            <td class="col-num col-bold">${pos}</td>
+            <td>
+              <div class="team-cell">
+                <span class="team-flag">${s.flag}</span>
+                <span class="team-name" title="${s.name}">${s.name}</span>
+                <span class="team-code" style="color:${s.color};">(${s.code})</span>
+              </div>
+            </td>
+            <td class="col-num">${st.played}</td>
+            <td class="col-num col-w">${st.w}</td>
+            <td class="col-num col-d">${st.d}</td>
+            <td class="col-num col-l">${st.l}</td>
+            <td class="col-num col-gf">${st.gf}</td>
+            <td class="col-num col-ga">${st.ga}</td>
+            <td class="col-num">${sign}${st.gd}</td>
+            <td class="col-num col-bold">${st.pts}</td>
+          </tr>
+        `;
+      }).join('');
+
+      card.innerHTML = `
+        <div class="gc-title">GROUP ${letter}</div>
+        <table class="standings-table">
+          <thead>
+            <tr>
+              <th style="width: 30px; text-align: center;">Pos</th>
+              <th>Team</th>
+              <th style="text-align: center; width: 25px;">P</th>
+              <th style="text-align: center; width: 25px;" class="col-w">W</th>
+              <th style="text-align: center; width: 25px;" class="col-d">D</th>
+              <th style="text-align: center; width: 25px;" class="col-l">L</th>
+              <th style="text-align: center; width: 25px;" class="col-gf">GF</th>
+              <th style="text-align: center; width: 25px;" class="col-ga">GA</th>
+              <th style="text-align: center; width: 35px;">GD</th>
+              <th style="text-align: center; width: 30px;">Pts</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${tableRows}
+          </tbody>
+        </table>
+      `;
+    } else {
+      card.innerHTML = `<div class="gc-title">GROUP ${letter}</div><svg viewBox="0 0 640 320"></svg>`;
+      renderChart(card.querySelector('svg'), { ...m, view, animate });
+    }
+    
     card.onclick = () => openModal(letter);
     grid.appendChild(card);
   }
