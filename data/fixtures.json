@@ -713,10 +713,10 @@
     "venue": "NRG Stadium, Houston",
     "home": "POR",
     "away": "UZB",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 5,
+      "away": 0
     }
   },
   {
