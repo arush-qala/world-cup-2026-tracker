@@ -761,10 +761,10 @@
     "venue": "Estadio Akron, Guadalajara",
     "home": "COL",
     "away": "COD",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 0
     }
   },
   {
