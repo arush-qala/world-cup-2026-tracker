@@ -745,10 +745,10 @@
     "venue": "BMO Field, Toronto",
     "home": "PAN",
     "away": "CRO",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 1
     }
   },
   {
