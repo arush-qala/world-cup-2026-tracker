@@ -777,10 +777,10 @@
     "venue": "BC Place, Vancouver",
     "home": "SUI",
     "away": "CAN",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 2,
+      "away": 1
     }
   },
   {
@@ -793,10 +793,10 @@
     "venue": "Lumen Field, Seattle",
     "home": "BIH",
     "away": "QAT",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 3,
+      "away": 1
     }
   },
   {
