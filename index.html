@@ -88,9 +88,13 @@
 
   <section id="strength-view" hidden>
     <div class="viewbar">
-      <div class="seg" id="strengthseg">
-        <button data-metric="positions" class="active">Positions</button>
-        <button data-metric="points">Points</button>
+      <div class="seg" id="strengthseg" style="flex-wrap: wrap; gap: 4px;">
+        <button data-metric="group-stage" class="active">Group Stage</button>
+        <button data-metric="r32">Round of 32</button>
+        <button data-metric="r16">Round of 16</button>
+        <button data-metric="qf">Quarter-finals</button>
+        <button data-metric="sf">Semi-finals</button>
+        <button data-metric="final">Finals</button>
       </div>
       <span class="updated" id="strength-caption"></span>
     </div>

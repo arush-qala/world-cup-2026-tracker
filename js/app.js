@@ -5,7 +5,7 @@ import { renderChart } from './chart.js';
 let DATA = { groups:{}, fixtures:[] };
 let FANTASY = { setPieces: {}, injuries: [] };
 let view = 'standings';
-let strengthMetric = 'positions';
+let strengthMetric = 'group-stage';
 let fixtureStatus = 'today';
 let activeFilters = {
   stage: 'ALL',
@@ -25,7 +25,7 @@ async function boot(){
   renderGroups(true);
   initFilters();
   applyFilters();
-  renderStrength('positions');
+  renderStrength('group-stage');
   renderFantasyHub();
   renderKnockouts();
   wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
@@ -209,47 +209,216 @@ function wireTabs(){
   });
 }
 
+function getKnockoutRoundMatchesData(metric) {
+  const thirds = getThirdPlaceStandings();
+  const qualifiedThirds = thirds.slice(0, 8);
+  const qualifiedGroups = qualifiedThirds.map(t => t.group).sort();
+  const assignments = solveThirdPlaceMatchups(qualifiedGroups);
+
+  // R32
+  const r32 = [
+    { id: 'M73', name: 'Match 73', homeSlot: '2A', awaySlot: '2B' },
+    { id: 'M74', name: 'Match 74', homeSlot: '1E', awaySlot: '3E' },
+    { id: 'M75', name: 'Match 75', homeSlot: '1F', awaySlot: '2C' },
+    { id: 'M76', name: 'Match 76', homeSlot: '1C', awaySlot: '2F' },
+    { id: 'M77', name: 'Match 77', homeSlot: '1I', awaySlot: '3I' },
+    { id: 'M78', name: 'Match 78', homeSlot: '2E', awaySlot: '2I' },
+    { id: 'M79', name: 'Match 79', homeSlot: '1A', awaySlot: '3A' },
+    { id: 'M80', name: 'Match 80', homeSlot: '1L', awaySlot: '3L' },
+    { id: 'M81', name: 'Match 81', homeSlot: '1D', awaySlot: '3D' },
+    { id: 'M82', name: 'Match 82', homeSlot: '1G', awaySlot: '3G' },
+    { id: 'M83', name: 'Match 83', homeSlot: '2K', awaySlot: '2L' },
+    { id: 'M84', name: 'Match 84', homeSlot: '1H', awaySlot: '2J' },
+    { id: 'M85', name: 'Match 85', homeSlot: '1B', awaySlot: '3B' },
+    { id: 'M86', name: 'Match 86', homeSlot: '1J', awaySlot: '2H' },
+    { id: 'M87', name: 'Match 87', homeSlot: '1K', awaySlot: '3K' },
+    { id: 'M88', name: 'Match 88', homeSlot: '2D', awaySlot: '2G' }
+  ].map(m => {
+    const homeProj = getTeamBySlot(m.homeSlot, assignments);
+    const awayProj = getTeamBySlot(m.awaySlot, assignments);
+    return getMatchDetails(m.id, homeProj, awayProj);
+  });
+  if (metric === 'r32') return r32;
+
+  // R16
+  const r16Pairings = [
+    { id: 'M89', name: 'Match 89', homeM: 'M74', awayM: 'M77' },
+    { id: 'M90', name: 'Match 90', homeM: 'M73', awayM: 'M75' },
+    { id: 'M91', name: 'Match 91', homeM: 'M76', awayM: 'M78' },
+    { id: 'M92', name: 'Match 92', homeM: 'M79', awayM: 'M80' },
+    { id: 'M93', name: 'Match 93', homeM: 'M83', awayM: 'M84' },
+    { id: 'M94', name: 'Match 94', homeM: 'M81', awayM: 'M82' },
+    { id: 'M95', name: 'Match 95', homeM: 'M86', awayM: 'M88' },
+    { id: 'M96', name: 'Match 96', homeM: 'M85', awayM: 'M87' }
+  ];
+  const r16 = r16Pairings.map(p => {
+    const homeR32 = r32.find(x => x.id === p.homeM);
+    const awayR32 = r32.find(x => x.id === p.awayM);
+    const homeProj = getMatchWinner(homeR32.id, homeR32.home, homeR32.away);
+    const awayProj = getMatchWinner(awayR32.id, awayR32.home, awayR32.away);
+    return getMatchDetails(p.id, homeProj, awayProj);
+  });
+  if (metric === 'r16') return r16;
+
+  // QF
+  const qfPairings = [
+    { id: 'M97', name: 'Match 97', homeM: 'M89', awayM: 'M90' },
+    { id: 'M98', name: 'Match 98', homeM: 'M93', awayM: 'M94' },
+    { id: 'M99', name: 'Match 99', homeM: 'M91', awayM: 'M92' },
+    { id: 'M100', name: 'Match 100', homeM: 'M95', awayM: 'M96' }
+  ];
+  const qf = qfPairings.map(p => {
+    const homeR16 = r16.find(x => x.id === p.homeM);
+    const awayR16 = r16.find(x => x.id === p.awayM);
+    const homeProj = getMatchWinner(homeR16.id, homeR16.home, homeR16.away);
+    const awayProj = getMatchWinner(awayR16.id, awayR16.home, awayR16.away);
+    return getMatchDetails(p.id, homeProj, awayProj);
+  });
+  if (metric === 'qf') return qf;
+
+  // SF
+  const sfPairings = [
+    { id: 'M101', name: 'Match 101', homeM: 'M97', awayM: 'M98' },
+    { id: 'M102', name: 'Match 102', homeM: 'M99', awayM: 'M100' }
+  ];
+  const sf = sfPairings.map(p => {
+    const homeQF = qf.find(x => x.id === p.homeM);
+    const awayQF = qf.find(x => x.id === p.awayM);
+    const homeProj = getMatchWinner(homeQF.id, homeQF.home, homeQF.away);
+    const awayProj = getMatchWinner(awayQF.id, awayQF.home, awayQF.away);
+    return getMatchDetails(p.id, homeProj, awayProj);
+  });
+  if (metric === 'sf') return sf;
+
+  // Final & 3rd place
+  const sf1 = sf.find(x => x.id === 'M101');
+  const sf2 = sf.find(x => x.id === 'M102');
+  
+  const finalHomeProj = getMatchWinner(sf1.id, sf1.home, sf1.away);
+  const finalAwayProj = getMatchWinner(sf2.id, sf2.home, sf2.away);
+  const finalMatchData = getMatchDetails('M104', finalHomeProj, finalAwayProj);
+
+  const getMatchLoser = (matchId, home, away) => {
+    const f = DATA.fixtures.find(m => m.id === matchId);
+    if (f && f.status === 'finished') {
+      const winner = getMatchWinner(matchId, home, away);
+      return winner.code === home.code ? away : home;
+    }
+    return {
+      label: `Loser Match ${matchId.replace('M', '')}`,
+      flag: '🏳️',
+      code: `L${matchId.replace('M', '')}`,
+      dummy: true,
+      fifaPoints: 0
+    };
+  };
+  const thirdHomeProj = getMatchLoser(sf1.id, sf1.home, sf1.away);
+  const thirdAwayProj = getMatchLoser(sf2.id, sf2.home, sf2.away);
+  const thirdMatchData = getMatchDetails('M103', thirdHomeProj, thirdAwayProj);
+
+  if (metric === 'final') return [thirdMatchData, finalMatchData];
+
+  return [];
+}
+
 function renderStrength(metric){
   const list = document.getElementById('strength-list'); list.innerHTML='';
-  // Build group sums
-  const rows = Object.entries(DATA.groups).map(([letter, teams])=>{
-    const sum = teams.reduce((acc,t)=> acc + (metric==='positions' ? t.fifaRank : t.fifaPoints), 0);
-    return { letter, sum, teams };
-  });
-  // Sort descending (highest sum at top)
-  rows.sort((a,b)=>b.sum - a.sum);
-  const sums = rows.map(r=>r.sum);
-  const minS = Math.min(...sums), maxS = Math.max(...sums);
-  // Caption
   const caption = document.getElementById('strength-caption');
-  caption.textContent = metric==='positions'
-    ? 'Sum of FIFA ranking positions — higher = weaker group'
-    : 'Sum of FIFA ranking points — higher = stronger group';
-  rows.forEach((row, idx)=>{
-    const frac = maxS===minS ? 1 : 0.18 + 0.82*((row.sum - minS)/(maxS - minS));
-    // Badge
-    let badge = '';
-    if(idx===0) badge = metric==='positions' ? '🍃 Weakest' : '🔥 Group of Death';
-    else if(idx===rows.length-1) badge = metric==='positions' ? '🔥 Group of Death' : '🍃 Weakest';
-    // Sort teams: best first (lowest fifaRank / highest fifaPoints)
-    const sorted = [...row.teams].sort((a,b)=>
-      metric==='positions' ? a.fifaRank - b.fifaRank : b.fifaPoints - a.fifaPoints
-    );
-    const teamsHtml = sorted.map(t=>{
-      const val = metric==='positions'
-        ? `#${t.fifaRank}`
-        : `${Math.round(t.fifaPoints)}`;
-      return `<span class="str-chip"><span class="str-flag">${t.flag}</span><span class="str-code">${t.code}</span><span class="str-val">${val}</span></span>`;
-    }).join('');
-    const badgeHtml = badge ? `<span class="str-badge">${badge}</span>` : '';
-    const sumDisplay = metric==='positions' ? row.sum : Math.round(row.sum);
-    const el = document.createElement('div'); el.className='str-row';
-    el.innerHTML =
-      `<div class="str-head"><span class="str-rank">${idx+1}</span><span class="str-title">GROUP ${row.letter}</span>${badgeHtml}<span class="str-sum">${sumDisplay}</span></div>`+
-      `<div class="str-bar-wrap"><div class="str-bar-fill" style="width:${(frac*100).toFixed(1)}%"></div></div>`+
-      `<div class="str-teams">${teamsHtml}</div>`;
-    list.appendChild(el);
-  });
+
+  if (metric === 'group-stage') {
+    caption.textContent = 'Sum of FIFA ranking positions — higher = weaker group';
+    
+    const rows = Object.entries(DATA.groups).map(([letter, teams])=>{
+      const sum = teams.reduce((acc,t)=> acc + (t.fifaRankUpdated || t.fifaRank), 0);
+      return { letter, sum, teams };
+    });
+    
+    rows.sort((a,b)=>b.sum - a.sum);
+    const sums = rows.map(r=>r.sum);
+    const minS = Math.min(...sums), maxS = Math.max(...sums);
+
+    rows.forEach((row, idx)=>{
+      const frac = maxS===minS ? 1 : 0.18 + 0.82*((row.sum - minS)/(maxS - minS));
+      let badge = '';
+      if(idx===0) badge = '🍃 Weakest';
+      else if(idx===rows.length-1) badge = '🔥 Group of Death';
+      
+      const sorted = [...row.teams].sort((a,b)=>
+        (a.fifaRankUpdated || a.fifaRank) - (b.fifaRankUpdated || b.fifaRank)
+      );
+      const teamsHtml = sorted.map(t=>{
+        const val = `#${t.fifaRankUpdated || t.fifaRank}`;
+        return `<span class="str-chip"><span class="str-flag">${t.flag}</span><span class="str-code">${t.code}</span><span class="str-val">${val}</span></span>`;
+      }).join('');
+      const badgeHtml = badge ? `<span class="str-badge">${badge}</span>` : '';
+      const el = document.createElement('div'); el.className='str-row';
+      el.innerHTML =
+        `<div class="str-head"><span class="str-rank">${idx+1}</span><span class="str-title">GROUP ${row.letter}</span>${badgeHtml}<span class="str-sum">${row.sum}</span></div>`+
+        `<div class="str-bar-wrap"><div class="str-bar-fill" style="width:${(frac*100).toFixed(1)}%"></div></div>`+
+        `<div class="str-teams">${teamsHtml}</div>`;
+      list.appendChild(el);
+    });
+  } else {
+    const roundNames = {
+      'r32': 'Round of 32',
+      'r16': 'Round of 16',
+      'qf': 'Quarter-finals',
+      'sf': 'Semi-finals',
+      'final': 'Finals'
+    };
+    const roundName = roundNames[metric] || 'Knockout Stage';
+    caption.textContent = `Strength matchup comparison for the ${roundName} by FIFA Ranking (Positions)`;
+
+    const matches = getKnockoutRoundMatchesData(metric);
+
+    if (matches.length === 0) {
+      list.innerHTML = `<div class="no-fixtures"><div class="no-fixtures-title">No fixtures available yet</div><div class="no-fixtures-desc">Knockout rounds will populate as group results are finalised.</div></div>`;
+      return;
+    }
+
+    matches.forEach(m => {
+      const homeReal = !m.home.dummy ? findTeamByCode(m.home.code) : null;
+      const awayReal = !m.away.dummy ? findTeamByCode(m.away.code) : null;
+
+      const homeRank = homeReal ? (homeReal.fifaRankUpdated || homeReal.fifaRank) : null;
+      const awayRank = awayReal ? (awayReal.fifaRankUpdated || awayReal.fifaRank) : null;
+
+      const homeRankText = homeRank ? `Rank #${homeRank}` : 'n/a';
+      const awayRankText = awayRank ? `Rank #${awayRank}` : 'n/a';
+
+      let diffBadge = '';
+      if (homeRank && awayRank) {
+        const diff = Math.abs(homeRank - awayRank);
+        diffBadge = `<span class="str-badge">${diff === 0 ? 'Equal Ranks' : `Diff: ${diff} ranks`}</span>`;
+      } else {
+        diffBadge = `<span class="str-badge" style="opacity: 0.6;">TBD</span>`;
+      }
+
+      const el = document.createElement('div'); el.className = 'str-row';
+      el.innerHTML = `
+        <div class="str-head">
+          <span class="str-rank">${m.id}</span>
+          <span class="str-title">${m.home.label} vs ${m.away.label}</span>
+          ${diffBadge}
+          <span class="str-sum">${m.status === 'finished' ? `${m.score.home} - ${m.score.away}` : roundName}</span>
+        </div>
+        <div class="str-teams" style="margin-top: 4px;">
+          <span class="str-chip" style="${homeRank && awayRank && homeRank < awayRank ? 'border-color: var(--accent);' : ''}">
+            <span class="str-flag">${m.home.flag}</span>
+            <span class="str-code">${m.home.code}</span>
+            <span class="str-val">${homeRankText}</span>
+          </span>
+          <span style="color: var(--muted); font-size: 11px; align-self: center; font-weight: 600;">VS</span>
+          <span class="str-chip" style="${homeRank && awayRank && awayRank < homeRank ? 'border-color: var(--accent);' : ''}">
+            <span class="str-flag">${m.away.flag}</span>
+            <span class="str-code">${m.away.code}</span>
+            <span class="str-val">${awayRankText}</span>
+          </span>
+        </div>
+      `;
+      list.appendChild(el);
+    });
+  }
 }
 
 function wireStrengthToggle(){
