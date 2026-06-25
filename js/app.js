@@ -4,7 +4,7 @@ import { renderChart } from './chart.js';
 
 let DATA = { groups:{}, fixtures:[] };
 let FANTASY = { setPieces: {}, injuries: [] };
-let view = 'points';
+let view = 'standings';
 let strengthMetric = 'positions';
 let fixtureStatus = 'today';
 let activeFilters = {
