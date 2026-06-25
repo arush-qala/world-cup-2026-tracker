@@ -841,10 +841,10 @@
     "venue": "Estadio Azteca, Mexico City",
     "home": "CZE",
     "away": "MEX",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 3
     }
   },
   {
@@ -857,10 +857,10 @@
     "venue": "Estadio BBVA, Monterrey",
     "home": "RSA",
     "away": "KOR",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 0
     }
   },
   {
