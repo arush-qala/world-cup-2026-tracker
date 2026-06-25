@@ -809,10 +809,10 @@
     "venue": "Hard Rock Stadium, Miami",
     "home": "SCO",
     "away": "BRA",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 3
     }
   },
   {
@@ -825,10 +825,10 @@
     "venue": "Mercedes-Benz Stadium, Atlanta",
     "home": "MAR",
     "away": "HAI",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 4,
+      "away": 2
     }
   },
   {
