@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knockout Bracket Layout Playground</title>
+<style>
+  :root {
+    --bg: #f1f5f9;
+    --panel: #ffffff;
+    --line: #e2e8f0;
+    --line-hover: #cbd5e1;
+    --text: #0f172a;
+    --muted: #64748b;
+    --accent: #2563eb;
+    --accent-text: #ffffff;
+    --accent-glow: rgba(37, 99, 235, 0.1);
+    --accent-border: rgba(37, 99, 235, 0.2);
+    --accent-bg-hover: rgba(0, 0, 0, 0.04);
+    --shadow: 0 4px 20px rgba(15,23,42,0.08);
+  }
+
+  [data-theme="dark"] {
+    --bg: #0d1018;
+    --panel: #11141c;
+    --line: #1f2433;
+    --line-hover: #33405a;
+    --text: #e8ebf2;
+    --muted: #8b93a7;
+    --accent: #4ade80;
+    --accent-text: #06210f;
+    --accent-glow: rgba(74, 222, 128, 0.15);
+    --accent-border: rgba(74, 222, 128, 0.25);
+    --accent-bg-hover: rgba(255, 255, 255, 0.04);
+    --shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    display: grid; grid-template-columns: 340px 1fr; min-height: 100vh;
+  }
+
+  /* ---- Controls Panel ---- */
+  .controls {
+    background: var(--panel); border-right: 1px solid var(--line);
+    padding: 24px 20px; overflow-y: auto; height: 100vh; position: sticky; top: 0;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.02);
+    z-index: 10;
+  }
+  .controls h1 { font-size: 18px; margin: 0 0 4px; font-weight: 800; letter-spacing: -0.4px; }
+  .controls .sub { color: var(--muted); font-size: 12px; margin: 0 0 20px; line-height: 1.5; }
+  .group { margin-bottom: 24px; }
+  .group > label { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 10px; font-weight: 700; }
+  
+  select {
+    width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--line);
+    border-radius: 10px; padding: 10px 12px; font-size: 13px; cursor: pointer; outline: none;
+    font-weight: 600;
+  }
+  input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; font-size: 13px; font-weight: 500; }
+  .row .val { color: var(--accent); font-weight: 700; }
+
+  .btn {
+    width: 100%; background: var(--accent); color: var(--accent-text); border: none;
+    border-radius: 10px; padding: 12px; font-size: 13px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 4px 12px var(--accent-glow); transition: opacity 0.2s;
+  }
+  .btn:hover { opacity: 0.9; }
+  hr { border: none; border-top: 1px solid var(--line); margin: 20px 0; }
+
+  /* ---- Preview Area ---- */
+  .preview-area {
+    padding: 24px 32px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; height: 100vh;
+  }
+  .toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .toolbar h2 { font-size: 16px; margin: 0; font-weight: 700; }
+  
+  /* Theme select pill toggle */
+  .theme-toggle {
+    display: inline-flex; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 3px;
+  }
+  .theme-toggle button {
+    border: none; background: transparent; color: var(--muted); font-size: 12px; font-weight: 600;
+    padding: 6px 14px; border-radius: 14px; cursor: pointer; transition: all 0.2s;
+  }
+  .theme-toggle button.active {
+    background: var(--accent); color: var(--accent-text);
+  }
+
+  /* ---- Bracket Layout Options ---- */
+  .bracket-canvas {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    overflow: auto;
+    box-shadow: var(--shadow);
+    flex-grow: 1;
+    min-height: 600px;
+  }
+
+  /* Option A / Option B Bracket Container */
+  .bracket-container {
+    display: flex;
+    gap: 48px;
+    padding: 40px 30px;
+    position: relative;
+    min-width: fit-content;
+  }
+
+  .bracket-column {
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 2;
+  }
+
+  .bracket-column-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    border-bottom: 2px solid var(--line);
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
+
+  .bracket-match {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+  }
+  .bracket-match:hover {
+    transform: translateY(-2px);
+    border-color: var(--line-hover);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.04);
+  }
+
+  .match-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--muted);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .match-teams {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .match-team {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 6px;
+    border-radius: 6px;
+  }
+  .match-team .flag { font-size: 16px; }
+  .match-team .code { color: var(--muted); font-size: 11px; margin-left: auto; font-weight: 700; }
+  .match-team .score { font-variant-numeric: tabular-nums; font-weight: 700; margin-left: 8px; background: var(--line); padding: 2px 6px; border-radius: 4px; }
+  .match-team.winner { color: var(--accent); background: var(--accent-glow); }
+  .match-team.winner .code { color: var(--accent); }
+  .match-team.winner .score { background: var(--accent-border); color: var(--accent); }
+
+  /* Connecting SVG lines layer */
+  .bracket-lines {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+  }
+  .bracket-lines path {
+    fill: none;
+    stroke: var(--line-hover);
+    stroke-width: 2px;
+    transition: stroke 0.2s;
+  }
+  .bracket-lines path.active {
+    stroke: var(--accent);
+    stroke-width: 2.5px;
+  }
+
+  /* Code Block Box */
+  .code-box {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; margin-top: 16px; box-shadow: var(--shadow);
+  }
+  .code-header {
+    display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; border-bottom: 1px solid var(--line);
+  }
+  .code-header span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); font-weight: 700; }
+  pre { margin: 0; padding: 16px; font-family: monospace; font-size: 12px; line-height: 1.5; overflow-x: auto; color: var(--text); background: var(--accent-bg-hover); }
+</style>
+</head>
+<body>
+  <aside class="controls">
+    <h1>Bracket Playground</h1>
+    <p class="sub">Tune and test tournament bracket spacing and connecting layouts to achieve a highly premium, balanced design.</p>
+
+    <div class="group">
+      <label>Layout Structure</label>
+      <select id="layout-select">
+        <option value="spacing-flex">Option A: Double-Spacing Flex (Mathematical Columns)</option>
+        <option value="connector-svg">Option B: Orthogonal SVG Line Connectors</option>
+      </select>
+    </div>
+
+    <div class="group" id="group-spacing-options">
+      <label>Match spacing controls</label>
+      <div class="row"><span>Match Box Gap</span><span class="val" id="gap-v">24px</span></div>
+      <input type="range" id="gap-range" min="16" max="64" step="4" value="24">
+      
+      <div class="row" style="margin-top:16px"><span>R32 Margin Bottom</span><span class="val" id="margin-v">16px</span></div>
+      <input type="range" id="margin-range" min="8" max="48" step="4" value="16">
+    </div>
+
+    <div class="group" id="group-svg-options" style="display:none;">
+      <label>Line styling</label>
+      <select id="line-style">
+        <option value="orthogonal">Orthogonal (Classic right angles)</option>
+        <option value="straight">Direct Straight Lines</option>
+      </select>
+    </div>
+
+    <hr>
+
+    <button class="btn" id="copy-btn">Copy CSS Styles</button>
+  </aside>
+
+  <main class="preview-area">
+    <div class="toolbar">
+      <h2>Knockout Bracket Spacing Preview</h2>
+      <div class="theme-toggle" id="theme-toggle">
+        <button data-theme="light" class="active">Stadium White</button>
+        <button data-theme="dark">Midnight Neon</button>
+      </div>
+    </div>
+
+    <div class="bracket-canvas" id="canvas">
+      <!-- Connection lines (SVG) -->
+      <svg class="bracket-lines" id="svg-layer"></svg>
+      
+      <!-- Columns -->
+      <div class="bracket-container" id="bracket-grid"></div>
+    </div>
+
+    <div class="code-box">
+      <div class="code-header">
+        <span>CSS implementation rules</span>
+      </div>
+      <pre id="css-code"></pre>
+    </div>
+  </main>
+
+  <script>
+    // Demo fixture data (3 columns: R32, R16, QF)
+    const DEMO_BRACKET = [
+      {
+        round: "Round of 32",
+        matches: [
+          { id: "M73", home: { name: "Brazil", flag: "🇧🇷", code: "BRA", score: 2, isWinner: true }, away: { name: "Germany", flag: "🇩🇪", code: "GER", score: 1, isWinner: false } },
+          { id: "M74", home: { name: "Spain", flag: "🇪🇸", code: "ESP", score: 0, isWinner: false }, away: { name: "France", flag: "🇫🇷", code: "FRA", score: 1, isWinner: true } },
+          { id: "M75", home: { name: "Argentina", flag: "🇦🇷", code: "ARG", score: 3, isWinner: true }, away: { name: "Japan", flag: "🇯🇵", code: "JPN", score: 1, isWinner: false } },
+          { id: "M76", home: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", code: "ENG", score: 2, isWinner: true }, away: { name: "Mexico", flag: "🇲🇽", code: "MEX", score: 0, isWinner: false } }
+        ]
+      },
+      {
+        round: "Round of 16",
+        matches: [
+          { id: "M89", home: { name: "Brazil", flag: "🇧🇷", code: "BRA", score: 1, isWinner: true }, away: { name: "France", flag: "🇫🇷", code: "FRA", score: 0, isWinner: false } },
+          { id: "M90", home: { name: "Argentina", flag: "🇦🇷", code: "ARG", score: 2, isWinner: false }, away: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", code: "ENG", score: 3, isWinner: true } }
+        ]
+      },
+      {
+        round: "Quarter-finals",
+        matches: [
+          { id: "M97", home: { name: "Brazil", flag: "🇧🇷", code: "BRA", score: null, isWinner: false }, away: { name: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", code: "ENG", score: null, isWinner: false } }
+        ]
+      }
+    ];
+
+    // State
+    const state = {
+      theme: "light",
+      layout: "spacing-flex",
+      gap: 24,
+      margin: 16,
+      lineStyle: "orthogonal"
+    };
+
+    // DOM Elements
+    const gridEl = document.getElementById("bracket-grid");
+    const svgEl = document.getElementById("svg-layer");
+    const codeEl = document.getElementById("css-code");
+
+    function renderBracket() {
+      gridEl.innerHTML = "";
+      svgEl.innerHTML = "";
+
+      // Configure Layout Classes
+      if (state.layout === "spacing-flex") {
+        gridEl.style.height = "auto";
+        gridEl.style.alignItems = "stretch";
+      } else {
+        gridEl.style.height = "760px";
+        gridEl.style.alignItems = "stretch";
+      }
+
+      DEMO_BRACKET.forEach((roundData, roundIdx) => {
+        const col = document.createElement("div");
+        col.className = "bracket-column";
+        
+        // Add Title
+        const title = document.createElement("div");
+        title.className = "bracket-column-title";
+        title.textContent = roundData.round;
+        col.appendChild(title);
+
+        const body = document.createElement("div");
+        body.className = "bracket-column-body";
+
+        // If Double-Spacing Flex, apply exact padding and height
+        if (state.layout === "spacing-flex") {
+          body.style.display = "flex";
+          body.style.flexDirection = "column";
+          body.style.justifyContent = "center";
+          body.style.gap = `${state.gap}px`;
+          body.style.height = "100%";
+        } else {
+          // Traditional Flex Spacing
+          body.style.display = "flex";
+          body.style.flexDirection = "column";
+          body.style.justifyContent = "space-around";
+          body.style.flexGrow = "1";
+        }
+
+        roundData.matches.forEach((m, mIdx) => {
+          const matchDiv = document.createElement("div");
+          matchDiv.className = "bracket-match";
+          matchDiv.id = `match-${m.id}`;
+
+          // Individual Match spacing offsets for Option A
+          if (state.layout === "spacing-flex") {
+            const scale = Math.pow(2, roundIdx);
+            const height = 90;
+            const computedMargin = state.margin * scale;
+            const computedGap = state.gap * scale;
+            
+            // Adjust margin bottom to create exact vertical scaling gaps
+            matchDiv.style.marginBottom = `${computedMargin}px`;
+            matchDiv.style.marginTop = `${computedMargin}px`;
+          }
+
+          const played = m.home.score !== null;
+          matchDiv.innerHTML = `
+            <div class="match-header">
+              <span>${m.id}</span>
+              <span>MetLife Stadium</span>
+            </div>
+            <div class="match-teams">
+              <div class="match-team ${m.home.isWinner ? 'winner' : ''}">
+                <span class="flag">${m.home.flag}</span>
+                <span>${m.home.name}</span>
+                <span class="code">${m.home.code}</span>
+                ${played ? `<span class="score">${m.home.score}</span>` : ''}
+              </div>
+              <div class="match-team ${m.away.isWinner ? 'winner' : ''}">
+                <span class="flag">${m.away.flag}</span>
+                <span>${m.away.name}</span>
+                <span class="code">${m.away.code}</span>
+                ${played ? `<span class="score">${m.away.score}</span>` : ''}
+              </div>
+            </div>
+          `;
+          body.appendChild(matchDiv);
+        });
+
+        col.appendChild(body);
+        gridEl.appendChild(col);
+      });
+
+      // Render lines if SVG layout selected
+      if (state.layout === "connector-svg") {
+        setTimeout(drawConnectorLines, 100);
+      }
+
+      updateCSSCode();
+    }
+
+    function drawConnectorLines() {
+      svgEl.innerHTML = "";
+      const columns = document.querySelectorAll(".bracket-column");
+      if (columns.length < 2) return;
+
+      const canvasRect = document.getElementById("canvas").getBoundingClientRect();
+      const scrollLeft = document.getElementById("canvas").scrollLeft;
+      const scrollTop = document.getElementById("canvas").scrollTop;
+
+      for (let c = 0; c < columns.length - 1; c++) {
+        const colA = columns[c];
+        const colB = columns[c + 1];
+        const matchesA = colA.querySelectorAll(".bracket-match");
+        const matchesB = colB.querySelectorAll(".bracket-match");
+
+        // Loop over pairs in column A connecting to single match in column B
+        for (let i = 0; i < matchesA.length; i += 2) {
+          const matchA1 = matchesA[i];
+          const matchA2 = matchesA[i + 1];
+          const destIndex = Math.floor(i / 2);
+          const matchB = matchesB[destIndex];
+
+          if (!matchA1 || !matchA2 || !matchB) continue;
+
+          const rectA1 = matchA1.getBoundingClientRect();
+          const rectA2 = matchA2.getBoundingClientRect();
+          const rectB = matchB.getBoundingClientRect();
+
+          // Calculate center output points on right of Col A cards
+          const xA = rectA1.right - canvasRect.left + scrollLeft;
+          const yA1 = rectA1.top + rectA1.height / 2 - canvasRect.top + scrollTop;
+          const yA2 = rectA2.top + rectA2.height / 2 - canvasRect.top + scrollTop;
+
+          // Calculate input point on left of Col B card
+          const xB = rectB.left - canvasRect.left + scrollLeft;
+          const yB = rectB.top + rectB.height / 2 - canvasRect.top + scrollTop;
+
+          const xMid = xA + (xB - xA) / 2;
+
+          let d = "";
+          if (state.lineStyle === "orthogonal") {
+            // Draw orthogonal lines merging into a single stem
+            d = `M ${xA} ${yA1} L ${xMid} ${yA1} L ${xMid} ${yB} L ${xB} ${yB} M ${xA} ${yA2} L ${xMid} ${yA2} L ${xMid} ${yB}`;
+          } else {
+            // Direct lines
+            d = `M ${xA} ${yA1} L ${xB} ${yB} M ${xA} ${yA2} L ${xB} ${yB}`;
+          }
+
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          path.setAttribute("d", d);
+          svgEl.appendChild(path);
+        }
+      }
+    }
+
+    function updateCSSCode() {
+      let code = "";
+      if (state.layout === "spacing-flex") {
+        code = `/* OPTION A: DOUBLE-SPACING FLEX MATCHUP ALIGNMENT */
+.bracket-container {
+  display: flex;
+  gap: 48px;
+  padding: 40px 30px;
+  align-items: stretch;
+}
+.bracket-column-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: ${state.gap}px;
+  height: 100%;
+}
+.bracket-match {
+  margin-top: 16px; /* Dynamic per column: doubles each round */
+  margin-bottom: 16px;
+  transition: transform 0.2s;
+}
+
+/* Javascript dynamic heights for each column round:
+R32 Match Margin: ${state.margin}px (Gap: ${state.gap}px)
+R16 Match Margin: ${state.margin * 2}px (Gap: ${state.gap * 2}px)
+QF Match Margin: ${state.margin * 4}px (Gap: ${state.gap * 4}px)
+*/`;
+      } else {
+        code = `/* OPTION B: TOURNAMENT BRACKET WITH ORTHOGONAL CONNECTORS */
+.bracket-canvas {
+  position: relative;
+  height: 760px; /* Locked bracket height */
+}
+.bracket-container {
+  display: flex;
+  gap: 48px;
+  padding: 40px 30px;
+  height: 100%;
+}
+.bracket-column-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around; /* Distributes items symmetrically */
+  flex-grow: 1;
+}
+.bracket-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.bracket-lines path {
+  fill: none;
+  stroke: var(--line-hover);
+  stroke-width: 2px;
+}`;
+      }
+      codeEl.textContent = code;
+    }
+
+    // Wiring up Controls
+    document.getElementById("layout-select").onchange = (e) => {
+      state.layout = e.target.value;
+      document.getElementById("group-spacing-options").style.display = state.layout === "spacing-flex" ? "block" : "none";
+      document.getElementById("group-svg-options").style.display = state.layout === "connector-svg" ? "block" : "none";
+      renderBracket();
+    };
+
+    document.getElementById("line-style").onchange = (e) => {
+      state.lineStyle = e.target.value;
+      renderBracket();
+    };
+
+    document.getElementById("gap-range").oninput = (e) => {
+      state.gap = parseInt(e.target.value);
+      document.getElementById("gap-v").textContent = `${state.gap}px`;
+      renderBracket();
+    };
+
+    document.getElementById("margin-range").oninput = (e) => {
+      state.margin = parseInt(e.target.value);
+      document.getElementById("margin-v").textContent = `${state.margin}px`;
+      renderBracket();
+    };
+
+    // Theme selector
+    document.querySelectorAll("#theme-toggle button").forEach(b => {
+      b.onclick = () => {
+        state.theme = b.dataset.theme;
+        document.querySelectorAll("#theme-toggle button").forEach(x => x.classList.toggle("active", x === b));
+        document.documentElement.setAttribute("data-theme", state.theme === "dark" ? "dark" : "");
+        renderBracket();
+      };
+    });
+
+    document.getElementById("copy-btn").onclick = () => {
+      navigator.clipboard.writeText(codeEl.textContent).then(() => {
+        const btn = document.getElementById("copy-btn");
+        const orig = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => btn.textContent = orig, 1200);
+      });
+    };
+
+    window.addEventListener("resize", () => {
+      if (state.layout === "connector-svg") drawConnectorLines();
+    });
+
+    // Initial render
+    renderBracket();
+  </script>
+</body>
+</html>
