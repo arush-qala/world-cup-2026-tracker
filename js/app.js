@@ -30,6 +30,7 @@ async function boot(){
   renderKnockouts();
   wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
   showUpdated();
+  handleRouting();
 }
 
 function groupModel(letter){
@@ -196,17 +197,37 @@ function wireToggle(){
     };
   });
 }
+function switchTab(tabId) {
+  const t = document.querySelector(`.tab[data-tab="${tabId}"]`);
+  if (!t) return;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));
+  document.getElementById('groups-view').hidden   = tabId!=='groups';
+  document.getElementById('fixtures-view').hidden = tabId!=='fixtures';
+  document.getElementById('strength-view').hidden = tabId!=='strength';
+  document.getElementById('fantasy-view').hidden  = tabId!=='fantasy';
+  document.getElementById('knockout-view').hidden = tabId!=='knockout';
+}
+
+function handleRouting() {
+  let hash = window.location.hash.replace('#/', '').replace('#', '');
+  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'knockout'];
+  const defaultTab = 'fixtures';
+  
+  if (!hash || !validTabs.includes(hash)) {
+    window.location.hash = '#/' + defaultTab;
+    return;
+  }
+  
+  switchTab(hash);
+}
+
 function wireTabs(){
   document.querySelectorAll('.tab').forEach(t=>{
     t.onclick = () => {
-      document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));
-      document.getElementById('groups-view').hidden   = t.dataset.tab!=='groups';
-      document.getElementById('fixtures-view').hidden = t.dataset.tab!=='fixtures';
-      document.getElementById('strength-view').hidden = t.dataset.tab!=='strength';
-      document.getElementById('fantasy-view').hidden  = t.dataset.tab!=='fantasy';
-      document.getElementById('knockout-view').hidden = t.dataset.tab!=='knockout';
+      window.location.hash = '#/' + t.dataset.tab;
     };
   });
+  window.addEventListener('hashchange', handleRouting);
 }
 
 function getKnockoutRoundMatchesData(metric) {
@@ -238,7 +259,10 @@ function getKnockoutRoundMatchesData(metric) {
     const awayProj = getTeamBySlot(m.awaySlot, assignments);
     return getMatchDetails(m.id, homeProj, awayProj);
   });
-  if (metric === 'r32') return r32;
+  if (metric === 'r32') {
+    const r32Order = ['M74', 'M77', 'M73', 'M75', 'M83', 'M84', 'M81', 'M82', 'M76', 'M78', 'M79', 'M80', 'M86', 'M88', 'M85', 'M87'];
+    return r32Order.map(id => r32.find(x => x.id === id));
+  }
 
   // R16
   const r16Pairings = [
@@ -258,7 +282,10 @@ function getKnockoutRoundMatchesData(metric) {
     const awayProj = getMatchWinner(awayR32.id, awayR32.home, awayR32.away);
     return getMatchDetails(p.id, homeProj, awayProj);
   });
-  if (metric === 'r16') return r16;
+  if (metric === 'r16') {
+    const r16Order = ['M89', 'M90', 'M93', 'M94', 'M91', 'M92', 'M95', 'M96'];
+    return r16Order.map(id => r16.find(x => x.id === id));
+  }
 
   // QF
   const qfPairings = [
@@ -274,7 +301,10 @@ function getKnockoutRoundMatchesData(metric) {
     const awayProj = getMatchWinner(awayR16.id, awayR16.home, awayR16.away);
     return getMatchDetails(p.id, homeProj, awayProj);
   });
-  if (metric === 'qf') return qf;
+  if (metric === 'qf') {
+    const qfOrder = ['M97', 'M98', 'M99', 'M100'];
+    return qfOrder.map(id => qf.find(x => x.id === id));
+  }
 
   // SF
   const sfPairings = [
@@ -288,7 +318,10 @@ function getKnockoutRoundMatchesData(metric) {
     const awayProj = getMatchWinner(awayQF.id, awayQF.home, awayQF.away);
     return getMatchDetails(p.id, homeProj, awayProj);
   });
-  if (metric === 'sf') return sf;
+  if (metric === 'sf') {
+    const sfOrder = ['M101', 'M102'];
+    return sfOrder.map(id => sf.find(x => x.id === id));
+  }
 
   // Final & 3rd place
   const sf1 = sf.find(x => x.id === 'M101');
@@ -316,7 +349,7 @@ function getKnockoutRoundMatchesData(metric) {
   const thirdAwayProj = getMatchLoser(sf2.id, sf2.home, sf2.away);
   const thirdMatchData = getMatchDetails('M103', thirdHomeProj, thirdAwayProj);
 
-  if (metric === 'final') return [thirdMatchData, finalMatchData];
+  if (metric === 'final') return [finalMatchData, thirdMatchData];
 
   return [];
 }
@@ -1153,21 +1186,41 @@ function renderKnockouts() {
     `;
   };
 
+  const r32Order = ['M74', 'M77', 'M73', 'M75', 'M83', 'M84', 'M81', 'M82', 'M76', 'M78', 'M79', 'M80', 'M86', 'M88', 'M85', 'M87'];
+  const r16Order = ['M89', 'M90', 'M93', 'M94', 'M91', 'M92', 'M95', 'M96'];
+  const qfOrder = ['M97', 'M98', 'M99', 'M100'];
+  const sfOrder = ['M101', 'M102'];
+
+  const sortedR32 = r32Order.map(id => r32MatchesData.find(m => m.id === id));
+  const sortedR16 = r16Order.map(id => r16MatchesData.find(m => m.id === id));
+  const sortedQF = qfOrder.map(id => qfMatchesData.find(m => m.id === id));
+  const sortedSF = sfOrder.map(id => sfMatchesData.find(m => m.id === id));
+  const sortedFinal = [finalMatchData, thirdMatchData];
+
   const columns = [
-    { title: 'Round of 32', matches: r32MatchesData },
-    { title: 'Round of 16', matches: r16MatchesData },
-    { title: 'Quarter-finals', matches: qfMatchesData },
-    { title: 'Semi-finals', matches: sfMatchesData },
-    { title: 'Final & 3rd Place', matches: [finalMatchData, thirdMatchData] }
+    { title: 'Round of 32', matches: sortedR32 },
+    { title: 'Round of 16', matches: sortedR16 },
+    { title: 'Quarter-finals', matches: sortedQF },
+    { title: 'Semi-finals', matches: sortedSF },
+    { title: 'Final & 3rd Place', matches: sortedFinal }
   ];
 
   columns.forEach(col => {
     const colDiv = document.createElement('div');
     colDiv.className = 'bracket-column';
-    colDiv.innerHTML = `<div class="bracket-column-title">${col.title}</div>`;
+    
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'bracket-column-title';
+    titleDiv.textContent = col.title;
+    colDiv.appendChild(titleDiv);
+
+    const bodyDiv = document.createElement('div');
+    bodyDiv.className = 'bracket-column-body';
     col.matches.forEach(m => {
-      colDiv.innerHTML += renderMatchCardHTML(m);
+      bodyDiv.innerHTML += renderMatchCardHTML(m);
     });
+    colDiv.appendChild(bodyDiv);
+    
     container.appendChild(colDiv);
   });
 
