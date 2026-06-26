@@ -53,10 +53,21 @@ function renderGroups(animate){
   const grid = document.getElementById('group-grid'); grid.innerHTML='';
   for(const letter of Object.keys(DATA.groups).sort()){
     const m = groupModel(letter);
-    const card = document.createElement('div'); card.className='group-card';
+    const completed = isGroupFinished(letter);
+    const card = document.createElement('div');
+    card.className = `group-card${completed ? ' group-completed' : ''}`;
     
+    const completedBadge = completed 
+      ? `<span class="group-completed-badge" style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--accent); background: rgba(74, 222, 128, 0.1); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(74, 222, 128, 0.2); letter-spacing: 0.5px; white-space: nowrap;">✓ Completed</span>` 
+      : '';
+    const headerHtml = `
+      <div class="gc-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+        <span>GROUP ${letter}</span>
+        ${completedBadge}
+      </div>
+    `;
+
     if (view === 'standings') {
-      // Sort by final rank
       const sortedSeries = [...m.series].sort((a,b) => a.rank.at(-1) - b.rank.at(-1));
       const tableRows = sortedSeries.map(s => {
         const st = s.stats;
@@ -89,7 +100,7 @@ function renderGroups(animate){
       }).join('');
 
       card.innerHTML = `
-        <div class="gc-title">GROUP ${letter}</div>
+        ${headerHtml}
         <table class="standings-table">
           <thead>
             <tr>
@@ -111,7 +122,7 @@ function renderGroups(animate){
         </table>
       `;
     } else {
-      card.innerHTML = `<div class="gc-title">GROUP ${letter}</div><svg viewBox="0 0 640 320"></svg>`;
+      card.innerHTML = `${headerHtml}<svg viewBox="0 0 640 320"></svg>`;
       renderChart(card.querySelector('svg'), { ...m, view, animate });
     }
     

@@ -12,6 +12,8 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,B
 .group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;padding:0 28px 40px}
 .group-card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px 16px 10px;cursor:pointer;transition:.12s;container-type:inline-size}
 .group-card:hover{border-color:#33405a}
+.group-card.group-completed {border-color: rgba(74, 222, 128, 0.25)}
+.group-card.group-completed:hover {border-color: var(--accent)}
 .group-card .gc-title{font-size:13px;font-weight:700;letter-spacing:.4px;margin-bottom:4px}
 .fixtures-list{padding:8px 28px 60px;max-width:760px;margin:0 auto}
 .fx-date{font-size:13px;font-weight:700;color:var(--accent);margin:22px 0 8px}
