@@ -1174,24 +1174,22 @@ function renderKnockouts() {
     const detailsLabel = played ? `${m.score.home}–${m.score.away}` : (m.kickoffUK ? ukTime(m.kickoffUK) : 'Proj');
 
     return `
-      <div class="bracket-match">
-        <div class="bracket-match-header">
-          <span>${m.id}</span>
-          <span style="font-size: 9px; font-weight: 600;">${m.venue || ''}</span>
+      <div class="bracket-match-header">
+        <span>${m.id}</span>
+        <span style="font-size: 9px; font-weight: 600;">${m.venue || ''}</span>
+      </div>
+      <div class="bracket-match-teams">
+        <div class="bracket-match-team ${m.home.dummy ? 'dummy' : ''} ${homeWinner ? 'winner' : ''}">
+          <span class="flag">${m.home.flag}</span>
+          <span>${m.home.label}</span>
+          <span class="code">${m.home.code}</span>
+          ${played ? `<span class="score">${homeScore}</span>` : ''}
         </div>
-        <div class="bracket-match-teams">
-          <div class="bracket-match-team ${m.home.dummy ? 'dummy' : ''} ${homeWinner ? 'winner' : ''}">
-            <span class="flag">${m.home.flag}</span>
-            <span>${m.home.label}</span>
-            <span class="code">${m.home.code}</span>
-            ${played ? `<span class="score">${homeScore}</span>` : ''}
-          </div>
-          <div class="bracket-match-team ${m.away.dummy ? 'dummy' : ''} ${awayWinner ? 'winner' : ''}">
-            <span class="flag">${m.away.flag}</span>
-            <span>${m.away.label}</span>
-            <span class="code">${m.away.code}</span>
-            ${played ? `<span class="score">${awayScore}</span>` : ''}
-          </div>
+        <div class="bracket-match-team ${m.away.dummy ? 'dummy' : ''} ${awayWinner ? 'winner' : ''}">
+          <span class="flag">${m.away.flag}</span>
+          <span>${m.away.label}</span>
+          <span class="code">${m.away.code}</span>
+          ${played ? `<span class="score">${awayScore}</span>` : ''}
         </div>
       </div>
     `;
@@ -1216,7 +1214,7 @@ function renderKnockouts() {
     { title: 'Final & 3rd Place', matches: sortedFinal }
   ];
 
-  columns.forEach(col => {
+  columns.forEach((col, roundIdx) => {
     const colDiv = document.createElement('div');
     colDiv.className = 'bracket-column';
     
@@ -1227,11 +1225,31 @@ function renderKnockouts() {
 
     const bodyDiv = document.createElement('div');
     bodyDiv.className = 'bracket-column-body';
-    col.matches.forEach(m => {
-      bodyDiv.innerHTML += renderMatchCardHTML(m);
-    });
-    colDiv.appendChild(bodyDiv);
     
+    // Option A flexible matchup alignment math
+    const baseMargin = 16;
+    const baseGap = 24;
+    const scale = Math.pow(2, roundIdx);
+    const computedMargin = baseMargin * scale;
+    const computedGap = baseGap * scale;
+
+    bodyDiv.style.gap = `${computedGap}px`;
+
+    col.matches.forEach(m => {
+      const matchCard = document.createElement('div');
+      matchCard.className = 'bracket-match';
+      matchCard.style.marginTop = `${computedMargin}px`;
+      matchCard.style.marginBottom = `${computedMargin}px`;
+      
+      if (m.status === 'finished') {
+        matchCard.classList.add('has-winner');
+      }
+
+      matchCard.innerHTML = renderMatchCardHTML(m);
+      bodyDiv.appendChild(matchCard);
+    });
+    
+    colDiv.appendChild(bodyDiv);
     container.appendChild(colDiv);
   });
 
