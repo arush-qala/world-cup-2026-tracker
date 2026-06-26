@@ -15,6 +15,7 @@ let activeFilters = {
 };
 
 async function boot(){
+  initTheme();
   const [groups, fixtures, fantasy] = await Promise.all([
     fetch('data/groups.json').then(r=>r.json()),
     fetch('data/fixtures.json').then(r=>r.json()),
@@ -31,6 +32,20 @@ async function boot(){
   wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
   showUpdated();
   handleRouting();
+}
+
+function initTheme() {
+  const savedTheme = localStorage.getItem('wc-theme') || 'light';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  const select = document.getElementById('theme-selector');
+  if (select) {
+    select.value = savedTheme;
+    select.onchange = (e) => {
+      const theme = e.target.value;
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('wc-theme', theme);
+    };
+  }
 }
 
 function groupModel(letter){
@@ -58,7 +73,7 @@ function renderGroups(animate){
     card.className = `group-card${completed ? ' group-completed' : ''}`;
     
     const completedBadge = completed 
-      ? `<span class="group-completed-badge" style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--accent); background: rgba(74, 222, 128, 0.1); padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(74, 222, 128, 0.2); letter-spacing: 0.5px; white-space: nowrap;">✓ Completed</span>` 
+      ? `<span class="group-completed-badge" style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--accent); background: var(--accent-glow); padding: 2px 8px; border-radius: 12px; border: 1px solid var(--accent-border); letter-spacing: 0.5px; white-space: nowrap;">✓ Completed</span>` 
       : '';
     const headerHtml = `
       <div class="gc-title" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
