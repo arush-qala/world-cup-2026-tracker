@@ -905,10 +905,10 @@
     "venue": "AT&T Stadium, Arlington",
     "home": "JPN",
     "away": "SWE",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 1
     }
   },
   {
@@ -921,10 +921,10 @@
     "venue": "Arrowhead Stadium, Kansas City",
     "home": "TUN",
     "away": "NED",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 3
     }
   },
   {
@@ -937,10 +937,10 @@
     "venue": "SoFi Stadium, Los Angeles",
     "home": "TUR",
     "away": "USA",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 3,
+      "away": 2
     }
   },
   {
@@ -953,10 +953,10 @@
     "venue": "Levi's Stadium, Santa Clara",
     "home": "PAR",
     "away": "AUS",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 0
     }
   },
   {
