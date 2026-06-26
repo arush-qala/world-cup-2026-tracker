@@ -15,7 +15,6 @@ let activeFilters = {
 };
 
 async function boot(){
-  initTheme();
   const [groups, fixtures, fantasy] = await Promise.all([
     fetch('data/groups.json').then(r=>r.json()),
     fetch('data/fixtures.json').then(r=>r.json()),
@@ -32,20 +31,6 @@ async function boot(){
   wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
   showUpdated();
   handleRouting();
-}
-
-function initTheme() {
-  const savedTheme = localStorage.getItem('wc-theme') || 'light';
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  const select = document.getElementById('theme-selector');
-  if (select) {
-    select.value = savedTheme;
-    select.onchange = (e) => {
-      const theme = e.target.value;
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('wc-theme', theme);
-    };
-  }
 }
 
 function groupModel(letter){
