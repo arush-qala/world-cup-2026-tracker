@@ -129,14 +129,56 @@ body {
   letter-spacing: -0.4px;
 }
 
-.tabs, .seg {
+/* ── Main Navigation Tabs (Header) ── */
+.tabs {
+  display: flex;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  gap: 24px;
+}
+.tab {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 4px;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.tab:hover {
+  color: var(--text);
+}
+.tab.active {
+  color: var(--accent);
+  background: transparent;
+  box-shadow: none;
+}
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
+/* ── Secondary Segmented Controls (Sub-views) ── */
+.seg {
   display: inline-flex;
   background: color-mix(in srgb, var(--panel) 60%, transparent);
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 4px;
 }
-.tab, .seg button {
+.seg button {
   border: none;
   background: transparent;
   color: var(--muted);
@@ -147,11 +189,11 @@ body {
   cursor: pointer;
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.tab:hover, .seg button:hover {
+.seg button:hover {
   color: var(--text);
   background: var(--accent-bg-hover);
 }
-.tab.active, .seg button.active {
+.seg button.active {
   background: var(--accent);
   color: var(--accent-text);
   box-shadow: 0 4px 12px var(--accent-glow);
@@ -763,7 +805,11 @@ body {
     overflow-y: auto;
     width: 100%;
   }
-  .tab, .seg button {
+  .tab {
+    padding: 8px 4px;
+    font-size: 13px;
+  }
+  .seg button {
     padding: 8px 14px;
     font-size: 13px;
   }
