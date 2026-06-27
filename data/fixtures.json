@@ -1001,10 +1001,10 @@
     "venue": "NRG Stadium, Houston",
     "home": "CPV",
     "away": "KSA",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 0
     }
   },
   {
@@ -1017,10 +1017,10 @@
     "venue": "Estadio Akron, Guadalajara",
     "home": "URU",
     "away": "ESP",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 1
     }
   },
   {
@@ -1033,10 +1033,10 @@
     "venue": "Lumen Field, Seattle",
     "home": "EGY",
     "away": "IRN",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 1
     }
   },
   {
@@ -1049,10 +1049,10 @@
     "venue": "BC Place, Vancouver",
     "home": "NZL",
     "away": "BEL",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 5
     }
   },
   {
