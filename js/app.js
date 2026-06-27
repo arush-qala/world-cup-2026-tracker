@@ -1003,20 +1003,67 @@ function getMatchWinner(matchId, homeTeam, awayTeam) {
   };
 }
 
+const KNOCKOUT_SCHEDULE = {
+  // Round of 32
+  M73: { kickoffUK: '2026-06-28T20:00:00+01:00', venue: 'SoFi Stadium, Los Angeles' },
+  M74: { kickoffUK: '2026-06-29T21:30:00+01:00', venue: 'Boston Stadium, Boston' },
+  M75: { kickoffUK: '2026-06-30T02:00:00+01:00', venue: 'Monterrey Stadium, Monterrey' },
+  M76: { kickoffUK: '2026-06-29T18:00:00+01:00', venue: 'Houston Stadium, Houston' },
+  M77: { kickoffUK: '2026-06-30T22:00:00+01:00', venue: 'MetLife Stadium, East Rutherford' },
+  M78: { kickoffUK: '2026-06-30T18:00:00+01:00', venue: 'Dallas Stadium, Dallas' },
+  M79: { kickoffUK: '2026-07-01T02:00:00+01:00', venue: 'Estadio Azteca, Mexico City' },
+  M80: { kickoffUK: '2026-07-01T17:00:00+01:00', venue: 'Lumen Field, Seattle' },
+  M81: { kickoffUK: '2026-07-02T01:00:00+01:00', venue: 'Levi\'s Stadium, San Francisco' },
+  M82: { kickoffUK: '2026-07-02T20:00:00+01:00', venue: 'Gillette Stadium, Boston' },
+  M83: { kickoffUK: '2026-07-03T00:00:00+01:00', venue: 'Mercedes-Benz Stadium, Atlanta' },
+  M84: { kickoffUK: '2026-07-02T20:00:00+01:00', venue: 'Estadio Akron, Guadalajara' },
+  M85: { kickoffUK: '2026-07-03T04:00:00+01:00', venue: 'BC Place, Vancouver' },
+  M86: { kickoffUK: '2026-07-03T23:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
+  M87: { kickoffUK: '2026-07-04T02:30:00+01:00', venue: 'Arrowhead Stadium, Kansas City' },
+  M88: { kickoffUK: '2026-07-03T19:00:00+01:00', venue: 'Lincoln Financial Field, Philadelphia' },
+
+  // Round of 16
+  M89: { kickoffUK: '2026-07-04T22:00:00+01:00', venue: 'MetLife Stadium, East Rutherford' },
+  M90: { kickoffUK: '2026-07-04T18:00:00+01:00', venue: 'NRG Stadium, Houston' },
+  M91: { kickoffUK: '2026-07-05T21:00:00+01:00', venue: 'SoFi Stadium, Los Angeles' },
+  M92: { kickoffUK: '2026-07-06T01:00:00+01:00', venue: 'Lumen Field, Seattle' },
+  M93: { kickoffUK: '2026-07-06T20:00:00+01:00', venue: 'BC Place, Vancouver' },
+  M94: { kickoffUK: '2026-07-07T01:00:00+01:00', venue: 'Levi\'s Stadium, San Francisco' },
+  M95: { kickoffUK: '2026-07-07T17:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
+  M96: { kickoffUK: '2026-07-07T21:00:00+01:00', venue: 'Arrowhead Stadium, Kansas City' },
+
+  // Quarter-finals
+  M97: { kickoffUK: '2026-07-09T21:00:00+01:00', venue: 'Boston Stadium, Boston' },
+  M98: { kickoffUK: '2026-07-10T20:00:00+01:00', venue: 'SoFi Stadium, Los Angeles' },
+  M99: { kickoffUK: '2026-07-11T22:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
+  M100: { kickoffUK: '2026-07-12T02:00:00+01:00', venue: 'Arrowhead Stadium, Kansas City' },
+
+  // Semi-finals
+  M101: { kickoffUK: '2026-07-14T21:00:00+01:00', venue: 'AT&T Stadium, Arlington' },
+  M102: { kickoffUK: '2026-07-15T21:00:00+01:00', venue: 'Mercedes-Benz Stadium, Atlanta' },
+
+  // Final & 3rd Place
+  M103: { kickoffUK: '2026-07-18T21:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
+  M104: { kickoffUK: '2026-07-19T21:00:00+01:00', venue: 'MetLife Stadium, East Rutherford' }
+};
+
 function getMatchDetails(matchId, projectedHome, projectedAway) {
   const f = DATA.fixtures.find(m => m.id === matchId);
+  const sched = KNOCKOUT_SCHEDULE[matchId] || { kickoffUK: '', venue: '' };
+
   if (f) {
-    const homeTeamInfo = findTeamByCode(f.home) || { name: f.home, flag: flagOf(f.home), code: f.home, fifaPoints: 0 };
-    const awayTeamInfo = findTeamByCode(f.away) || { name: f.away, flag: flagOf(f.away), code: f.away, fifaPoints: 0 };
+    const homeTeamInfo = f.home ? findTeamByCode(f.home) : null;
+    const awayTeamInfo = f.away ? findTeamByCode(f.away) : null;
+
     return {
       id: f.id,
-      home: { label: homeTeamInfo.name, flag: homeTeamInfo.flag, code: homeTeamInfo.code, dummy: false, fifaPoints: homeTeamInfo.fifaPoints },
-      away: { label: awayTeamInfo.name, flag: awayTeamInfo.flag, code: awayTeamInfo.code, dummy: false, fifaPoints: awayTeamInfo.fifaPoints },
+      home: homeTeamInfo ? { label: homeTeamInfo.name, flag: homeTeamInfo.flag, code: homeTeamInfo.code, dummy: false, fifaPoints: homeTeamInfo.fifaPoints } : projectedHome,
+      away: awayTeamInfo ? { label: awayTeamInfo.name, flag: awayTeamInfo.flag, code: awayTeamInfo.code, dummy: false, fifaPoints: awayTeamInfo.fifaPoints } : projectedAway,
       status: f.status,
       score: f.score,
-      venue: f.venue,
-      dateUK: f.dateUK,
-      kickoffUK: f.kickoffUK
+      venue: f.venue || sched.venue,
+      dateUK: f.dateUK || (sched.kickoffUK ? sched.kickoffUK.split('T')[0] : ''),
+      kickoffUK: f.kickoffUK || sched.kickoffUK
     };
   }
   
@@ -1026,9 +1073,9 @@ function getMatchDetails(matchId, projectedHome, projectedAway) {
     away: projectedAway,
     status: 'scheduled',
     score: { home: null, away: null },
-    venue: '',
-    dateUK: '',
-    kickoffUK: ''
+    venue: sched.venue,
+    dateUK: sched.kickoffUK ? sched.kickoffUK.split('T')[0] : '',
+    kickoffUK: sched.kickoffUK
   };
 }
 
