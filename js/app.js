@@ -1171,31 +1171,50 @@ function renderKnockouts() {
   const container = document.getElementById('knockout-bracket-container');
   container.innerHTML = '';
 
+  const ukDate = (iso) => {
+    const d = new Date(iso);
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    return `${d.getDate()} ${months[d.getMonth()]}`;
+  };
+
   const renderMatchCardHTML = (m) => {
     const played = m.status === 'finished';
     const homeScore = played ? m.score.home : '';
     const awayScore = played ? m.score.away : '';
+    
+    let dateStr = '';
+    let timeStr = '';
+    if (!played && m.kickoffUK) {
+      dateStr = ukDate(m.kickoffUK);
+      timeStr = ukTime(m.kickoffUK);
+    } else if (!played) {
+      dateStr = 'Proj';
+      timeStr = '';
+    }
+
+    const rightHome = played ? homeScore : dateStr;
+    const rightAway = played ? awayScore : timeStr;
+
     const homeWinner = played && m.score.home > m.score.away;
     const awayWinner = played && m.score.away > m.score.home;
-    const detailsLabel = played ? `${m.score.home}–${m.score.away}` : (m.kickoffUK ? ukTime(m.kickoffUK) : 'Proj');
 
     return `
       <div class="bracket-match-header">
         <span>${m.id}</span>
-        <span style="font-size: 9px; font-weight: 600;">${m.venue || ''}</span>
+        <span class="bracket-venue">${m.venue || ''}</span>
       </div>
       <div class="bracket-match-teams">
         <div class="bracket-match-team ${m.home.dummy ? 'dummy' : ''} ${homeWinner ? 'winner' : ''}">
           <span class="flag">${m.home.flag}</span>
-          <span>${m.home.label}</span>
+          <span class="team-label">${m.home.label}</span>
           <span class="code">${m.home.code}</span>
-          ${played ? `<span class="score">${homeScore}</span>` : ''}
+          <span class="score-or-time">${rightHome}</span>
         </div>
         <div class="bracket-match-team ${m.away.dummy ? 'dummy' : ''} ${awayWinner ? 'winner' : ''}">
           <span class="flag">${m.away.flag}</span>
-          <span>${m.away.label}</span>
+          <span class="team-label">${m.away.label}</span>
           <span class="code">${m.away.code}</span>
-          ${played ? `<span class="score">${awayScore}</span>` : ''}
+          <span class="score-or-time">${rightAway}</span>
         </div>
       </div>
     `;
@@ -1231,21 +1250,10 @@ function renderKnockouts() {
 
     const bodyDiv = document.createElement('div');
     bodyDiv.className = 'bracket-column-body';
-    
-    // Option A flexible matchup alignment math
-    const baseMargin = 16;
-    const baseGap = 24;
-    const scale = Math.pow(2, roundIdx);
-    const computedMargin = baseMargin * scale;
-    const computedGap = baseGap * scale;
-
-    bodyDiv.style.gap = `${computedGap}px`;
 
     col.matches.forEach(m => {
       const matchCard = document.createElement('div');
       matchCard.className = 'bracket-match';
-      matchCard.style.marginTop = `${computedMargin}px`;
-      matchCard.style.marginBottom = `${computedMargin}px`;
       
       if (m.status === 'finished') {
         matchCard.classList.add('has-winner');
