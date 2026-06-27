@@ -217,6 +217,12 @@ function switchTab(tabId) {
   document.getElementById('strength-view').hidden = tabId!=='strength';
   document.getElementById('fantasy-view').hidden  = tabId!=='fantasy';
   document.getElementById('knockout-view').hidden = tabId!=='knockout';
+  
+  if (tabId === 'knockout') {
+    requestAnimationFrame(() => {
+      drawBracketLines();
+    });
+  }
 }
 
 function handleRouting() {
@@ -1256,10 +1262,95 @@ function renderKnockouts() {
   const countCaption = document.getElementById('knockout-caption');
   if (knockoutView === 'bracket') {
     countCaption.textContent = 'Dynamic World Cup 2026 bracket pathway projection';
+    if (!document.getElementById('knockout-view').hidden) {
+      requestAnimationFrame(() => {
+        drawBracketLines();
+      });
+    }
   } else {
     const currentFinishedCount = DATA.fixtures.filter(m => m.stage === 'group' && m.status === 'finished').length;
     countCaption.textContent = `${currentFinishedCount}/72 group stage matches finished`;
   }
+}
+
+function drawBracketLines() {
+  const container = document.getElementById('knockout-bracket-container');
+  if (!container || knockoutView !== 'bracket') return;
+
+  // Clear existing SVG overlay
+  let svg = document.getElementById('bracket-svg-overlay');
+  if (svg) {
+    svg.innerHTML = '';
+  } else {
+    svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.id = 'bracket-svg-overlay';
+    container.appendChild(svg);
+  }
+
+  // Set SVG size to match scrollable container dimensions
+  svg.setAttribute('width', container.scrollWidth);
+  svg.setAttribute('height', container.scrollHeight);
+
+  const columns = container.querySelectorAll('.bracket-column');
+  if (columns.length < 2) return;
+
+  // Traverse each column to draw connector paths to the next round
+  for (let c = 0; c < columns.length - 1; c++) {
+    const sMatches = columns[c].querySelectorAll('.bracket-match');
+    const dMatches = columns[c + 1].querySelectorAll('.bracket-match');
+    if (!sMatches.length || !dMatches.length) continue;
+
+    sMatches.forEach((sMatch, i) => {
+      // Find destination match
+      let destIdx = Math.floor(i / 2);
+      if (c === 3) {
+        destIdx = 0; // Both semi-finals connect to the Final (Match 0 in Column 4)
+      }
+      const dMatch = dMatches[destIdx];
+      if (!dMatch) return;
+
+      // Calculate absolute positions relative to the container
+      const sOffset = getRelativeCoords(sMatch, container);
+      const dOffset = getRelativeCoords(dMatch, container);
+
+      const x1 = sOffset.left + sMatch.offsetWidth;
+      const y1 = sOffset.top + sMatch.offsetHeight / 2;
+      const x2 = dOffset.left;
+      const y2 = dOffset.top + dMatch.offsetHeight / 2;
+
+      const midX = x1 + (x2 - x1) / 2;
+
+      // Draw orthogonal branching path
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`);
+      path.setAttribute('fill', 'none');
+
+      // Check if match was played/finished to highlight the winner path
+      const played = sMatch.classList.contains('has-winner');
+      path.setAttribute('stroke', played ? 'var(--accent)' : 'var(--line-hover)');
+      path.setAttribute('stroke-width', played ? '2.5' : '1.5');
+      path.style.transition = 'stroke 0.25s, stroke-width 0.25s';
+
+      if (played) {
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('stroke-linejoin', 'round');
+      }
+
+      svg.appendChild(path);
+    });
+  }
+}
+
+function getRelativeCoords(element, container) {
+  let top = 0;
+  let left = 0;
+  let current = element;
+  while (current && current !== container) {
+    top += current.offsetTop;
+    left += current.offsetLeft;
+    current = current.offsetParent;
+  }
+  return { top, left };
 }
 
 function wireKnockoutToggle() {
@@ -1282,3 +1373,9 @@ function wireFantasySearch() {
 }
 
 boot();
+
+window.addEventListener('resize', () => {
+  if (knockoutView === 'bracket' && !document.getElementById('knockout-view').hidden) {
+    drawBracketLines();
+  }
+});
