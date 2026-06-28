@@ -890,24 +890,74 @@ function renderFixtures(fixturesToRender = DATA.fixtures){
   }
 }
 
+function getEliminatedTeams() {
+  // Returns a Set of team codes that have been knocked out
+  const eliminated = new Set();
+
+  // Knockout match IDs (R32 through SF — Final losers get medals, not eliminated for our purposes)
+  const knockoutStages = ['round of 32', 'round of 16', 'quarter-finals', 'semi-finals'];
+
+  const knockoutMatches = DATA.fixtures.filter(f =>
+    knockoutStages.includes(f.stage) && f.status === 'finished' && f.score
+  );
+
+  knockoutMatches.forEach(f => {
+    const hg = f.score.home ?? 0;
+    const ag = f.score.away ?? 0;
+    // The loser is eliminated (scores should never be equal in knockout — extra time decides)
+    if (hg > ag) eliminated.add(f.away);
+    else if (ag > hg) eliminated.add(f.home);
+    // If still equal (data not yet updated), don't eliminate either
+  });
+
+  // Also eliminate teams that didn't qualify from the group stage
+  // (only relevant once all group stage matches are finished)
+  const groupFinished = Object.keys(DATA.groups).every(letter => {
+    const matches = DATA.fixtures.filter(m => m.stage === 'group' && m.group === letter);
+    return matches.length === 6 && matches.every(m => m.status === 'finished');
+  });
+
+  if (groupFinished) {
+    const thirds = getThirdPlaceStandings();
+    const qualifiedThirdCodes = new Set(thirds.slice(0, 8).map(t => t.code));
+
+    for (const letter of Object.keys(DATA.groups)) {
+      const sorted = getSortedGroupTeams(letter);
+      // 4th place is always out
+      if (sorted[3]) eliminated.add(sorted[3].code);
+      // 3rd place is out if not in the top-8 thirds
+      if (sorted[2] && !qualifiedThirdCodes.has(sorted[2].code)) {
+        eliminated.add(sorted[2].code);
+      }
+    }
+  }
+
+  return eliminated;
+}
+
 function renderFantasyHub(setpieceFilter = '') {
-  // Render set-pieces
   const setpiecesList = document.getElementById('setpiece-list');
   setpiecesList.innerHTML = '';
-  
+
+  const eliminated = getEliminatedTeams();
+
   const allTeams = [];
   for (const groupTeams of Object.values(DATA.groups)) {
     allTeams.push(...groupTeams);
   }
   allTeams.sort((a, b) => a.name.localeCompare(b.name));
 
-  const filteredTeams = allTeams.filter(t => {
+  // Split into active vs eliminated
+  const activeTeams = allTeams.filter(t => !eliminated.has(t.code));
+  const eliminatedCount = allTeams.length - activeTeams.length;
+
+  const filteredTeams = activeTeams.filter(t => {
     const sp = FANTASY.setPieces[t.code] || { penalties: 'N/A', freeKicks: 'N/A', corners: 'N/A' };
     const query = setpieceFilter.toLowerCase();
-    return t.name.toLowerCase().includes(query) || 
-           t.code.toLowerCase().includes(query) || 
-           sp.penalties.toLowerCase().includes(query) || 
-           sp.freeKicks.toLowerCase().includes(query) || 
+    return t.name.toLowerCase().includes(query) ||
+           t.code.toLowerCase().includes(query) ||
+           sp.penalties.toLowerCase().includes(query) ||
+           sp.freeKicks.toLowerCase().includes(query) ||
            sp.corners.toLowerCase().includes(query);
   });
 
@@ -928,6 +978,17 @@ function renderFantasyHub(setpieceFilter = '') {
     `;
     setpiecesList.appendChild(tr);
   });
+
+  // Show eliminated count as a subtle footer note
+  const wrap = setpiecesList.closest('.setpiece-table-wrap');
+  const existing = wrap?.querySelector('.elim-note');
+  if (existing) existing.remove();
+  if (eliminatedCount > 0 && wrap) {
+    const note = document.createElement('div');
+    note.className = 'elim-note';
+    note.textContent = `${eliminatedCount} eliminated team${eliminatedCount > 1 ? 's' : ''} hidden`;
+    wrap.appendChild(note);
+  }
 }
 
 function getSortedGroupTeams(letter) {
