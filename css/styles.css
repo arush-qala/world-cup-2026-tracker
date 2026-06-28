@@ -1329,3 +1329,31 @@ body {
   overflow: visible;
   z-index: 1;
 }
+
+/* ── Stats Analytics ── */
+.stats-chart-container {
+  height: 260px;
+  margin-top: 20px;
+  position: relative;
+  width: 100%;
+}
+.stats-summary {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+}
+.summary-item {
+  text-align: center;
+}
+.summary-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+.summary-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

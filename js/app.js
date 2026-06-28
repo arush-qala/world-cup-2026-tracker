@@ -28,6 +28,7 @@ async function boot(){
   renderStrength('group-stage');
   renderFantasyHub();
   renderKnockouts();
+  renderStats();
   wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
   showUpdated();
   handleRouting();
@@ -217,6 +218,8 @@ function switchTab(tabId) {
   document.getElementById('strength-view').hidden = tabId!=='strength';
   document.getElementById('fantasy-view').hidden  = tabId!=='fantasy';
   document.getElementById('knockout-view').hidden = tabId!=='knockout';
+  const statsView = document.getElementById('stats-view');
+  if (statsView) statsView.hidden = tabId!=='stats';
   
   if (tabId === 'knockout') {
     requestAnimationFrame(() => {
@@ -227,7 +230,7 @@ function switchTab(tabId) {
 
 function handleRouting() {
   let hash = window.location.hash.replace('#/', '').replace('#', '');
-  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'knockout'];
+  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'knockout', 'stats'];
   const defaultTab = 'fixtures';
   
   if (!hash || !validTabs.includes(hash)) {
@@ -246,6 +249,8 @@ function wireTabs(){
   });
   window.addEventListener('hashchange', handleRouting);
 }
+
+
 
 function getKnockoutRoundMatchesData(metric) {
   const thirds = getThirdPlaceStandings();
@@ -1407,6 +1412,174 @@ function getRelativeCoords(element, container) {
   }
   return { top, left };
 }
+
+function renderStats() {
+  const finishedMatches = DATA.fixtures.filter(m => m.status === 'finished');
+  
+  const stages = [
+    { id: 'MD1', label: 'Matchday 1', filter: m => m.stage === 'group' && m.matchday === 1 },
+    { id: 'MD2', label: 'Matchday 2', filter: m => m.stage === 'group' && m.matchday === 2 },
+    { id: 'MD3', label: 'Matchday 3', filter: m => m.stage === 'group' && m.matchday === 3 },
+    { id: 'R32', label: 'Round of 32', filter: m => m.stage === 'round of 32' },
+    { id: 'R16', label: 'Round of 16', filter: m => m.stage === 'round of 16' },
+    { id: 'QF', label: 'Quarter-Finals', filter: m => m.stage === 'quarter-finals' },
+    { id: 'SF', label: 'Semi-Finals', filter: m => m.stage === 'semi-finals' },
+    { id: 'FIN', label: 'Finals', filter: m => m.stage === 'final' || m.stage === 'third-place match' }
+  ];
+
+  let totalGoals = 0;
+  let maxAvg = 0;
+
+  const stageData = stages.map(s => {
+    const matches = finishedMatches.filter(s.filter);
+    const count = matches.length;
+    let goals = [];
+    matches.forEach(m => {
+      goals.push((m.score?.home || 0) + (m.score?.away || 0)); 
+    });
+    const totalStageGoals = goals.reduce((sum, g) => sum + g, 0);
+    const avg = count > 0 ? totalStageGoals / count : 0;
+    
+    // Variance & Standard Deviation
+    let sd = 0;
+    if (count > 0) {
+      const sumSqDiff = goals.reduce((sum, g) => sum + Math.pow(g - avg, 2), 0);
+      sd = Math.sqrt(sumSqDiff / count);
+    }
+    
+    totalGoals += totalStageGoals;
+    if (avg > maxAvg) maxAvg = avg;
+    return { ...s, count, goals: totalStageGoals, avg, sd };
+  });
+
+  const summaryContainer = document.getElementById('goals-summary');
+  const totalMatches = finishedMatches.length;
+  const overallAvg = totalMatches > 0 ? (totalGoals / totalMatches) : 0;
+  
+  // Compute overall Standard Deviation
+  let overallSD = 0;
+  if (totalMatches > 0) {
+    const sumSqDiff = finishedMatches.reduce((sum, m) => {
+      const matchGoals = (m.score?.home || 0) + (m.score?.away || 0);
+      return sum + Math.pow(matchGoals - overallAvg, 2);
+    }, 0);
+    overallSD = Math.sqrt(sumSqDiff / totalMatches);
+  }
+  
+  summaryContainer.innerHTML = `
+    <div class="summary-item">
+      <div class="summary-value">${totalGoals}</div>
+      <div class="summary-label">Total Goals</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-value">${totalMatches}</div>
+      <div class="summary-label">Matches Played</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-value" style="color: var(--accent);">${overallAvg.toFixed(2)}</div>
+      <div class="summary-label">Goals per Match</div>
+    </div>
+    <div class="summary-item">
+      <div class="summary-value" style="color: var(--muted);">±${overallSD.toFixed(2)}</div>
+      <div class="summary-label">Std Deviation</div>
+    </div>
+  `;
+
+
+
+  // Render Line Trend view (Option 2)
+  const points = stageData.map((s, idx) => {
+    const x = 60 + idx * 102.85;
+    const y = s.count > 0 && maxAvg > 0
+      ? 170 - (s.avg / (maxAvg * 1.1)) * 130
+      : 170;
+      
+    const yUpper = s.count > 0 && maxAvg > 0
+      ? 170 - (Math.min(maxAvg * 1.1, s.avg + s.sd) / (maxAvg * 1.1)) * 130
+      : 170;
+      
+    const yLower = s.count > 0 && maxAvg > 0
+      ? 170 - (Math.max(0, s.avg - s.sd) / (maxAvg * 1.1)) * 130
+      : 170;
+      
+    return { ...s, x, y, yUpper, yLower };
+  });
+
+  const activePoints = points.filter(p => p.count > 0);
+  let pathD = '', areaD = '', bandD = '';
+  
+  if (activePoints.length > 0) {
+    pathD = `M ${activePoints[0].x} ${activePoints[0].y} ` + activePoints.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
+    areaD = `M ${activePoints[0].x} 170 L ${activePoints[0].x} ${activePoints[0].y} ` + activePoints.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ') + ` L ${activePoints[activePoints.length - 1].x} 170 Z`;
+    const upperPath = activePoints.map(p => `L ${p.x} ${p.yUpper}`).join(' ');
+    const lowerPath = [...activePoints].reverse().map(p => `L ${p.x} ${p.yLower}`).join(' ');
+    bandD = `M ${activePoints[0].x} ${activePoints[0].yUpper} ${upperPath} L ${activePoints[activePoints.length - 1].x} ${activePoints[activePoints.length - 1].yLower} ${lowerPath} Z`;
+  }
+
+  // Generate grid lines
+  const gridLines = [];
+  const divisions = 4;
+  for (let i = 0; i <= divisions; i++) {
+    const val = maxAvg > 0 ? ((maxAvg * 1.1) * (i / divisions)).toFixed(1) : (i * 0.5).toFixed(1);
+    const y = 170 - (i / divisions) * 130;
+    gridLines.push(`
+      <line x1="60" y1="${y}" x2="740" y2="${y}" stroke="var(--line)" stroke-width="1" stroke-dasharray="4,4" />
+      <text x="50" y="${y + 4}" fill="var(--muted)" font-size="10" font-weight="700" text-anchor="end">${val}</text>
+    `);
+  }
+
+  const stageMarkers = points.map((p, idx) => {
+    const opacity = p.count > 0 ? 1 : 0.3;
+    
+    // Standard Deviation Whisker lines (vertical error bars)
+    const whisker = p.count > 0 && p.sd > 0
+      ? `<line x1="${p.x}" y1="${p.yUpper}" x2="${p.x}" y2="${p.yLower}" stroke="var(--accent)" stroke-width="1.5" stroke-opacity="0.8" />
+         <line x1="${p.x - 5}" y1="${p.yUpper}" x2="${p.x + 5}" y2="${p.yUpper}" stroke="var(--accent)" stroke-width="1.5" stroke-opacity="0.8" />
+         <line x1="${p.x - 5}" y1="${p.yLower}" x2="${p.x + 5}" y2="${p.yLower}" stroke="var(--accent)" stroke-width="1.5" stroke-opacity="0.8" />`
+      : '';
+
+    const labelOffset = Math.min(p.yUpper, p.y - 12);
+
+    return `
+      <g style="opacity: ${opacity}">
+        <!-- Background vertical guideline -->
+        <line x1="${p.x}" y1="170" x2="${p.x}" y2="20" stroke="var(--line)" stroke-width="1" stroke-dasharray="2,2" />
+        
+        <!-- Standard Deviation Whisker -->
+        ${whisker}
+        
+        <!-- Node circle -->
+        ${p.count > 0 
+          ? `<circle cx="${p.x}" cy="${p.y}" r="5" fill="var(--accent)" stroke="var(--panel)" stroke-width="2" filter="drop-shadow(0 0 4px var(--accent))" />` 
+          : `<circle cx="${p.x}" cy="170" r="4" fill="var(--muted)" stroke="var(--panel)" stroke-width="1" opacity="0.4" />`}
+        
+        <!-- Value and SD label text (positioned safely above the whiskers) -->
+        ${p.count > 0 
+          ? `<text x="${p.x}" y="${labelOffset - 12}" fill="var(--text)" font-size="10" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>
+             <text x="${p.x}" y="${labelOffset - 4}" fill="var(--muted)" font-size="8" font-weight="600" text-anchor="middle">±${p.sd.toFixed(2)}</text>`
+          : ''}
+          
+        <!-- Bottom labels -->
+        <text x="${p.x}" y="192" fill="var(--text)" font-size="11" font-weight="700" text-anchor="middle">${p.id}</text>
+        <text x="${p.x}" y="204" fill="var(--muted)" font-size="9" font-weight="500" text-anchor="middle">${p.count > 0 ? `${p.count} matches` : 'Upcoming'}</text>
+      </g>
+    `;
+  }).join('');
+
+  document.getElementById('goals-chart').innerHTML = `
+    <svg width="100%" height="220" viewBox="0 0 800 220" preserveAspectRatio="xMidYMid meet" style="overflow: visible;">
+      <!-- Horizontal Grid Lines -->
+      ${gridLines.join('')}
+      <!-- Area Fill Under Line -->
+      ${areaD ? `<path d="${areaD}" fill="var(--accent)" fill-opacity="0.06" />` : ''}
+      <!-- Main Trend Line -->
+      ${pathD ? `<path d="${pathD}" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(0 0 6px var(--accent))" />` : ''}
+      <!-- Whiskers, Nodes, and Labels -->
+      ${stageMarkers}
+    </svg>`;
+}
+
+
 
 function wireKnockoutToggle() {
   document.querySelectorAll('#knockoutseg button').forEach(b => {

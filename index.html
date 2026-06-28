@@ -15,6 +15,7 @@
       <button class="tab" data-tab="strength">Strength</button>
       <button class="tab" data-tab="fantasy">Fantasy Hub</button>
       <button class="tab" data-tab="knockout">Knockouts</button>
+      <button class="tab" data-tab="stats">Stats</button>
     </nav>
   </header>
 
@@ -179,6 +180,32 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="stats-view" hidden>
+    <div class="viewbar">
+      <h2>Goal Analytics</h2>
+      <span class="updated">Tournament Averages</span>
+    </div>
+    
+    <!-- Option 2 Container: Trend Line -->
+    <div class="fantasy-grid" style="max-width: 900px;" id="stats-trend-container">
+      <div class="fantasy-card" style="height: auto; max-height: none;">
+        <div class="fantasy-card-title">📊 Average Goals per Match by Stage</div>
+        <div class="fantasy-card-desc">Tracking the scoring rate as the tournament progresses.</div>
+        <div class="stats-chart-container" id="goals-chart">
+          <!-- Bars will be inserted here dynamically -->
+        </div>
+      </div>
+      
+      <!-- Shared Totals Card inside grid -->
+      <div class="fantasy-card" style="height: auto; max-height: none; margin-top: 16px;">
+        <div class="fantasy-card-title">🏆 Tournament Totals</div>
+        <div class="stats-summary" id="goals-summary">
+          <!-- Totals inserted dynamically -->
         </div>
       </div>
     </div>
