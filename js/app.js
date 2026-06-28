@@ -880,7 +880,7 @@ function renderFixtures(fixturesToRender = DATA.fixtures){
       const row = document.createElement('div');
       row.className = `fx-row${isLive ? ' fx-row-live' : ''}`;
       row.innerHTML =
-        `<span class="time">${played ? ukTime(f.kickoffUK) : 'KO'}</span>`+
+        `<span class="time">${ukTime(f.kickoffUK)}</span>`+
         `<span class="home">${homeName} <span class="flag">${homeFlag}</span></span>`+
         `<span class="score${isLive ? ' score-live' : ''}">${score}</span>`+
         `<span class="away"><span class="flag">${awayFlag}</span> ${awayName}</span>`+
