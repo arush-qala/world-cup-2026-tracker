@@ -1413,7 +1413,10 @@ function getRelativeCoords(element, container) {
   return { top, left };
 }
 
+let _statsPoller = null;
+
 function renderStats() {
+  const now = Date.now();
   const finishedMatches = DATA.fixtures.filter(m => m.status === 'finished');
   
   const stages = [
@@ -1431,7 +1434,8 @@ function renderStats() {
   let maxAvg = 0;
 
   const stageData = stages.map(s => {
-    const matches = finishedMatches.filter(s.filter);
+    const allStageMatches = DATA.fixtures.filter(s.filter);
+    const matches = allStageMatches.filter(m => m.status === 'finished');
     const count = matches.length;
     let goals = [];
     matches.forEach(m => {
@@ -1446,15 +1450,26 @@ function renderStats() {
       const sumSqDiff = goals.reduce((sum, g) => sum + Math.pow(g - avg, 2), 0);
       sd = Math.sqrt(sumSqDiff / count);
     }
+
+    // Detect if any match in this stage is currently LIVE
+    // (kickoff has passed within the last ~130 minutes and not yet finished)
+    const isLive = allStageMatches.some(m => {
+      if (m.status === 'finished') return false;
+      const kickoff = m.kickoffUK ? new Date(m.kickoffUK).getTime() : null;
+      if (!kickoff) return false;
+      const elapsed = now - kickoff;
+      return elapsed > 0 && elapsed < 130 * 60 * 1000; // within 130 mins of kickoff
+    });
     
     totalGoals += totalStageGoals;
     if (avg > maxAvg) maxAvg = avg;
-    return { ...s, count, goals: totalStageGoals, avg, sd };
+    return { ...s, count, goals: totalStageGoals, avg, sd, isLive };
   });
 
   const summaryContainer = document.getElementById('goals-summary');
   const totalMatches = finishedMatches.length;
   const overallAvg = totalMatches > 0 ? (totalGoals / totalMatches) : 0;
+  const anyLive = stageData.some(s => s.isLive);
   
   // Compute overall Standard Deviation
   let overallSD = 0;
@@ -1464,6 +1479,14 @@ function renderStats() {
       return sum + Math.pow(matchGoals - overallAvg, 2);
     }, 0);
     overallSD = Math.sqrt(sumSqDiff / totalMatches);
+  }
+
+  // Update card title with live badge if any match is live
+  const cardTitle = document.querySelector('#stats-trend-container .fantasy-card-title');
+  if (cardTitle) {
+    cardTitle.innerHTML = anyLive
+      ? `📊 Average Goals per Match by Stage <span class="live-badge">● LIVE</span>`
+      : `📊 Average Goals per Match by Stage`;
   }
   
   summaryContainer.innerHTML = `
@@ -1529,13 +1552,17 @@ function renderStats() {
   }
 
   const stageMarkers = points.map((p, idx) => {
-    const opacity = p.count > 0 ? 1 : 0.3;
+    const opacity = p.count > 0 ? 1 : (p.isLive ? 0.9 : 0.3);
+    const nodeColor = p.isLive ? '#22c55e' : 'var(--accent)';
+    const whiskerColor = p.isLive ? '#22c55e' : 'var(--accent)';
+    const labelColor = p.isLive ? '#22c55e' : 'var(--text)';
+    const liveAnim = p.isLive ? `class="live-node"` : '';
     
     // Standard Deviation Whisker lines (vertical error bars)
     const whisker = p.count > 0 && p.sd > 0
-      ? `<line x1="${p.x}" y1="${p.yUpper}" x2="${p.x}" y2="${p.yLower}" stroke="var(--accent)" stroke-width="1.5" stroke-opacity="0.8" />
-         <line x1="${p.x - 5}" y1="${p.yUpper}" x2="${p.x + 5}" y2="${p.yUpper}" stroke="var(--accent)" stroke-width="1.5" stroke-opacity="0.8" />
-         <line x1="${p.x - 5}" y1="${p.yLower}" x2="${p.x + 5}" y2="${p.yLower}" stroke="var(--accent)" stroke-width="1.5" stroke-opacity="0.8" />`
+      ? `<line x1="${p.x}" y1="${p.yUpper}" x2="${p.x}" y2="${p.yLower}" stroke="${whiskerColor}" stroke-width="1.5" stroke-opacity="0.8" />
+         <line x1="${p.x - 5}" y1="${p.yUpper}" x2="${p.x + 5}" y2="${p.yUpper}" stroke="${whiskerColor}" stroke-width="1.5" stroke-opacity="0.8" />
+         <line x1="${p.x - 5}" y1="${p.yLower}" x2="${p.x + 5}" y2="${p.yLower}" stroke="${whiskerColor}" stroke-width="1.5" stroke-opacity="0.8" />`
       : '';
 
     const labelOffset = Math.min(p.yUpper, p.y - 12);
@@ -1548,20 +1575,23 @@ function renderStats() {
         <!-- Standard Deviation Whisker -->
         ${whisker}
         
-        <!-- Node circle -->
-        ${p.count > 0 
-          ? `<circle cx="${p.x}" cy="${p.y}" r="5" fill="var(--accent)" stroke="var(--panel)" stroke-width="2" filter="drop-shadow(0 0 4px var(--accent))" />` 
-          : `<circle cx="${p.x}" cy="170" r="4" fill="var(--muted)" stroke="var(--panel)" stroke-width="1" opacity="0.4" />`}
+        <!-- Node circle (live = green pulsing outer ring) -->
+        ${p.isLive
+          ? `<circle cx="${p.x}" cy="${p.y}" r="9" fill="${nodeColor}" fill-opacity="0.2" class="live-ring" />
+             <circle cx="${p.x}" cy="${p.y}" r="5" fill="${nodeColor}" stroke="var(--panel)" stroke-width="2" filter="drop-shadow(0 0 6px #22c55e)" />`
+          : p.count > 0 
+            ? `<circle cx="${p.x}" cy="${p.y}" r="5" fill="${nodeColor}" stroke="var(--panel)" stroke-width="2" filter="drop-shadow(0 0 4px var(--accent))" />` 
+            : `<circle cx="${p.x}" cy="170" r="4" fill="var(--muted)" stroke="var(--panel)" stroke-width="1" opacity="0.4" />`}
         
-        <!-- Value and SD label text (positioned safely above the whiskers) -->
+        <!-- Value and SD label text -->
         ${p.count > 0 
-          ? `<text x="${p.x}" y="${labelOffset - 12}" fill="var(--text)" font-size="10" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>
-             <text x="${p.x}" y="${labelOffset - 4}" fill="var(--muted)" font-size="8" font-weight="600" text-anchor="middle">±${p.sd.toFixed(2)}</text>`
+          ? `<text x="${p.x}" y="${labelOffset - 12}" fill="${labelColor}" font-size="10" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>
+             <text x="${p.x}" y="${labelOffset - 4}" fill="${p.isLive ? '#86efac' : 'var(--muted)'}" font-size="8" font-weight="600" text-anchor="middle">±${p.sd.toFixed(2)}</text>`
           : ''}
           
         <!-- Bottom labels -->
-        <text x="${p.x}" y="192" fill="var(--text)" font-size="11" font-weight="700" text-anchor="middle">${p.id}</text>
-        <text x="${p.x}" y="204" fill="var(--muted)" font-size="9" font-weight="500" text-anchor="middle">${p.count > 0 ? `${p.count} matches` : 'Upcoming'}</text>
+        <text x="${p.x}" y="192" fill="${p.isLive ? '#22c55e' : 'var(--text)'}" font-size="11" font-weight="700" text-anchor="middle">${p.id}</text>
+        <text x="${p.x}" y="204" fill="var(--muted)" font-size="9" font-weight="500" text-anchor="middle">${p.isLive ? 'LIVE' : p.count > 0 ? `${p.count} matches` : 'Upcoming'}</text>
       </g>
     `;
   }).join('');
@@ -1577,6 +1607,21 @@ function renderStats() {
       <!-- Whiskers, Nodes, and Labels -->
       ${stageMarkers}
     </svg>`;
+
+  // --- Live auto-refresh polling ---
+  // Start or restart a 60-second poller only while live matches exist
+  if (_statsPoller) clearInterval(_statsPoller);
+  if (anyLive) {
+    _statsPoller = setInterval(async () => {
+      try {
+        const fresh = await fetch(`data/fixtures.json?cb=${Date.now()}`).then(r => r.json());
+        DATA.fixtures = fresh;
+        renderStats();
+        // also refresh fixtures list
+        applyFilters();
+      } catch(e) { /* silent fail */ }
+    }, 60000);
+  }
 }
 
 

@@ -1366,3 +1366,37 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
+/* ── Live badge in card title ── */
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  padding: 3px 8px;
+  border-radius: 99px;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  margin-left: 10px;
+  vertical-align: middle;
+  animation: live-blink 1.4s ease-in-out infinite;
+}
+
+/* ── SVG live ring pulse (applied via CSS class on SVG element) ── */
+.live-ring {
+  animation: live-pulse 1.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+@keyframes live-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.35; }
+}
+
+@keyframes live-pulse {
+  0%, 100% { r: 9; opacity: 0.2; }
+  50%       { r: 14; opacity: 0.05; }
+}
