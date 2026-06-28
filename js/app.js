@@ -22,6 +22,7 @@ async function boot(){
   ]);
   DATA = { groups, fixtures };
   FANTASY = fantasy;
+  syncKnockoutFixtures();
   renderGroups(true);
   initFilters();
   applyFilters();
@@ -250,6 +251,79 @@ function wireTabs(){
   window.addEventListener('hashchange', handleRouting);
 }
 
+
+
+// ── Sync all knockout fixtures into DATA.fixtures so the Fixtures page shows them ──
+function syncKnockoutFixtures() {
+  // All knockout match IDs across every stage
+  const ALL_KO_IDS = [
+    // R32
+    'M73','M74','M75','M76','M77','M78','M79','M80',
+    'M81','M82','M83','M84','M85','M86','M87','M88',
+    // R16
+    'M89','M90','M91','M92','M93','M94','M95','M96',
+    // QF
+    'M97','M98','M99','M100',
+    // SF
+    'M101','M102',
+    // Final & 3rd place
+    'M103','M104'
+  ];
+
+  const STAGE_MAP = {
+    M73:'round of 32', M74:'round of 32', M75:'round of 32', M76:'round of 32',
+    M77:'round of 32', M78:'round of 32', M79:'round of 32', M80:'round of 32',
+    M81:'round of 32', M82:'round of 32', M83:'round of 32', M84:'round of 32',
+    M85:'round of 32', M86:'round of 32', M87:'round of 32', M88:'round of 32',
+    M89:'round of 16', M90:'round of 16', M91:'round of 16', M92:'round of 16',
+    M93:'round of 16', M94:'round of 16', M95:'round of 16', M96:'round of 16',
+    M97:'quarter-finals', M98:'quarter-finals', M99:'quarter-finals', M100:'quarter-finals',
+    M101:'semi-finals', M102:'semi-finals',
+    M103:'third-place match', M104:'final'
+  };
+
+  // Get full projected data for all stages
+  const allStages = ['r32','r16','qf','sf','final'];
+  const allMatches = [];
+  try {
+    for (const s of allStages) {
+      const matches = getKnockoutRoundMatchesData(s);
+      allMatches.push(...matches);
+    }
+  } catch(e) { return; } // guard: group data not yet ready
+
+  for (const km of allMatches) {
+    if (!km || !km.id) continue;
+    const existing = DATA.fixtures.findIndex(f => f.id === km.id);
+    const sched = KNOCKOUT_SCHEDULE[km.id] || {};
+
+    const record = {
+      id: km.id,
+      stage: STAGE_MAP[km.id] || 'knockout',
+      dateUK: km.dateUK || (sched.kickoffUK ? sched.kickoffUK.split('T')[0] : ''),
+      kickoffUK: km.kickoffUK || sched.kickoffUK || '',
+      venue: km.venue || sched.venue || '',
+      home: km.home?.code || km.home?.label || '?',
+      away: km.away?.code || km.away?.label || '?',
+      status: km.status || 'scheduled',
+      score: km.score || { home: null, away: null },
+      _homeLabel: km.home?.label,
+      _awayLabel: km.away?.label,
+      _homeFlag: km.home?.flag,
+      _awayFlag: km.away?.flag,
+      _dummy: km.home?.dummy || km.away?.dummy
+    };
+
+    if (existing >= 0) {
+      // Preserve real finished data; only update projection fields if not finished
+      if (DATA.fixtures[existing].status !== 'finished') {
+        DATA.fixtures[existing] = { ...DATA.fixtures[existing], ...record };
+      }
+    } else {
+      DATA.fixtures.push(record);
+    }
+  }
+}
 
 
 function getKnockoutRoundMatchesData(metric) {
@@ -778,13 +852,39 @@ function renderFixtures(fixturesToRender = DATA.fixtures){
     wrap.appendChild(h);
     for(const f of byDate[date].sort((a,b)=>a.kickoffUK.localeCompare(b.kickoffUK))){
       const played = f.status==='finished';
-      const score = played ? `${f.score.home}–${f.score.away}` : ukTime(f.kickoffUK);
-      const row = document.createElement('div'); row.className='fx-row';
+      const isLive = !played && (() => {
+        const ko = f.kickoffUK ? new Date(f.kickoffUK).getTime() : null;
+        if (!ko) return false;
+        const elapsed = Date.now() - ko;
+        return elapsed > 0 && elapsed < 130 * 60 * 1000;
+      })();
+      const score = played ? `${f.score.home}–${f.score.away}` : isLive ? '🟢 LIVE' : ukTime(f.kickoffUK);
+
+      // For knockout projected teams, use stored label+flag if code is a placeholder
+      const homeName = f._homeLabel || f.home;
+      const awayName = f._awayLabel || f.away;
+      const homeFlag = f._homeFlag || (f._dummy ? '' : flagOf(f.home));
+      const awayFlag = f._awayFlag || (f._dummy ? '' : flagOf(f.away));
+      const homeIsReal = !f._dummy && flagOf(f.home) !== '🏳️';
+      const awayIsReal = !f._dummy && flagOf(f.away) !== '🏳️';
+
+      // Stage pill for knockout rounds
+      const stageLabels = {
+        'round of 32': 'R32', 'round of 16': 'R16',
+        'quarter-finals': 'QF', 'semi-finals': 'SF',
+        'final': 'Final', 'third-place match': '3rd'
+      };
+      const stagePill = f.stage !== 'group' && stageLabels[f.stage]
+        ? `<span class="fx-stage-pill">${stageLabels[f.stage]}</span>` : '';
+
+      const row = document.createElement('div');
+      row.className = `fx-row${isLive ? ' fx-row-live' : ''}`;
       row.innerHTML =
-        `<span class="time">${played?ukTime(f.kickoffUK):'KO'}</span>`+
-        `<span class="home">${f.home} <span class="flag">${flagOf(f.home)}</span></span>`+
-        `<span class="score">${score}</span>`+
-        `<span class="away"><span class="flag">${flagOf(f.away)}</span> ${f.away}</span>`;
+        `<span class="time">${played ? ukTime(f.kickoffUK) : 'KO'}</span>`+
+        `<span class="home">${homeName} <span class="flag">${homeFlag}</span></span>`+
+        `<span class="score${isLive ? ' score-live' : ''}">${score}</span>`+
+        `<span class="away"><span class="flag">${awayFlag}</span> ${awayName}</span>`+
+        stagePill;
       wrap.appendChild(row);
     }
   }
