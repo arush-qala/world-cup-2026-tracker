@@ -26,7 +26,7 @@ async function boot(){
   renderGroups(true);
   initFilters();
   applyFilters();
-  renderStrength('group-stage');
+  renderStrength(getCurrentStage());
   renderFantasyHub();
   renderKnockouts();
   renderStats();
@@ -550,11 +550,59 @@ function renderStrength(metric){
   }
 }
 
+function getCurrentStage() {
+  // Returns the metric key for the most advanced active/ongoing stage.
+  // Priority: any live match wins; else the most recent stage with ≥1 finished match;
+  // else fall back to group-stage.
+  const now = Date.now();
+
+  const STAGE_ORDER = [
+    { metric: 'final',        stages: ['final', 'third-place match'] },
+    { metric: 'sf',           stages: ['semi-finals'] },
+    { metric: 'qf',           stages: ['quarter-finals'] },
+    { metric: 'r16',          stages: ['round of 16'] },
+    { metric: 'r32',          stages: ['round of 32'] },
+    { metric: 'group-stage',  stages: ['group'] },
+  ];
+
+  // 1. Detect a currently LIVE match (kicked off within last 130 mins, not finished)
+  for (const { metric, stages } of STAGE_ORDER) {
+    const isLive = DATA.fixtures.some(f => {
+      if (!stages.includes(f.stage)) return false;
+      if (f.status === 'finished') return false;
+      const ko = f.kickoffUK ? new Date(f.kickoffUK).getTime() : null;
+      if (!ko) return false;
+      const elapsed = now - ko;
+      return elapsed > 0 && elapsed < 130 * 60 * 1000;
+    });
+    if (isLive) return metric;
+  }
+
+  // 2. Most advanced stage with at least one scheduled/upcoming fixture
+  //    (i.e., the stage we're currently in but between matches)
+  for (const { metric, stages } of STAGE_ORDER) {
+    const hasScheduled = DATA.fixtures.some(f =>
+      stages.includes(f.stage) && f.status === 'scheduled'
+    );
+    const hasFinished = DATA.fixtures.some(f =>
+      stages.includes(f.stage) && f.status === 'finished'
+    );
+    if (hasScheduled || hasFinished) return metric;
+  }
+
+  return 'group-stage';
+}
+
 function wireStrengthToggle(){
-  document.querySelectorAll('#strengthseg button').forEach(b=>{
+  const currentMetric = getCurrentStage();
+  strengthMetric = currentMetric;
+
+  document.querySelectorAll('#strengthseg button').forEach(b => {
+    // Activate the button matching the live stage
+    b.classList.toggle('active', b.dataset.metric === currentMetric);
     b.onclick = () => {
       strengthMetric = b.dataset.metric;
-      document.querySelectorAll('#strengthseg button').forEach(x=>x.classList.toggle('active',x===b));
+      document.querySelectorAll('#strengthseg button').forEach(x => x.classList.toggle('active', x === b));
       renderStrength(strengthMetric);
     };
   });
