@@ -1336,11 +1336,20 @@ body {
   margin-top: 20px;
   position: relative;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.stats-chart-container svg {
+  min-width: 650px;
+  height: 100%;
+  display: block;
 }
 .stats-summary {
   display: flex;
   justify-content: space-around;
   padding: 20px 0;
+  flex-wrap: wrap;
+  gap: 16px;
 }
 .summary-item {
   text-align: center;
