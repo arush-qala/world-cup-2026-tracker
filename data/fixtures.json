@@ -1129,10 +1129,10 @@
     "venue": "Arrowhead Stadium, Kansas City",
     "home": "ALG",
     "away": "AUT",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 3,
+      "away": 3
     }
   },
   {
@@ -1145,10 +1145,10 @@
     "venue": "AT&T Stadium, Arlington",
     "home": "JOR",
     "away": "ARG",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 1,
+      "away": 3
     }
   }
 ]
