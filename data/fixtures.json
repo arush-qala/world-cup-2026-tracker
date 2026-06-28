@@ -1065,10 +1065,10 @@
     "venue": "MetLife Stadium, East Rutherford",
     "home": "PAN",
     "away": "ENG",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 0,
+      "away": 2
     }
   },
   {
@@ -1081,10 +1081,10 @@
     "venue": "Lincoln Financial Field, Philadelphia",
     "home": "CRO",
     "away": "GHA",
-    "status": "scheduled",
+    "status": "finished",
     "score": {
-      "home": null,
-      "away": null
+      "home": 2,
+      "away": 1
     }
   },
   {
