@@ -1150,5 +1150,19 @@
       "home": 1,
       "away": 3
     }
+  },
+  {
+    "id": "M73",
+    "stage": "round of 32",
+    "dateUK": "2026-06-28",
+    "kickoffUK": "2026-06-28T20:00:00+01:00",
+    "venue": "SoFi Stadium, Los Angeles",
+    "home": "RSA",
+    "away": "CAN",
+    "status": "finished",
+    "score": {
+      "home": 0,
+      "away": 1
+    }
   }
 ]
