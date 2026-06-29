@@ -1367,6 +1367,125 @@ body {
   letter-spacing: 1px;
 }
 
+/* ── Stats Country Filter Panel ── */
+.stats-filter-panel {
+  max-width: 900px;
+  margin: 0 auto 20px;
+  padding: 0 28px;
+}
+.stats-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.stats-filter-label {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.stats-filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.stats-country-search {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 7px 12px;
+  border-radius: 10px;
+  outline: none;
+  width: 160px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.stats-country-search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+.stats-country-search::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+.stats-filter-clear {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.stats-filter-clear:hover {
+  border-color: var(--accent-border);
+  color: var(--accent);
+}
+.stats-country-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 130px;
+  overflow-y: auto;
+  padding: 2px 0;
+}
+.stats-country-chips::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+.stats-country-chips::-webkit-scrollbar-track {
+  background: transparent;
+}
+.stats-country-chips::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 4px;
+}
+.stats-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--panel);
+  border: 1.5px solid var(--line);
+  border-radius: 99px;
+  padding: 5px 11px 5px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s, transform 0.1s;
+  user-select: none;
+  white-space: nowrap;
+}
+.stats-chip:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-glow);
+}
+.stats-chip.active {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+  color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+.stats-chip .chip-flag {
+  font-size: 15px;
+  line-height: 1;
+}
+.stats-chip .chip-code {
+  letter-spacing: 0.3px;
+}
+.stats-chip[hidden] {
+  display: none;
+}
+
 /* ── Fixture row enhancements ── */
 .fx-stage-pill {
   font-size: 0.6rem;

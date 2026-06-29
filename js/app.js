@@ -13,6 +13,7 @@ let activeFilters = {
   country: [],
   date: 'ALL'
 };
+let statsCountryFilter = new Set(); // codes of countries selected on the Goal Analytics filter
 
 async function boot(){
   const [groups, fixtures, fantasy] = await Promise.all([
@@ -30,6 +31,7 @@ async function boot(){
   renderFantasyHub();
   renderKnockouts();
   renderStats();
+  initStatsFilter();
   wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
   showUpdated();
   handleRouting();
@@ -1624,9 +1626,76 @@ function getRelativeCoords(element, container) {
 
 let _statsPoller = null;
 
+function initStatsFilter() {
+  const chipsContainer = document.getElementById('stats-country-chips');
+  const searchInput    = document.getElementById('stats-country-search');
+  const clearBtn       = document.getElementById('stats-filter-clear');
+
+  // Build sorted team list
+  const allTeams = [];
+  for (const teams of Object.values(DATA.groups)) allTeams.push(...teams);
+  allTeams.sort((a, b) => a.name.localeCompare(b.name));
+
+  // Render chips
+  chipsContainer.innerHTML = '';
+  for (const team of allTeams) {
+    const chip = document.createElement('button');
+    chip.className = 'stats-chip';
+    chip.dataset.code = team.code;
+    chip.dataset.name = team.name.toLowerCase();
+    chip.innerHTML = `<span class="chip-flag">${team.flag}</span><span class="chip-code">${team.code}</span>`;
+    chip.title = team.name;
+    chip.setAttribute('type', 'button');
+    chip.addEventListener('click', () => {
+      if (statsCountryFilter.has(team.code)) {
+        statsCountryFilter.delete(team.code);
+        chip.classList.remove('active');
+      } else {
+        statsCountryFilter.add(team.code);
+        chip.classList.add('active');
+      }
+      clearBtn.hidden = statsCountryFilter.size === 0;
+      renderStats();
+    });
+    chipsContainer.appendChild(chip);
+  }
+
+  // Search filter
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.toLowerCase().trim();
+    chipsContainer.querySelectorAll('.stats-chip').forEach(chip => {
+      chip.hidden = q ? !chip.dataset.name.includes(q) && !chip.dataset.code.toLowerCase().includes(q) : false;
+    });
+  });
+
+  // Clear all
+  clearBtn.addEventListener('click', () => {
+    statsCountryFilter.clear();
+    chipsContainer.querySelectorAll('.stats-chip').forEach(c => c.classList.remove('active'));
+    clearBtn.hidden = true;
+    renderStats();
+  });
+}
+
 function renderStats() {
   const now = Date.now();
-  const finishedMatches = DATA.fixtures.filter(m => m.status === 'finished');
+  // Apply country filter: only include matches where home or away team is selected
+  const hasCountryFilter = statsCountryFilter.size > 0;
+  const allFinished = DATA.fixtures.filter(m => m.status === 'finished');
+  const finishedMatches = hasCountryFilter
+    ? allFinished.filter(m => statsCountryFilter.has(m.home) || statsCountryFilter.has(m.away))
+    : allFinished;
+
+  // Update chart description
+  const descEl = document.getElementById('stats-chart-desc');
+  if (descEl) {
+    if (hasCountryFilter) {
+      const codes = [...statsCountryFilter].join(', ');
+      descEl.textContent = `Showing matches involving: ${codes}`;
+    } else {
+      descEl.textContent = 'Tracking the scoring rate as the tournament progresses.';
+    }
+  }
   
   const stages = [
     { id: 'MD1', label: 'Matchday 1', filter: m => m.stage === 'group' && m.matchday === 1 },
@@ -1643,7 +1712,11 @@ function renderStats() {
   let maxAvg = 0;
 
   const stageData = stages.map(s => {
-    const allStageMatches = DATA.fixtures.filter(s.filter);
+    // For live detection use all fixtures (filtered by country if active), not just finished
+    const countryPool = hasCountryFilter
+      ? DATA.fixtures.filter(m => statsCountryFilter.has(m.home) || statsCountryFilter.has(m.away))
+      : DATA.fixtures;
+    const allStageMatches = countryPool.filter(s.filter);
     const matches = allStageMatches.filter(m => m.status === 'finished');
     const count = matches.length;
     let goals = [];
