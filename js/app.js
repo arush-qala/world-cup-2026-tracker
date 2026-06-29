@@ -1726,12 +1726,7 @@ function renderStats() {
     const totalStageGoals = goals.reduce((sum, g) => sum + g, 0);
     const avg = count > 0 ? totalStageGoals / count : 0;
     
-    // Variance & Standard Deviation
-    let sd = 0;
-    if (count > 0) {
-      const sumSqDiff = goals.reduce((sum, g) => sum + Math.pow(g - avg, 2), 0);
-      sd = Math.sqrt(sumSqDiff / count);
-    }
+
 
     // Detect if any match in this stage is currently LIVE
     // (kickoff has passed within the last ~130 minutes and not yet finished)
@@ -1745,7 +1740,7 @@ function renderStats() {
     
     totalGoals += totalStageGoals;
     if (avg > maxAvg) maxAvg = avg;
-    return { ...s, count, goals: totalStageGoals, avg, sd, isLive };
+    return { ...s, count, goals: totalStageGoals, avg, isLive };
   });
 
   const summaryContainer = document.getElementById('goals-summary');
@@ -1753,15 +1748,7 @@ function renderStats() {
   const overallAvg = totalMatches > 0 ? (totalGoals / totalMatches) : 0;
   const anyLive = stageData.some(s => s.isLive);
   
-  // Compute overall Standard Deviation
-  let overallSD = 0;
-  if (totalMatches > 0) {
-    const sumSqDiff = finishedMatches.reduce((sum, m) => {
-      const matchGoals = (m.score?.home || 0) + (m.score?.away || 0);
-      return sum + Math.pow(matchGoals - overallAvg, 2);
-    }, 0);
-    overallSD = Math.sqrt(sumSqDiff / totalMatches);
-  }
+
 
   // Update card title with live badge if any match is live
   const cardTitle = document.querySelector('#stats-trend-container .fantasy-card-title');
@@ -1784,10 +1771,6 @@ function renderStats() {
       <div class="summary-value" style="color: var(--accent);">${overallAvg.toFixed(2)}</div>
       <div class="summary-label">Goals per Match</div>
     </div>
-    <div class="summary-item">
-      <div class="summary-value" style="color: var(--muted);">±${overallSD.toFixed(2)}</div>
-      <div class="summary-label">Std Deviation</div>
-    </div>
   `;
 
 
@@ -1798,27 +1781,15 @@ function renderStats() {
     const y = s.count > 0 && maxAvg > 0
       ? 170 - (s.avg / (maxAvg * 1.1)) * 130
       : 170;
-      
-    const yUpper = s.count > 0 && maxAvg > 0
-      ? 170 - (Math.min(maxAvg * 1.1, s.avg + s.sd) / (maxAvg * 1.1)) * 130
-      : 170;
-      
-    const yLower = s.count > 0 && maxAvg > 0
-      ? 170 - (Math.max(0, s.avg - s.sd) / (maxAvg * 1.1)) * 130
-      : 170;
-      
-    return { ...s, x, y, yUpper, yLower };
+    return { ...s, x, y };
   });
 
   const activePoints = points.filter(p => p.count > 0);
-  let pathD = '', areaD = '', bandD = '';
+  let pathD = '', areaD = '';
   
   if (activePoints.length > 0) {
     pathD = `M ${activePoints[0].x} ${activePoints[0].y} ` + activePoints.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
     areaD = `M ${activePoints[0].x} 170 L ${activePoints[0].x} ${activePoints[0].y} ` + activePoints.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ') + ` L ${activePoints[activePoints.length - 1].x} 170 Z`;
-    const upperPath = activePoints.map(p => `L ${p.x} ${p.yUpper}`).join(' ');
-    const lowerPath = [...activePoints].reverse().map(p => `L ${p.x} ${p.yLower}`).join(' ');
-    bandD = `M ${activePoints[0].x} ${activePoints[0].yUpper} ${upperPath} L ${activePoints[activePoints.length - 1].x} ${activePoints[activePoints.length - 1].yLower} ${lowerPath} Z`;
   }
 
   // Generate grid lines
@@ -1836,26 +1807,12 @@ function renderStats() {
   const stageMarkers = points.map((p, idx) => {
     const opacity = p.count > 0 ? 1 : (p.isLive ? 0.9 : 0.3);
     const nodeColor = p.isLive ? '#22c55e' : 'var(--accent)';
-    const whiskerColor = p.isLive ? '#22c55e' : 'var(--accent)';
     const labelColor = p.isLive ? '#22c55e' : 'var(--text)';
-    const liveAnim = p.isLive ? `class="live-node"` : '';
-    
-    // Standard Deviation Whisker lines (vertical error bars)
-    const whisker = p.count > 0 && p.sd > 0
-      ? `<line x1="${p.x}" y1="${p.yUpper}" x2="${p.x}" y2="${p.yLower}" stroke="${whiskerColor}" stroke-width="1.5" stroke-opacity="0.8" />
-         <line x1="${p.x - 5}" y1="${p.yUpper}" x2="${p.x + 5}" y2="${p.yUpper}" stroke="${whiskerColor}" stroke-width="1.5" stroke-opacity="0.8" />
-         <line x1="${p.x - 5}" y1="${p.yLower}" x2="${p.x + 5}" y2="${p.yLower}" stroke="${whiskerColor}" stroke-width="1.5" stroke-opacity="0.8" />`
-      : '';
-
-    const labelOffset = Math.min(p.yUpper, p.y - 12);
 
     return `
       <g style="opacity: ${opacity}">
         <!-- Background vertical guideline -->
         <line x1="${p.x}" y1="170" x2="${p.x}" y2="20" stroke="var(--line)" stroke-width="1" stroke-dasharray="2,2" />
-        
-        <!-- Standard Deviation Whisker -->
-        ${whisker}
         
         <!-- Node circle (live = green pulsing outer ring) -->
         ${p.isLive
@@ -1865,10 +1822,9 @@ function renderStats() {
             ? `<circle cx="${p.x}" cy="${p.y}" r="5" fill="${nodeColor}" stroke="var(--panel)" stroke-width="2" filter="drop-shadow(0 0 4px var(--accent))" />` 
             : `<circle cx="${p.x}" cy="170" r="4" fill="var(--muted)" stroke="var(--panel)" stroke-width="1" opacity="0.4" />`}
         
-        <!-- Value and SD label text -->
+        <!-- Value label -->
         ${p.count > 0 
-          ? `<text x="${p.x}" y="${labelOffset - 12}" fill="${labelColor}" font-size="10" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>
-             <text x="${p.x}" y="${labelOffset - 4}" fill="${p.isLive ? '#86efac' : 'var(--muted)'}" font-size="8" font-weight="600" text-anchor="middle">±${p.sd.toFixed(2)}</text>`
+          ? `<text x="${p.x}" y="${p.y - 14}" fill="${labelColor}" font-size="10" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>`
           : ''}
           
         <!-- Bottom labels -->
