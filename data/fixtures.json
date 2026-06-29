@@ -1164,5 +1164,19 @@
       "home": 0,
       "away": 1
     }
+  },
+  {
+    "id": "M74",
+    "stage": "round of 32",
+    "dateUK": "2026-06-29",
+    "kickoffUK": "2026-06-29T18:00:00+01:00",
+    "venue": "NRG Stadium, Houston",
+    "home": "BRA",
+    "away": "JPN",
+    "status": "finished",
+    "score": {
+      "home": 2,
+      "away": 1
+    }
   }
 ]
