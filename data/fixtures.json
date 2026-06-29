@@ -1169,6 +1169,21 @@
     "id": "M74",
     "stage": "round of 32",
     "dateUK": "2026-06-29",
+    "kickoffUK": "2026-06-29T21:30:00+01:00",
+    "venue": "Gillette Stadium, Foxborough",
+    "home": "GER",
+    "away": "PAR",
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 1
+    },
+    "note": "GER win 3-1 on penalties (AET 1-1)"
+  },
+  {
+    "id": "M76",
+    "stage": "round of 32",
+    "dateUK": "2026-06-29",
     "kickoffUK": "2026-06-29T18:00:00+01:00",
     "venue": "NRG Stadium, Houston",
     "home": "BRA",
