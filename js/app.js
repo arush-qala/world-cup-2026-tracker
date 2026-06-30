@@ -1,6 +1,7 @@
 import { resolveColors } from './colors.js';
 import { computeGroup } from './standings.js';
 import { renderChart } from './chart.js';
+import { buildBracketStructure, renderBracketWheel } from './bracket-wheel.js';
 
 let DATA = { groups:{}, fixtures:[] };
 let FANTASY = { setPieces: {}, injuries: [] };
@@ -221,19 +222,25 @@ function switchTab(tabId) {
   document.getElementById('strength-view').hidden = tabId!=='strength';
   document.getElementById('fantasy-view').hidden  = tabId!=='fantasy';
   document.getElementById('knockout-view').hidden = tabId!=='knockout';
+  const wheelView = document.getElementById('wheel-view');
+  if (wheelView) wheelView.hidden = tabId!=='wheel';
   const statsView = document.getElementById('stats-view');
   if (statsView) statsView.hidden = tabId!=='stats';
-  
+
   if (tabId === 'knockout') {
     requestAnimationFrame(() => {
       drawBracketLines();
     });
   }
+  if (tabId === 'wheel') {
+    // Re-render so the draw-in animation replays each time the tab opens.
+    requestAnimationFrame(() => renderWheel());
+  }
 }
 
 function handleRouting() {
   let hash = window.location.hash.replace('#/', '').replace('#', '');
-  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'knockout', 'stats'];
+  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'knockout', 'wheel', 'stats'];
   const defaultTab = 'fixtures';
   
   if (!hash || !validTabs.includes(hash)) {
@@ -983,6 +990,70 @@ function getEliminatedTeams() {
   }
 
   return eliminated;
+}
+
+// ── Bracket Wheel ─────────────────────────────────────────────────────────────
+// Decorate the static knockout structure with live team/winner data so the
+// radial wheel can render it. Reuses the same projection helpers as the linear
+// bracket, so both views always agree.
+function buildBracketTree() {
+  // Resolved matchups for every round (teams + status + score), indexed by id.
+  const byId = {};
+  ['r32', 'r16', 'qf', 'sf'].forEach(metric => {
+    getKnockoutRoundMatchesData(metric).forEach(m => { if (m) byId[m.id] = m; });
+  });
+  const finalData = getKnockoutRoundMatchesData('final')[0]; // [final, 3rd-place]
+  if (finalData) byId[finalData.id] = finalData;
+
+  const eliminated = getEliminatedTeams();
+
+  const winnerOf = (m) => {
+    if (!m || m.status !== 'finished' || !m.score) return null;
+    const sh = m.score.home ?? 0, sa = m.score.away ?? 0;
+    if (sh > sa) return m.home;
+    if (sa > sh) return m.away;
+    return (m.home.fifaPoints ?? 0) >= (m.away.fifaPoints ?? 0) ? m.home : m.away;
+  };
+
+  // parentWinnerCode = code of the team that won this node's *parent* match,
+  // used to light the spoke for the team that advanced.
+  const decorate = (s, parentWinnerCode) => {
+    const m = byId[s.id];
+    const winner = winnerOf(m);
+    const decided = !!(m && m.status === 'finished');
+    const advanced = !!(winner && parentWinnerCode && winner.code === parentWinnerCode);
+
+    if (s.round === 'r32') {
+      const teams = m ? [m.home, m.away] : [null, null];
+      const children = s.children.map((leaf, i) => {
+        const team = teams[i] || { label: 'TBD', code: '?', flag: '🏳️', dummy: true };
+        return {
+          id: leaf.id, round: 'team', team, children: [],
+          eliminated: !team.dummy && eliminated.has(team.code),
+          advanced: !!(winner && winner.code === team.code), // won this R32 tie
+        };
+      });
+      return { id: s.id, round: 'r32', team: winner, decided, advanced, children };
+    }
+
+    const children = s.children.map(c => decorate(c, winner ? winner.code : null));
+    return { id: s.id, round: s.round, team: winner, decided, advanced, children };
+  };
+
+  return decorate(buildBracketStructure(), null);
+}
+
+function renderWheel() {
+  const container = document.getElementById('wheel-canvas');
+  const caption = document.getElementById('wheel-caption');
+  if (!container) return;
+  let tree;
+  try {
+    tree = buildBracketTree();
+  } catch (e) {
+    return; // group data not ready yet
+  }
+  renderBracketWheel(tree, { container, caption });
 }
 
 function renderFantasyHub(setpieceFilter = '') {
