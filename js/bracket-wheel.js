@@ -117,6 +117,8 @@ export function collectTravelMarkers(tree) {
           team: c.team,
           delay,
           d: travelPath(c._angle, c._r, n._angle, n._r, n.round),
+          parentAngle: n._angle,
+          parentR: n._r,
         });
       }
       walk(c);
@@ -253,12 +255,24 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   });
 
   // Travel markers — flag glides from its current node to the next one for
-  // every team that just advanced (skipped entirely under reduced motion).
+  // every team that just advanced.
   const gTravel = el('g');
   const reduceMotion = window.matchMedia
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduceMotion) {
-    collectTravelMarkers(tree).forEach((m) => {
+  
+  collectTravelMarkers(tree).forEach((m) => {
+    if (reduceMotion) {
+      const [px, py] = xy(m.parentAngle, m.parentR);
+      const g = el('g', {
+        class: 'wheel-travel-badge',
+        transform: `translate(${px.toFixed(1)} ${py.toFixed(1)})`,
+      });
+      g.appendChild(el('circle', { r: 16, class: 'wheel-travel-bg' }));
+      const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
+      flag.textContent = (m.team && m.team.flag) || '🏳️';
+      g.appendChild(flag);
+      gTravel.appendChild(g);
+    } else {
       const g = el('g', { class: 'wheel-travel-badge', opacity: '0' });
       g.appendChild(el('circle', { r: 16, class: 'wheel-travel-bg' }));
       const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
@@ -268,17 +282,17 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
         path: m.d, begin: `${m.delay}s`, dur: '0.55s', rotate: '0', fill: 'freeze',
       }));
       g.appendChild(el('animate', {
-        attributeName: 'opacity', values: '0;1;1;0', keyTimes: '0;0.12;0.82;1',
+        attributeName: 'opacity', values: '0;1;1', keyTimes: '0;0.2;1',
         begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
       }));
       g.appendChild(el('animateTransform', {
         attributeName: 'transform', type: 'scale',
-        values: '0.3;1.15;1;1;0.85', keyTimes: '0;0.12;0.3;0.82;1',
+        values: '0.3;1.15;1', keyTimes: '0;0.4;1',
         begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
       }));
       gTravel.appendChild(g);
-    });
-  }
+    }
+  });
 
   // Trophy (or crowned champion) at the centre.
   const champ = tree.team && tree.decided ? tree.team : null;
