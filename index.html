@@ -15,6 +15,7 @@
       <button class="tab" data-tab="strength">Strength</button>
       <button class="tab" data-tab="fantasy">Fantasy Hub</button>
       <button class="tab" data-tab="knockout">Knockouts</button>
+      <button class="tab" data-tab="predictions">Bracket Predictor</button>
       <button class="tab" data-tab="wheel">Bracket Wheel</button>
       <button class="tab" data-tab="stats">Stats</button>
     </nav>
@@ -183,6 +184,21 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="predictions-view" hidden>
+    <div class="viewbar">
+      <div class="seg" style="gap: 8px; display: flex; align-items: center; border: none; background: transparent; padding: 0;">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 700; color: var(--text);">Bracket Predictor</h2>
+        <button id="reset-predictions" class="btn" style="padding: 6px 12px; font-size: 11px; border-radius: 8px; margin-left: 12px; background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); color: #ef4444; font-weight: 600; cursor: pointer; transition: 0.2s;">Reset Predictions</button>
+      </div>
+      <span class="updated" id="predictions-caption">Drag a team name to the next round slot, or click to advance.</span>
+    </div>
+
+    <!-- Predictions Bracket Container -->
+    <div id="predictions-bracket-container" class="bracket-container">
+      <!-- Dynamically populated predictions bracket -->
     </div>
   </section>
 

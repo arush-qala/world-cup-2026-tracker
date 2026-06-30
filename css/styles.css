@@ -1321,7 +1321,8 @@ body {
 .bracket-container > *:nth-child(3) { animation-delay: 0.06s; }
 .bracket-container > *:nth-child(4) { animation-delay: 0.08s; }
 .bracket-container > *:nth-child(5) { animation-delay: 0.10s; }
-#bracket-svg-overlay {
+#bracket-svg-overlay,
+#predictions-svg-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -1677,3 +1678,65 @@ body {
   .wheel-flag { font-size: 26px; }
   .wheel-badge-bg { r: 24; }
 }
+
+/* ── Interactive Bracket Predictions ── */
+.bracket-match-team.draggable {
+  cursor: grab;
+  user-select: none;
+  position: relative;
+  border: 1px solid transparent;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+.bracket-match-team.draggable:hover {
+  background: var(--accent-glow);
+  border-color: var(--accent-border);
+}
+
+.bracket-match-team.draggable:active {
+  cursor: grabbing;
+}
+
+/* Valid drop target slot */
+.bracket-match-team.valid-drop-target {
+  border: 1px dashed var(--accent);
+  background: rgba(74, 222, 128, 0.05) !important;
+  animation: pulse-border 2s infinite;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.1);
+}
+
+.bracket-match-team.valid-drop-target.drop-hover {
+  background: var(--accent-glow) !important;
+  border: 1.5px solid var(--accent) !important;
+  transform: scale(1.02);
+  box-shadow: 0 0 12px rgba(74, 222, 128, 0.2);
+}
+
+@keyframes pulse-border {
+  0% { border-color: rgba(74, 222, 128, 0.3); }
+  50% { border-color: rgba(74, 222, 128, 1); }
+  100% { border-color: rgba(74, 222, 128, 0.3); }
+}
+
+/* Prediction specific checkmarks/indicators */
+.bracket-match-team.predicted-winner {
+  color: var(--accent);
+  background: var(--accent-glow) !important;
+  border-color: var(--accent-border) !important;
+}
+
+.bracket-match-team.predicted-winner .code {
+  color: var(--accent) !important;
+  opacity: 0.9;
+}
+
+.bracket-match-team.predicted-winner .score-or-time {
+  color: var(--accent) !important;
+}
+
+/* Reset button hover styling */
+#reset-predictions:hover {
+  background: rgba(220, 38, 38, 0.2) !important;
+  border-color: rgba(220, 38, 38, 0.4) !important;
+}
+

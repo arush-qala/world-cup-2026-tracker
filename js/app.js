@@ -24,6 +24,7 @@ async function boot(){
   ]);
   DATA = { groups, fixtures };
   FANTASY = fantasy;
+  loadPredictions();
   syncKnockoutFixtures();
   renderGroups(true);
   initFilters();
@@ -33,6 +34,16 @@ async function boot(){
   renderKnockouts();
   renderStats();
   initStatsFilter();
+  
+  const resetBtn = document.getElementById('reset-predictions');
+  if (resetBtn) {
+    resetBtn.onclick = () => {
+      PREDICTIONS = {};
+      savePredictions();
+      renderPredictions();
+    };
+  }
+
   wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
   showUpdated();
   handleRouting();
@@ -222,6 +233,10 @@ function switchTab(tabId) {
   document.getElementById('strength-view').hidden = tabId!=='strength';
   document.getElementById('fantasy-view').hidden  = tabId!=='fantasy';
   document.getElementById('knockout-view').hidden = tabId!=='knockout';
+  
+  const predictionsView = document.getElementById('predictions-view');
+  if (predictionsView) predictionsView.hidden = tabId!=='predictions';
+  
   const wheelView = document.getElementById('wheel-view');
   if (wheelView) wheelView.hidden = tabId!=='wheel';
   const statsView = document.getElementById('stats-view');
@@ -232,6 +247,9 @@ function switchTab(tabId) {
       drawBracketLines();
     });
   }
+  if (tabId === 'predictions') {
+    renderPredictions();
+  }
   if (tabId === 'wheel') {
     // Re-render so the draw-in animation replays each time the tab opens.
     requestAnimationFrame(() => renderWheel());
@@ -240,7 +258,7 @@ function switchTab(tabId) {
 
 function handleRouting() {
   let hash = window.location.hash.replace('#/', '').replace('#', '');
-  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'knockout', 'wheel', 'stats'];
+  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'knockout', 'predictions', 'wheel', 'stats'];
   const defaultTab = 'fixtures';
   
   if (!hash || !validTabs.includes(hash)) {
@@ -1290,6 +1308,74 @@ function getMatchWinner(matchId, homeTeam, awayTeam) {
   };
 }
 
+let PREDICTIONS = {};
+
+function loadPredictions() {
+  try {
+    const saved = localStorage.getItem('world_cup_2026_predictions');
+    if (saved) {
+      PREDICTIONS = JSON.parse(saved);
+    }
+  } catch (e) {
+    console.error('Error loading predictions', e);
+  }
+}
+
+function savePredictions() {
+  try {
+    localStorage.setItem('world_cup_2026_predictions', JSON.stringify(PREDICTIONS));
+  } catch (e) {
+    console.error('Error saving predictions', e);
+  }
+}
+
+function getPredictedMatchWinner(matchId, homeTeam, awayTeam) {
+  const predictedCode = PREDICTIONS[matchId];
+  if (predictedCode) {
+    if (homeTeam && homeTeam.code === predictedCode) return homeTeam;
+    if (awayTeam && awayTeam.code === predictedCode) return awayTeam;
+    delete PREDICTIONS[matchId];
+    savePredictions();
+  }
+
+  const f = DATA.fixtures.find(m => m.id === matchId);
+  if (f && f.status === 'finished') {
+    if (f.score.home > f.score.away) return homeTeam;
+    if (f.score.home < f.score.away) return awayTeam;
+    return homeTeam.fifaPoints >= awayTeam.fifaPoints ? homeTeam : awayTeam;
+  }
+
+  return {
+    label: `Winner Match ${matchId.replace('M', '')}`,
+    flag: '🏳️',
+    code: `W${matchId.replace('M', '')}`,
+    dummy: true,
+    fifaPoints: 0
+  };
+}
+
+function getPredictedMatchLoser(matchId, homeTeam, awayTeam) {
+  const predictedCode = PREDICTIONS[matchId];
+  if (predictedCode) {
+    if (homeTeam && homeTeam.code === predictedCode) return awayTeam;
+    if (awayTeam && awayTeam.code === predictedCode) return homeTeam;
+  }
+
+  const f = DATA.fixtures.find(m => m.id === matchId);
+  if (f && f.status === 'finished') {
+    const winner = getPredictedMatchWinner(matchId, homeTeam, awayTeam);
+    return winner.code === homeTeam.code ? awayTeam : homeTeam;
+  }
+
+  return {
+    label: `Loser Match ${matchId.replace('M', '')}`,
+    flag: '🏳️',
+    code: `L${matchId.replace('M', '')}`,
+    dummy: true,
+    fifaPoints: 0
+  };
+}
+
 const KNOCKOUT_SCHEDULE = {
   // Round of 32
   M73: { kickoffUK: '2026-06-28T20:00:00+01:00', venue: 'SoFi Stadium, Los Angeles' },
@@ -1616,16 +1702,25 @@ function renderKnockouts() {
 }
 
 function drawBracketLines() {
-  const container = document.getElementById('knockout-bracket-container');
-  if (!container || knockoutView !== 'bracket') return;
+  drawBracketLinesGeneral('knockout-bracket-container', 'bracket-svg-overlay');
+}
+
+function drawBracketLinesForPredictions() {
+  drawBracketLinesGeneral('predictions-bracket-container', 'predictions-svg-overlay');
+}
+
+function drawBracketLinesGeneral(containerId, svgId) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  if (containerId === 'knockout-bracket-container' && knockoutView !== 'bracket') return;
 
   // Clear existing SVG overlay
-  let svg = document.getElementById('bracket-svg-overlay');
+  let svg = document.getElementById(svgId);
   if (svg) {
     svg.innerHTML = '';
   } else {
     svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.id = 'bracket-svg-overlay';
+    svg.id = svgId;
     container.appendChild(svg);
   }
 
@@ -1668,7 +1763,13 @@ function drawBracketLines() {
       path.setAttribute('fill', 'none');
 
       // Check if match was played/finished to highlight the winner path
-      const played = sMatch.classList.contains('has-winner');
+      let played = false;
+      if (containerId === 'predictions-bracket-container') {
+        const sourceMatchId = sMatch.dataset.matchId;
+        played = !!PREDICTIONS[sourceMatchId];
+      } else {
+        played = sMatch.classList.contains('has-winner');
+      }
       path.setAttribute('stroke', played ? 'var(--accent)' : 'var(--line-hover)');
       path.setAttribute('stroke-width', played ? '2.5' : '1.5');
       path.style.transition = 'stroke 0.25s, stroke-width 0.25s';
@@ -1960,4 +2061,408 @@ window.addEventListener('resize', () => {
   if (knockoutView === 'bracket' && !document.getElementById('knockout-view').hidden) {
     drawBracketLines();
   }
+  if (!document.getElementById('predictions-view').hidden) {
+    drawBracketLinesForPredictions();
+  }
 });
+
+// ── Predictions Bracket Implementation ──
+const MATCH_CONNECTIONS = {
+  // R32 -> R16
+  'M74': { nextMatchId: 'M89', slot: 'home' },
+  'M77': { nextMatchId: 'M89', slot: 'away' },
+  'M73': { nextMatchId: 'M90', slot: 'home' },
+  'M75': { nextMatchId: 'M90', slot: 'away' },
+  'M76': { nextMatchId: 'M91', slot: 'home' },
+  'M78': { nextMatchId: 'M91', slot: 'away' },
+  'M79': { nextMatchId: 'M92', slot: 'home' },
+  'M80': { nextMatchId: 'M92', slot: 'away' },
+  'M83': { nextMatchId: 'M93', slot: 'home' },
+  'M84': { nextMatchId: 'M93', slot: 'away' },
+  'M81': { nextMatchId: 'M94', slot: 'home' },
+  'M82': { nextMatchId: 'M94', slot: 'away' },
+  'M86': { nextMatchId: 'M95', slot: 'home' },
+  'M88': { nextMatchId: 'M95', slot: 'away' },
+  'M85': { nextMatchId: 'M96', slot: 'home' },
+  'M87': { nextMatchId: 'M96', slot: 'away' },
+
+  // R16 -> QF
+  'M89': { nextMatchId: 'M97', slot: 'home' },
+  'M90': { nextMatchId: 'M97', slot: 'away' },
+  'M93': { nextMatchId: 'M98', slot: 'home' },
+  'M94': { nextMatchId: 'M98', slot: 'away' },
+  'M91': { nextMatchId: 'M99', slot: 'home' },
+  'M92': { nextMatchId: 'M99', slot: 'away' },
+  'M95': { nextMatchId: 'M100', slot: 'home' },
+  'M96': { nextMatchId: 'M100', slot: 'away' },
+
+  // QF -> SF
+  'M97': { nextMatchId: 'M101', slot: 'home' },
+  'M98': { nextMatchId: 'M101', slot: 'away' },
+  'M99': { nextMatchId: 'M102', slot: 'home' },
+  'M100': { nextMatchId: 'M102', slot: 'away' },
+
+  // SF -> Final & 3rd Place
+  'M101': { nextMatchId: 'M104', slot: 'home' },
+  'M102': { nextMatchId: 'M104', slot: 'away' },
+  
+  // Final -> Champion
+  'M104': { nextMatchId: 'champion-card', slot: 'winner' }
+};
+
+function setupDragAndDropEvents(el, matchId, team) {
+  el.addEventListener('dragstart', (e) => {
+    e.dataTransfer.setData('text/plain', JSON.stringify({ matchId, teamCode: team.code }));
+    e.dataTransfer.effectAllowed = 'move';
+    
+    // Find valid drop target
+    const conn = MATCH_CONNECTIONS[matchId];
+    if (conn) {
+      let targetSelector = '';
+      if (conn.nextMatchId === 'champion-card') {
+        targetSelector = '#predictions-view .predictions-champ-slot';
+      } else {
+        targetSelector = `#predictions-view .bracket-match[data-match-id="${conn.nextMatchId}"] .bracket-match-team[data-role="${conn.slot}"]`;
+      }
+      
+      const targetEl = document.querySelector(targetSelector);
+      if (targetEl) {
+        targetEl.classList.add('valid-drop-target');
+      }
+    }
+  });
+
+  el.addEventListener('dragend', () => {
+    // Clean up all highlighted targets
+    document.querySelectorAll('#predictions-view .valid-drop-target').forEach(x => {
+      x.classList.remove('valid-drop-target');
+      x.classList.remove('drop-hover');
+    });
+  });
+}
+
+function makeSlotDropTarget(el, destMatchId, role) {
+  const sourceMatchId = Object.keys(MATCH_CONNECTIONS).find(key => {
+    const conn = MATCH_CONNECTIONS[key];
+    return conn.nextMatchId === destMatchId && conn.slot === role;
+  });
+
+  if (!sourceMatchId) return;
+
+  el.addEventListener('dragover', (e) => {
+    if (el.classList.contains('valid-drop-target')) {
+      e.preventDefault();
+      el.classList.add('drop-hover');
+    }
+  });
+
+  el.addEventListener('dragleave', () => {
+    el.classList.remove('drop-hover');
+  });
+
+  el.addEventListener('drop', (e) => {
+    el.classList.remove('drop-hover');
+    try {
+      const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+      if (data.matchId === sourceMatchId) {
+        selectPredictedWinner(sourceMatchId, data.teamCode);
+      }
+    } catch (err) {
+      console.error('Error on drop', err);
+    }
+  });
+}
+
+function makeChampSlotDropTarget(el) {
+  el.addEventListener('dragover', (e) => {
+    if (el.classList.contains('valid-drop-target')) {
+      e.preventDefault();
+      el.classList.add('drop-hover');
+    }
+  });
+
+  el.addEventListener('dragleave', () => {
+    el.classList.remove('drop-hover');
+  });
+
+  el.addEventListener('drop', (e) => {
+    el.classList.remove('drop-hover');
+    try {
+      const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+      if (data.matchId === 'M104') {
+        selectPredictedWinner('M104', data.teamCode);
+      }
+    } catch (err) {
+      console.error('Error on drop', err);
+    }
+  });
+}
+
+function selectPredictedWinner(matchId, teamCode) {
+  if (!teamCode || teamCode.startsWith('W') || teamCode.startsWith('3rd') || teamCode.startsWith('2') || teamCode.startsWith('1')) {
+    return;
+  }
+  
+  PREDICTIONS[matchId] = teamCode;
+  savePredictions();
+  renderPredictions();
+}
+
+function renderPredictions() {
+  const thirds = getThirdPlaceStandings();
+  const qualifiedThirds = thirds.slice(0, 8);
+  const qualifiedGroups = qualifiedThirds.map(t => t.group).sort();
+  const assignments = solveThirdPlaceMatchups(qualifiedGroups);
+
+  const r32MatchesData = [
+    { id: 'M73', name: 'Match 73', homeSlot: '2A', awaySlot: '2B' },
+    { id: 'M74', name: 'Match 74', homeSlot: '1E', awaySlot: '3E' },
+    { id: 'M75', name: 'Match 75', homeSlot: '1F', awaySlot: '2C' },
+    { id: 'M76', name: 'Match 76', homeSlot: '1C', awaySlot: '2F' },
+    { id: 'M77', name: 'Match 77', homeSlot: '1I', awaySlot: '3I' },
+    { id: 'M78', name: 'Match 78', homeSlot: '2E', awaySlot: '2I' },
+    { id: 'M79', name: 'Match 79', homeSlot: '1A', awaySlot: '3A' },
+    { id: 'M80', name: 'Match 80', homeSlot: '1L', awaySlot: '3L' },
+    { id: 'M81', name: 'Match 81', homeSlot: '1D', awaySlot: '3D' },
+    { id: 'M82', name: 'Match 82', homeSlot: '1G', awaySlot: '3G' },
+    { id: 'M83', name: 'Match 83', homeSlot: '2K', awaySlot: '2L' },
+    { id: 'M84', name: 'Match 84', homeSlot: '1H', awaySlot: '2J' },
+    { id: 'M85', name: 'Match 85', homeSlot: '1B', awaySlot: '3B' },
+    { id: 'M86', name: 'Match 86', homeSlot: '1J', awaySlot: '2H' },
+    { id: 'M87', name: 'Match 87', homeSlot: '1K', awaySlot: '3K' },
+    { id: 'M88', name: 'Match 88', homeSlot: '2D', awaySlot: '2G' }
+  ].map(m => {
+    const homeProj = getTeamBySlot(m.homeSlot, assignments);
+    const awayProj = getTeamBySlot(m.awaySlot, assignments);
+    return getMatchDetails(m.id, homeProj, awayProj);
+  });
+
+  const r16Pairings = [
+    { id: 'M89', name: 'Match 89', homeM: 'M74', awayM: 'M77' },
+    { id: 'M90', name: 'Match 90', homeM: 'M73', awayM: 'M75' },
+    { id: 'M91', name: 'Match 91', homeM: 'M76', awayM: 'M78' },
+    { id: 'M92', name: 'Match 92', homeM: 'M79', awayM: 'M80' },
+    { id: 'M93', name: 'Match 93', homeM: 'M83', awayM: 'M84' },
+    { id: 'M94', name: 'Match 94', homeM: 'M81', awayM: 'M82' },
+    { id: 'M95', name: 'Match 95', homeM: 'M86', awayM: 'M88' },
+    { id: 'M96', name: 'Match 96', homeM: 'M85', awayM: 'M87' }
+  ];
+  const r16MatchesData = r16Pairings.map(p => {
+    const homeR32 = r32MatchesData.find(x => x.id === p.homeM);
+    const awayR32 = r32MatchesData.find(x => x.id === p.awayM);
+    const homeProj = getPredictedMatchWinner(homeR32.id, homeR32.home, homeR32.away);
+    const awayProj = getPredictedMatchWinner(awayR32.id, awayR32.home, awayR32.away);
+    return getMatchDetails(p.id, homeProj, awayProj);
+  });
+
+  const qfPairings = [
+    { id: 'M97', name: 'Match 97', homeM: 'M89', awayM: 'M90' },
+    { id: 'M98', name: 'Match 98', homeM: 'M93', awayM: 'M94' },
+    { id: 'M99', name: 'Match 99', homeM: 'M91', awayM: 'M92' },
+    { id: 'M100', name: 'Match 100', homeM: 'M95', awayM: 'M96' }
+  ];
+  const qfMatchesData = qfPairings.map(p => {
+    const homeR16 = r16MatchesData.find(x => x.id === p.homeM);
+    const awayR16 = r16MatchesData.find(x => x.id === p.awayM);
+    const homeProj = getPredictedMatchWinner(homeR16.id, homeR16.home, homeR16.away);
+    const awayProj = getPredictedMatchWinner(awayR16.id, awayR16.home, awayR16.away);
+    return getMatchDetails(p.id, homeProj, awayProj);
+  });
+
+  const sfPairings = [
+    { id: 'M101', name: 'Match 101', homeM: 'M97', awayM: 'M98' },
+    { id: 'M102', name: 'Match 102', homeM: 'M99', awayM: 'M100' }
+  ];
+  const sfMatchesData = sfPairings.map(p => {
+    const homeQF = qfMatchesData.find(x => x.id === p.homeM);
+    const awayQF = qfMatchesData.find(x => x.id === p.awayM);
+    const homeProj = getPredictedMatchWinner(homeQF.id, homeQF.home, homeQF.away);
+    const awayProj = getPredictedMatchWinner(awayQF.id, awayQF.home, awayQF.away);
+    return getMatchDetails(p.id, homeProj, awayProj);
+  });
+
+  const sf1 = sfMatchesData.find(x => x.id === 'M101');
+  const sf2 = sfMatchesData.find(x => x.id === 'M102');
+  
+  const finalHomeProj = getPredictedMatchWinner(sf1.id, sf1.home, sf1.away);
+  const finalAwayProj = getPredictedMatchWinner(sf2.id, sf2.home, sf2.away);
+  const finalMatchData = getMatchDetails('M104', finalHomeProj, finalAwayProj);
+
+  const thirdHomeProj = getPredictedMatchLoser(sf1.id, sf1.home, sf1.away);
+  const thirdAwayProj = getPredictedMatchLoser(sf2.id, sf2.home, sf2.away);
+  const thirdMatchData = getMatchDetails('M103', thirdHomeProj, thirdAwayProj);
+
+  const champProj = getPredictedMatchWinner('M104', finalMatchData.home, finalMatchData.away);
+
+  const r32Order = ['M74', 'M77', 'M73', 'M75', 'M83', 'M84', 'M81', 'M82', 'M76', 'M78', 'M79', 'M80', 'M86', 'M88', 'M85', 'M87'];
+  const r16Order = ['M89', 'M90', 'M93', 'M94', 'M91', 'M92', 'M95', 'M96'];
+  const qfOrder = ['M97', 'M98', 'M99', 'M100'];
+  const sfOrder = ['M101', 'M102'];
+
+  const sortedR32 = r32Order.map(id => r32MatchesData.find(m => m.id === id));
+  const sortedR16 = r16Order.map(id => r16MatchesData.find(m => m.id === id));
+  const sortedQF = qfOrder.map(id => qfMatchesData.find(m => m.id === id));
+  const sortedSF = sfOrder.map(id => sfMatchesData.find(m => m.id === id));
+  const sortedFinal = [finalMatchData, thirdMatchData];
+
+  const columns = [
+    { title: 'Round of 32', matches: sortedR32 },
+    { title: 'Round of 16', matches: sortedR16 },
+    { title: 'Quarter-finals', matches: sortedQF },
+    { title: 'Semi-finals', matches: sortedSF },
+    { title: 'Final & 3rd Place', matches: sortedFinal }
+  ];
+
+  const container = document.getElementById('predictions-bracket-container');
+  if (!container) return;
+  container.innerHTML = '';
+
+  columns.forEach((col, roundIdx) => {
+    const colDiv = document.createElement('div');
+    colDiv.className = 'bracket-column';
+    
+    const titleDiv = document.createElement('div');
+    titleDiv.className = 'bracket-column-title';
+    titleDiv.textContent = col.title;
+    colDiv.appendChild(titleDiv);
+
+    const bodyDiv = document.createElement('div');
+    bodyDiv.className = 'bracket-column-body';
+
+    col.matches.forEach(m => {
+      const matchCard = document.createElement('div');
+      matchCard.className = 'bracket-match';
+      matchCard.dataset.matchId = m.id;
+
+      const pWinner = PREDICTIONS[m.id];
+      const actualFinished = m.status === 'finished';
+      const hasWinner = !!pWinner || actualFinished;
+      if (hasWinner) {
+        matchCard.classList.add('has-winner');
+      }
+
+      const homeScore = actualFinished ? m.score.home : '';
+      const awayScore = actualFinished ? m.score.away : '';
+
+      let homeHighlight = false;
+      let awayHighlight = false;
+      if (pWinner) {
+        homeHighlight = m.home.code === pWinner;
+        awayHighlight = m.away.code === pWinner;
+      } else if (actualFinished) {
+        homeHighlight = m.score.home > m.score.away;
+        awayHighlight = m.score.away > m.score.home;
+      }
+
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'bracket-match-header';
+      headerDiv.innerHTML = `
+        <span>${m.id}</span>
+        <span class="bracket-venue">${m.venue || ''}</span>
+      `;
+      matchCard.appendChild(headerDiv);
+
+      const teamsDiv = document.createElement('div');
+      teamsDiv.className = 'bracket-match-teams';
+
+      const homeTeamDiv = document.createElement('div');
+      homeTeamDiv.className = `bracket-match-team ${m.home.dummy ? 'dummy' : 'draggable'} ${homeHighlight ? 'predicted-winner' : ''}`;
+      homeTeamDiv.dataset.teamCode = m.home.code;
+      homeTeamDiv.dataset.role = 'home';
+      if (!m.home.dummy) {
+        homeTeamDiv.setAttribute('draggable', 'true');
+      }
+      homeTeamDiv.innerHTML = `
+        <span class="flag">${m.home.flag}</span>
+        <span class="team-label">${m.home.label}</span>
+        <span class="code">${m.home.code}</span>
+        <span class="score-or-time">${actualFinished ? homeScore : (homeHighlight ? '✓' : '')}</span>
+      `;
+
+      const awayTeamDiv = document.createElement('div');
+      awayTeamDiv.className = `bracket-match-team ${m.away.dummy ? 'dummy' : 'draggable'} ${awayHighlight ? 'predicted-winner' : ''}`;
+      awayTeamDiv.dataset.teamCode = m.away.code;
+      awayTeamDiv.dataset.role = 'away';
+      if (!m.away.dummy) {
+        awayTeamDiv.setAttribute('draggable', 'true');
+      }
+      awayTeamDiv.innerHTML = `
+        <span class="flag">${m.away.flag}</span>
+        <span class="team-label">${m.away.label}</span>
+        <span class="code">${m.away.code}</span>
+        <span class="score-or-time">${actualFinished ? awayScore : (awayHighlight ? '✓' : '')}</span>
+      `;
+
+      if (!m.home.dummy) {
+        setupDragAndDropEvents(homeTeamDiv, m.id, m.home);
+        homeTeamDiv.addEventListener('click', () => {
+          selectPredictedWinner(m.id, m.home.code);
+        });
+      }
+      if (!m.away.dummy) {
+        setupDragAndDropEvents(awayTeamDiv, m.id, m.away);
+        awayTeamDiv.addEventListener('click', () => {
+          selectPredictedWinner(m.id, m.away.code);
+        });
+      }
+
+      makeSlotDropTarget(homeTeamDiv, m.id, 'home');
+      makeSlotDropTarget(awayTeamDiv, m.id, 'away');
+
+      teamsDiv.appendChild(homeTeamDiv);
+      teamsDiv.appendChild(awayTeamDiv);
+      matchCard.appendChild(teamsDiv);
+      bodyDiv.appendChild(matchCard);
+    });
+
+    if (col.title === 'Final & 3rd Place') {
+      const champCard = document.createElement('div');
+      champCard.className = 'bracket-match champion-card';
+      champCard.style.marginTop = '16px';
+      champCard.style.borderColor = 'var(--accent)';
+      champCard.style.boxShadow = '0 0 15px var(--accent-glow)';
+      
+      const headerDiv = document.createElement('div');
+      headerDiv.className = 'bracket-match-header';
+      headerDiv.innerHTML = `
+        <span style="color: var(--accent); font-weight: 800; font-size: 9px; letter-spacing: 0.8px;">🏆 predicted champion</span>
+      `;
+      champCard.appendChild(headerDiv);
+
+      const teamsDiv = document.createElement('div');
+      teamsDiv.className = 'bracket-match-teams';
+
+      const champSlot = document.createElement('div');
+      const hasChamp = champProj && !champProj.dummy;
+      if (hasChamp) {
+        champSlot.className = 'bracket-match-team predicted-winner';
+        champSlot.innerHTML = `
+          <span class="flag" style="font-size: 16px;">${champProj.flag}</span>
+          <span class="team-label" style="font-weight: 800;">${champProj.label}</span>
+          <span class="code">(${champProj.code})</span>
+          <span class="score-or-time" style="font-size: 13px;">🏆</span>
+        `;
+      } else {
+        champSlot.className = 'bracket-match-team dummy predictions-champ-slot';
+        champSlot.style.border = '1px dashed var(--line)';
+        champSlot.style.padding = '8px';
+        champSlot.style.justifyContent = 'center';
+        champSlot.innerHTML = `
+          <span class="team-label" style="color: var(--muted); font-style: italic; font-weight: 500;">Drag Winner Here</span>
+        `;
+        makeChampSlotDropTarget(champSlot);
+      }
+      
+      teamsDiv.appendChild(champSlot);
+      champCard.appendChild(teamsDiv);
+      bodyDiv.appendChild(champCard);
+    }
+
+    colDiv.appendChild(bodyDiv);
+    container.appendChild(colDiv);
+  });
+
+  requestAnimationFrame(() => {
+    drawBracketLinesForPredictions();
+  });
+}
