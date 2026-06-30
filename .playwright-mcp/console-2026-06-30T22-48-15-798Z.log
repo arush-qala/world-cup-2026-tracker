@@ -1,4 +1,0 @@
-[   63977ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8099/data/fixtures.json?cb=1782859759773:0
-[  123976ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8099/data/fixtures.json?cb=1782859819773:0
-[  183977ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8099/data/fixtures.json?cb=1782859879773:0
-[  243976ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:8099/data/fixtures.json?cb=1782859939772:0
