@@ -1219,7 +1219,9 @@
     "venue": "AT&T Stadium, Arlington",
     "home": "CIV",
     "away": "NOR",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 1, "away": 2 },
+    "winner": "NOR"
   },
   {
     "id": "M79",
