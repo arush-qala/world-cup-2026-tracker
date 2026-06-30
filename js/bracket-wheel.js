@@ -100,6 +100,31 @@ function layout(tree) {
   return leaves;
 }
 
+/**
+ * Walk a laid-out tree (after `layout()` has assigned `_angle`/`_r`) and
+ * collect one travel-marker descriptor per child that just advanced — i.e.
+ * the team that won at `child` is the same team that won at its parent `n`
+ * (see `advanced` on the decorated tree from app.js's `buildBracketTree()`).
+ */
+export function collectTravelMarkers(tree) {
+  const markers = [];
+  (function walk(n) {
+    if (!n.children || n.children.length === 0) return;
+    const delay = DRAW_DELAY[n.round] ?? 0.7;
+    n.children.forEach((c) => {
+      if (c.advanced) {
+        markers.push({
+          team: c.team,
+          delay,
+          d: travelPath(c._angle, c._r, n._angle, n._r, n.round),
+        });
+      }
+      walk(c);
+    });
+  })(tree);
+  return markers;
+}
+
 // Sample an arc (centered on the canvas) into a polyline path — avoids SVG
 // elliptical-arc flag ambiguity and guarantees correct curvature.
 function arcPath(a1, a2, rFrac) {
@@ -116,6 +141,27 @@ function arcPath(a1, a2, rFrac) {
 
 function linePath(x1, y1, x2, y2) {
   return `M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}`;
+}
+
+// Path from a child's polar position to its parent's — a radial segment at
+// the child's angle out/in to the parent's radius, then an arc at the
+// parent's radius over to the parent's angle (the Final is a straight spoke
+// to the center instead). Mirrors the geometry the connector lines already
+// draw; used to animate a flag "traveling" as a team advances a round.
+export function travelPath(childAngle, childR, parentAngle, parentR, parentRound) {
+  const [cx, cy] = xy(childAngle, childR);
+  if (parentRound === 'final') {
+    return linePath(cx, cy, CENTER, CENTER);
+  }
+  const [ax, ay] = xy(childAngle, parentR);
+  let d = linePath(cx, cy, ax, ay) + ' ';
+  const steps = Math.max(2, Math.ceil(Math.abs(parentAngle - childAngle) / 4));
+  for (let i = 1; i <= steps; i++) {
+    const ang = childAngle + ((parentAngle - childAngle) * i) / steps;
+    const [x, y] = xy(ang, parentR);
+    d += 'L' + x.toFixed(1) + ' ' + y.toFixed(1) + ' ';
+  }
+  return d.trim();
 }
 
 function drawnPath(d, active, delay) {
@@ -206,6 +252,34 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
     gBadges.appendChild(outer);
   });
 
+  // Travel markers — flag glides from its current node to the next one for
+  // every team that just advanced (skipped entirely under reduced motion).
+  const gTravel = el('g');
+  const reduceMotion = window.matchMedia
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    collectTravelMarkers(tree).forEach((m) => {
+      const g = el('g', { class: 'wheel-travel-badge', opacity: '0' });
+      g.appendChild(el('circle', { r: 16, class: 'wheel-travel-bg' }));
+      const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
+      flag.textContent = (m.team && m.team.flag) || '🏳️';
+      g.appendChild(flag);
+      g.appendChild(el('animateMotion', {
+        path: m.d, begin: `${m.delay}s`, dur: '0.55s', rotate: '0', fill: 'freeze',
+      }));
+      g.appendChild(el('animate', {
+        attributeName: 'opacity', values: '0;1;1;0', keyTimes: '0;0.12;0.82;1',
+        begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
+      }));
+      g.appendChild(el('animateTransform', {
+        attributeName: 'transform', type: 'scale',
+        values: '0.3;1.15;1;1;0.85', keyTimes: '0;0.12;0.3;0.82;1',
+        begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
+      }));
+      gTravel.appendChild(g);
+    });
+  }
+
   // Trophy (or crowned champion) at the centre.
   const champ = tree.team && tree.decided ? tree.team : null;
   const gTrophy = el('g', { class: 'wheel-trophy' });
@@ -226,8 +300,22 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   svg.appendChild(gLines);
   svg.appendChild(gDots);
   svg.appendChild(gBadges);
+  svg.appendChild(gTravel);
   svg.appendChild(gTrophy);
   container.appendChild(svg);
+  // Chromium does not auto-start the SMIL document timeline for an SVG built
+  // via createElementNS + appendChild. setCurrentTime(0) kick-starts it, but
+  // must run after layout/paint — a single requestAnimationFrame fires before
+  // first paint, so two nested frames are required. Do NOT simplify to one
+  // rAF or remove this; it silently breaks travel-marker playback with no
+  // automated test to catch the regression (verify manually in a browser).
+  // Verified working in Chromium; not yet smoke-tested in Firefox/Safari —
+  // if travel markers don't animate there, this is the first place to check.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (svg.setCurrentTime) svg.setCurrentTime(0);
+    });
+  });
 
   if (caption) {
     caption.textContent = champ

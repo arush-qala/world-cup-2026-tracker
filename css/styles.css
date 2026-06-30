@@ -1612,6 +1612,18 @@ body {
   dominant-baseline: central;
 }
 
+/* Travel markers — flag glides from child to parent position when a
+   country advances (see collectTravelMarkers() in bracket-wheel.js) */
+.wheel-travel-bg {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+.wheel-travel-flag {
+  font-size: 18px;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
 /* Centre trophy / champion */
 .wheel-trophy { transform-origin: 500px 500px; }
 .wheel-trophy-icon {
