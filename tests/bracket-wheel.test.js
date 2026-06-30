@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildBracketStructure, inOrderLeaves, travelPath } from '../js/bracket-wheel.js';
+import { buildBracketStructure, inOrderLeaves, travelPath, collectTravelMarkers } from '../js/bracket-wheel.js';
 
 test('structure has 32 leaves', () => {
   const leaves = inOrderLeaves(buildBracketStructure());
@@ -56,4 +56,56 @@ test('travelPath: radial segment plus arc sweep when angles differ', () => {
     d,
     'M554.0 193.7 L540.5 270.3 L556.4 273.6 L572.1 278.1 L587.4 283.7 L602.3 290.3 L616.6 298.0'
   );
+});
+
+test('collectTravelMarkers: one marker for the advanced child', () => {
+  const tree = {
+    round: 'r32', _angle: 0, _r: 0.72,
+    children: [
+      { round: 'team', _angle: 0, _r: 1.0, advanced: true, team: { flag: '🇫🇷', code: 'FRA', label: 'France' }, children: [] },
+      { round: 'team', _angle: 10, _r: 1.0, advanced: false, team: { flag: '🇸🇪', code: 'SWE', label: 'Sweden' }, children: [] },
+    ],
+  };
+  const markers = collectTravelMarkers(tree);
+  assert.deepEqual(markers, [{
+    team: { flag: '🇫🇷', code: 'FRA', label: 'France' },
+    delay: 0.70,
+    d: 'M500.0 68.0 L500.0 189.0 L500.0 189.0 L500.0 189.0',
+  }]);
+});
+
+test('collectTravelMarkers: no markers when nothing advanced', () => {
+  const tree = {
+    round: 'r32', _angle: 0, _r: 0.72,
+    children: [
+      { round: 'team', _angle: 0, _r: 1.0, advanced: false, team: { flag: '🇫🇷', code: 'FRA', label: 'France' }, children: [] },
+      { round: 'team', _angle: 10, _r: 1.0, advanced: false, team: { flag: '🇸🇪', code: 'SWE', label: 'Sweden' }, children: [] },
+    ],
+  };
+  assert.deepEqual(collectTravelMarkers(tree), []);
+});
+
+test('collectTravelMarkers: recurses into nested rounds, parent-before-child order', () => {
+  const tree = {
+    round: 'r16', _angle: 0, _r: 0.54,
+    children: [
+      {
+        round: 'r32', _angle: 0, _r: 0.72, advanced: true, team: { flag: '🇫🇷', code: 'FRA', label: 'France' },
+        children: [
+          { round: 'team', _angle: 0, _r: 1.0, advanced: true, team: { flag: '🇫🇷', code: 'FRA', label: 'France' }, children: [] },
+          { round: 'team', _angle: 10, _r: 1.0, advanced: false, team: { flag: '🇸🇪', code: 'SWE', label: 'Sweden' }, children: [] },
+        ],
+      },
+      {
+        round: 'r32', _angle: 90, _r: 0.72, advanced: false, team: { flag: '🇧🇷', code: 'BRA', label: 'Brazil' },
+        children: [
+          { round: 'team', _angle: 80, _r: 1.0, advanced: false, team: { flag: '🇯🇵', code: 'JPN', label: 'Japan' }, children: [] },
+          { round: 'team', _angle: 100, _r: 1.0, advanced: true, team: { flag: '🇧🇷', code: 'BRA', label: 'Brazil' }, children: [] },
+        ],
+      },
+    ],
+  };
+  const markers = collectTravelMarkers(tree);
+  assert.deepEqual(markers.map((m) => m.team.code), ['FRA', 'FRA', 'BRA']);
+  assert.deepEqual(markers.map((m) => m.delay), [1.00, 0.70, 0.70]);
 });

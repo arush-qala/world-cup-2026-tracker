@@ -100,6 +100,31 @@ function layout(tree) {
   return leaves;
 }
 
+/**
+ * Walk a laid-out tree (after `layout()` has assigned `_angle`/`_r`) and
+ * collect one travel-marker descriptor per child that just advanced — i.e.
+ * the team that won at `child` is the same team that won at its parent `n`
+ * (see `advanced` on the decorated tree from app.js's `buildBracketTree()`).
+ */
+export function collectTravelMarkers(tree) {
+  const markers = [];
+  (function walk(n) {
+    if (!n.children || n.children.length === 0) return;
+    const delay = DRAW_DELAY[n.round] ?? 0.7;
+    n.children.forEach((c) => {
+      if (c.advanced && c.team) {
+        markers.push({
+          team: c.team,
+          delay,
+          d: travelPath(c._angle, c._r, n._angle, n._r, n.round),
+        });
+      }
+      walk(c);
+    });
+  })(tree);
+  return markers;
+}
+
 // Sample an arc (centered on the canvas) into a polyline path — avoids SVG
 // elliptical-arc flag ambiguity and guarantees correct curvature.
 function arcPath(a1, a2, rFrac) {
