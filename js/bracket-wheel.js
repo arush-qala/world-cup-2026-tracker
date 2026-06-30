@@ -252,6 +252,34 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
     gBadges.appendChild(outer);
   });
 
+  // Travel markers — flag glides from its current node to the next one for
+  // every team that just advanced (skipped entirely under reduced motion).
+  const gTravel = el('g');
+  const reduceMotion = window.matchMedia
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion) {
+    collectTravelMarkers(tree).forEach((m) => {
+      const g = el('g', { class: 'wheel-travel-badge', opacity: '0' });
+      g.appendChild(el('circle', { r: 16, class: 'wheel-travel-bg' }));
+      const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
+      flag.textContent = m.team.flag || '🏳️';
+      g.appendChild(flag);
+      g.appendChild(el('animateMotion', {
+        path: m.d, begin: `${m.delay}s`, dur: '0.55s', rotate: '0', fill: 'freeze',
+      }));
+      g.appendChild(el('animate', {
+        attributeName: 'opacity', values: '0;1;1;0', keyTimes: '0;0.12;0.82;1',
+        begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
+      }));
+      g.appendChild(el('animateTransform', {
+        attributeName: 'transform', type: 'scale',
+        values: '0.3;1.15;1;1;0.85', keyTimes: '0;0.12;0.3;0.82;1',
+        begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
+      }));
+      gTravel.appendChild(g);
+    });
+  }
+
   // Trophy (or crowned champion) at the centre.
   const champ = tree.team && tree.decided ? tree.team : null;
   const gTrophy = el('g', { class: 'wheel-trophy' });
@@ -272,6 +300,7 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   svg.appendChild(gLines);
   svg.appendChild(gDots);
   svg.appendChild(gBadges);
+  svg.appendChild(gTravel);
   svg.appendChild(gTrophy);
   container.appendChild(svg);
 
