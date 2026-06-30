@@ -47,6 +47,22 @@ async function boot(){
     };
   }
 
+  const shareBtn = document.getElementById('share-predictions');
+  if (shareBtn) {
+    shareBtn.onclick = () => {
+      const link = getShareableLink();
+      navigator.clipboard.writeText(link).then(() => {
+        const originalText = shareBtn.textContent;
+        shareBtn.textContent = 'Link Copied! 📋';
+        shareBtn.style.color = '#4ade80';
+        setTimeout(() => {
+          shareBtn.textContent = originalText;
+          shareBtn.style.color = '';
+        }, 2000);
+      });
+    };
+  }
+
   wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
   showUpdated();
   handleRouting();
@@ -260,16 +276,17 @@ function switchTab(tabId) {
 }
 
 function handleRouting() {
-  let hash = window.location.hash.replace('#/', '').replace('#', '');
+  let fullHash = window.location.hash.replace('#/', '').replace('#', '');
+  const [tabId] = fullHash.split('?');
   const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'knockout', 'predictions', 'wheel', 'stats'];
   const defaultTab = 'fixtures';
   
-  if (!hash || !validTabs.includes(hash)) {
+  if (!tabId || !validTabs.includes(tabId)) {
     window.location.hash = '#/' + defaultTab;
     return;
   }
   
-  switchTab(hash);
+  switchTab(tabId);
 }
 
 function wireTabs(){
@@ -1319,6 +1336,7 @@ function loadPredictions() {
     if (saved) {
       PREDICTIONS = JSON.parse(saved);
     }
+    loadPredictionsFromUrl();
   } catch (e) {
     console.error('Error loading predictions', e);
   }
@@ -2468,4 +2486,39 @@ function renderPredictions() {
   requestAnimationFrame(() => {
     drawBracketLinesForPredictions();
   });
+}
+
+function getShareableLink() {
+  const pairs = Object.entries(PREDICTIONS).map(([mId, teamCode]) => `${mId}-${teamCode}`);
+  const encoded = encodeURIComponent(pairs.join(','));
+  const url = new URL(window.location.href);
+  url.hash = `#/predictions?b=${encoded}`;
+  return url.toString();
+}
+
+function loadPredictionsFromUrl() {
+  try {
+    const hash = window.location.hash;
+    const match = hash.match(/\?b=([^&]*)/);
+    if (match && match[1]) {
+      const decodedStr = decodeURIComponent(match[1]);
+      if (decodedStr) {
+        const pairs = decodedStr.split(',');
+        pairs.forEach(pair => {
+          const [mId, teamCode] = pair.split('-');
+          if (mId && teamCode) {
+            PREDICTIONS[mId] = teamCode;
+          }
+        });
+        savePredictions();
+        
+        // Clean URL hash after importing
+        const url = new URL(window.location.href);
+        url.hash = `#/predictions`;
+        window.history.replaceState(null, '', url.toString());
+      }
+    }
+  } catch (e) {
+    console.error('Error loading predictions from URL', e);
+  }
 }

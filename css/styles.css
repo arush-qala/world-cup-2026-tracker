@@ -1740,6 +1740,11 @@ body {
   border-color: rgba(220, 38, 38, 0.4) !important;
 }
 
+#share-predictions:hover {
+  background: rgba(74, 222, 128, 0.2) !important;
+  border-color: rgba(74, 222, 128, 0.4) !important;
+}
+
 /* Flag emoji polyfill for Windows */
 .flag,
 .team-flag,
