@@ -304,7 +304,9 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   svg.appendChild(gTrophy);
   container.appendChild(svg);
   requestAnimationFrame(() => {
-    if (svg.setCurrentTime) svg.setCurrentTime(0);
+    requestAnimationFrame(() => {
+      if (svg.setCurrentTime) svg.setCurrentTime(0);
+    });
   });
 
   if (caption) {
