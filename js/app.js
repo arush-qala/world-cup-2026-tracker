@@ -1321,6 +1321,10 @@ function getTeamBySlot(slot, assignments) {
 function getMatchWinner(matchId, homeTeam, awayTeam) {
   const f = DATA.fixtures.find(m => m.id === matchId);
   if (f && f.status === 'finished') {
+    if (f.winner) {
+      if (homeTeam && homeTeam.code === f.winner) return homeTeam;
+      if (awayTeam && awayTeam.code === f.winner) return awayTeam;
+    }
     if (f.score.home > f.score.away) return homeTeam;
     if (f.score.home < f.score.away) return awayTeam;
     return homeTeam.fifaPoints >= awayTeam.fifaPoints ? homeTeam : awayTeam;
@@ -1368,6 +1372,10 @@ function getPredictedMatchWinner(matchId, homeTeam, awayTeam) {
 
   const f = DATA.fixtures.find(m => m.id === matchId);
   if (f && f.status === 'finished') {
+    if (f.winner) {
+      if (homeTeam && homeTeam.code === f.winner) return homeTeam;
+      if (awayTeam && awayTeam.code === f.winner) return awayTeam;
+    }
     if (f.score.home > f.score.away) return homeTeam;
     if (f.score.home < f.score.away) return awayTeam;
     return homeTeam.fifaPoints >= awayTeam.fifaPoints ? homeTeam : awayTeam;
@@ -2463,13 +2471,20 @@ function renderPredictions() {
       const champSlot = document.createElement('div');
       const hasChamp = champProj && !champProj.dummy;
       if (hasChamp) {
-        champSlot.className = 'bracket-match-team predicted-winner';
+        champSlot.className = 'bracket-match-team predicted-winner predictions-champ-slot';
+        champSlot.style.cursor = 'pointer';
         champSlot.innerHTML = `
           <span class="flag" style="font-size: 16px;">${champProj.flag}</span>
           <span class="team-label" style="font-weight: 800;">${champProj.label}</span>
           <span class="code">(${champProj.code})</span>
           <span class="score-or-time" style="font-size: 13px;">🏆</span>
         `;
+        champSlot.addEventListener('click', () => {
+          delete PREDICTIONS['M104'];
+          savePredictions();
+          renderPredictions();
+        });
+        makeChampSlotDropTarget(champSlot);
       } else {
         champSlot.className = 'bracket-match-team dummy predictions-champ-slot';
         champSlot.style.border = '1px dashed var(--line)';
