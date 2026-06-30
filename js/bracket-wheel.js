@@ -303,6 +303,7 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   svg.appendChild(gTravel);
   svg.appendChild(gTrophy);
   container.appendChild(svg);
+  if (svg.setCurrentTime) svg.setCurrentTime(0);
 
   if (caption) {
     caption.textContent = champ
