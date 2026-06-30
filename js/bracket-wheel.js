@@ -262,7 +262,7 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
       const g = el('g', { class: 'wheel-travel-badge', opacity: '0' });
       g.appendChild(el('circle', { r: 16, class: 'wheel-travel-bg' }));
       const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
-      flag.textContent = m.team.flag || '🏳️';
+      flag.textContent = (m.team && m.team.flag) || '🏳️';
       g.appendChild(flag);
       g.appendChild(el('animateMotion', {
         path: m.d, begin: `${m.delay}s`, dur: '0.55s', rotate: '0', fill: 'freeze',
@@ -303,6 +303,14 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   svg.appendChild(gTravel);
   svg.appendChild(gTrophy);
   container.appendChild(svg);
+  // Chromium does not auto-start the SMIL document timeline for an SVG built
+  // via createElementNS + appendChild. setCurrentTime(0) kick-starts it, but
+  // must run after layout/paint — a single requestAnimationFrame fires before
+  // first paint, so two nested frames are required. Do NOT simplify to one
+  // rAF or remove this; it silently breaks travel-marker playback with no
+  // automated test to catch the regression (verify manually in a browser).
+  // Verified working in Chromium; not yet smoke-tested in Firefox/Safari —
+  // if travel markers don't animate there, this is the first place to check.
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
       if (svg.setCurrentTime) svg.setCurrentTime(0);
