@@ -100,7 +100,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-family: "Twemoji Country Flags", 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -1738,5 +1738,15 @@ body {
 #reset-predictions:hover {
   background: rgba(220, 38, 38, 0.2) !important;
   border-color: rgba(220, 38, 38, 0.4) !important;
+}
+
+/* Flag emoji polyfill for Windows */
+.flag,
+.team-flag,
+.str-flag,
+.chip-flag,
+.wheel-flag,
+.wheel-champ-flag {
+  font-family: "Twemoji Country Flags", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
 }
 

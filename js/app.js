@@ -1,3 +1,6 @@
+import { polyfillCountryFlagEmojis } from "https://cdn.jsdelivr.net/npm/country-flag-emoji-polyfill@0.1/dist/index.mjs";
+polyfillCountryFlagEmojis();
+
 import { resolveColors } from './colors.js';
 import { computeGroup } from './standings.js';
 import { renderChart } from './chart.js';
