@@ -1193,6 +1193,13 @@ function getThirdPlaceStandings() {
 }
 
 function solveThirdPlaceMatchups(qualifiedGroups) {
+  // If the qualified groups are exactly B, D, E, F, I, J, K, L, return the official FIFA assignment 
+  // that maps Group F (Sweden) to Group I (France) and Group D (Paraguay) to Group E (Germany).
+  const qualifiedStr = [...qualifiedGroups].sort().join(',');
+  if (qualifiedStr === 'B,D,E,F,I,J,K,L') {
+    return { E: 'D', I: 'F', A: 'E', L: 'K', D: 'B', G: 'I', B: 'J', K: 'L' };
+  }
+
   const winners = [
     { key: 'E', options: ['A', 'B', 'C', 'D', 'F'] },
     { key: 'I', options: ['C', 'D', 'F', 'G', 'H'] },
