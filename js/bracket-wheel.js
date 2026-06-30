@@ -118,6 +118,27 @@ function linePath(x1, y1, x2, y2) {
   return `M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}`;
 }
 
+// Path from a child's polar position to its parent's — a radial segment at
+// the child's angle out/in to the parent's radius, then an arc at the
+// parent's radius over to the parent's angle (the Final is a straight spoke
+// to the center instead). Mirrors the geometry the connector lines already
+// draw; used to animate a flag "traveling" as a team advances a round.
+export function travelPath(childAngle, childR, parentAngle, parentR, parentRound) {
+  const [cx, cy] = xy(childAngle, childR);
+  if (parentRound === 'final') {
+    return linePath(cx, cy, CENTER, CENTER);
+  }
+  const [ax, ay] = xy(childAngle, parentR);
+  let d = linePath(cx, cy, ax, ay) + ' ';
+  const steps = Math.max(2, Math.ceil(Math.abs(parentAngle - childAngle) / 4));
+  for (let i = 1; i <= steps; i++) {
+    const ang = childAngle + ((parentAngle - childAngle) * i) / steps;
+    const [x, y] = xy(ang, parentR);
+    d += 'L' + x.toFixed(1) + ' ' + y.toFixed(1) + ' ';
+  }
+  return d.trim();
+}
+
 function drawnPath(d, active, delay) {
   const p = el('path', { d, 'pathLength': '1', class: 'wheel-line' + (active ? ' active' : '') });
   p.style.setProperty('--d', delay + 's');

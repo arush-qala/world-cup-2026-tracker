@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildBracketStructure, inOrderLeaves } from '../js/bracket-wheel.js';
+import { buildBracketStructure, inOrderLeaves, travelPath } from '../js/bracket-wheel.js';
 
 test('structure has 32 leaves', () => {
   const leaves = inOrderLeaves(buildBracketStructure());
@@ -38,4 +38,22 @@ test('rounds nest correctly from final down to teams', () => {
   }
   path.push(n.round);
   assert.deepEqual(path, ['final', 'sf', 'qf', 'r16', 'r32', 'team']);
+});
+
+test('travelPath: straight spoke to the Final center', () => {
+  const d = travelPath(90, 0.22, 0, 0, 'final');
+  assert.equal(d, 'M595.0 500.0 L500.0 500.0');
+});
+
+test('travelPath: radial segment when child/parent share an angle', () => {
+  const d = travelPath(0, 1.0, 0, 0.72, 'r32');
+  assert.equal(d, 'M500.0 68.0 L500.0 189.0 L500.0 189.0 L500.0 189.0');
+});
+
+test('travelPath: radial segment plus arc sweep when angles differ', () => {
+  const d = travelPath(10, 0.72, 30, 0.54, 'r16');
+  assert.equal(
+    d,
+    'M554.0 193.7 L540.5 270.3 L556.4 273.6 L572.1 278.1 L587.4 283.7 L602.3 290.3 L616.6 298.0'
+  );
 });
