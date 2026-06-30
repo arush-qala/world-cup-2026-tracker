@@ -1160,10 +1160,7 @@
     "home": "RSA",
     "away": "CAN",
     "status": "finished",
-    "score": {
-      "home": 0,
-      "away": 1
-    },
+    "score": { "home": 0, "away": 1 },
     "winner": "CAN"
   },
   {
@@ -1175,12 +1172,22 @@
     "home": "GER",
     "away": "PAR",
     "status": "finished",
-    "score": {
-      "home": 1,
-      "away": 1
-    },
+    "score": { "home": 1, "away": 1 },
     "note": "PAR win 4-3 on penalties (AET 1-1)",
     "winner": "PAR"
+  },
+  {
+    "id": "M75",
+    "stage": "round of 32",
+    "dateUK": "2026-06-29",
+    "kickoffUK": "2026-06-29T18:00:00+01:00",
+    "venue": "Estadio BBVA, Monterrey",
+    "home": "NED",
+    "away": "MAR",
+    "status": "finished",
+    "score": { "home": 1, "away": 1 },
+    "note": "MAR win 3-2 on penalties (AET 1-1)",
+    "winner": "MAR"
   },
   {
     "id": "M76",
@@ -1191,10 +1198,127 @@
     "home": "BRA",
     "away": "JPN",
     "status": "finished",
-    "score": {
-      "home": 2,
-      "away": 1
-    },
+    "score": { "home": 2, "away": 1 },
     "winner": "BRA"
+  },
+  {
+    "id": "M77",
+    "stage": "round of 32",
+    "dateUK": "2026-06-30",
+    "kickoffUK": "2026-06-30T22:00:00+01:00",
+    "venue": "MetLife Stadium, East Rutherford",
+    "home": "FRA",
+    "away": "SWE",
+    "status": "scheduled"
+  },
+  {
+    "id": "M78",
+    "stage": "round of 32",
+    "dateUK": "2026-06-30",
+    "kickoffUK": "2026-06-30T18:00:00+01:00",
+    "venue": "AT&T Stadium, Arlington",
+    "home": "CIV",
+    "away": "NOR",
+    "status": "scheduled"
+  },
+  {
+    "id": "M79",
+    "stage": "round of 32",
+    "dateUK": "2026-07-01",
+    "kickoffUK": "2026-07-01T02:00:00+01:00",
+    "venue": "Estadio Azteca, Mexico City",
+    "home": "MEX",
+    "away": "ECU",
+    "status": "scheduled"
+  },
+  {
+    "id": "M80",
+    "stage": "round of 32",
+    "dateUK": "2026-07-01",
+    "kickoffUK": "2026-07-01T22:00:00+01:00",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "home": "ENG",
+    "away": "COD",
+    "status": "scheduled"
+  },
+  {
+    "id": "M81",
+    "stage": "round of 32",
+    "dateUK": "2026-07-01",
+    "kickoffUK": "2026-07-02T01:00:00+01:00",
+    "venue": "Levi's Stadium, Santa Clara",
+    "home": "USA",
+    "away": "BIH",
+    "status": "scheduled"
+  },
+  {
+    "id": "M82",
+    "stage": "round of 32",
+    "dateUK": "2026-07-01",
+    "kickoffUK": "2026-07-01T19:00:00+01:00",
+    "venue": "Lumen Field, Seattle",
+    "home": "BEL",
+    "away": "SEN",
+    "status": "scheduled"
+  },
+  {
+    "id": "M83",
+    "stage": "round of 32",
+    "dateUK": "2026-07-02",
+    "kickoffUK": "2026-07-02T22:00:00+01:00",
+    "venue": "BMO Field, Toronto",
+    "home": "POR",
+    "away": "CRO",
+    "status": "scheduled"
+  },
+  {
+    "id": "M84",
+    "stage": "round of 32",
+    "dateUK": "2026-07-02",
+    "kickoffUK": "2026-07-02T18:00:00+01:00",
+    "venue": "SoFi Stadium, Los Angeles",
+    "home": "ESP",
+    "away": "AUT",
+    "status": "scheduled"
+  },
+  {
+    "id": "M85",
+    "stage": "round of 32",
+    "dateUK": "2026-07-02",
+    "kickoffUK": "2026-07-02T22:00:00+01:00",
+    "venue": "BC Place, Vancouver",
+    "home": "SUI",
+    "away": "ALG",
+    "status": "scheduled"
+  },
+  {
+    "id": "M86",
+    "stage": "round of 32",
+    "dateUK": "2026-07-03",
+    "kickoffUK": "2026-07-03T22:00:00+01:00",
+    "venue": "Hard Rock Stadium, Miami",
+    "home": "ARG",
+    "away": "CPV",
+    "status": "scheduled"
+  },
+  {
+    "id": "M87",
+    "stage": "round of 32",
+    "dateUK": "2026-07-03",
+    "kickoffUK": "2026-07-03T18:00:00+01:00",
+    "venue": "Arrowhead Stadium, Kansas City",
+    "home": "COL",
+    "away": "GHA",
+    "status": "scheduled"
+  },
+  {
+    "id": "M88",
+    "stage": "round of 32",
+    "dateUK": "2026-07-03",
+    "kickoffUK": "2026-07-03T18:00:00+01:00",
+    "venue": "AT&T Stadium, Arlington",
+    "home": "AUS",
+    "away": "EGY",
+    "status": "scheduled"
   }
 ]
