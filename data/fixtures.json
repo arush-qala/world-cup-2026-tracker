@@ -1209,7 +1209,9 @@
     "venue": "MetLife Stadium, East Rutherford",
     "home": "FRA",
     "away": "SWE",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 3, "away": 0 },
+    "winner": "FRA"
   },
   {
     "id": "M78",
