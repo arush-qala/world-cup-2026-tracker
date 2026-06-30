@@ -112,7 +112,7 @@ export function collectTravelMarkers(tree) {
     if (!n.children || n.children.length === 0) return;
     const delay = DRAW_DELAY[n.round] ?? 0.7;
     n.children.forEach((c) => {
-      if (c.advanced && c.team) {
+      if (c.advanced) {
         markers.push({
           team: c.team,
           delay,
