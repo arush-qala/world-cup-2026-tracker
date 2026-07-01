@@ -2018,7 +2018,7 @@ function renderStats() {
     const labelColor = p.isLive ? '#22c55e' : 'var(--text)';
 
     return `
-      <g style="opacity: ${opacity}">
+      <g class="clickable-node" style="opacity: ${opacity}" onclick="window.openStageGoalsDetail('${p.id}')">
         <!-- Background vertical guideline -->
         <line x1="${p.x}" y1="170" x2="${p.x}" y2="20" stroke="var(--line)" stroke-width="1" stroke-dasharray="2,2" />
         
@@ -2069,6 +2069,319 @@ function renderStats() {
     }, 60000);
   }
 }
+
+// ── Stage Goals Detail Modal Helper Functions ──
+let selectedMatchId = null;
+
+function getTeamFlag(code) {
+  for (const groupTeams of Object.values(DATA.groups)) {
+    const found = groupTeams.find(t => t.code === code);
+    if (found) return found.flag;
+  }
+  return '';
+}
+
+function getTeamName(code) {
+  for (const groupTeams of Object.values(DATA.groups)) {
+    const found = groupTeams.find(t => t.code === code);
+    if (found) return found.name;
+  }
+  return code;
+}
+
+window.updateGoalsDetailPanel = (element, matchDataJsonStr, isClick = false) => {
+  const data = JSON.parse(decodeURIComponent(matchDataJsonStr));
+  
+  if (isClick) {
+    if (selectedMatchId === data.id) {
+      selectedMatchId = null;
+      window.clearGoalsDetailPanel();
+      return;
+    }
+    selectedMatchId = data.id;
+  } else {
+    if (selectedMatchId !== null) return;
+  }
+
+  document.querySelectorAll('.detail-node-group').forEach(group => {
+    const hg = group.querySelector('.hover-guide');
+    const hr = group.querySelector('.hover-ring');
+    if (hg) {
+      hg.style.opacity = '0';
+      hg.setAttribute('stroke-width', '1');
+    }
+    if (hr) hr.style.fillOpacity = '0';
+  });
+
+  const hoverGuide = element.querySelector('.hover-guide');
+  const hoverRing = element.querySelector('.hover-ring');
+  if (hoverGuide) {
+    hoverGuide.style.opacity = isClick ? '0.9' : '0.6';
+    hoverGuide.setAttribute('stroke-width', isClick ? '2' : '1');
+  }
+  if (hoverRing) hoverRing.style.fillOpacity = isClick ? '0.25' : '0.15';
+
+  const panel = document.getElementById('goals-info-panel');
+  if (!panel) return;
+
+  const homeFlag = getTeamFlag(data.home);
+  const awayFlag = getTeamFlag(data.away);
+  const homeName = getTeamName(data.home);
+  const awayName = getTeamName(data.away);
+
+  panel.classList.add('active');
+  panel.innerHTML = `
+    <div class="goals-info-data">
+      <div class="goals-info-meta">
+        <span>Match ${data.id} • ${data.stage} ${isClick ? '📌' : ''}</span>
+        <span>${data.date || ''}</span>
+      </div>
+      <div class="goals-info-teams-row">
+        <div class="goals-info-team home">
+          <span class="team-name">${homeName}</span>
+          <span class="team-flag">${homeFlag}</span>
+        </div>
+        <div class="goals-info-score-container">
+          <div class="goals-info-score">${data.homeScore} - ${data.awayScore}</div>
+          <div class="goals-info-score-label">${data.totalGoals} GOAL${data.totalGoals === 1 ? '' : 'S'}</div>
+        </div>
+        <div class="goals-info-team away">
+          <span class="team-flag">${awayFlag}</span>
+          <span class="team-name">${awayName}</span>
+        </div>
+      </div>
+      <div class="goals-info-venue">📍 ${data.venue}</div>
+    </div>
+  `;
+};
+
+window.clearGoalsDetailPanel = () => {
+  if (selectedMatchId !== null) return;
+
+  document.querySelectorAll('.detail-node-group').forEach(group => {
+    const hoverGuide = group.querySelector('.hover-guide');
+    const hoverRing = group.querySelector('.hover-ring');
+    if (hoverGuide) {
+      hoverGuide.style.opacity = '0';
+      hoverGuide.setAttribute('stroke-width', '1');
+    }
+    if (hoverRing) hoverRing.style.fillOpacity = '0';
+  });
+
+  const panel = document.getElementById('goals-info-panel');
+  if (!panel) return;
+  panel.classList.remove('active');
+  panel.innerHTML = `
+    <div class="goals-info-placeholder">
+      <span>ℹ️</span> Hover over any match point on the trend line to view details.
+    </div>
+  `;
+};
+
+window.openStageGoalsDetail = (stageId) => {
+  selectedMatchId = null;
+
+  const stages = [
+    { id: 'MD1', label: 'Matchday 1', filter: m => m.stage === 'group' && m.matchday === 1 },
+    { id: 'MD2', label: 'Matchday 2', filter: m => m.stage === 'group' && m.matchday === 2 },
+    { id: 'MD3', label: 'Matchday 3', filter: m => m.stage === 'group' && m.matchday === 3 },
+    { id: 'R32', label: 'Round of 32', filter: m => m.stage === 'round of 32' },
+    { id: 'R16', label: 'Round of 16', filter: m => m.stage === 'round of 16' },
+    { id: 'QF', label: 'Quarter-Finals', filter: m => m.stage === 'quarter-finals' },
+    { id: 'SF', label: 'Semi-Finals', filter: m => m.stage === 'semi-finals' },
+    { id: 'FIN', label: 'Finals', filter: m => m.stage === 'final' || m.stage === 'third-place match' }
+  ];
+
+  const stage = stages.find(s => s.id === stageId);
+  if (!stage) return;
+
+  const hasCountryFilter = statsCountryFilter.size > 0;
+  const stageMatches = DATA.fixtures
+    .filter(stage.filter)
+    .filter(m => !hasCountryFilter || statsCountryFilter.has(m.home) || statsCountryFilter.has(m.away));
+
+  const finishedMatches = stageMatches.filter(m => m.status === 'finished');
+  
+  finishedMatches.sort((a, b) => {
+    const timeA = a.kickoffUK ? new Date(a.kickoffUK).getTime() : 0;
+    const timeB = b.kickoffUK ? new Date(b.kickoffUK).getTime() : 0;
+    if (timeA !== timeB) return timeA - timeB;
+    return a.id.localeCompare(b.id);
+  });
+
+  const card = document.getElementById('goals-detail-card');
+  const modal = document.getElementById('goals-detail-modal');
+
+  if (finishedMatches.length === 0) {
+    card.innerHTML = `
+      <button class="modal-close" id="goals-modal-close" aria-label="Close modal">&times;</button>
+      <div class="goals-detail-content">
+        <div class="goals-detail-title-area">
+          <div class="goals-detail-title">⚽ Goals Trend — ${stage.label}</div>
+          <div class="goals-detail-subtitle">Individual match breakdown</div>
+        </div>
+        <div style="padding: 40px 20px; text-align: center; color: var(--muted); font-size: 14px; font-weight: 500;">
+          No matches finished in this stage yet. Upcoming matches will appear here once completed.
+        </div>
+      </div>
+    `;
+    document.getElementById('goals-modal-close').onclick = () => { modal.hidden = true; };
+    modal.hidden = false;
+    return;
+  }
+
+  const totalGoals = finishedMatches.reduce((sum, m) => sum + ((m.score?.home || 0) + (m.score?.away || 0)), 0);
+  const played = finishedMatches.length;
+  const average = totalGoals / played;
+
+  const goalCounts = finishedMatches.map(m => (m.score?.home || 0) + (m.score?.away || 0));
+  const maxGoals = Math.max(4, ...goalCounts);
+
+  const maxGoalsCount = Math.max(...goalCounts);
+  const highestScoringMatches = finishedMatches.filter(m => ((m.score?.home || 0) + (m.score?.away || 0)) === maxGoalsCount);
+  let highestLabel = 'N/A';
+  if (highestScoringMatches.length > 0) {
+    const firstM = highestScoringMatches[0];
+    const scoreText = `${firstM.score.home}-${firstM.score.away}`;
+    highestLabel = `${firstM.home} vs ${firstM.away} (${scoreText})`;
+    if (highestScoringMatches.length > 1) {
+      highestLabel += ` +${highestScoringMatches.length - 1} more`;
+    }
+  }
+
+  const statsHtml = `
+    <div class="goals-detail-stats">
+      <div class="goals-stat-card">
+        <div class="goals-stat-value" style="color: var(--accent);">${average.toFixed(2)}</div>
+        <div class="goals-stat-label">Goals / Match</div>
+      </div>
+      <div class="goals-stat-card">
+        <div class="goals-stat-value">${totalGoals}</div>
+        <div class="goals-stat-label">Total Goals</div>
+      </div>
+      <div class="goals-stat-card">
+        <div class="goals-stat-value">${played}</div>
+        <div class="goals-stat-label">Matches Played</div>
+      </div>
+      <div class="goals-stat-card" title="${highestLabel}">
+        <div class="goals-stat-value" style="font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; padding: 4px 0;">${maxGoalsCount} goals</div>
+        <div class="goals-stat-label">Highest Score</div>
+      </div>
+    </div>
+  `;
+
+  const width = 720;
+  const height = 240;
+  const padL = 40;
+  const padR = 40;
+  const padT = 30;
+  const padB = 40;
+
+  const plotW = width - padL - padR;
+  const plotH = height - padT - padB;
+
+  const points = finishedMatches.map((m, idx) => {
+    const goals = (m.score?.home || 0) + (m.score?.away || 0);
+    const x = finishedMatches.length > 1 
+      ? padL + (idx / (finishedMatches.length - 1)) * plotW
+      : padL + plotW / 2;
+    const y = padT + plotH - (goals / maxGoals) * plotH;
+    return { match: m, goals, x, y, index: idx + 1 };
+  });
+
+  const gridLines = [];
+  for (let i = 0; i <= maxGoals; i++) {
+    const y = padT + plotH - (i / maxGoals) * plotH;
+    gridLines.push(`
+      <line x1="${padL}" y1="${y}" x2="${width - padR}" y2="${y}" stroke="var(--line)" stroke-width="1" stroke-dasharray="4,4" />
+      <text x="${padL - 10}" y="${y + 4}" fill="var(--muted)" font-size="10" font-weight="700" text-anchor="end">${i}</text>
+    `);
+  }
+
+  let pathD = '';
+  let areaD = '';
+  if (points.length > 0) {
+    pathD = `M ${points[0].x} ${points[0].y} ` + points.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
+    areaD = `M ${points[0].x} ${padT + plotH} L ${points[0].x} ${points[0].y} ` + points.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ') + ` L ${points[points.length - 1].x} ${padT + plotH} Z`;
+  }
+
+  const nodesHtml = points.map(p => {
+    const matchData = encodeURIComponent(JSON.stringify({
+      id: p.match.id,
+      stage: p.match.stage,
+      venue: p.match.venue,
+      home: p.match.home,
+      away: p.match.away,
+      homeScore: p.match.score.home,
+      awayScore: p.match.score.away,
+      totalGoals: p.goals,
+      date: p.match.dateUK,
+    }));
+
+    return `
+      <g class="detail-node-group" 
+         onmouseenter="window.updateGoalsDetailPanel(this, '${matchData}')" 
+         onmouseleave="window.clearGoalsDetailPanel()"
+         onclick="window.updateGoalsDetailPanel(this, '${matchData}', true)">
+        <line class="hover-guide" x1="${p.x}" y1="${padT}" x2="${p.x}" y2="${padT + plotH}" stroke="var(--accent)" stroke-width="1" stroke-dasharray="2,2" opacity="0" style="transition: opacity 0.2s;" />
+        <circle class="hover-ring" cx="${p.x}" cy="${p.y}" r="10" fill="var(--accent)" fill-opacity="0" style="transition: fill-opacity 0.2s;" />
+        <circle class="node-dot" cx="${p.x}" cy="${p.y}" r="4" fill="var(--accent)" stroke="var(--panel)" stroke-width="1.5" />
+        <circle cx="${p.x}" cy="${p.y}" r="15" fill="transparent" pointer-events="all" />
+      </g>
+    `;
+  }).join('');
+
+  const xLabels = points.map((p, idx) => {
+    const showLabel = finishedMatches.length <= 12 || idx % 2 === 0 || idx === finishedMatches.length - 1;
+    if (!showLabel) return '';
+    return `<text x="${p.x}" y="${padT + plotH + 16}" fill="var(--muted)" font-size="8.5" font-weight="700" text-anchor="middle">${p.match.id}</text>`;
+  }).join('');
+
+  const svgHtml = `
+    <svg width="100%" height="${height}" viewBox="0 0 ${width} ${height}" style="overflow: visible;">
+      ${gridLines.join('')}
+      ${areaD ? `<path d="${areaD}" fill="var(--accent)" fill-opacity="0.04" />` : ''}
+      ${pathD ? `<path d="${pathD}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(0 0 4px var(--accent-glow))" />` : ''}
+      ${xLabels}
+      ${nodesHtml}
+    </svg>
+  `;
+
+  card.innerHTML = `
+    <button class="modal-close" id="goals-modal-close" aria-label="Close modal">&times;</button>
+    <div class="goals-detail-content">
+      <div class="goals-detail-title-area">
+        <div class="goals-detail-title">⚽ Goals Trend — ${stage.label}</div>
+        <div class="goals-detail-subtitle">Individual match breakdown (goals vs match ID)</div>
+      </div>
+      
+      ${statsHtml}
+      
+      <div class="goals-detail-chart-container">
+        ${svgHtml}
+      </div>
+      
+      <div class="goals-detail-info-panel" id="goals-info-panel">
+        <div class="goals-info-placeholder">
+          <span>ℹ️</span> Hover over any match point on the trend line to view details.
+        </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('goals-modal-close').onclick = () => {
+    modal.hidden = true;
+  };
+  
+  modal.hidden = false;
+};
+
+// Handle closing goals detail modal when clicking outside
+document.getElementById('goals-detail-modal').onclick = e => { 
+  if (e.target.id === 'goals-detail-modal') {
+    e.currentTarget.hidden = true; 
+  }
+};
 
 
 
