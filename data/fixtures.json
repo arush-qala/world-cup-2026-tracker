@@ -1233,7 +1233,9 @@
     "venue": "Estadio Azteca, Mexico City",
     "home": "MEX",
     "away": "ECU",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 2, "away": 0 },
+    "winner": "MEX"
   },
   {
     "id": "M80",
