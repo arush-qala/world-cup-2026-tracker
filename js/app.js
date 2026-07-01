@@ -22,7 +22,7 @@ let statsCountryFilter = new Set(); // codes of countries selected on the Goal A
 async function boot(){
   const [groups, fixtures, fantasy] = await Promise.all([
     fetch('data/groups.json').then(r=>r.json()),
-    fetch('data/fixtures.json').then(r=>r.json()),
+    fetch(`data/fixtures.json?t=${Date.now()}`).then(r=>r.json()),
     fetch('data/fantasy.json').then(r=>r.json()),
   ]);
   DATA = { groups, fixtures };
