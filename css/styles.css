@@ -1885,7 +1885,8 @@ body {
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 18px;
-  min-height: 80px;
+  height: 112px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
