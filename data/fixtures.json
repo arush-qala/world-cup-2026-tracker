@@ -1245,7 +1245,9 @@
     "venue": "Mercedes-Benz Stadium, Atlanta",
     "home": "ENG",
     "away": "COD",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 2, "away": 1 },
+    "winner": "ENG"
   },
   {
     "id": "M81",
