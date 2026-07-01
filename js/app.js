@@ -2019,6 +2019,9 @@ function renderStats() {
 
     return `
       <g class="clickable-node" style="opacity: ${opacity}" onclick="window.openStageGoalsDetail('${p.id}')">
+        <!-- Interactive background column highlight hitbox -->
+        <rect x="${p.x - 46}" y="5" width="92" height="206" rx="12" fill="var(--accent)" fill-opacity="0" class="column-hitbox" style="transition: fill-opacity 0.2s;" />
+        
         <!-- Background vertical guideline -->
         <line x1="${p.x}" y1="170" x2="${p.x}" y2="20" stroke="var(--line)" stroke-width="1" stroke-dasharray="2,2" />
         

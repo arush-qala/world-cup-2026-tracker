@@ -1792,6 +1792,9 @@ body {
   font-weight: 900 !important;
   transition: fill 0.2s, font-weight 0.2s;
 }
+.clickable-node:hover .column-hitbox {
+  fill-opacity: 0.05 !important;
+}
 
 .goals-detail-content {
   display: flex;
