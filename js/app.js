@@ -1415,45 +1415,45 @@ function getPredictedMatchLoser(matchId, homeTeam, awayTeam) {
 const KNOCKOUT_SCHEDULE = {
   // Round of 32
   M73: { kickoffUK: '2026-06-28T20:00:00+01:00', venue: 'SoFi Stadium, Los Angeles' },
-  M74: { kickoffUK: '2026-06-29T21:30:00+01:00', venue: 'Boston Stadium, Boston' },
-  M75: { kickoffUK: '2026-06-30T02:00:00+01:00', venue: 'Monterrey Stadium, Monterrey' },
-  M76: { kickoffUK: '2026-06-29T18:00:00+01:00', venue: 'Houston Stadium, Houston' },
+  M74: { kickoffUK: '2026-06-29T21:30:00+01:00', venue: 'Gillette Stadium, Foxborough' },
+  M75: { kickoffUK: '2026-06-29T18:00:00+01:00', venue: 'Estadio BBVA, Monterrey' },
+  M76: { kickoffUK: '2026-06-29T18:00:00+01:00', venue: 'NRG Stadium, Houston' },
   M77: { kickoffUK: '2026-06-30T22:00:00+01:00', venue: 'MetLife Stadium, East Rutherford' },
-  M78: { kickoffUK: '2026-06-30T18:00:00+01:00', venue: 'Dallas Stadium, Dallas' },
+  M78: { kickoffUK: '2026-06-30T18:00:00+01:00', venue: 'AT&T Stadium, Arlington' },
   M79: { kickoffUK: '2026-07-01T02:00:00+01:00', venue: 'Estadio Azteca, Mexico City' },
-  M80: { kickoffUK: '2026-07-01T17:00:00+01:00', venue: 'Lumen Field, Seattle' },
-  M81: { kickoffUK: '2026-07-02T01:00:00+01:00', venue: 'Levi\'s Stadium, San Francisco' },
-  M82: { kickoffUK: '2026-07-02T20:00:00+01:00', venue: 'Gillette Stadium, Boston' },
-  M83: { kickoffUK: '2026-07-03T00:00:00+01:00', venue: 'Mercedes-Benz Stadium, Atlanta' },
-  M84: { kickoffUK: '2026-07-02T20:00:00+01:00', venue: 'Estadio Akron, Guadalajara' },
-  M85: { kickoffUK: '2026-07-03T04:00:00+01:00', venue: 'BC Place, Vancouver' },
-  M86: { kickoffUK: '2026-07-03T23:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
-  M87: { kickoffUK: '2026-07-04T02:30:00+01:00', venue: 'Arrowhead Stadium, Kansas City' },
-  M88: { kickoffUK: '2026-07-03T19:00:00+01:00', venue: 'Lincoln Financial Field, Philadelphia' },
+  M80: { kickoffUK: '2026-07-01T22:00:00+01:00', venue: 'Mercedes-Benz Stadium, Atlanta' },
+  M81: { kickoffUK: '2026-07-02T01:00:00+01:00', venue: 'Levi\'s Stadium, Santa Clara' },
+  M82: { kickoffUK: '2026-07-01T19:00:00+01:00', venue: 'Lumen Field, Seattle' },
+  M83: { kickoffUK: '2026-07-02T22:00:00+01:00', venue: 'BMO Field, Toronto' },
+  M84: { kickoffUK: '2026-07-02T18:00:00+01:00', venue: 'SoFi Stadium, Los Angeles' },
+  M85: { kickoffUK: '2026-07-02T22:00:00+01:00', venue: 'BC Place, Vancouver' },
+  M86: { kickoffUK: '2026-07-03T22:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
+  M87: { kickoffUK: '2026-07-03T18:00:00+01:00', venue: 'Arrowhead Stadium, Kansas City' },
+  M88: { kickoffUK: '2026-07-03T18:00:00+01:00', venue: 'AT&T Stadium, Arlington' },
 
   // Round of 16
-  M89: { kickoffUK: '2026-07-04T22:00:00+01:00', venue: 'MetLife Stadium, East Rutherford' },
+  M89: { kickoffUK: '2026-07-04T22:00:00+01:00', venue: 'Lincoln Financial Field, Philadelphia' },
   M90: { kickoffUK: '2026-07-04T18:00:00+01:00', venue: 'NRG Stadium, Houston' },
-  M91: { kickoffUK: '2026-07-05T21:00:00+01:00', venue: 'SoFi Stadium, Los Angeles' },
-  M92: { kickoffUK: '2026-07-06T01:00:00+01:00', venue: 'Lumen Field, Seattle' },
-  M93: { kickoffUK: '2026-07-06T20:00:00+01:00', venue: 'BC Place, Vancouver' },
-  M94: { kickoffUK: '2026-07-07T01:00:00+01:00', venue: 'Levi\'s Stadium, San Francisco' },
-  M95: { kickoffUK: '2026-07-07T17:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
-  M96: { kickoffUK: '2026-07-07T21:00:00+01:00', venue: 'Arrowhead Stadium, Kansas City' },
+  M91: { kickoffUK: '2026-07-05T21:00:00+01:00', venue: 'MetLife Stadium, East Rutherford' },
+  M92: { kickoffUK: '2026-07-06T01:00:00+01:00', venue: 'Estadio Azteca, Mexico City' },
+  M93: { kickoffUK: '2026-07-06T20:00:00+01:00', venue: 'AT&T Stadium, Arlington' },
+  M94: { kickoffUK: '2026-07-07T01:00:00+01:00', venue: 'Lumen Field, Seattle' },
+  M95: { kickoffUK: '2026-07-07T17:00:00+01:00', venue: 'Mercedes-Benz Stadium, Atlanta' },
+  M96: { kickoffUK: '2026-07-07T21:00:00+01:00', venue: 'BC Place, Vancouver' },
 
   // Quarter-finals
-  M97: { kickoffUK: '2026-07-09T21:00:00+01:00', venue: 'Boston Stadium, Boston' },
+  M97: { kickoffUK: '2026-07-09T21:00:00+01:00', venue: 'Gillette Stadium, Foxborough' },
   M98: { kickoffUK: '2026-07-10T20:00:00+01:00', venue: 'SoFi Stadium, Los Angeles' },
   M99: { kickoffUK: '2026-07-11T22:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
   M100: { kickoffUK: '2026-07-12T02:00:00+01:00', venue: 'Arrowhead Stadium, Kansas City' },
 
   // Semi-finals
   M101: { kickoffUK: '2026-07-14T21:00:00+01:00', venue: 'AT&T Stadium, Arlington' },
-  M102: { kickoffUK: '2026-07-15T21:00:00+01:00', venue: 'Mercedes-Benz Stadium, Atlanta' },
+  M102: { kickoffUK: '2026-07-15T20:00:00+01:00', venue: 'Mercedes-Benz Stadium, Atlanta' },
 
   // Final & 3rd Place
-  M103: { kickoffUK: '2026-07-18T21:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
-  M104: { kickoffUK: '2026-07-19T21:00:00+01:00', venue: 'MetLife Stadium, East Rutherford' }
+  M103: { kickoffUK: '2026-07-18T22:00:00+01:00', venue: 'Hard Rock Stadium, Miami' },
+  M104: { kickoffUK: '2026-07-19T20:00:00+01:00', venue: 'MetLife Stadium, East Rutherford' }
 };
 
 function getMatchDetails(matchId, projectedHome, projectedAway) {
