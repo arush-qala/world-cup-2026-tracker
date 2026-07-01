@@ -2143,7 +2143,7 @@ window.updateGoalsDetailPanel = (element, matchDataJsonStr, isClick = false) => 
         </div>
         <div class="goals-info-score-container">
           <div class="goals-info-score">${data.homeScore} - ${data.awayScore}</div>
-          <div class="goals-info-score-label">${data.totalGoals} GOAL${data.totalGoals === 1 ? '' : 'S'}</div>
+          <div class="goals-info-score-label">${data.totalGoals} GOAL${data.totalGoals === 1 ? '' : 'S'}${data.runningAvg ? ` • avg ${data.runningAvg}` : ''}</div>
         </div>
         <div class="goals-info-team away">
           <span class="team-flag">${awayFlag}</span>
@@ -2280,13 +2280,17 @@ window.openStageGoalsDetail = (stageId) => {
   const plotW = width - padL - padR;
   const plotH = height - padT - padB;
 
+  let cumulativeSum = 0;
   const points = finishedMatches.map((m, idx) => {
     const goals = (m.score?.home || 0) + (m.score?.away || 0);
+    cumulativeSum += goals;
+    const runningAvg = cumulativeSum / (idx + 1);
     const x = finishedMatches.length > 1 
       ? padL + (idx / (finishedMatches.length - 1)) * plotW
       : padL + plotW / 2;
     const y = padT + plotH - (goals / maxGoals) * plotH;
-    return { match: m, goals, x, y, index: idx + 1 };
+    const yAvg = padT + plotH - (runningAvg / maxGoals) * plotH;
+    return { match: m, goals, runningAvg, x, y, yAvg, index: idx + 1 };
   });
 
   const gridLines = [];
@@ -2300,9 +2304,11 @@ window.openStageGoalsDetail = (stageId) => {
 
   let pathD = '';
   let areaD = '';
+  let avgPathD = '';
   if (points.length > 0) {
     pathD = `M ${points[0].x} ${points[0].y} ` + points.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
     areaD = `M ${points[0].x} ${padT + plotH} L ${points[0].x} ${points[0].y} ` + points.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ') + ` L ${points[points.length - 1].x} ${padT + plotH} Z`;
+    avgPathD = `M ${points[0].x} ${points[0].yAvg} ` + points.slice(1).map(p => `L ${p.x} ${p.yAvg}`).join(' ');
   }
 
   const nodesHtml = points.map(p => {
@@ -2315,6 +2321,7 @@ window.openStageGoalsDetail = (stageId) => {
       homeScore: p.match.score.home,
       awayScore: p.match.score.away,
       totalGoals: p.goals,
+      runningAvg: p.runningAvg.toFixed(2),
       date: p.match.dateUK,
     }));
 
@@ -2341,6 +2348,7 @@ window.openStageGoalsDetail = (stageId) => {
     <svg width="100%" height="${height}" viewBox="0 0 ${width} ${height}" style="overflow: visible;">
       ${gridLines.join('')}
       ${areaD ? `<path d="${areaD}" fill="var(--accent)" fill-opacity="0.04" />` : ''}
+      ${avgPathD ? `<path d="${avgPathD}" fill="none" stroke="var(--text)" stroke-width="2" stroke-dasharray="4,4" opacity="0.6" style="pointer-events: none;" />` : ''}
       ${pathD ? `<path d="${pathD}" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="drop-shadow(0 0 4px var(--accent-glow))" />` : ''}
       ${xLabels}
       ${nodesHtml}
@@ -2356,6 +2364,17 @@ window.openStageGoalsDetail = (stageId) => {
       </div>
       
       ${statsHtml}
+      
+      <div style="display: flex; justify-content: flex-end; gap: 16px; font-size: 11px; margin-bottom: 8px; font-weight: 600; padding: 0 4px;">
+        <div style="display: flex; align-items: center; gap: 6px; color: var(--text);">
+          <span style="display: inline-block; width: 12px; height: 3px; background: var(--accent); border-radius: 2px;"></span>
+          <span>Match Goals</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 6px; color: var(--muted);">
+          <span style="display: inline-block; width: 12px; height: 0px; border-bottom: 2px dashed var(--muted);"></span>
+          <span>Running Average</span>
+        </div>
+      </div>
       
       <div class="goals-detail-chart-container">
         ${svgHtml}
