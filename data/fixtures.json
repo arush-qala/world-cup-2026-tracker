@@ -1267,7 +1267,10 @@
     "venue": "Lumen Field, Seattle",
     "home": "BEL",
     "away": "SEN",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 3, "away": 2 },
+    "note": "BEL win 3-2 after extra time (AET 2-2)",
+    "winner": "BEL"
   },
   {
     "id": "M83",
