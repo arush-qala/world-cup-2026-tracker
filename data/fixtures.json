@@ -1257,7 +1257,9 @@
     "venue": "Levi's Stadium, Santa Clara",
     "home": "USA",
     "away": "BIH",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 2, "away": 0 },
+    "winner": "USA"
   },
   {
     "id": "M82",
