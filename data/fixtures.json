@@ -1331,7 +1331,9 @@
     "venue": "Arrowhead Stadium, Kansas City",
     "home": "COL",
     "away": "GHA",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 1, "away": 0 },
+    "winner": "COL"
   },
   {
     "id": "M88",
