@@ -1975,7 +1975,14 @@ function renderStats() {
     const count = matches.length;
     let goals = [];
     matches.forEach(m => {
-      goals.push((m.score?.home || 0) + (m.score?.away || 0)); 
+      if (hasCountryFilter) {
+        let matchGoals = 0;
+        if (statsCountryFilter.has(m.home)) matchGoals += (m.score?.home || 0);
+        if (statsCountryFilter.has(m.away)) matchGoals += (m.score?.away || 0);
+        goals.push(matchGoals);
+      } else {
+        goals.push((m.score?.home || 0) + (m.score?.away || 0));
+      }
     });
     const totalStageGoals = goals.reduce((sum, g) => sum + g, 0);
     const avg = count > 0 ? totalStageGoals / count : 0;
@@ -2192,7 +2199,7 @@ window.updateGoalsDetailPanel = (element, matchDataJsonStr, isClick = false) => 
         </div>
         <div class="goals-info-score-container">
           <div class="goals-info-score">${data.homeScore} - ${data.awayScore}</div>
-          <div class="goals-info-score-label">${data.totalGoals} GOAL${data.totalGoals === 1 ? '' : 'S'}${data.runningAvg ? ` • avg ${data.runningAvg}` : ''}</div>
+          <div class="goals-info-score-label">${data.totalGoals} GOAL${data.totalGoals === 1 ? '' : 'S'}${statsCountryFilter.size > 0 ? ' BY SELECTED' : ''}${data.runningAvg ? ` • avg ${data.runningAvg}` : ''}</div>
         </div>
         <div class="goals-info-team away">
           <span class="team-flag">${awayFlag}</span>
@@ -2279,15 +2286,40 @@ window.openStageGoalsDetail = (stageId) => {
     return;
   }
 
-  const totalGoals = finishedMatches.reduce((sum, m) => sum + ((m.score?.home || 0) + (m.score?.away || 0)), 0);
+  const totalGoals = finishedMatches.reduce((sum, m) => {
+    if (hasCountryFilter) {
+      let g = 0;
+      if (statsCountryFilter.has(m.home)) g += (m.score?.home || 0);
+      if (statsCountryFilter.has(m.away)) g += (m.score?.away || 0);
+      return sum + g;
+    }
+    return sum + ((m.score?.home || 0) + (m.score?.away || 0));
+  }, 0);
   const played = finishedMatches.length;
   const average = totalGoals / played;
 
-  const goalCounts = finishedMatches.map(m => (m.score?.home || 0) + (m.score?.away || 0));
+  const goalCounts = finishedMatches.map(m => {
+    if (hasCountryFilter) {
+      let g = 0;
+      if (statsCountryFilter.has(m.home)) g += (m.score?.home || 0);
+      if (statsCountryFilter.has(m.away)) g += (m.score?.away || 0);
+      return g;
+    }
+    return (m.score?.home || 0) + (m.score?.away || 0);
+  });
   const maxGoals = Math.max(4, ...goalCounts);
 
   const maxGoalsCount = Math.max(...goalCounts);
-  const highestScoringMatches = finishedMatches.filter(m => ((m.score?.home || 0) + (m.score?.away || 0)) === maxGoalsCount);
+  const highestScoringMatches = finishedMatches.filter(m => {
+    let g = 0;
+    if (hasCountryFilter) {
+      if (statsCountryFilter.has(m.home)) g += (m.score?.home || 0);
+      if (statsCountryFilter.has(m.away)) g += (m.score?.away || 0);
+    } else {
+      g = (m.score?.home || 0) + (m.score?.away || 0);
+    }
+    return g === maxGoalsCount;
+  });
   let highestLabel = 'N/A';
   if (highestScoringMatches.length > 0) {
     const firstM = highestScoringMatches[0];
@@ -2331,7 +2363,13 @@ window.openStageGoalsDetail = (stageId) => {
 
   let cumulativeSum = 0;
   const points = finishedMatches.map((m, idx) => {
-    const goals = (m.score?.home || 0) + (m.score?.away || 0);
+    let goals = 0;
+    if (hasCountryFilter) {
+      if (statsCountryFilter.has(m.home)) goals += (m.score?.home || 0);
+      if (statsCountryFilter.has(m.away)) goals += (m.score?.away || 0);
+    } else {
+      goals = (m.score?.home || 0) + (m.score?.away || 0);
+    }
     cumulativeSum += goals;
     const runningAvg = cumulativeSum / (idx + 1);
     const x = finishedMatches.length > 1 
