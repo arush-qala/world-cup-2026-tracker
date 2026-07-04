@@ -1318,7 +1318,10 @@
     "venue": "Hard Rock Stadium, Miami",
     "home": "ARG",
     "away": "CPV",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 3, "away": 2 },
+    "note": "ARG win 3-2 after extra time (AET 1-1)",
+    "winner": "ARG"
   },
   {
     "id": "M87",
