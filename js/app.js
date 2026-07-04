@@ -3083,7 +3083,7 @@ function getDreamTeam(players) {
   // Sort players by totalPoints descending
   const sorted = [...players].sort((a, b) => b.totalPoints - a.totalPoints);
   
-  const gks = sorted.filter(p => p.position === 'GKP').slice(0, 1);
+  const gks = sorted.filter(p => p.position === 'GK').slice(0, 1);
   const defs = sorted.filter(p => p.position === 'DEF').slice(0, 4);
   const mids = sorted.filter(p => p.position === 'MID').slice(0, 4);
   const fwds = sorted.filter(p => p.position === 'FWD').slice(0, 2);
