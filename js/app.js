@@ -18,6 +18,7 @@ let activeFilters = {
   date: 'ALL'
 };
 let statsCountryFilter = new Set(); // codes of countries selected on the Goal Analytics filter
+let compareMode = false;
 
 async function boot(){
   const [groups, fixtures, fantasy] = await Promise.all([
@@ -66,6 +67,14 @@ async function boot(){
   wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
   showUpdated();
   handleRouting();
+
+  if (window.self !== window.top) {
+    document.body.classList.add('in-iframe');
+    const compareBtn = document.getElementById('btn-toggle-compare');
+    if (compareBtn) compareBtn.remove();
+  } else {
+    initCompareMode();
+  }
 }
 
 function groupModel(letter){
@@ -248,6 +257,11 @@ function switchTab(tabId) {
   if (!t) return;
   document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));
   t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  
+  if (compareMode) {
+    return;
+  }
+
   document.getElementById('groups-view').hidden   = tabId!=='groups';
   document.getElementById('fixtures-view').hidden = tabId!=='fixtures';
   document.getElementById('strength-view').hidden = tabId!=='strength';
@@ -2910,4 +2924,81 @@ function loadPredictionsFromUrl() {
   } catch (e) {
     console.error('Error loading predictions from URL', e);
   }
+}
+
+function initCompareMode() {
+  const compareBtn = document.getElementById('btn-toggle-compare');
+  if (!compareBtn) return;
+
+  const compContainer = document.getElementById('comparator-container');
+  const leftIframe = document.getElementById('left-pane-iframe');
+  const rightIframe = document.getElementById('right-pane-iframe');
+
+  compareBtn.onclick = () => {
+    compareMode = !compareMode;
+    document.body.classList.toggle('comparator-active', compareMode);
+    
+    if (compareMode) {
+      compareBtn.innerHTML = `
+        <svg class="icon-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 4h4v16H5zM15 4h4v16h-4z"/>
+        </svg>
+        <span>Compare: On</span>
+      `;
+      compareBtn.classList.add('active');
+      compContainer.style.display = 'flex';
+      
+      // Hide all standard views in the parent window
+      toggleParentViewsVisibility(true);
+
+      // Load iframes if not already loaded, or update their hashes to current
+      const currentURL = window.location.pathname + window.location.search + window.location.hash;
+      leftIframe.src = currentURL;
+      rightIframe.src = currentURL;
+    } else {
+      compareBtn.innerHTML = `
+        <svg class="icon-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 4h4v16H5zM15 4h4v16h-4z"/>
+        </svg>
+        <span>Compare</span>
+      `;
+      compareBtn.classList.remove('active');
+      compContainer.style.display = 'none';
+      
+      // Show standard views in the parent window
+      toggleParentViewsVisibility(false);
+      // Trigger route to re-show the correct active tab in parent window
+      handleRouting();
+    }
+  };
+
+  // When parent hash changes, sync both iframes if compareMode is active
+  window.addEventListener('hashchange', () => {
+    if (compareMode) {
+      if (leftIframe.contentWindow) {
+        leftIframe.contentWindow.location.hash = window.location.hash;
+      }
+      if (rightIframe.contentWindow) {
+        rightIframe.contentWindow.location.hash = window.location.hash;
+      }
+    }
+  });
+}
+
+function toggleParentViewsVisibility(hide) {
+  const viewIds = [
+    'groups-view', 'fixtures-view', 'strength-view', 
+    'fantasy-view', 'knockout-view', 'predictions-view', 
+    'wheel-view', 'stats-view'
+  ];
+  viewIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      if (hide) {
+        el.style.display = 'none';
+      } else {
+        el.style.display = '';
+      }
+    }
+  });
 }

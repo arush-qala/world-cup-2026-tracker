@@ -19,7 +19,18 @@
       <button class="tab" data-tab="wheel">Bracket Wheel</button>
       <button class="tab" data-tab="stats">Stats</button>
     </nav>
+    <button class="btn-compare" id="btn-toggle-compare">
+      <svg class="icon-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 4h4v16H5zM15 4h4v16h-4z"/>
+      </svg>
+      <span>Compare</span>
+    </button>
   </header>
+
+  <div id="comparator-container" class="comparator-container" style="display: none;">
+    <iframe id="left-pane-iframe" class="comparator-pane"></iframe>
+    <iframe id="right-pane-iframe" class="comparator-pane"></iframe>
+  </div>
 
   <section id="groups-view" hidden>
     <div class="viewbar">

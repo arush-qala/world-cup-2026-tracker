@@ -2091,3 +2091,86 @@ body {
   text-align: center;
 }
 
+/* ── Comparator Mode Layout ────────────────────────── */
+.btn-compare {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-left: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.btn-compare:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+.btn-compare.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-text);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+.btn-compare svg {
+  width: 14px;
+  height: 14px;
+}
+
+.comparator-container {
+  display: none;
+  width: 100%;
+  height: calc(100vh - 69px); /* height minus header topbar */
+  background: var(--bg);
+  flex-direction: row;
+  overflow: hidden;
+}
+.comparator-pane {
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: var(--bg);
+}
+.comparator-pane:first-child {
+  border-right: 2px solid var(--line);
+}
+
+/* Inside iframe document styles */
+body.in-iframe {
+  background: var(--bg);
+}
+body.in-iframe .topbar {
+  display: none !important;
+}
+
+/* Responsive side-by-side mode (stacks vertically on smaller tablets and mobile) */
+@media (max-width: 768px) {
+  .comparator-container {
+    flex-direction: column;
+    height: calc(100vh - 100px); /* adjust height for taller mobile header */
+  }
+  .comparator-pane:first-child {
+    border-right: none;
+    border-bottom: 2px solid var(--line);
+  }
+}
+
+@media (max-width: 600px) {
+  .btn-compare {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 4px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
