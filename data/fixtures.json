@@ -1347,5 +1347,29 @@
     "score": { "home": 1, "away": 1 },
     "note": "EGY win 4-2 on penalties (AET 1-1)",
     "winner": "EGY"
+  },
+  {
+    "id": "M89",
+    "stage": "round of 16",
+    "dateUK": "2026-07-04",
+    "kickoffUK": "2026-07-04T22:00:00+01:00",
+    "venue": "Lincoln Financial Field, Philadelphia",
+    "home": "PAR",
+    "away": "FRA",
+    "status": "finished",
+    "score": { "home": 0, "away": 1 },
+    "winner": "FRA"
+  },
+  {
+    "id": "M90",
+    "stage": "round of 16",
+    "dateUK": "2026-07-04",
+    "kickoffUK": "2026-07-04T18:00:00+01:00",
+    "venue": "NRG Stadium, Houston",
+    "home": "CAN",
+    "away": "MAR",
+    "status": "finished",
+    "score": { "home": 0, "away": 3 },
+    "winner": "MAR"
   }
 ]
