@@ -14,6 +14,7 @@
       <button class="tab" data-tab="groups">Groups</button>
       <button class="tab" data-tab="strength">Strength</button>
       <button class="tab" data-tab="fantasy">Set Piece Takers</button>
+      <button class="tab" data-tab="fantasy-players">Fantasy Points</button>
       <button class="tab" data-tab="knockout">Knockouts</button>
       <button class="tab" data-tab="stats">Stats</button>
     </nav>
@@ -150,6 +151,182 @@
               <!-- Dynamically populated -->
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fantasy-players-view" hidden>
+    <div class="viewbar">
+      <h2>Fantasy Player Stats</h2>
+      <span class="updated">Points up to Round of 32</span>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="fantasy-stats-cards">
+      <div class="fantasy-card" style="height: auto; padding: 16px; justify-content: center;">
+        <div class="stat-card-title">Top Scorer 👑</div>
+        <div id="top-scorer-val" class="stat-card-value">-</div>
+        <div id="top-scorer-sub" class="stat-card-subtitle">0 pts</div>
+      </div>
+      <div class="fantasy-card" style="height: auto; padding: 16px; justify-content: center;">
+        <div class="stat-card-title">Most Selected 📈</div>
+        <div id="most-selected-val" class="stat-card-value">-</div>
+        <div id="most-selected-sub" class="stat-card-subtitle">0%</div>
+      </div>
+      <div class="fantasy-card" style="height: auto; padding: 16px; justify-content: center;">
+        <div class="stat-card-title">Best Value 💎</div>
+        <div id="best-value-val" class="stat-card-value">-</div>
+        <div id="best-value-sub" class="stat-card-subtitle">0.0 pts/m</div>
+      </div>
+      <div class="fantasy-card" style="height: auto; padding: 16px; justify-content: center;">
+        <div class="stat-card-title">Top Country 🌍</div>
+        <div id="top-country-val" class="stat-card-value">-</div>
+        <div id="top-country-sub" class="stat-card-subtitle">0 pts</div>
+      </div>
+    </div>
+
+    <div class="fantasy-grid" style="max-width: 1200px;">
+      <div class="fantasy-card" style="height: auto; max-height: none;">
+        <div class="fantasy-card-title">⚽ Player Performance & Points</div>
+        <div class="fantasy-card-desc">Track and filter player points from Group Stage Matchdays and the Round of 32. Click table headers to sort.</div>
+        
+        <!-- Advanced Filters & Presets Panel -->
+        <div class="fantasy-filter-dashboard" style="background: rgba(37, 99, 235, 0.02); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 16px;">
+          
+          <!-- Row 1: Search & Basic Filters -->
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; width: 100%;">
+            <input type="text" id="player-search" placeholder="Search player or country..." style="flex: 2; min-width: 240px; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none; transition: 0.2s;">
+            
+            <select id="filter-player-position" style="flex: 1; min-width: 130px; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer; font-weight: 600;">
+              <option value="ALL">All Positions</option>
+              <option value="GKP">Goalkeepers 🧤</option>
+              <option value="DEF">Defenders 🛡️</option>
+              <option value="MID">Midfielders ⚙️</option>
+              <option value="FWD">Forwards ⚽</option>
+            </select>
+
+            <select id="filter-player-country" style="flex: 1.2; min-width: 160px; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer; font-weight: 600;">
+              <option value="ALL">All Countries 🌍</option>
+              <!-- Dynamically populated -->
+            </select>
+
+            <select id="filter-player-status" style="flex: 1; min-width: 130px; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer; font-weight: 600;">
+              <option value="ALL">All Statuses</option>
+              <option value="playing">Playing</option>
+              <option value="eliminated">Eliminated</option>
+              <option value="injured">Injured</option>
+              <option value="suspended">Suspended</option>
+            </select>
+          </div>
+
+          <!-- Row 2: Analytical Presets -->
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-top: 1px solid var(--line); padding-top: 14px;">
+            <span style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); font-weight: 700; margin-right: 8px;">Analysis Presets:</span>
+            <div class="seg" id="analysis-presets-seg" style="display: inline-flex; flex-wrap: wrap; gap: 4px; border: none; background: transparent; padding: 0;">
+              <button data-preset="all" class="active" style="padding: 6px 12px; font-size: 11.5px; border-radius: 8px; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--text); font-weight: 600; transition: 0.2s;">All Players</button>
+              <button data-preset="dreamteam" style="padding: 6px 12px; font-size: 11.5px; border-radius: 8px; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--text); font-weight: 600; transition: 0.2s;">Dream Team (Top 11)</button>
+              <button data-preset="gems" style="padding: 6px 12px; font-size: 11.5px; border-radius: 8px; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--text); font-weight: 600; transition: 0.2s;">Value Gems 💎</button>
+              <button data-preset="differentials" style="padding: 6px 12px; font-size: 11.5px; border-radius: 8px; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--text); font-weight: 600; transition: 0.2s;">Differentials 🔍</button>
+              <button data-preset="underperformers" style="padding: 6px 12px; font-size: 11.5px; border-radius: 8px; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--text); font-weight: 600; transition: 0.2s;">Underperformers ⚠️</button>
+            </div>
+          </div>
+
+          <!-- Row 3: Sliders Grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; border-top: 1px solid var(--line); padding-top: 14px;">
+            
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                <span style="font-weight: 600; color: var(--text);">Max Price</span>
+                <span id="label-max-price" style="font-weight: 700; color: var(--accent);">$12.0m</span>
+              </div>
+              <input type="range" id="filter-max-price" min="4.0" max="12.0" step="0.5" value="12.0" style="width: 100%; accent-color: var(--accent); cursor: pointer;">
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                <span style="font-weight: 600; color: var(--text);">Min Selection %</span>
+                <span id="label-min-selected" style="font-weight: 700; color: var(--accent);">0.0%</span>
+              </div>
+              <input type="range" id="filter-min-selected" min="0" max="80" step="2" value="0" style="width: 100%; accent-color: var(--accent); cursor: pointer;">
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                <span style="font-weight: 600; color: var(--text);">Min Total Points</span>
+                <span id="label-min-points" style="font-weight: 700; color: var(--accent);">0 pts</span>
+              </div>
+              <input type="range" id="filter-min-points" min="0" max="60" step="2" value="0" style="width: 100%; accent-color: var(--accent); cursor: pointer;">
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                <span style="font-weight: 600; color: var(--text);">Min Form</span>
+                <span id="label-min-form" style="font-weight: 700; color: var(--accent);">0.0</span>
+              </div>
+              <input type="range" id="filter-min-form" min="0.0" max="15.0" step="0.5" value="0.0" style="width: 100%; accent-color: var(--accent); cursor: pointer;">
+            </div>
+          </div>
+
+          <!-- Row 4: Round-Specific Filters & Curation Toggles -->
+          <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: center; border-top: 1px solid var(--line); padding-top: 14px; font-size: 13px;">
+            <div style="display: flex; align-items: center; gap: 8px; flex: 1.5; min-width: 280px;">
+              <span style="font-weight: 600; white-space: nowrap;">Min points in</span>
+              <select id="filter-specific-round" style="background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 6px 10px; border-radius: 8px; font-size: 12px; outline: none; cursor: pointer; font-weight: 600;">
+                <option value="md1">MD1 (Group Stage Rd 1)</option>
+                <option value="md2">MD2 (Group Stage Rd 2)</option>
+                <option value="md3">MD3 (Group Stage Rd 3)</option>
+                <option value="r32">R32 (Round of 32)</option>
+              </select>
+              <span style="font-weight: 600;">is:</span>
+              <span id="label-min-round-points" style="font-weight: 700; color: var(--accent); min-width: 30px;">0 pts</span>
+              <input type="range" id="filter-min-round-points" min="0" max="25" step="1" value="0" style="flex: 1; accent-color: var(--accent); cursor: pointer;">
+            </div>
+
+            <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+              <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; font-weight: 600;">
+                <input type="checkbox" id="filter-one-to-watch" style="width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer;">
+                <span>⭐ One to Watch</span>
+              </label>
+
+              <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; font-weight: 600;">
+                <input type="checkbox" id="filter-hide-unavailable" style="width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer;">
+                <span>🟢 Hide Unavailable</span>
+              </label>
+            </div>
+            
+            <button id="btn-reset-fantasy-filters" class="btn" style="padding: 6px 12px; font-size: 11px; border-radius: 8px; background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); color: #ef4444; font-weight: 700; cursor: pointer; margin-left: auto; transition: 0.2s;">Reset Filters</button>
+          </div>
+        </div>
+
+        <div class="setpiece-table-wrap" style="max-height: 600px; border-radius: 12px; border: 1px solid var(--line);">
+          <table class="fantasy-table">
+            <thead>
+              <tr id="player-table-headers">
+                <th data-sort="name" class="sort-header" style="width: 22%;">Player</th>
+                <th data-sort="teamCode" class="sort-header" style="width: 13%;">Country</th>
+                <th data-sort="position" class="sort-header" style="width: 7%;">Pos</th>
+                <th data-sort="price" class="sort-header text-right" style="width: 8%;">Price</th>
+                <th data-sort="percentSelected" class="sort-header text-right" style="width: 8%;">Sel %</th>
+                <th data-sort="avgPoints" class="sort-header text-center" style="width: 6%;">Avg</th>
+                <th data-sort="form" class="sort-header text-center" style="width: 6%;">Form</th>
+                <th data-sort="pointsByRound.md1" class="sort-header text-center" style="width: 6%;">MD1</th>
+                <th data-sort="pointsByRound.md2" class="sort-header text-center" style="width: 6%;">MD2</th>
+                <th data-sort="pointsByRound.md3" class="sort-header text-center" style="width: 6%;">MD3</th>
+                <th data-sort="pointsByRound.r32" class="sort-header text-center" style="width: 6%;">R32</th>
+                <th data-sort="totalPoints" class="sort-header text-center text-accent" style="width: 6%;">Total</th>
+              </tr>
+            </thead>
+            <tbody id="fantasy-players-list">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination/Show More -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; font-size: 12px; color: var(--muted);">
+          <span id="player-count-label">Showing 0 of 0 players</span>
+          <button id="btn-show-more-players" class="btn" style="padding: 8px 16px; font-size: 12px; border-radius: 8px; background: rgba(59, 130, 246, 0.1); border: 1px solid var(--line); color: var(--accent); font-weight: 600; cursor: pointer; transition: 0.2s;">Show More</button>
         </div>
       </div>
     </div>

@@ -8,6 +8,11 @@ import { buildBracketStructure, renderBracketWheel } from './bracket-wheel.js';
 
 let DATA = { groups:{}, fixtures:[] };
 let FANTASY = { setPieces: {}, injuries: [] };
+let FANTASY_PLAYERS = [];
+let fantasyPlayersPageSize = 50;
+let fantasyPlayersLimit = 50;
+let fantasyPlayersSortField = 'totalPoints';
+let fantasyPlayersSortAsc = false;
 let view = 'standings';
 let strengthMetric = 'group-stage';
 let fixtureStatus = 'today';
@@ -21,13 +26,15 @@ let statsCountryFilter = new Set(); // codes of countries selected on the Goal A
 let compareMode = false;
 
 async function boot(){
-  const [groups, fixtures, fantasy] = await Promise.all([
+  const [groups, fixtures, fantasy, fantasyPlayers] = await Promise.all([
     fetch('data/groups.json').then(r=>r.json()),
     fetch(`data/fixtures.json?t=${Date.now()}`).then(r=>r.json()),
     fetch('data/fantasy.json').then(r=>r.json()),
+    fetch('data/fantasy_players.json').then(r=>r.json()),
   ]);
   DATA = { groups, fixtures };
   FANTASY = fantasy;
+  FANTASY_PLAYERS = fantasyPlayers;
   loadPredictions();
   syncKnockoutFixtures();
   renderGroups(true);
@@ -38,6 +45,7 @@ async function boot(){
   renderKnockouts();
   renderStats();
   initStatsFilter();
+  initFantasyPlayersFilters();
   
   const resetBtn = document.getElementById('reset-predictions');
   if (resetBtn) {
@@ -64,7 +72,7 @@ async function boot(){
     };
   }
 
-  wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle();
+  wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle(); wireFantasyPlayersEvents();
   showUpdated();
   handleRouting();
 
@@ -266,6 +274,7 @@ function switchTab(tabId) {
   document.getElementById('fixtures-view').hidden = tabId!=='fixtures';
   document.getElementById('strength-view').hidden = tabId!=='strength';
   document.getElementById('fantasy-view').hidden  = tabId!=='fantasy';
+  document.getElementById('fantasy-players-view').hidden = tabId!=='fantasy-players';
   document.getElementById('knockout-view').hidden = tabId!=='knockout';
   
   const predictionsView = document.getElementById('predictions-view');
@@ -288,12 +297,15 @@ function switchTab(tabId) {
     // Re-render so the draw-in animation replays each time the tab opens.
     requestAnimationFrame(() => renderWheel());
   }
+  if (tabId === 'fantasy-players') {
+    renderFantasyPlayers();
+  }
 }
 
 function handleRouting() {
   let fullHash = window.location.hash.replace('#/', '').replace('#', '');
   const [tabId] = fullHash.split('?');
-  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'knockout', 'stats'];
+  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'fantasy-players', 'knockout', 'stats'];
   const defaultTab = 'fixtures';
   
   if (!tabId || !validTabs.includes(tabId)) {
@@ -3026,7 +3038,7 @@ function initCompareMode() {
 function toggleParentViewsVisibility(hide) {
   const viewIds = [
     'groups-view', 'fixtures-view', 'strength-view', 
-    'fantasy-view', 'knockout-view', 'predictions-view', 
+    'fantasy-view', 'fantasy-players-view', 'knockout-view', 'predictions-view', 
     'wheel-view', 'stats-view'
   ];
   viewIds.forEach(id => {
@@ -3040,3 +3052,553 @@ function toggleParentViewsVisibility(hide) {
     }
   });
 }
+
+// ── Fantasy Players Implementation ──
+
+let activeFantasyPreset = 'all';
+
+function initFantasyPlayersFilters() {
+  const select = document.getElementById('filter-player-country');
+  if (!select) return;
+  select.innerHTML = '<option value="ALL">All Countries 🌍</option>';
+
+  // Collect unique countries
+  const countries = {};
+  FANTASY_PLAYERS.forEach(p => {
+    if (p.teamCode && p.teamName) {
+      countries[p.teamCode] = `${p.teamFlag} ${p.teamName}`;
+    }
+  });
+
+  const sortedCountries = Object.entries(countries).sort((a, b) => a[1].localeCompare(b[1]));
+  sortedCountries.forEach(([code, nameWithFlag]) => {
+    const opt = document.createElement('option');
+    opt.value = code;
+    opt.textContent = nameWithFlag;
+    select.appendChild(opt);
+  });
+}
+
+function getDreamTeam(players) {
+  // Sort players by totalPoints descending
+  const sorted = [...players].sort((a, b) => b.totalPoints - a.totalPoints);
+  
+  const gks = sorted.filter(p => p.position === 'GKP').slice(0, 1);
+  const defs = sorted.filter(p => p.position === 'DEF').slice(0, 4);
+  const mids = sorted.filter(p => p.position === 'MID').slice(0, 4);
+  const fwds = sorted.filter(p => p.position === 'FWD').slice(0, 2);
+  
+  return [...gks, ...defs, ...mids, ...fwds];
+}
+
+function resetAllFantasyControls() {
+  document.getElementById('player-search').value = '';
+  document.getElementById('filter-player-position').value = 'ALL';
+  document.getElementById('filter-player-country').value = 'ALL';
+  document.getElementById('filter-player-status').value = 'ALL';
+  
+  document.getElementById('filter-max-price').value = 12.0;
+  document.getElementById('label-max-price').textContent = '$12.0m';
+  
+  document.getElementById('filter-min-selected').value = 0;
+  document.getElementById('label-min-selected').textContent = '0.0%';
+  
+  document.getElementById('filter-min-points').value = 0;
+  document.getElementById('label-min-points').textContent = '0 pts';
+  
+  document.getElementById('filter-min-form').value = 0.0;
+  document.getElementById('label-min-form').textContent = '0.0';
+  
+  document.getElementById('filter-specific-round').value = 'md1';
+  document.getElementById('filter-min-round-points').value = 0;
+  document.getElementById('label-min-round-points').textContent = '0 pts';
+  
+  document.getElementById('filter-one-to-watch').checked = false;
+  document.getElementById('filter-hide-unavailable').checked = false;
+
+  // Reset presets active class
+  document.querySelectorAll('#analysis-presets-seg button').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.preset === 'all');
+  });
+  activeFantasyPreset = 'all';
+
+  fantasyPlayersLimit = fantasyPlayersPageSize;
+  renderFantasyPlayers();
+}
+
+function wireFantasyPlayersEvents() {
+  const searchInput = document.getElementById('player-search');
+  const posSelect = document.getElementById('filter-player-position');
+  const countrySelect = document.getElementById('filter-player-country');
+  const statusSelect = document.getElementById('filter-player-status');
+  
+  const maxPriceInput = document.getElementById('filter-max-price');
+  const minSelectedInput = document.getElementById('filter-min-selected');
+  const minPointsInput = document.getElementById('filter-min-points');
+  const minFormInput = document.getElementById('filter-min-form');
+  
+  const specificRoundSelect = document.getElementById('filter-specific-round');
+  const minRoundPointsInput = document.getElementById('filter-min-round-points');
+  
+  const oneToWatchCheck = document.getElementById('filter-one-to-watch');
+  const hideUnavailableCheck = document.getElementById('filter-hide-unavailable');
+  
+  const resetBtn = document.getElementById('btn-reset-fantasy-filters');
+  const showMoreBtn = document.getElementById('btn-show-more-players');
+
+  // Input listeners that trigger render
+  const triggerRender = () => {
+    fantasyPlayersLimit = fantasyPlayersPageSize;
+    renderFantasyPlayers();
+  };
+
+  if (searchInput) searchInput.oninput = triggerRender;
+  if (posSelect) posSelect.onchange = triggerRender;
+  if (countrySelect) countrySelect.onchange = triggerRender;
+  if (statusSelect) statusSelect.onchange = triggerRender;
+
+  if (maxPriceInput) {
+    maxPriceInput.oninput = () => {
+      document.getElementById('label-max-price').textContent = `$${parseFloat(maxPriceInput.value).toFixed(1)}m`;
+      triggerRender();
+    };
+  }
+  if (minSelectedInput) {
+    minSelectedInput.oninput = () => {
+      document.getElementById('label-min-selected').textContent = `${parseFloat(minSelectedInput.value).toFixed(1)}%`;
+      triggerRender();
+    };
+  }
+  if (minPointsInput) {
+    minPointsInput.oninput = () => {
+      document.getElementById('label-min-points').textContent = `${parseInt(minPointsInput.value, 10)} pts`;
+      triggerRender();
+    };
+  }
+  if (minFormInput) {
+    minFormInput.oninput = () => {
+      document.getElementById('label-min-form').textContent = `${parseFloat(minFormInput.value).toFixed(1)}`;
+      triggerRender();
+    };
+  }
+  if (specificRoundSelect) {
+    specificRoundSelect.onchange = triggerRender;
+  }
+  if (minRoundPointsInput) {
+    minRoundPointsInput.oninput = () => {
+      document.getElementById('label-min-round-points').textContent = `${parseInt(minRoundPointsInput.value, 10)} pts`;
+      triggerRender();
+    };
+  }
+  if (oneToWatchCheck) oneToWatchCheck.onchange = triggerRender;
+  if (hideUnavailableCheck) hideUnavailableCheck.onchange = triggerRender;
+
+  if (resetBtn) resetBtn.onclick = resetAllFantasyControls;
+  if (showMoreBtn) {
+    showMoreBtn.onclick = () => {
+      fantasyPlayersLimit += fantasyPlayersPageSize;
+      renderFantasyPlayers();
+    };
+  }
+
+  // Presets wiring
+  document.querySelectorAll('#analysis-presets-seg button').forEach(btn => {
+    btn.onclick = () => {
+      document.querySelectorAll('#analysis-presets-seg button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFantasyPreset = btn.dataset.preset;
+      triggerRender();
+    };
+  });
+
+  // Sorting headers click listeners
+  const headers = document.querySelectorAll('#player-table-headers th[data-sort]');
+  headers.forEach(th => {
+    th.onclick = () => {
+      const field = th.dataset.sort;
+      if (fantasyPlayersSortField === field) {
+        fantasyPlayersSortAsc = !fantasyPlayersSortAsc;
+      } else {
+        fantasyPlayersSortField = field;
+        // Default to desc sorting for numeric values, asc for name/code
+        fantasyPlayersSortAsc = (field === 'name' || field === 'teamCode' || field === 'position');
+      }
+
+      // Update header classes
+      headers.forEach(h => {
+        h.classList.remove('asc', 'desc');
+        if (h.dataset.sort === field) {
+          h.classList.add(fantasyPlayersSortAsc ? 'asc' : 'desc');
+        }
+      });
+
+      renderFantasyPlayers();
+    };
+  });
+}
+
+function getFieldValue(obj, field) {
+  if (field.includes('.')) {
+    return field.split('.').reduce((o, i) => o ? o[i] : null, obj);
+  }
+  return obj[field];
+}
+
+function renderFantasyPlayers() {
+  const list = document.getElementById('fantasy-players-list');
+  if (!list) return;
+
+  const searchQuery = (document.getElementById('player-search')?.value || '').toLowerCase().trim();
+  const posFilter = document.getElementById('filter-player-position')?.value || 'ALL';
+  const statusFilter = document.getElementById('filter-player-status')?.value || 'ALL';
+  const countryFilter = document.getElementById('filter-player-country')?.value || 'ALL';
+  
+  const maxPrice = parseFloat(document.getElementById('filter-max-price')?.value) || 12.0;
+  const minSelected = parseFloat(document.getElementById('filter-min-selected')?.value) || 0.0;
+  const minPoints = parseInt(document.getElementById('filter-min-points')?.value, 10) || 0;
+  const minForm = parseFloat(document.getElementById('filter-min-form')?.value) || 0.0;
+  
+  const specificRound = document.getElementById('filter-specific-round')?.value || 'md1';
+  const minRoundPoints = parseInt(document.getElementById('filter-min-round-points')?.value, 10) || 0;
+  
+  const oneToWatchFilter = document.getElementById('filter-one-to-watch')?.checked || false;
+  const hideUnavailableFilter = document.getElementById('filter-hide-unavailable')?.checked || false;
+
+  // 1. Preset base filter
+  let baseList = FANTASY_PLAYERS;
+  if (activeFantasyPreset === 'dreamteam') {
+    baseList = getDreamTeam(FANTASY_PLAYERS);
+  } else if (activeFantasyPreset === 'gems') {
+    baseList = FANTASY_PLAYERS.filter(p => p.price <= 6.5 && p.totalPoints >= 15);
+  } else if (activeFantasyPreset === 'differentials') {
+    baseList = FANTASY_PLAYERS.filter(p => p.percentSelected <= 5.0 && p.totalPoints >= 15);
+  } else if (activeFantasyPreset === 'underperformers') {
+    baseList = FANTASY_PLAYERS.filter(p => p.percentSelected >= 15.0 && p.totalPoints <= 8);
+  }
+
+  // 2. Custom Filter
+  let filtered = baseList.filter(p => {
+    // Search query
+    if (searchQuery) {
+      const nameMatch = p.name.toLowerCase().includes(searchQuery);
+      const teamMatch = p.teamName.toLowerCase().includes(searchQuery) || p.teamCode.toLowerCase().includes(searchQuery);
+      if (!nameMatch && !teamMatch) return false;
+    }
+    // Position
+    if (posFilter !== 'ALL' && p.position !== posFilter) return false;
+    // Status
+    if (statusFilter !== 'ALL' && p.status !== statusFilter) return false;
+    // Country
+    if (countryFilter !== 'ALL' && p.teamCode !== countryFilter) return false;
+
+    // Price slider
+    if (p.price > maxPrice) return false;
+    // Selection %
+    if (p.percentSelected < minSelected) return false;
+    // Total Points
+    if (p.totalPoints < minPoints) return false;
+    // Form
+    if (p.form < minForm) return false;
+
+    // Round Points
+    const roundVal = p.pointsByRound[specificRound] || 0;
+    if (roundVal < minRoundPoints) return false;
+
+    // One to watch
+    if (oneToWatchFilter && !p.oneToWatch) return false;
+
+    // Hide Unavailable
+    if (hideUnavailableFilter && p.status !== 'playing') return false;
+
+    return true;
+  });
+
+  // 3. Sort
+  filtered.sort((a, b) => {
+    let valA = getFieldValue(a, fantasyPlayersSortField);
+    let valB = getFieldValue(b, fantasyPlayersSortField);
+
+    if (typeof valA === 'string') valA = valA.toLowerCase();
+    if (typeof valB === 'string') valB = valB.toLowerCase();
+
+    if (valA === valB) return 0;
+    if (valA === null || valA === undefined) return 1;
+    if (valB === null || valB === undefined) return -1;
+
+    let res = 0;
+    if (valA < valB) res = -1;
+    else if (valA > valB) res = 1;
+
+    return fantasyPlayersSortAsc ? res : -res;
+  });
+
+  // 4. Update Summary Cards
+  renderFantasyPlayersSummary();
+
+  // 5. Paginate/Limit
+  const totalCount = filtered.length;
+  const sliced = filtered.slice(0, fantasyPlayersLimit);
+
+  list.innerHTML = '';
+  if (sliced.length === 0) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td colspan="12" style="text-align: center; color: var(--muted); padding: 24px;">No players found matching current filters.</td>`;
+    list.appendChild(tr);
+  } else {
+    sliced.forEach(p => {
+      const tr = document.createElement('tr');
+      tr.style.cursor = 'pointer';
+      tr.onclick = () => openPlayerModal(p);
+      
+      const nameStyle = p.status === 'eliminated' ? 'color: var(--muted); text-decoration: line-through; opacity: 0.7;' : 'font-weight: 600;';
+      
+      // Detailed status badges
+      let statusIndicator = '';
+      if (p.status === 'eliminated') {
+        statusIndicator = '<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.1); color: #ef4444; margin-left: 6px; font-weight: 600; display: inline-block;">OUT</span>';
+      } else if (p.status === 'injured') {
+        statusIndicator = '<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; margin-left: 6px; font-weight: 600; display: inline-block;">INJ</span>';
+      } else if (p.status === 'suspended') {
+        statusIndicator = '<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.15); color: #dc2626; margin-left: 6px; font-weight: 600; display: inline-block;">SUSP</span>';
+      } else if (p.status === 'transferred') {
+        statusIndicator = '<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(107, 114, 128, 0.1); color: #6b7280; margin-left: 6px; font-weight: 600; display: inline-block;">TRNS</span>';
+      }
+
+      // Star indicator for One to Watch
+      const star = p.oneToWatch ? '<span style="color: #f59e0b; font-size: 12px; margin-right: 4px;">⭐</span>' : '';
+
+      // Form trend indicator
+      const formDiff = p.form - p.avgPoints;
+      let trendArrow = '';
+      if (formDiff > 1.0) {
+        trendArrow = '<span style="color: #22c55e; font-weight: bold; margin-left: 4px;" title="Form is rising compared to average">↗</span>';
+      } else if (formDiff < -1.0) {
+        trendArrow = '<span style="color: #ef4444; font-weight: bold; margin-left: 4px;" title="Form is slumping compared to average">↘</span>';
+      } else {
+        trendArrow = '<span style="color: var(--muted); margin-left: 4px;" title="Form is stable">→</span>';
+      }
+
+      tr.innerHTML = `
+        <td>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            ${star}
+            <div style="${nameStyle}">${p.name}${statusIndicator}</div>
+          </div>
+        </td>
+        <td>
+          <div class="team-cell" style="font-weight: 500;">
+            <span class="team-flag">${p.teamFlag}</span>
+            <span class="team-name" style="font-size: 12px;">${p.teamName}</span>
+          </div>
+        </td>
+        <td class="text-center" style="font-weight: 600; font-size: 11px; color: var(--muted);">${p.position}</td>
+        <td class="text-right" style="font-weight: 600;">$${p.price.toFixed(1)}m</td>
+        <td class="text-right" style="color: var(--muted);">${p.percentSelected.toFixed(1)}%</td>
+        <td class="text-center">${p.avgPoints.toFixed(1)}</td>
+        <td class="text-center">${p.form.toFixed(1)}${trendArrow}</td>
+        <td class="text-center">${p.pointsByRound.md1}</td>
+        <td class="text-center">${p.pointsByRound.md2}</td>
+        <td class="text-center">${p.pointsByRound.md3}</td>
+        <td class="text-center">${p.pointsByRound.r32}</td>
+        <td class="text-center" style="font-weight: 700; color: ${p.status === 'eliminated' ? 'var(--muted)' : 'var(--accent)'}; font-size: 14px;">${p.totalPoints}</td>
+      `;
+      list.appendChild(tr);
+    });
+  }
+
+  // Update show more button and labels
+  const label = document.getElementById('player-count-label');
+  if (label) {
+    label.textContent = `Showing ${Math.min(fantasyPlayersLimit, totalCount)} of ${totalCount} players`;
+  }
+  const showMoreBtn = document.getElementById('btn-show-more-players');
+  if (showMoreBtn) {
+    showMoreBtn.style.display = fantasyPlayersLimit >= totalCount ? 'none' : 'block';
+  }
+}
+
+function renderFantasyPlayersSummary() {
+  if (!FANTASY_PLAYERS || FANTASY_PLAYERS.length === 0) return;
+
+  // 1. Top Scorer
+  const topScorer = [...FANTASY_PLAYERS].sort((a, b) => b.totalPoints - a.totalPoints)[0];
+  const scorerVal = document.getElementById('top-scorer-val');
+  const scorerSub = document.getElementById('top-scorer-sub');
+  if (scorerVal && topScorer) {
+    scorerVal.innerHTML = `<span style="font-size: 14px; margin-right: 4px;">${topScorer.teamFlag}</span> ${topScorer.name}`;
+    scorerSub.textContent = `${topScorer.totalPoints} pts · ${topScorer.position} ($${topScorer.price}m)`;
+  }
+
+  // 2. Most Selected
+  const mostSelected = [...FANTASY_PLAYERS].sort((a, b) => b.percentSelected - a.percentSelected)[0];
+  const selectedVal = document.getElementById('most-selected-val');
+  const selectedSub = document.getElementById('most-selected-sub');
+  if (selectedVal && mostSelected) {
+    selectedVal.innerHTML = `<span style="font-size: 14px; margin-right: 4px;">${mostSelected.teamFlag}</span> ${mostSelected.name}`;
+    selectedSub.textContent = `${mostSelected.percentSelected.toFixed(1)}% selected · ${mostSelected.totalPoints} pts`;
+  }
+
+  // 3. Best Value (ratio points / price, only check players with points >= 10 and price > 0)
+  const valuePlayers = FANTASY_PLAYERS.filter(p => p.price > 0 && p.totalPoints >= 10);
+  const bestValue = valuePlayers.sort((a, b) => (b.totalPoints / b.price) - (a.totalPoints / a.price))[0];
+  const valueVal = document.getElementById('best-value-val');
+  const valueSub = document.getElementById('best-value-sub');
+  if (valueVal && bestValue) {
+    const ratio = (bestValue.totalPoints / bestValue.price).toFixed(2);
+    valueVal.innerHTML = `<span style="font-size: 14px; margin-right: 4px;">${bestValue.teamFlag}</span> ${bestValue.name}`;
+    valueSub.textContent = `${ratio} pts/m · Total: ${bestValue.totalPoints} pts ($${bestValue.price}m)`;
+  }
+
+  // 4. Top Country
+  const countryPoints = {};
+  const countryFlags = {};
+  FANTASY_PLAYERS.forEach(p => {
+    if (p.teamCode && p.teamCode !== 'UNK') {
+      countryPoints[p.teamCode] = (countryPoints[p.teamCode] || 0) + p.totalPoints;
+      countryFlags[p.teamCode] = p.teamFlag;
+    }
+  });
+  const topCountryEntry = Object.entries(countryPoints).sort((a, b) => b[1] - a[1])[0];
+  const countryVal = document.getElementById('top-country-val');
+  const countrySub = document.getElementById('top-country-sub');
+  if (countryVal && topCountryEntry) {
+    const [code, pts] = topCountryEntry;
+    const playerOfCountry = FANTASY_PLAYERS.find(p => p.teamCode === code);
+    const countryName = playerOfCountry ? playerOfCountry.teamName : code;
+    const flag = countryFlags[code] || '';
+    countryVal.innerHTML = `<span style="font-size: 14px; margin-right: 4px;">${flag}</span> ${countryName}`;
+    countrySub.textContent = `Squad Total: ${pts} pts`;
+  }
+}
+
+function openPlayerModal(p) {
+  const card = document.getElementById('modal-card');
+  const modal = document.getElementById('modal');
+  if (!card || !modal) return;
+
+  const sp = FANTASY.setPieces[p.teamCode] || { penalties: 'N/A', freeKicks: 'N/A', corners: 'N/A' };
+  const valueRatio = p.price > 0 ? (p.totalPoints / p.price).toFixed(2) : '0.00';
+  
+  // Determine form trend and description
+  const formDiff = p.form - p.avgPoints;
+  let formTrendDesc = '';
+  if (formDiff > 1.0) {
+    formTrendDesc = `<span style="color: #22c55e; font-weight: 700;">Rising (↗ +${formDiff.toFixed(1)})</span> - Outperforming their season average.`;
+  } else if (formDiff < -1.0) {
+    formTrendDesc = `<span style="color: #ef4444; font-weight: 700;">Slumping (↘ ${formDiff.toFixed(1)})</span> - Underperforming their season average.`;
+  } else {
+    formTrendDesc = `<span style="color: var(--muted); font-weight: 700;">Stable (→)</span> - Performing at their season average level.`;
+  }
+
+  // Draw sparkline bar chart
+  const rounds = [
+    { label: 'MD1', val: p.pointsByRound.md1 },
+    { label: 'MD2', val: p.pointsByRound.md2 },
+    { label: 'MD3', val: p.pointsByRound.md3 },
+    { label: 'R32', val: p.pointsByRound.r32 }
+  ];
+  const maxVal = Math.max(1, ...rounds.map(r => r.val));
+
+  const barChartHtml = rounds.map(r => {
+    const pct = maxVal > 0 ? (r.val / maxVal) : 0;
+    const barHeight = Math.max(6, pct * 90);
+    return `
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1;">
+        <div style="font-size: 12px; font-weight: 800; color: var(--text);">${r.val} pts</div>
+        <div style="width: 100%; max-width: 36px; background: var(--accent); border-radius: 6px; height: ${barHeight}px; min-height: 6px; transition: height 0.4s ease-out; box-shadow: 0 2px 8px var(--accent-glow);"></div>
+        <div style="font-size: 10px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.3px;">${r.label}</div>
+      </div>
+    `;
+  }).join('');
+
+  // Availability status badge
+  let statusBadge = '';
+  if (p.status === 'playing') {
+    statusBadge = '<span style="background: rgba(34, 197, 94, 0.1); color: #22c55e; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 700;">🟢 Active</span>';
+  } else if (p.status === 'eliminated') {
+    statusBadge = '<span style="background: rgba(239, 68, 68, 0.1); color: #ef4444; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 700;">🔴 Eliminated</span>';
+  } else if (p.status === 'injured') {
+    statusBadge = '<span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 700;">⚠️ Injured</span>';
+  } else if (p.status === 'suspended') {
+    statusBadge = '<span style="background: rgba(239, 68, 68, 0.2); color: #ef4444; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 700;">⛔ Suspended</span>';
+  } else {
+    statusBadge = `<span style="background: rgba(107, 114, 128, 0.1); color: #9ca3af; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 700;">⚪ ${p.status}</span>`;
+  }
+
+  const oneToWatchBanner = p.oneToWatch ? `
+    <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+      <span style="font-size: 20px;">⭐</span>
+      <div style="font-size: 12.5px; color: #f59e0b; font-weight: 600;">One to Watch: designated as a key tournament performer or hot option.</div>
+    </div>
+  ` : '';
+
+  card.innerHTML = `
+    <button class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
+    
+    <!-- Player Header -->
+    <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px; border-bottom: 1px solid var(--line); padding-bottom: 16px;">
+      <div style="font-size: 32px; background: var(--bg); width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 16px; border: 1px solid var(--line);">
+        ${p.teamFlag}
+      </div>
+      <div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <h2 style="margin: 0; font-size: 20px; font-weight: 800; color: var(--text);">${p.name}</h2>
+          ${statusBadge}
+        </div>
+        <div style="font-size: 13px; color: var(--muted); margin-top: 4px; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+          <span>${p.teamName}</span> · 
+          <span style="color: var(--accent);">${p.position}</span> · 
+          <span>$${p.price.toFixed(1)}m price</span> ·
+          <span>${p.percentSelected.toFixed(1)}% ownership</span>
+        </div>
+      </div>
+    </div>
+
+    ${oneToWatchBanner}
+
+    <!-- Round-by-Round Trend -->
+    <div class="fantasy-card-title" style="margin-bottom: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted);">📊 Round-by-Round Performance Trend</div>
+    <div style="display: flex; gap: 12px; height: 160px; align-items: flex-end; justify-content: space-around; margin-bottom: 24px; background: rgba(255,255,255,0.01); padding: 20px; border-radius: 14px; border: 1px solid var(--line);">
+      ${barChartHtml}
+    </div>
+
+    <!-- Analytical Details Grid -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+      
+      <!-- Stats Panel -->
+      <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-bottom: 4px;">Performance Metrics</div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>Total Points</span><span style="font-weight: 700; color: var(--accent);">${p.totalPoints} pts</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>Average Points</span><span style="font-weight: 700;">${p.avgPoints.toFixed(1)} pts</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>Form (Last 3)</span><span style="font-weight: 700;">${p.form.toFixed(1)}</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>Points per Million</span><span style="font-weight: 700; color: #22c55e;">${valueRatio}</span></div>
+      </div>
+
+      <!-- Set Piece Takers -->
+      <div style="background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 8px;">
+        <div style="font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--line); padding-bottom: 4px; margin-bottom: 4px;">Set Piece Duties</div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>Penalties</span><span style="font-weight: 700; color: ${sp.penalties === p.name ? 'var(--accent)' : 'inherit'};">${sp.penalties}</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>Free Kicks</span><span style="font-weight: 700; color: ${sp.freeKicks === p.name ? 'var(--accent)' : 'inherit'};">${sp.freeKicks}</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px;"><span>Corners</span><span style="font-weight: 700; color: ${sp.corners === p.name ? 'var(--accent)' : 'inherit'};">${sp.corners}</span></div>
+      </div>
+    </div>
+
+    <!-- Form Trend Insights -->
+    <div style="margin-top: 16px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 14px; font-size: 12.5px; line-height: 1.5;">
+      <div style="font-weight: 700; color: var(--text); margin-bottom: 4px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;">Form Trend Analysis</div>
+      <div>Current Trend: ${formTrendDesc}</div>
+    </div>
+  `;
+
+  const closeBtn = document.getElementById('modal-close-btn');
+  if (closeBtn) {
+    closeBtn.onclick = () => {
+      modal.hidden = true;
+    };
+  }
+
+  modal.hidden = false;
+}
+
+
+
