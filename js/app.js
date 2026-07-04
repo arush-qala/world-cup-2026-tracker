@@ -3122,6 +3122,16 @@ function resetAllFantasyControls() {
   });
   activeFantasyPreset = 'all';
 
+  // Close collapsible drawer and reset toggle button styles
+  const drawer = document.getElementById('advanced-filters-drawer');
+  const toggleBtn = document.getElementById('btn-toggle-advanced-filters');
+  if (drawer) drawer.style.display = 'none';
+  if (toggleBtn) {
+    toggleBtn.classList.remove('active');
+    toggleBtn.style.borderColor = 'var(--line)';
+    toggleBtn.style.background = 'var(--panel)';
+  }
+
   fantasyPlayersLimit = fantasyPlayersPageSize;
   renderFantasyPlayers();
 }
@@ -3145,6 +3155,9 @@ function wireFantasyPlayersEvents() {
   
   const resetBtn = document.getElementById('btn-reset-fantasy-filters');
   const showMoreBtn = document.getElementById('btn-show-more-players');
+  
+  const toggleBtn = document.getElementById('btn-toggle-advanced-filters');
+  const drawer = document.getElementById('advanced-filters-drawer');
 
   // Input listeners that trigger render
   const triggerRender = () => {
@@ -3156,6 +3169,16 @@ function wireFantasyPlayersEvents() {
   if (posSelect) posSelect.onchange = triggerRender;
   if (countrySelect) countrySelect.onchange = triggerRender;
   if (statusSelect) statusSelect.onchange = triggerRender;
+
+  if (toggleBtn && drawer) {
+    toggleBtn.onclick = () => {
+      const isHidden = drawer.style.display === 'none' || drawer.style.display === '';
+      drawer.style.display = isHidden ? 'flex' : 'none';
+      toggleBtn.classList.toggle('active', isHidden);
+      toggleBtn.style.borderColor = isHidden ? 'var(--accent)' : 'var(--line)';
+      toggleBtn.style.background = isHidden ? 'rgba(59, 130, 246, 0.08)' : 'var(--panel)';
+    };
+  }
 
   if (maxPriceInput) {
     maxPriceInput.oninput = () => {
