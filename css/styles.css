@@ -884,8 +884,6 @@ body {
   display: none;
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: 12px;
@@ -896,7 +894,25 @@ body {
   box-shadow: var(--shadow);
   padding: 6px 0;
   animation: dropdownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  /* Prevent cramped options by allowing dropdowns to be wider than the narrow filter inputs */
+  min-width: 100%;
+  width: max-content;
+  max-width: min(280px, calc(100vw - 32px));
 }
+
+/* Align left-column dropdown menus to the left, right-column dropdown menus to the right */
+#stage-select-options,
+#group-select-options {
+  left: 0;
+  right: auto;
+}
+#country-select-options,
+#date-select-options {
+  right: 0;
+  left: auto;
+}
+
 @keyframes dropdownFade {
   from {
     opacity: 0;
@@ -946,6 +962,38 @@ body {
   accent-color: var(--accent);
   cursor: pointer;
   border-radius: 4px;
+}
+
+.custom-option-single {
+  display: flex;
+  align-items: center;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  transition: background 0.15s, color 0.15s;
+  user-select: none;
+}
+.custom-option-single:hover {
+  background: var(--accent-bg-hover);
+}
+.custom-option-single.active {
+  background: var(--accent-glow);
+  color: var(--accent);
+  font-weight: 600;
+}
+/* Elegant CSS-only checkmark that dynamically matches the current theme's --accent color */
+.custom-option-single.active::after {
+  content: "";
+  margin-left: auto;
+  width: 6px;
+  height: 10px;
+  border: solid var(--accent);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-right: 4px;
+  margin-bottom: 2px;
 }
 
 /* ── Fantasy Hub Tab ─────────────────────────────────── */

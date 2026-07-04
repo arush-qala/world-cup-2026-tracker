@@ -45,20 +45,23 @@
     </div>
     <div class="filter-bar" id="fixtures-filter-bar">
       <div class="filter-group">
-        <label for="filter-stage">Stage</label>
-        <select id="filter-stage">
-          <option value="ALL">All Stages</option>
-          <option value="group">Group Stage (All)</option>
-          <option value="group-md1">Group Matchday 1</option>
-          <option value="group-md2">Group Matchday 2</option>
-          <option value="group-md3">Group Matchday 3</option>
-          <option value="round of 32">Round of 32</option>
-          <option value="round of 16">Round of 16</option>
-          <option value="quarter-finals">Quarter-finals</option>
-          <option value="semi-finals">Semi-finals</option>
-          <option value="third-place match">Third-place match</option>
-          <option value="final">Final</option>
-        </select>
+        <label>Stage</label>
+        <div class="custom-select-container" id="stage-select-container">
+          <button class="custom-select-trigger" id="stage-select-trigger">All Stages</button>
+          <div class="custom-select-options" id="stage-select-options">
+            <div class="custom-option-single active" data-value="ALL">All Stages</div>
+            <div class="custom-option-single" data-value="group">Group Stage (All)</div>
+            <div class="custom-option-single" data-value="group-md1">Group Matchday 1</div>
+            <div class="custom-option-single" data-value="group-md2">Group Matchday 2</div>
+            <div class="custom-option-single" data-value="group-md3">Group Matchday 3</div>
+            <div class="custom-option-single" data-value="round of 32">Round of 32</div>
+            <div class="custom-option-single" data-value="round of 16">Round of 16</div>
+            <div class="custom-option-single" data-value="quarter-finals">Quarter-finals</div>
+            <div class="custom-option-single" data-value="semi-finals">Semi-finals</div>
+            <div class="custom-option-single" data-value="third-place match">Third-place match</div>
+            <div class="custom-option-single" data-value="final">Final</div>
+          </div>
+        </div>
       </div>
       <div class="filter-group">
         <label>Group</label>
@@ -79,10 +82,13 @@
         </div>
       </div>
       <div class="filter-group">
-        <label for="filter-date">Date</label>
-        <select id="filter-date">
-          <option value="ALL">All Dates</option>
-        </select>
+        <label>Date</label>
+        <div class="custom-select-container" id="date-select-container">
+          <button class="custom-select-trigger" id="date-select-trigger">All Dates</button>
+          <div class="custom-select-options" id="date-select-options">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
       </div>
       <button class="btn-reset" id="btn-reset-filters">Reset</button>
     </div>
