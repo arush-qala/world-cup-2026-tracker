@@ -65,7 +65,9 @@
         <div class="custom-select-container" id="group-select-container">
           <button class="custom-select-trigger" id="group-select-trigger">All Groups</button>
           <div class="custom-select-options" id="group-select-options">
-            <!-- Dynamically populated -->
+            <div class="custom-options-wrapper" id="group-options-wrapper">
+              <!-- Dynamically populated -->
+            </div>
           </div>
         </div>
       </div>
@@ -74,7 +76,12 @@
         <div class="custom-select-container" id="country-select-container">
           <button class="custom-select-trigger" id="country-select-trigger">All Countries</button>
           <div class="custom-select-options" id="country-select-options">
-            <!-- Dynamically populated -->
+            <div class="dropdown-search-container">
+              <input type="text" id="country-search-input" class="dropdown-search-input" placeholder="Search countries..." autocomplete="off">
+            </div>
+            <div class="custom-options-wrapper" id="country-options-wrapper">
+              <!-- Dynamically populated -->
+            </div>
           </div>
         </div>
       </div>

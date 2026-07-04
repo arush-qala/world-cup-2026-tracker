@@ -907,12 +907,13 @@ body {
   border: 1px solid var(--line);
   border-radius: 12px;
   margin-top: 6px;
-  max-height: 240px;
-  overflow-y: auto;
+  max-height: 295px; /* Handle search box height gracefully */
   z-index: 100;
   box-shadow: var(--shadow);
-  padding: 6px;
+  padding: 0; /* Clear padding so search container goes edge-to-edge */
   animation: dropdownFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  overflow: hidden;
+  flex-direction: column;
 
   /* Prevent cramped options by allowing dropdowns to be wider than the narrow filter inputs */
   min-width: 100%;
@@ -941,20 +942,49 @@ body {
   }
 }
 .custom-select-options.open {
-  display: block;
+  display: flex; /* Flex layout allows search + scrollable options wrapper */
 }
 
-.custom-select-options::-webkit-scrollbar {
+/* Dropdown Search container and input styles */
+.dropdown-search-container {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+.dropdown-search-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.dropdown-search-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+/* Custom options wrapper scrollbar and layout */
+.custom-options-wrapper {
+  overflow-y: auto;
+  padding: 6px;
+  max-height: 220px;
+}
+.custom-options-wrapper::-webkit-scrollbar {
   width: 6px;
 }
-.custom-select-options::-webkit-scrollbar-track {
+.custom-options-wrapper::-webkit-scrollbar-track {
   background: transparent;
 }
-.custom-select-options::-webkit-scrollbar-thumb {
+.custom-options-wrapper::-webkit-scrollbar-thumb {
   background: var(--line-hover);
   border-radius: 3px;
 }
-.custom-select-options::-webkit-scrollbar-thumb:hover {
+.custom-options-wrapper::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
 

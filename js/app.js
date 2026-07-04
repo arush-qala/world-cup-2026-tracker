@@ -677,6 +677,16 @@ function setupCustomMultiSelect(containerId, onChange){
     // Toggle this one
     if (!trigger.disabled) {
       options.classList.toggle('open');
+      
+      // Auto-focus search input if it exists, and clear search query on open
+      if (options.classList.contains('open')) {
+        const searchInput = options.querySelector('.dropdown-search-input');
+        if (searchInput) {
+          searchInput.value = '';
+          searchInput.dispatchEvent(new Event('input'));
+          setTimeout(() => searchInput.focus(), 50);
+        }
+      }
     }
   };
 
@@ -727,7 +737,7 @@ function updateCountryTriggerLabel(selectedCountries){
 
 function initFilters(){
   // Populate group checkboxes
-  const groupOptions = document.getElementById('group-select-options');
+  const groupOptions = document.getElementById('group-options-wrapper');
   groupOptions.innerHTML = '';
   const letters = 'ABCDEFGHIJKL'.split('');
   for(const l of letters){
@@ -746,7 +756,7 @@ function initFilters(){
     allTeams.push(...teams);
   }
   allTeams.sort((a,b)=>a.name.localeCompare(b.name));
-  const countryOptions = document.getElementById('country-select-options');
+  const countryOptions = document.getElementById('country-options-wrapper');
   countryOptions.innerHTML = '';
   for(const team of allTeams){
     const label = document.createElement('label');
@@ -802,6 +812,20 @@ function initFilters(){
   stageSelect.onchange = handleStageOrDateChange;
   dateSelectEl.onchange = handleStageOrDateChange;
 
+  // Search filter functionality for country dropdown
+  const countrySearch = document.getElementById('country-search-input');
+  if (countrySearch) {
+    countrySearch.oninput = () => {
+      const query = countrySearch.value.toLowerCase().trim();
+      const optionsWrapper = document.getElementById('country-options-wrapper');
+      const items = optionsWrapper.querySelectorAll('.custom-option');
+      items.forEach(item => {
+        const text = item.querySelector('span').textContent.toLowerCase();
+        item.style.display = text.includes(query) ? '' : 'none';
+      });
+    };
+  }
+
   // Bind custom selects
   setupCustomMultiSelect('group-select-container', (selectedGroups) => {
     activeFilters.group = selectedGroups;
@@ -839,6 +863,13 @@ function resetFilters(){
   const countryOptions = document.getElementById('country-select-options');
   countryOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
   updateCountryTriggerLabel([]);
+
+  // Reset search box query if exists
+  const countrySearch = document.getElementById('country-search-input');
+  if (countrySearch) {
+    countrySearch.value = '';
+    countrySearch.dispatchEvent(new Event('input'));
+  }
 
   document.getElementById('filter-date').value = 'ALL';
   
