@@ -1338,6 +1338,9 @@
     "venue": "AT&T Stadium, Arlington",
     "home": "AUS",
     "away": "EGY",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 1, "away": 1 },
+    "note": "EGY win 4-2 on penalties (AET 1-1)",
+    "winner": "EGY"
   }
 ]
