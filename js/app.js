@@ -247,6 +247,7 @@ function switchTab(tabId) {
   const t = document.querySelector(`.tab[data-tab="${tabId}"]`);
   if (!t) return;
   document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===t));
+  t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   document.getElementById('groups-view').hidden   = tabId!=='groups';
   document.getElementById('fixtures-view').hidden = tabId!=='fixtures';
   document.getElementById('strength-view').hidden = tabId!=='strength';
@@ -724,69 +725,6 @@ function updateCountryTriggerLabel(selectedCountries){
   }
 }
 
-function updateStageTriggerLabel(value) {
-  const trigger = document.getElementById('stage-select-trigger');
-  const option = document.querySelector(`#stage-select-options .custom-option-single[data-value="${value}"]`);
-  if (option) {
-    trigger.textContent = option.textContent;
-  } else {
-    trigger.textContent = 'All Stages';
-  }
-}
-
-function updateDateTriggerLabel(value) {
-  const trigger = document.getElementById('date-select-trigger');
-  const option = document.querySelector(`#date-select-options .custom-option-single[data-value="${value}"]`);
-  if (option) {
-    trigger.textContent = option.textContent;
-  } else {
-    trigger.textContent = 'All Dates';
-  }
-}
-
-function setupCustomSingleSelect(containerId, onChange) {
-  const container = document.getElementById(containerId);
-  const trigger = container.querySelector('.custom-select-trigger');
-  const options = container.querySelector('.custom-select-options');
-
-  trigger.onclick = (e) => {
-    e.stopPropagation();
-    // Close other custom selects first
-    document.querySelectorAll('.custom-select-options').forEach(el => {
-      if (el !== options) el.classList.remove('open');
-    });
-    // Toggle this one
-    if (!trigger.disabled) {
-      options.classList.toggle('open');
-    }
-  };
-
-  container.onclick = (e) => {
-    e.stopPropagation();
-  };
-
-  options.onclick = (e) => {
-    const optionEl = e.target.closest('.custom-option-single');
-    if (optionEl) {
-      options.querySelectorAll('.custom-option-single').forEach(el => el.classList.remove('active'));
-      optionEl.classList.add('active');
-      options.classList.remove('open');
-      onChange(optionEl.dataset.value);
-    }
-  };
-}
-
-function updateCustomSingleSelect(containerId, value, labelText) {
-  const container = document.getElementById(containerId);
-  const trigger = container.querySelector('.custom-select-trigger');
-  const options = container.querySelector('.custom-select-options');
-  
-  trigger.textContent = labelText;
-  options.querySelectorAll('.custom-option-single').forEach(el => {
-    el.classList.toggle('active', el.dataset.value === value);
-  });
-}
-
 function initFilters(){
   // Populate group checkboxes
   const groupOptions = document.getElementById('group-select-options');
@@ -822,26 +760,29 @@ function initFilters(){
 
   // Populate date filter
   const uniqueDates = [...new Set(DATA.fixtures.map(f=>f.dateUK))].sort();
-  const dateOptions = document.getElementById('date-select-options');
-  dateOptions.innerHTML = '<div class="custom-option-single active" data-value="ALL">All Dates</div>';
+  const dateSelect = document.getElementById('filter-date');
+  dateSelect.innerHTML = '<option value="ALL">All Dates</option>';
   for(const date of uniqueDates){
-    const div = document.createElement('div');
-    div.className = 'custom-option-single';
-    div.dataset.value = date;
-    div.textContent = new Date(date).toLocaleDateString('en-GB',{
+    const opt = document.createElement('option');
+    opt.value = date;
+    opt.textContent = new Date(date).toLocaleDateString('en-GB',{
       weekday:'short',day:'numeric',month:'short',timeZone:'Europe/London'
     });
-    dateOptions.appendChild(div);
+    dateSelect.appendChild(opt);
   }
 
-  // Bind custom selects
-  setupCustomSingleSelect('stage-select-container', (selectedStage) => {
-    activeFilters.stage = selectedStage;
-    updateStageTriggerLabel(selectedStage);
-    
-    // Disable group filter if stage is not group-related
+  // Bind change events for standard inputs
+  const stageSelect = document.getElementById('filter-stage');
+  const dateSelectEl = document.getElementById('filter-date');
+  
+  const handleStageOrDateChange = () => {
+    activeFilters.stage = stageSelect.value;
+    activeFilters.date = dateSelectEl.value;
+
     const groupTrigger = document.getElementById('group-select-trigger');
     const groupOptionsEl = document.getElementById('group-select-options');
+
+    // Disable group filter if stage is not group-related
     const isGroupStageSelected = activeFilters.stage === 'ALL' || 
                                  activeFilters.stage === 'group' || 
                                  activeFilters.stage.startsWith('group-');
@@ -854,16 +795,14 @@ function initFilters(){
       groupTrigger.disabled = false;
       groupTrigger.classList.remove('disabled');
     }
-    
-    applyFilters();
-  });
 
-  setupCustomSingleSelect('date-select-container', (selectedDate) => {
-    activeFilters.date = selectedDate;
-    updateDateTriggerLabel(selectedDate);
     applyFilters();
-  });
+  };
 
+  stageSelect.onchange = handleStageOrDateChange;
+  dateSelectEl.onchange = handleStageOrDateChange;
+
+  // Bind custom selects
   setupCustomMultiSelect('group-select-container', (selectedGroups) => {
     activeFilters.group = selectedGroups;
     updateGroupTriggerLabel(selectedGroups);
@@ -886,8 +825,7 @@ function initFilters(){
 }
 
 function resetFilters(){
-  // Reset Stage Custom Select
-  updateCustomSingleSelect('stage-select-container', 'ALL', 'All Stages');
+  document.getElementById('filter-stage').value = 'ALL';
   
   // Uncheck group checkboxes
   const groupOptions = document.getElementById('group-select-options');
@@ -902,8 +840,7 @@ function resetFilters(){
   countryOptions.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
   updateCountryTriggerLabel([]);
 
-  // Reset Date Custom Select
-  updateCustomSingleSelect('date-select-container', 'ALL', 'All Dates');
+  document.getElementById('filter-date').value = 'ALL';
   
   activeFilters = {
     stage: 'ALL',
