@@ -3116,10 +3116,7 @@ function resetAllFantasyControls() {
   document.getElementById('filter-one-to-watch').checked = false;
   document.getElementById('filter-hide-unavailable').checked = false;
 
-  // Reset presets active class
-  document.querySelectorAll('#analysis-presets-seg button').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.preset === 'all');
-  });
+
   activeFantasyPreset = 'all';
 
   // Close collapsible drawer and reset toggle button styles
@@ -3224,15 +3221,7 @@ function wireFantasyPlayersEvents() {
     };
   }
 
-  // Presets wiring
-  document.querySelectorAll('#analysis-presets-seg button').forEach(btn => {
-    btn.onclick = () => {
-      document.querySelectorAll('#analysis-presets-seg button').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      activeFantasyPreset = btn.dataset.preset;
-      triggerRender();
-    };
-  });
+
 
   // Sorting headers click listeners
   const headers = document.querySelectorAll('#player-table-headers th[data-sort]');
