@@ -191,7 +191,7 @@
         <div class="fantasy-card-title">⚽ Player Performance & Points</div>
         <div class="fantasy-card-desc">Track and filter player points from Group Stage Matchdays and the Round of 32. Click table headers to sort.</div>
         
-        <!-- Advanced         <!-- Advanced Filters & Presets Panel -->
+        <!-- Expanded Filters Panel -->
         <div class="fantasy-filter-dashboard" style="background: rgba(37, 99, 235, 0.01); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 16px;">
           
           <!-- Row 1: Search & Basic Filters -->
@@ -214,19 +214,13 @@
             <select id="filter-player-status" style="width: 140px; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer; font-weight: 600;">
               <option value="ALL">All Statuses</option>
               <option value="playing">Playing</option>
-              <option value="eliminated">Eliminated</option>
               <option value="injured">Injured</option>
               <option value="suspended">Suspended</option>
             </select>
-
-            <button id="btn-toggle-advanced-filters" class="btn" style="display: flex; align-items: center; gap: 6px; font-weight: 600; padding: 10px 14px; border-radius: 10px; font-size: 13px; cursor: pointer; border: 1px solid var(--line); background: var(--panel); color: var(--text); transition: 0.2s;">
-              <span>⚙️ Advanced Filters</span>
-            </button>
-
           </div>
 
-          <!-- Collapsible Advanced Drawer -->
-          <div id="advanced-filters-drawer" style="display: none; flex-direction: column; gap: 16px; border-top: 1px solid var(--line); padding-top: 14px; transition: all 0.3s ease;">
+          <!-- Expanded Advanced Drawer (visible by default) -->
+          <div id="advanced-filters-drawer" style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--line); padding-top: 14px;">
             
             <!-- Grid for Sliders -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
@@ -239,25 +233,7 @@
                 <input type="range" id="filter-max-price" min="4.0" max="12.0" step="0.5" value="12.0" style="width: 100%; accent-color: var(--accent); cursor: pointer;">
               </div>
 
-              <!-- Ownership slider -->
-              <div style="display: flex; flex-direction: column; gap: 6px; background: var(--bg); border: 1px solid var(--line); padding: 12px; border-radius: 10px;">
-                <div style="display: flex; justify-content: space-between; font-size: 12px;">
-                  <span style="font-weight: 700; color: var(--text);">Min Selection %</span>
-                  <span id="label-min-selected" style="font-weight: 800; color: var(--accent);">0.0%</span>
-                </div>
-                <input type="range" id="filter-min-selected" min="0" max="80" step="2" value="0" style="width: 100%; accent-color: var(--accent); cursor: pointer;">
-              </div>
-
-              <!-- Min total points -->
-              <div style="display: flex; flex-direction: column; gap: 6px; background: var(--bg); border: 1px solid var(--line); padding: 12px; border-radius: 10px;">
-                <div style="display: flex; justify-content: space-between; font-size: 12px;">
-                  <span style="font-weight: 700; color: var(--text);">Min Total Points</span>
-                  <span id="label-min-points" style="font-weight: 800; color: var(--accent);">0 pts</span>
-                </div>
-                <input type="range" id="filter-min-points" min="0" max="60" step="2" value="0" style="width: 100%; accent-color: var(--accent); cursor: pointer;">
-              </div>
-
-              <!-- Min form -->
+              <!-- Min form slider -->
               <div style="display: flex; flex-direction: column; gap: 6px; background: var(--bg); border: 1px solid var(--line); padding: 12px; border-radius: 10px;">
                 <div style="display: flex; justify-content: space-between; font-size: 12px;">
                   <span style="font-weight: 700; color: var(--text);">Min Form</span>
@@ -267,21 +243,8 @@
               </div>
             </div>
 
-            <!-- Bottom Row: Specific round scoring + Toggles + Reset button -->
+            <!-- Bottom Row: Toggles + Reset button -->
             <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; background: var(--bg); border: 1px solid var(--line); padding: 14px; border-radius: 10px; font-size: 13px;">
-              <div style="display: flex; align-items: center; gap: 8px; flex: 1.5; min-width: 320px;">
-                <span style="font-weight: 700; color: var(--text); white-space: nowrap;">Min points in</span>
-                <select id="filter-specific-round" style="background: var(--panel); border: 1px solid var(--line); color: var(--text); padding: 6px 10px; border-radius: 8px; font-size: 12px; outline: none; cursor: pointer; font-weight: 600;">
-                  <option value="md1">MD1 (Group Rd 1)</option>
-                  <option value="md2">MD2 (Group Rd 2)</option>
-                  <option value="md3">MD3 (Group Rd 3)</option>
-                  <option value="r32">R32 (Round of 32)</option>
-                </select>
-                <span style="font-weight: 700;">is:</span>
-                <span id="label-min-round-points" style="font-weight: 800; color: var(--accent); min-width: 35px;">0 pts</span>
-                <input type="range" id="filter-min-round-points" min="0" max="25" step="1" value="0" style="flex: 1; accent-color: var(--accent); cursor: pointer;">
-              </div>
-
               <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
                 <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; font-weight: 600;">
                   <input type="checkbox" id="filter-one-to-watch" style="width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer;">

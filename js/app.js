@@ -3100,34 +3100,13 @@ function resetAllFantasyControls() {
   document.getElementById('filter-max-price').value = 12.0;
   document.getElementById('label-max-price').textContent = '$12.0m';
   
-  document.getElementById('filter-min-selected').value = 0;
-  document.getElementById('label-min-selected').textContent = '0.0%';
-  
-  document.getElementById('filter-min-points').value = 0;
-  document.getElementById('label-min-points').textContent = '0 pts';
-  
   document.getElementById('filter-min-form').value = 0.0;
   document.getElementById('label-min-form').textContent = '0.0';
-  
-  document.getElementById('filter-specific-round').value = 'md1';
-  document.getElementById('filter-min-round-points').value = 0;
-  document.getElementById('label-min-round-points').textContent = '0 pts';
   
   document.getElementById('filter-one-to-watch').checked = false;
   document.getElementById('filter-hide-unavailable').checked = false;
 
-
   activeFantasyPreset = 'all';
-
-  // Close collapsible drawer and reset toggle button styles
-  const drawer = document.getElementById('advanced-filters-drawer');
-  const toggleBtn = document.getElementById('btn-toggle-advanced-filters');
-  if (drawer) drawer.style.display = 'none';
-  if (toggleBtn) {
-    toggleBtn.classList.remove('active');
-    toggleBtn.style.borderColor = 'var(--line)';
-    toggleBtn.style.background = 'var(--panel)';
-  }
 
   fantasyPlayersLimit = fantasyPlayersPageSize;
   renderFantasyPlayers();
@@ -3140,21 +3119,13 @@ function wireFantasyPlayersEvents() {
   const statusSelect = document.getElementById('filter-player-status');
   
   const maxPriceInput = document.getElementById('filter-max-price');
-  const minSelectedInput = document.getElementById('filter-min-selected');
-  const minPointsInput = document.getElementById('filter-min-points');
   const minFormInput = document.getElementById('filter-min-form');
-  
-  const specificRoundSelect = document.getElementById('filter-specific-round');
-  const minRoundPointsInput = document.getElementById('filter-min-round-points');
   
   const oneToWatchCheck = document.getElementById('filter-one-to-watch');
   const hideUnavailableCheck = document.getElementById('filter-hide-unavailable');
   
   const resetBtn = document.getElementById('btn-reset-fantasy-filters');
   const showMoreBtn = document.getElementById('btn-show-more-players');
-  
-  const toggleBtn = document.getElementById('btn-toggle-advanced-filters');
-  const drawer = document.getElementById('advanced-filters-drawer');
 
   // Input listeners that trigger render
   const triggerRender = () => {
@@ -3167,46 +3138,15 @@ function wireFantasyPlayersEvents() {
   if (countrySelect) countrySelect.onchange = triggerRender;
   if (statusSelect) statusSelect.onchange = triggerRender;
 
-  if (toggleBtn && drawer) {
-    toggleBtn.onclick = () => {
-      const isHidden = drawer.style.display === 'none' || drawer.style.display === '';
-      drawer.style.display = isHidden ? 'flex' : 'none';
-      toggleBtn.classList.toggle('active', isHidden);
-      toggleBtn.style.borderColor = isHidden ? 'var(--accent)' : 'var(--line)';
-      toggleBtn.style.background = isHidden ? 'rgba(59, 130, 246, 0.08)' : 'var(--panel)';
-    };
-  }
-
   if (maxPriceInput) {
     maxPriceInput.oninput = () => {
       document.getElementById('label-max-price').textContent = `$${parseFloat(maxPriceInput.value).toFixed(1)}m`;
       triggerRender();
     };
   }
-  if (minSelectedInput) {
-    minSelectedInput.oninput = () => {
-      document.getElementById('label-min-selected').textContent = `${parseFloat(minSelectedInput.value).toFixed(1)}%`;
-      triggerRender();
-    };
-  }
-  if (minPointsInput) {
-    minPointsInput.oninput = () => {
-      document.getElementById('label-min-points').textContent = `${parseInt(minPointsInput.value, 10)} pts`;
-      triggerRender();
-    };
-  }
   if (minFormInput) {
     minFormInput.oninput = () => {
       document.getElementById('label-min-form').textContent = `${parseFloat(minFormInput.value).toFixed(1)}`;
-      triggerRender();
-    };
-  }
-  if (specificRoundSelect) {
-    specificRoundSelect.onchange = triggerRender;
-  }
-  if (minRoundPointsInput) {
-    minRoundPointsInput.oninput = () => {
-      document.getElementById('label-min-round-points').textContent = `${parseInt(minRoundPointsInput.value, 10)} pts`;
       triggerRender();
     };
   }
@@ -3220,8 +3160,6 @@ function wireFantasyPlayersEvents() {
       renderFantasyPlayers();
     };
   }
-
-
 
   // Sorting headers click listeners
   const headers = document.querySelectorAll('#player-table-headers th[data-sort]');
@@ -3266,27 +3204,13 @@ function renderFantasyPlayers() {
   const countryFilter = document.getElementById('filter-player-country')?.value || 'ALL';
   
   const maxPrice = parseFloat(document.getElementById('filter-max-price')?.value) || 12.0;
-  const minSelected = parseFloat(document.getElementById('filter-min-selected')?.value) || 0.0;
-  const minPoints = parseInt(document.getElementById('filter-min-points')?.value, 10) || 0;
   const minForm = parseFloat(document.getElementById('filter-min-form')?.value) || 0.0;
-  
-  const specificRound = document.getElementById('filter-specific-round')?.value || 'md1';
-  const minRoundPoints = parseInt(document.getElementById('filter-min-round-points')?.value, 10) || 0;
   
   const oneToWatchFilter = document.getElementById('filter-one-to-watch')?.checked || false;
   const hideUnavailableFilter = document.getElementById('filter-hide-unavailable')?.checked || false;
 
-  // 1. Preset base filter
-  let baseList = FANTASY_PLAYERS;
-  if (activeFantasyPreset === 'dreamteam') {
-    baseList = getDreamTeam(FANTASY_PLAYERS);
-  } else if (activeFantasyPreset === 'gems') {
-    baseList = FANTASY_PLAYERS.filter(p => p.price <= 6.5 && p.totalPoints >= 15);
-  } else if (activeFantasyPreset === 'differentials') {
-    baseList = FANTASY_PLAYERS.filter(p => p.percentSelected <= 5.0 && p.totalPoints >= 15);
-  } else if (activeFantasyPreset === 'underperformers') {
-    baseList = FANTASY_PLAYERS.filter(p => p.percentSelected >= 15.0 && p.totalPoints <= 8);
-  }
+  // 1. Permanently exclude eliminated players
+  let baseList = FANTASY_PLAYERS.filter(p => p.status !== 'eliminated');
 
   // 2. Custom Filter
   let filtered = baseList.filter(p => {
@@ -3305,16 +3229,8 @@ function renderFantasyPlayers() {
 
     // Price slider
     if (p.price > maxPrice) return false;
-    // Selection %
-    if (p.percentSelected < minSelected) return false;
-    // Total Points
-    if (p.totalPoints < minPoints) return false;
-    // Form
+    // Form slider
     if (p.form < minForm) return false;
-
-    // Round Points
-    const roundVal = p.pointsByRound[specificRound] || 0;
-    if (roundVal < minRoundPoints) return false;
 
     // One to watch
     if (oneToWatchFilter && !p.oneToWatch) return false;
