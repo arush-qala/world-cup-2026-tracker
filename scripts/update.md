@@ -28,6 +28,9 @@ Data source of truth: `data/fixtures.json` (project root).
 10. **Push**: Push the commit to the remote repository: `git push origin main`.
 11. **Redeploy**: `vercel deploy --prod --yes` from the project root (if auto-deploy from GitHub is not configured, or to force-push the live site).
 12. **Report** which matches were updated (and any that were postponed/uncertain).
+13. **Ask for Fantasy Update**: Explicitly ask the user: *"Would you like to update the fantasy points database now as well?"*
+    - If the user approves, follow the **Fantasy Points Database Updates** procedure below.
+    - If the user declines, stop.
 
 ## Notes
 - Standings (points, rank, qualification) are computed in the browser from
