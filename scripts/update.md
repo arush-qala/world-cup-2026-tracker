@@ -37,6 +37,17 @@ Data source of truth: `data/fixtures.json` (project root).
   tracker is final.
 - The single kickoff time flagged as uncertain during data sourcing
   (M36 TUN vs JPN, Monterrey) should be double-checked when its result is fetched.
+- **Fantasy Updates**: Whenever the last match of a tournament round (MD1, MD2, MD3, R32, R16, etc.) has finished and scores are updated, the fantasy points database must be updated as well (see "Fantasy Points Database Updates" below).
+
+## Fantasy Points Database Updates
+
+Whenever a tournament round finishes and match scores are updated in `data/fixtures.json`:
+1. **Run Scraper**: Execute `node scripts/capture_fantasy.js` to open the headed Chromium browser.
+2. **User Login**: Prompt the user to log in to their FIFA account in the opened browser window. Once the dashboard loads, the script automatically captures `data/raw_fantasy_players.json` and closes the browser.
+3. **Process Data**: Run `node scripts/process_captured_players.js` to format the captured raw JSON, extract the points for the completed round, and update `data/fantasy_players.json`.
+4. **Commit & Push**: Stage the updated database files along with the fixtures:
+   `git add data/raw_fantasy_players.json data/fantasy_players.json`
+   Include these files in the git commit and push to `main` to deploy the new points to the live website.
 
 ## Scheduling
 
