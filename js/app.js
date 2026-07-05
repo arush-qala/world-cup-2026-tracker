@@ -3328,6 +3328,7 @@ function renderFantasyPlayers() {
         <td class="text-center">${p.pointsByRound.md2}</td>
         <td class="text-center">${p.pointsByRound.md3}</td>
         <td class="text-center">${p.pointsByRound.r32}</td>
+        <td class="text-center">${p.pointsByRound.r16 || 0}</td>
         <td class="text-center" style="font-weight: 700; color: ${p.status === 'eliminated' ? 'var(--muted)' : 'var(--accent)'}; font-size: 14px;">${p.totalPoints}</td>
       `;
       list.appendChild(tr);
@@ -3423,7 +3424,8 @@ function openPlayerModal(p) {
     { label: 'MD1', val: p.pointsByRound.md1 },
     { label: 'MD2', val: p.pointsByRound.md2 },
     { label: 'MD3', val: p.pointsByRound.md3 },
-    { label: 'R32', val: p.pointsByRound.r32 }
+    { label: 'R32', val: p.pointsByRound.r32 },
+    { label: 'R16', val: p.pointsByRound.r16 || 0 }
   ];
   const maxVal = Math.max(1, ...rounds.map(r => r.val));
 
