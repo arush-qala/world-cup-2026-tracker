@@ -1404,7 +1404,9 @@
     "venue": "AT&T Stadium, Arlington",
     "home": "POR",
     "away": "ESP",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 0, "away": 1 },
+    "winner": "ESP"
   },
   {
     "id": "M94",
