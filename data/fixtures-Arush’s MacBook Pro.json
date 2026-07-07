@@ -1416,7 +1416,9 @@
     "venue": "Lumen Field, Seattle",
     "home": "USA",
     "away": "BEL",
-    "status": "scheduled"
+    "status": "finished",
+    "score": { "home": 1, "away": 4 },
+    "winner": "BEL"
   },
   {
     "id": "M95",
