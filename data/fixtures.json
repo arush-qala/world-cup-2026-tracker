@@ -1160,7 +1160,10 @@
     "home": "RSA",
     "away": "CAN",
     "status": "finished",
-    "score": { "home": 0, "away": 1 },
+    "score": {
+      "home": 0,
+      "away": 1
+    },
     "winner": "CAN"
   },
   {
@@ -1172,7 +1175,10 @@
     "home": "GER",
     "away": "PAR",
     "status": "finished",
-    "score": { "home": 1, "away": 1 },
+    "score": {
+      "home": 1,
+      "away": 1
+    },
     "note": "PAR win 4-3 on penalties (AET 1-1)",
     "winner": "PAR"
   },
@@ -1185,7 +1191,10 @@
     "home": "NED",
     "away": "MAR",
     "status": "finished",
-    "score": { "home": 1, "away": 1 },
+    "score": {
+      "home": 1,
+      "away": 1
+    },
     "note": "MAR win 3-2 on penalties (AET 1-1)",
     "winner": "MAR"
   },
@@ -1198,7 +1207,10 @@
     "home": "BRA",
     "away": "JPN",
     "status": "finished",
-    "score": { "home": 2, "away": 1 },
+    "score": {
+      "home": 2,
+      "away": 1
+    },
     "winner": "BRA"
   },
   {
@@ -1210,7 +1222,10 @@
     "home": "FRA",
     "away": "SWE",
     "status": "finished",
-    "score": { "home": 3, "away": 0 },
+    "score": {
+      "home": 3,
+      "away": 0
+    },
     "winner": "FRA"
   },
   {
@@ -1222,7 +1237,10 @@
     "home": "CIV",
     "away": "NOR",
     "status": "finished",
-    "score": { "home": 1, "away": 2 },
+    "score": {
+      "home": 1,
+      "away": 2
+    },
     "winner": "NOR"
   },
   {
@@ -1234,7 +1252,10 @@
     "home": "MEX",
     "away": "ECU",
     "status": "finished",
-    "score": { "home": 2, "away": 0 },
+    "score": {
+      "home": 2,
+      "away": 0
+    },
     "winner": "MEX"
   },
   {
@@ -1246,7 +1267,10 @@
     "home": "ENG",
     "away": "COD",
     "status": "finished",
-    "score": { "home": 2, "away": 1 },
+    "score": {
+      "home": 2,
+      "away": 1
+    },
     "winner": "ENG"
   },
   {
@@ -1258,7 +1282,10 @@
     "home": "USA",
     "away": "BIH",
     "status": "finished",
-    "score": { "home": 2, "away": 0 },
+    "score": {
+      "home": 2,
+      "away": 0
+    },
     "winner": "USA"
   },
   {
@@ -1270,7 +1297,10 @@
     "home": "BEL",
     "away": "SEN",
     "status": "finished",
-    "score": { "home": 3, "away": 2 },
+    "score": {
+      "home": 3,
+      "away": 2
+    },
     "note": "BEL win 3-2 after extra time (AET 2-2)",
     "winner": "BEL"
   },
@@ -1283,7 +1313,10 @@
     "home": "POR",
     "away": "CRO",
     "status": "finished",
-    "score": { "home": 2, "away": 1 },
+    "score": {
+      "home": 2,
+      "away": 1
+    },
     "winner": "POR"
   },
   {
@@ -1295,7 +1328,10 @@
     "home": "ESP",
     "away": "AUT",
     "status": "finished",
-    "score": { "home": 2, "away": 0 },
+    "score": {
+      "home": 2,
+      "away": 0
+    },
     "winner": "ESP"
   },
   {
@@ -1307,7 +1343,10 @@
     "home": "SUI",
     "away": "ALG",
     "status": "finished",
-    "score": { "home": 2, "away": 0 },
+    "score": {
+      "home": 2,
+      "away": 0
+    },
     "winner": "SUI"
   },
   {
@@ -1319,7 +1358,10 @@
     "home": "ARG",
     "away": "CPV",
     "status": "finished",
-    "score": { "home": 3, "away": 2 },
+    "score": {
+      "home": 3,
+      "away": 2
+    },
     "note": "ARG win 3-2 after extra time (AET 1-1)",
     "winner": "ARG"
   },
@@ -1332,7 +1374,10 @@
     "home": "COL",
     "away": "GHA",
     "status": "finished",
-    "score": { "home": 1, "away": 0 },
+    "score": {
+      "home": 1,
+      "away": 0
+    },
     "winner": "COL"
   },
   {
@@ -1344,7 +1389,10 @@
     "home": "AUS",
     "away": "EGY",
     "status": "finished",
-    "score": { "home": 1, "away": 1 },
+    "score": {
+      "home": 1,
+      "away": 1
+    },
     "note": "EGY win 4-2 on penalties (AET 1-1)",
     "winner": "EGY"
   },
@@ -1357,7 +1405,10 @@
     "home": "PAR",
     "away": "FRA",
     "status": "finished",
-    "score": { "home": 0, "away": 1 },
+    "score": {
+      "home": 0,
+      "away": 1
+    },
     "winner": "FRA"
   },
   {
@@ -1369,7 +1420,10 @@
     "home": "CAN",
     "away": "MAR",
     "status": "finished",
-    "score": { "home": 0, "away": 3 },
+    "score": {
+      "home": 0,
+      "away": 3
+    },
     "winner": "MAR"
   },
   {
@@ -1381,7 +1435,10 @@
     "home": "BRA",
     "away": "NOR",
     "status": "finished",
-    "score": { "home": 1, "away": 2 },
+    "score": {
+      "home": 1,
+      "away": 2
+    },
     "winner": "NOR"
   },
   {
@@ -1393,7 +1450,10 @@
     "home": "MEX",
     "away": "ENG",
     "status": "finished",
-    "score": { "home": 2, "away": 3 },
+    "score": {
+      "home": 2,
+      "away": 3
+    },
     "winner": "ENG"
   },
   {
@@ -1405,7 +1465,10 @@
     "home": "POR",
     "away": "ESP",
     "status": "finished",
-    "score": { "home": 0, "away": 1 },
+    "score": {
+      "home": 0,
+      "away": 1
+    },
     "winner": "ESP"
   },
   {
@@ -1417,7 +1480,10 @@
     "home": "USA",
     "away": "BEL",
     "status": "finished",
-    "score": { "home": 1, "away": 4 },
+    "score": {
+      "home": 1,
+      "away": 4
+    },
     "winner": "BEL"
   },
   {
@@ -1428,7 +1494,11 @@
     "venue": "Mercedes-Benz Stadium, Atlanta",
     "home": "ARG",
     "away": "EGY",
-    "status": "scheduled"
+    "status": "finished",
+    "score": {
+      "home": 3,
+      "away": 2
+    }
   },
   {
     "id": "M96",
