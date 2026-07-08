@@ -13,7 +13,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 1,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 0,
@@ -39,7 +39,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 2,
     "form": 2.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 0,
@@ -65,7 +65,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 0.8,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 0,
@@ -163,13 +163,13 @@
     "lastName": "Belghali",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 1.3,
+    "percentSelected": 1.2,
     "teamCode": "ALG",
     "teamName": "Algeria",
     "teamFlag": "🇩🇿",
     "avgPoints": 3.3,
     "form": 4.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 0,
@@ -247,7 +247,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 3.8,
     "form": 4.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 2,
@@ -273,7 +273,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 6.5,
     "form": 8.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 26,
     "pointsByRound": {
       "md1": 1,
@@ -299,7 +299,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 2.3,
     "form": 2.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 2,
@@ -325,7 +325,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 2,
@@ -371,7 +371,7 @@
     "lastName": "Benbouali",
     "position": "FWD",
     "price": 4.2,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "ALG",
     "teamName": "Algeria",
     "teamFlag": "🇩🇿",
@@ -449,13 +449,13 @@
     "lastName": "Zidane",
     "position": "GK",
     "price": 3.8,
-    "percentSelected": 0.8,
+    "percentSelected": 0.7,
     "teamCode": "ALG",
     "teamName": "Algeria",
     "teamFlag": "🇩🇿",
     "avgPoints": 1.7,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
@@ -475,7 +475,7 @@
     "lastName": "Mastil",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 1.6,
+    "percentSelected": 1.5,
     "teamCode": "ALG",
     "teamName": "Algeria",
     "teamFlag": "🇩🇿",
@@ -527,13 +527,13 @@
     "lastName": "Boulbina",
     "position": "MID",
     "price": 4,
-    "percentSelected": 1.8,
+    "percentSelected": 1.7,
     "teamCode": "ALG",
     "teamName": "Algeria",
     "teamFlag": "🇩🇿",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 1,
@@ -585,7 +585,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 0.7,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 1,
@@ -663,7 +663,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 4.3,
     "form": 4.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 1,
@@ -689,7 +689,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 1.8,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 2,
@@ -709,20 +709,20 @@
     "lastName": "Romero",
     "position": "DEF",
     "price": 4.9,
-    "percentSelected": 6,
+    "percentSelected": 7.7,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 4.7,
-    "form": 4.7,
-    "lastRoundPoints": 4,
-    "totalPoints": 14,
+    "avgPoints": 5.5,
+    "form": 4.3,
+    "lastRoundPoints": 8,
+    "totalPoints": 22,
     "pointsByRound": {
       "md1": 9,
       "md2": 1,
       "md3": 0,
       "r32": 4,
-      "r16": 0
+      "r16": 8
     },
     "status": "playing",
     "oneToWatch": false
@@ -761,20 +761,20 @@
     "lastName": "Molina",
     "position": "DEF",
     "price": 4.4,
-    "percentSelected": 4.4,
+    "percentSelected": 4.6,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 3.7,
+    "avgPoints": 3,
     "form": 3.7,
     "lastRoundPoints": 1,
-    "totalPoints": 11,
+    "totalPoints": 12,
     "pointsByRound": {
       "md1": 1,
       "md2": 9,
       "md3": 0,
       "r32": 1,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -793,14 +793,14 @@
     "teamFlag": "🇦🇷",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 0,
-    "totalPoints": 4,
+    "lastRoundPoints": 1,
+    "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
       "md2": 1,
       "md3": 2,
       "r32": 0,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -865,20 +865,20 @@
     "lastName": "Tagliafico",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 0.6,
+    "percentSelected": 0.9,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 1.3,
-    "form": 1.3,
-    "lastRoundPoints": 1,
-    "totalPoints": 4,
+    "avgPoints": 2,
+    "form": 2.3,
+    "lastRoundPoints": 4,
+    "totalPoints": 8,
     "pointsByRound": {
       "md1": 0,
       "md2": 1,
       "md3": 2,
       "r32": 1,
-      "r16": 0
+      "r16": 4
     },
     "status": "playing",
     "oneToWatch": false
@@ -943,20 +943,20 @@
     "lastName": "Messi",
     "position": "FWD",
     "price": 10,
-    "percentSelected": 53.5,
+    "percentSelected": 54.4,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 12.5,
-    "form": 10.3,
-    "lastRoundPoints": 10,
-    "totalPoints": 50,
+    "avgPoints": 12.2,
+    "form": 9.3,
+    "lastRoundPoints": 11,
+    "totalPoints": 61,
     "pointsByRound": {
       "md1": 19,
       "md2": 14,
       "md3": 7,
       "r32": 10,
-      "r16": 0
+      "r16": 11
     },
     "status": "playing",
     "oneToWatch": false
@@ -969,20 +969,20 @@
     "lastName": "Alvarez",
     "position": "FWD",
     "price": 8.6,
-    "percentSelected": 7.9,
+    "percentSelected": 7.8,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 1.3,
-    "form": 1.3,
-    "lastRoundPoints": 1,
-    "totalPoints": 5,
+    "avgPoints": 1.4,
+    "form": 1.7,
+    "lastRoundPoints": 2,
+    "totalPoints": 7,
     "pointsByRound": {
       "md1": 1,
       "md2": 1,
       "md3": 2,
       "r32": 1,
-      "r16": 0
+      "r16": 2
     },
     "status": "playing",
     "oneToWatch": false
@@ -1051,16 +1051,16 @@
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 2.3,
-    "form": 2.3,
-    "lastRoundPoints": 2,
-    "totalPoints": 7,
+    "avgPoints": 2,
+    "form": 1.3,
+    "lastRoundPoints": 1,
+    "totalPoints": 8,
     "pointsByRound": {
       "md1": 4,
       "md2": 1,
       "md3": 0,
       "r32": 2,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -1125,20 +1125,20 @@
     "lastName": "Martínez",
     "position": "GK",
     "price": 5,
-    "percentSelected": 35.7,
+    "percentSelected": 35.8,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 4.5,
-    "form": 3.7,
-    "lastRoundPoints": 2,
-    "totalPoints": 18,
+    "avgPoints": 3.8,
+    "form": 1.7,
+    "lastRoundPoints": 1,
+    "totalPoints": 19,
     "pointsByRound": {
       "md1": 7,
       "md2": 7,
       "md3": 2,
       "r32": 2,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -1177,7 +1177,7 @@
     "lastName": "Musso",
     "position": "GK",
     "price": 4.3,
-    "percentSelected": 0.1,
+    "percentSelected": 0.2,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
@@ -1203,20 +1203,20 @@
     "lastName": "Paredes",
     "position": "MID",
     "price": 5.6,
-    "percentSelected": 0.2,
+    "percentSelected": 0.3,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 1,
-    "form": 1,
-    "lastRoundPoints": 1,
-    "totalPoints": 3,
+    "avgPoints": 1.5,
+    "form": 2,
+    "lastRoundPoints": 3,
+    "totalPoints": 6,
     "pointsByRound": {
       "md1": 0,
       "md2": 0,
       "md3": 2,
       "r32": 1,
-      "r16": 0
+      "r16": 3
     },
     "status": "playing",
     "oneToWatch": false
@@ -1255,20 +1255,20 @@
     "lastName": "De Paul",
     "position": "MID",
     "price": 5.9,
-    "percentSelected": 2.4,
+    "percentSelected": 2.7,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 4.7,
-    "form": 4.7,
+    "avgPoints": 4,
+    "form": 2.3,
     "lastRoundPoints": 2,
-    "totalPoints": 14,
+    "totalPoints": 16,
     "pointsByRound": {
       "md1": 9,
       "md2": 3,
       "md3": 0,
       "r32": 2,
-      "r16": 0
+      "r16": 2
     },
     "status": "playing",
     "oneToWatch": false
@@ -1391,7 +1391,7 @@
     "teamFlag": "🇦🇷",
     "avgPoints": 2,
     "form": 2.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 1,
@@ -1411,20 +1411,20 @@
     "lastName": "Mac Allister",
     "position": "MID",
     "price": 6.6,
-    "percentSelected": 5.4,
+    "percentSelected": 7.2,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 5.5,
-    "form": 4.7,
-    "lastRoundPoints": 8,
-    "totalPoints": 22,
+    "avgPoints": 5,
+    "form": 4.3,
+    "lastRoundPoints": 3,
+    "totalPoints": 25,
     "pointsByRound": {
       "md1": 8,
       "md2": 4,
       "md3": 2,
       "r32": 8,
-      "r16": 0
+      "r16": 3
     },
     "status": "playing",
     "oneToWatch": false
@@ -1437,20 +1437,20 @@
     "lastName": "Fernández",
     "position": "MID",
     "price": 7.5,
-    "percentSelected": 2.7,
+    "percentSelected": 3.7,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 3,
-    "form": 3,
-    "lastRoundPoints": 2,
-    "totalPoints": 9,
+    "avgPoints": 4.8,
+    "form": 5,
+    "lastRoundPoints": 10,
+    "totalPoints": 19,
     "pointsByRound": {
       "md1": 4,
       "md2": 3,
       "md3": 0,
       "r32": 2,
-      "r16": 0
+      "r16": 10
     },
     "status": "playing",
     "oneToWatch": false
@@ -1469,7 +1469,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 4.8,
     "form": 3.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 19,
     "pointsByRound": {
       "md1": 9,
@@ -1521,7 +1521,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 5,
     "form": 3.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 20,
     "pointsByRound": {
       "md1": 9,
@@ -1599,7 +1599,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 4,
     "form": 4,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 1,
@@ -1677,7 +1677,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 9,
     "form": 3,
-    "lastRoundPoints": 9,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 0,
@@ -1703,7 +1703,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 5.5,
     "form": 3.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 0,
@@ -1729,7 +1729,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 3.8,
     "form": 1.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 10,
@@ -1885,7 +1885,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -1931,13 +1931,13 @@
     "lastName": "Beach",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 3,
+    "percentSelected": 2.7,
     "teamCode": "AUS",
     "teamName": "Australia",
     "teamFlag": "🇦🇺",
     "avgPoints": 6,
     "form": 4.3,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 24,
     "pointsByRound": {
       "md1": 11,
@@ -1963,7 +1963,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 3.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 9,
@@ -2041,7 +2041,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 4.5,
     "form": 2.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 11,
@@ -2067,7 +2067,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 4,
     "form": 4.3,
-    "lastRoundPoints": 7,
+    "lastRoundPoints": 0,
     "totalPoints": 16,
     "pointsByRound": {
       "md1": 3,
@@ -2093,7 +2093,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -2119,7 +2119,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -2223,7 +2223,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -2405,7 +2405,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 4.5,
     "form": 3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 9,
@@ -2431,7 +2431,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 2.7,
     "form": 2.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 0,
@@ -2457,7 +2457,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 3.3,
     "form": 3.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 10,
     "pointsByRound": {
       "md1": 1,
@@ -2483,7 +2483,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 1.5,
     "form": 1,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 3,
@@ -2561,7 +2561,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 1,
@@ -2587,7 +2587,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 3.3,
     "form": 3.7,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 2,
@@ -2639,7 +2639,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -2665,7 +2665,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 2.5,
     "form": 2.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 10,
     "pointsByRound": {
       "md1": 3,
@@ -2691,7 +2691,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 3.8,
     "form": 4.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 1,
@@ -2717,7 +2717,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 4,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 16,
     "pointsByRound": {
       "md1": 10,
@@ -2769,7 +2769,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 1.5,
     "form": 1.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 1,
@@ -2795,7 +2795,7 @@
     "teamFlag": "🇦🇹",
     "avgPoints": 2.8,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 7,
@@ -2841,7 +2841,7 @@
     "lastName": "De Cuyper",
     "position": "DEF",
     "price": 4.7,
-    "percentSelected": 1.5,
+    "percentSelected": 1.6,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -2899,7 +2899,7 @@
     "teamFlag": "🇧🇪",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 0,
@@ -2925,7 +2925,7 @@
     "teamFlag": "🇧🇪",
     "avgPoints": 4,
     "form": 4,
-    "lastRoundPoints": 4,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 7,
@@ -2971,7 +2971,7 @@
     "lastName": "Witsel",
     "position": "MID",
     "price": 5,
-    "percentSelected": 0.8,
+    "percentSelected": 0.9,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -3023,7 +3023,7 @@
     "lastName": "Mechele",
     "position": "DEF",
     "price": 3.9,
-    "percentSelected": 0.5,
+    "percentSelected": 0.7,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -3075,7 +3075,7 @@
     "lastName": "Ngoy",
     "position": "DEF",
     "price": 3.7,
-    "percentSelected": 0.3,
+    "percentSelected": 0.5,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -3101,7 +3101,7 @@
     "lastName": "Lukaku",
     "position": "FWD",
     "price": 7.4,
-    "percentSelected": 1.7,
+    "percentSelected": 1.8,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -3127,7 +3127,7 @@
     "lastName": "Doku",
     "position": "MID",
     "price": 7.5,
-    "percentSelected": 5.9,
+    "percentSelected": 5.8,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -3205,7 +3205,7 @@
     "lastName": "De Ketelaere",
     "position": "MID",
     "price": 5.6,
-    "percentSelected": 0.4,
+    "percentSelected": 1.5,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -3231,7 +3231,7 @@
     "lastName": "Lammens",
     "position": "GK",
     "price": 4.6,
-    "percentSelected": 1.1,
+    "percentSelected": 1,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -3257,7 +3257,7 @@
     "lastName": "Raskin",
     "position": "MID",
     "price": 5.3,
-    "percentSelected": 0.1,
+    "percentSelected": 0.3,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -3309,7 +3309,7 @@
     "lastName": "Tielemans",
     "position": "MID",
     "price": 6.1,
-    "percentSelected": 2.3,
+    "percentSelected": 2.9,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -3335,13 +3335,13 @@
     "lastName": "De Bruyne",
     "position": "MID",
     "price": 7.5,
-    "percentSelected": 4.4,
+    "percentSelected": 4.3,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
     "avgPoints": 4.5,
     "form": 5.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 2,
@@ -3367,7 +3367,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 2.5,
     "form": 1,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 10,
     "pointsByRound": {
       "md1": 7,
@@ -3393,7 +3393,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 0.3,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 2,
@@ -3419,7 +3419,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 0,
     "form": 0,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 0,
     "pointsByRound": {
       "md1": 2,
@@ -3439,13 +3439,13 @@
     "lastName": "Katic",
     "position": "DEF",
     "price": 3.8,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "BIH",
     "teamName": "Bosnia & Herzegovina",
     "teamFlag": "🇧🇦",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 1,
@@ -3549,7 +3549,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 2,
     "form": 2.3,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 1,
@@ -3575,7 +3575,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 3,
     "form": 3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 0,
@@ -3627,7 +3627,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -3653,7 +3653,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 1.5,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 2,
@@ -3699,13 +3699,13 @@
     "lastName": "Alajbegovic",
     "position": "FWD",
     "price": 4.2,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "BIH",
     "teamName": "Bosnia & Herzegovina",
     "teamFlag": "🇧🇦",
     "avgPoints": 3.5,
     "form": 4.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 14,
     "pointsByRound": {
       "md1": 1,
@@ -3731,7 +3731,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 1.3,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 2,
@@ -3809,7 +3809,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 1.5,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 3,
@@ -3861,7 +3861,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
@@ -3887,7 +3887,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 1,
@@ -3939,7 +3939,7 @@
     "teamFlag": "🇧🇦",
     "avgPoints": 2,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 3,
@@ -3985,7 +3985,7 @@
     "lastName": "dos Santos Magalhães",
     "position": "DEF",
     "price": 5.5,
-    "percentSelected": 17.4,
+    "percentSelected": 14.5,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4011,7 +4011,7 @@
     "lastName": "Aoás Corrêa",
     "position": "DEF",
     "price": 5.2,
-    "percentSelected": 7.2,
+    "percentSelected": 6.2,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4063,7 +4063,7 @@
     "lastName": "da Silva",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 1.4,
+    "percentSelected": 1.1,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4089,7 +4089,7 @@
     "lastName": "dos Santos Justino de Melo",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 3.1,
+    "percentSelected": 2.1,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4167,7 +4167,7 @@
     "lastName": "Paixão de Oliveira Júnior",
     "position": "MID",
     "price": 10,
-    "percentSelected": 40.8,
+    "percentSelected": 29,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4193,7 +4193,7 @@
     "lastName": "Santos Carneiro da Cunha",
     "position": "FWD",
     "price": 7.3,
-    "percentSelected": 5,
+    "percentSelected": 3.8,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4271,7 +4271,7 @@
     "lastName": "Nascimento Rodrigues",
     "position": "FWD",
     "price": 5.9,
-    "percentSelected": 1.2,
+    "percentSelected": 1.1,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4349,7 +4349,7 @@
     "lastName": "Santana de Moraes",
     "position": "GK",
     "price": 5,
-    "percentSelected": 2.4,
+    "percentSelected": 2.3,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4375,7 +4375,7 @@
     "lastName": "Becker",
     "position": "GK",
     "price": 5,
-    "percentSelected": 7.2,
+    "percentSelected": 6.1,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4407,7 +4407,7 @@
     "teamFlag": "🇧🇷",
     "avgPoints": 0.7,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 1,
@@ -4453,7 +4453,7 @@
     "lastName": "Casimiro",
     "position": "MID",
     "price": 6.3,
-    "percentSelected": 1.9,
+    "percentSelected": 1.6,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -4479,13 +4479,13 @@
     "lastName": "Tolentino Coelho de Lima",
     "position": "MID",
     "price": 6.5,
-    "percentSelected": 0.7,
+    "percentSelected": 0.6,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
     "avgPoints": 4,
     "form": 4.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 16,
     "pointsByRound": {
       "md1": 3,
@@ -4537,7 +4537,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 2.5,
     "form": 1.7,
-    "lastRoundPoints": 4,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 0,
@@ -4563,7 +4563,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 4.8,
     "form": 5.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 19,
     "pointsByRound": {
       "md1": 3,
@@ -4693,7 +4693,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 5.7,
     "form": 5.7,
-    "lastRoundPoints": 9,
+    "lastRoundPoints": 0,
     "totalPoints": 17,
     "pointsByRound": {
       "md1": 8,
@@ -4719,7 +4719,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 4,
     "form": 2.3,
-    "lastRoundPoints": -2,
+    "lastRoundPoints": 0,
     "totalPoints": 16,
     "pointsByRound": {
       "md1": 9,
@@ -4745,7 +4745,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 3.3,
     "form": 3.7,
-    "lastRoundPoints": 7,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 2,
@@ -4771,7 +4771,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 2,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 2,
@@ -4797,7 +4797,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 1.7,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 2,
@@ -4823,7 +4823,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
@@ -4875,7 +4875,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 1,
@@ -4895,13 +4895,13 @@
     "lastName": "Évora Dias",
     "position": "GK",
     "price": 3.9,
-    "percentSelected": 1.9,
+    "percentSelected": 1.8,
     "teamCode": "CPV",
     "teamName": "Cape Verde",
     "teamFlag": "🇨🇻",
     "avgPoints": 6,
     "form": 4.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 24,
     "pointsByRound": {
       "md1": 11,
@@ -5005,7 +5005,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 4,
     "form": 5,
-    "lastRoundPoints": 10,
+    "lastRoundPoints": 0,
     "totalPoints": 16,
     "pointsByRound": {
       "md1": 1,
@@ -5031,7 +5031,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 1.8,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 3,
@@ -5051,7 +5051,7 @@
     "lastName": "Laryea",
     "position": "DEF",
     "price": 3.9,
-    "percentSelected": 0.8,
+    "percentSelected": 0.6,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
@@ -5077,13 +5077,13 @@
     "lastName": "Cornelius",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 0.4,
+    "percentSelected": 0.3,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
     "avgPoints": 3,
     "form": 3.3,
-    "lastRoundPoints": 9,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 2,
@@ -5129,7 +5129,7 @@
     "lastName": "De Fougerolles",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 0.9,
+    "percentSelected": 0.7,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
@@ -5155,7 +5155,7 @@
     "lastName": "David",
     "position": "FWD",
     "price": 7,
-    "percentSelected": 2.1,
+    "percentSelected": 1.7,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
@@ -5233,13 +5233,13 @@
     "lastName": "Millar",
     "position": "FWD",
     "price": 5.1,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 2,
@@ -5337,7 +5337,7 @@
     "lastName": "Crépeau",
     "position": "GK",
     "price": 4,
-    "percentSelected": 4.1,
+    "percentSelected": 3.5,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
@@ -5363,7 +5363,7 @@
     "lastName": "St. Clair",
     "position": "GK",
     "price": 3.8,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
@@ -5389,7 +5389,7 @@
     "lastName": "Goodman",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 0.7,
+    "percentSelected": 0.6,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
@@ -5415,7 +5415,7 @@
     "lastName": "Ahmed",
     "position": "MID",
     "price": 4.9,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
@@ -5493,13 +5493,13 @@
     "lastName": "Saliba",
     "position": "MID",
     "price": 5.1,
-    "percentSelected": 1.7,
+    "percentSelected": 1.2,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
     "avgPoints": 7,
     "form": 7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 21,
     "pointsByRound": {
       "md1": 0,
@@ -5638,7 +5638,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5655,16 +5655,16 @@
     "teamFlag": "🇨🇴",
     "avgPoints": 0.8,
     "form": 0.7,
-    "lastRoundPoints": 0,
-    "totalPoints": 3,
+    "lastRoundPoints": 1,
+    "totalPoints": 4,
     "pointsByRound": {
       "md1": 1,
       "md2": 1,
       "md3": 1,
       "r32": 0,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5675,22 +5675,22 @@
     "lastName": "Muñoz",
     "position": "DEF",
     "price": 4.6,
-    "percentSelected": 19.5,
+    "percentSelected": 14.8,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 7.8,
-    "form": 7.3,
+    "avgPoints": 7.6,
+    "form": 5,
     "lastRoundPoints": 7,
-    "totalPoints": 31,
+    "totalPoints": 38,
     "pointsByRound": {
       "md1": 9,
       "md2": 14,
       "md3": 1,
       "r32": 7,
-      "r16": 0
+      "r16": 7
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5701,22 +5701,22 @@
     "lastName": "Lucumí",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 7,
-    "form": 8.7,
+    "avgPoints": 7.4,
+    "form": 9,
     "lastRoundPoints": 9,
-    "totalPoints": 28,
+    "totalPoints": 37,
     "pointsByRound": {
       "md1": 2,
       "md2": 8,
       "md3": 9,
       "r32": 9,
-      "r16": 0
+      "r16": 9
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5727,22 +5727,22 @@
     "lastName": "Sánchez",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 3,
+    "percentSelected": 2.3,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 7.3,
-    "form": 9,
-    "lastRoundPoints": 9,
-    "totalPoints": 29,
+    "avgPoints": 7.4,
+    "form": 8.7,
+    "lastRoundPoints": 8,
+    "totalPoints": 37,
     "pointsByRound": {
       "md1": 2,
       "md2": 9,
       "md3": 9,
       "r32": 9,
-      "r16": 0
+      "r16": 8
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5768,7 +5768,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5779,22 +5779,22 @@
     "lastName": "Mojica",
     "position": "DEF",
     "price": 3.9,
-    "percentSelected": 2,
+    "percentSelected": 1.8,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 5.7,
-    "form": 5.7,
+    "avgPoints": 6.5,
+    "form": 8.3,
     "lastRoundPoints": 9,
-    "totalPoints": 17,
+    "totalPoints": 26,
     "pointsByRound": {
       "md1": 1,
       "md2": 7,
       "md3": 0,
       "r32": 9,
-      "r16": 0
+      "r16": 9
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5805,7 +5805,7 @@
     "lastName": "Arias",
     "position": "DEF",
     "price": 3.9,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
@@ -5820,7 +5820,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5831,22 +5831,22 @@
     "lastName": "Díaz",
     "position": "MID",
     "price": 8.1,
-    "percentSelected": 15.5,
+    "percentSelected": 12.9,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 5,
+    "avgPoints": 4.6,
     "form": 3,
     "lastRoundPoints": 3,
-    "totalPoints": 20,
+    "totalPoints": 23,
     "pointsByRound": {
       "md1": 11,
       "md2": 3,
       "md3": 3,
       "r32": 3,
-      "r16": 0
+      "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5863,7 +5863,7 @@
     "teamFlag": "🇨🇴",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 0,
@@ -5872,7 +5872,7 @@
       "r32": 1,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5883,22 +5883,22 @@
     "lastName": "Suárez",
     "position": "FWD",
     "price": 5.7,
-    "percentSelected": 1.1,
+    "percentSelected": 1,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 2.8,
+    "avgPoints": 2.4,
     "form": 3,
-    "lastRoundPoints": 7,
-    "totalPoints": 11,
+    "lastRoundPoints": 1,
+    "totalPoints": 12,
     "pointsByRound": {
       "md1": 2,
       "md2": 1,
       "md3": 1,
       "r32": 7,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5924,7 +5924,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5935,22 +5935,22 @@
     "lastName": "Vargas",
     "position": "GK",
     "price": 4.3,
-    "percentSelected": 5.1,
+    "percentSelected": 4.3,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
     "avgPoints": 6.8,
     "form": 8.3,
-    "lastRoundPoints": 9,
-    "totalPoints": 27,
+    "lastRoundPoints": 7,
+    "totalPoints": 34,
     "pointsByRound": {
       "md1": 2,
       "md2": 7,
       "md3": 9,
       "r32": 9,
-      "r16": 0
+      "r16": 7
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -5976,7 +5976,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -6002,7 +6002,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -6017,18 +6017,18 @@
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 2.5,
-    "form": 2.7,
+    "avgPoints": 2.6,
+    "form": 3,
     "lastRoundPoints": 3,
-    "totalPoints": 10,
+    "totalPoints": 13,
     "pointsByRound": {
       "md1": 2,
       "md2": 2,
       "md3": 3,
       "r32": 3,
-      "r16": 0
+      "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -6039,22 +6039,22 @@
     "lastName": "Puerta",
     "position": "MID",
     "price": 5.3,
-    "percentSelected": 0.4,
+    "percentSelected": 0.3,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 3.8,
+    "avgPoints": 3.6,
     "form": 2.7,
     "lastRoundPoints": 3,
-    "totalPoints": 15,
+    "totalPoints": 18,
     "pointsByRound": {
       "md1": 7,
       "md2": 3,
       "md3": 2,
       "r32": 3,
-      "r16": 0
+      "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -6069,18 +6069,18 @@
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 2.3,
-    "form": 2.3,
-    "lastRoundPoints": 2,
-    "totalPoints": 7,
+    "avgPoints": 2,
+    "form": 1.3,
+    "lastRoundPoints": 1,
+    "totalPoints": 8,
     "pointsByRound": {
       "md1": 0,
       "md2": 4,
       "md3": 1,
       "r32": 2,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -6095,18 +6095,18 @@
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 5,
-    "form": 3.3,
+    "avgPoints": 3.7,
+    "form": 3.7,
     "lastRoundPoints": 1,
-    "totalPoints": 10,
+    "totalPoints": 11,
     "pointsByRound": {
       "md1": 9,
       "md2": 0,
       "md3": 0,
       "r32": 1,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -6117,22 +6117,22 @@
     "lastName": "Arias",
     "position": "MID",
     "price": 6.3,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 5,
+    "avgPoints": 4.8,
     "form": 6,
-    "lastRoundPoints": 10,
-    "totalPoints": 20,
+    "lastRoundPoints": 4,
+    "totalPoints": 24,
     "pointsByRound": {
       "md1": 2,
       "md2": 4,
       "md3": 4,
       "r32": 10,
-      "r16": 0
+      "r16": 4
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -6143,22 +6143,22 @@
     "lastName": "Rodríguez",
     "position": "MID",
     "price": 6.5,
-    "percentSelected": 1.8,
+    "percentSelected": 1.7,
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 1.8,
-    "form": 1.7,
-    "lastRoundPoints": 1,
-    "totalPoints": 7,
+    "avgPoints": 2,
+    "form": 2.3,
+    "lastRoundPoints": 3,
+    "totalPoints": 10,
     "pointsByRound": {
       "md1": 2,
       "md2": 1,
       "md3": 3,
       "r32": 1,
-      "r16": 0
+      "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -6184,7 +6184,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -6201,7 +6201,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 1.8,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 2,
@@ -6227,7 +6227,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 4.8,
     "form": 4,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 19,
     "pointsByRound": {
       "md1": 7,
@@ -6253,7 +6253,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 2.3,
     "form": 2.7,
-    "lastRoundPoints": 4,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 1,
@@ -6279,7 +6279,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 1.8,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 2,
@@ -6305,7 +6305,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 1,
@@ -6383,7 +6383,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 7.5,
     "form": 7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 30,
     "pointsByRound": {
       "md1": 9,
@@ -6461,7 +6461,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 5,
     "form": 3.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 10,
     "pointsByRound": {
       "md1": 0,
@@ -6487,7 +6487,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 4.5,
     "form": 3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 0,
@@ -6513,7 +6513,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 0,
@@ -6539,7 +6539,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 5.5,
     "form": 3.7,
-    "lastRoundPoints": 9,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 0,
@@ -6565,7 +6565,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 2.5,
     "form": 2.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 10,
     "pointsByRound": {
       "md1": 2,
@@ -6643,7 +6643,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
@@ -6669,7 +6669,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 2.3,
     "form": 2.3,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 2,
@@ -6695,7 +6695,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 1.5,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 2,
@@ -6747,7 +6747,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 2.3,
     "form": 2.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 3,
@@ -6773,7 +6773,7 @@
     "teamFlag": "🇨🇩",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -6793,13 +6793,13 @@
     "lastName": "Inao Oulaï",
     "position": "MID",
     "price": 4.6,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "CIV",
     "teamName": "Ivory Coast",
     "teamFlag": "🇨🇮",
     "avgPoints": 1.8,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 1,
@@ -6845,7 +6845,7 @@
     "lastName": "Singo",
     "position": "DEF",
     "price": 4.4,
-    "percentSelected": 0.6,
+    "percentSelected": 0.5,
     "teamCode": "CIV",
     "teamName": "Ivory Coast",
     "teamFlag": "🇨🇮",
@@ -6871,7 +6871,7 @@
     "lastName": "Diomande",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 0.3,
+    "percentSelected": 0.2,
     "teamCode": "CIV",
     "teamName": "Ivory Coast",
     "teamFlag": "🇨🇮",
@@ -6903,7 +6903,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 3,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 1,
@@ -6929,7 +6929,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 4.8,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 19,
     "pointsByRound": {
       "md1": 8,
@@ -6955,7 +6955,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 3.7,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 9,
@@ -6975,13 +6975,13 @@
     "lastName": "Konan",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 0.4,
+    "percentSelected": 0.3,
     "teamCode": "CIV",
     "teamName": "Ivory Coast",
     "teamFlag": "🇨🇮",
     "avgPoints": 3.7,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 9,
@@ -7033,7 +7033,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 3.3,
     "form": 3.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 2,
@@ -7059,7 +7059,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 6,
     "form": 7.3,
-    "lastRoundPoints": 7,
+    "lastRoundPoints": 0,
     "totalPoints": 24,
     "pointsByRound": {
       "md1": 2,
@@ -7085,7 +7085,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 1,
@@ -7111,7 +7111,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 6.5,
     "form": 5.7,
-    "lastRoundPoints": 9,
+    "lastRoundPoints": 0,
     "totalPoints": 26,
     "pointsByRound": {
       "md1": 9,
@@ -7163,7 +7163,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -7189,7 +7189,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 1,
@@ -7241,7 +7241,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 4.8,
     "form": 3.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 19,
     "pointsByRound": {
       "md1": 9,
@@ -7345,7 +7345,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 4.3,
     "form": 5.3,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 17,
     "pointsByRound": {
       "md1": 1,
@@ -7371,7 +7371,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 4.3,
     "form": 5,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 17,
     "pointsByRound": {
       "md1": 2,
@@ -7423,7 +7423,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 5,
     "form": 4.3,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 20,
     "pointsByRound": {
       "md1": 7,
@@ -7449,7 +7449,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 4.3,
     "form": 6,
-    "lastRoundPoints": 4,
+    "lastRoundPoints": 0,
     "totalPoints": 17,
     "pointsByRound": {
       "md1": -1,
@@ -7475,7 +7475,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 2.8,
     "form": 4,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": -1,
@@ -7527,7 +7527,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 4,
     "form": 4,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 0,
@@ -7605,7 +7605,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 3.7,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 0,
@@ -7631,7 +7631,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 1,
@@ -7657,7 +7657,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 4.5,
     "form": 3.7,
-    "lastRoundPoints": 8,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 7,
@@ -7735,7 +7735,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 1,
@@ -7761,7 +7761,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 3.3,
     "form": 4,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 1,
@@ -7917,7 +7917,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 4.7,
     "form": 4.7,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 14,
     "pointsByRound": {
       "md1": 1,
@@ -7943,7 +7943,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 3,
     "form": 4,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 0,
@@ -7969,7 +7969,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 1.3,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 2,
@@ -7995,7 +7995,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 4.3,
     "form": 2.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 17,
     "pointsByRound": {
       "md1": 10,
@@ -9243,7 +9243,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 1,
@@ -9373,7 +9373,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -9399,7 +9399,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 2.3,
     "form": 2.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 2,
@@ -9419,13 +9419,13 @@
     "lastName": "Plata",
     "position": "FWD",
     "price": 5.6,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "ECU",
     "teamName": "Ecuador",
     "teamFlag": "🇪🇨",
     "avgPoints": 3.8,
     "form": 4.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 2,
@@ -9451,7 +9451,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 2.8,
     "form": 2.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 3,
@@ -9477,7 +9477,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 1.8,
     "form": 2,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 1,
@@ -9529,7 +9529,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 0,
@@ -9601,7 +9601,7 @@
     "lastName": "Arévalo",
     "position": "FWD",
     "price": 4,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "ECU",
     "teamName": "Ecuador",
     "teamFlag": "🇪🇨",
@@ -9627,13 +9627,13 @@
     "lastName": "Galíndez",
     "position": "GK",
     "price": 4.2,
-    "percentSelected": 1.6,
+    "percentSelected": 1.5,
     "teamCode": "ECU",
     "teamName": "Ecuador",
     "teamFlag": "🇪🇨",
     "avgPoints": 3.5,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 14,
     "pointsByRound": {
       "md1": 3,
@@ -9763,7 +9763,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 4.5,
     "form": 5,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 3,
@@ -9789,7 +9789,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 2.3,
     "form": 2.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 2,
@@ -9813,18 +9813,18 @@
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 2,
-    "form": 2,
-    "lastRoundPoints": 3,
-    "totalPoints": 8,
+    "avgPoints": 2.4,
+    "form": 2.7,
+    "lastRoundPoints": 4,
+    "totalPoints": 12,
     "pointsByRound": {
       "md1": 2,
       "md2": 2,
       "md3": 1,
       "r32": 3,
-      "r16": 0
+      "r16": 4
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -9835,22 +9835,22 @@
     "lastName": "Sayed",
     "position": "MID",
     "price": 4.3,
-    "percentSelected": 0.3,
+    "percentSelected": 0.2,
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 0,
-    "totalPoints": 3,
+    "lastRoundPoints": 1,
+    "totalPoints": 4,
     "pointsByRound": {
       "md1": 1,
       "md2": 1,
       "md3": 1,
       "r32": 0,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -9865,18 +9865,18 @@
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 2,
-    "form": 2,
-    "lastRoundPoints": 2,
-    "totalPoints": 6,
+    "avgPoints": 1.8,
+    "form": 1.3,
+    "lastRoundPoints": 1,
+    "totalPoints": 7,
     "pointsByRound": {
       "md1": 3,
       "md2": 1,
       "md3": 0,
       "r32": 2,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -9887,22 +9887,22 @@
     "lastName": "Abdel Ghany",
     "position": "MID",
     "price": 4.6,
-    "percentSelected": 1.5,
+    "percentSelected": 1.3,
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 5.8,
-    "form": 4.3,
-    "lastRoundPoints": 10,
-    "totalPoints": 23,
+    "avgPoints": 4.8,
+    "form": 4,
+    "lastRoundPoints": 1,
+    "totalPoints": 24,
     "pointsByRound": {
       "md1": 10,
       "md2": 2,
       "md3": 1,
       "r32": 10,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -9913,13 +9913,13 @@
     "lastName": "Hassan",
     "position": "MID",
     "price": 4.9,
-    "percentSelected": 0,
+    "percentSelected": 0.1,
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
     "avgPoints": 4.5,
     "form": 3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 0,
@@ -9928,7 +9928,7 @@
       "r32": 1,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -9954,7 +9954,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -9980,7 +9980,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -9991,12 +9991,12 @@
     "lastName": "El Demerdash",
     "position": "DEF",
     "price": 3.6,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 2.3,
-    "form": 3,
+    "avgPoints": 1.8,
+    "form": 0.7,
     "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
@@ -10006,7 +10006,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10021,9 +10021,9 @@
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 1.5,
-    "form": 1.7,
-    "lastRoundPoints": 2,
+    "avgPoints": 1.2,
+    "form": 1.3,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 1,
@@ -10032,7 +10032,7 @@
       "r32": 2,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10043,13 +10043,13 @@
     "lastName": "Abdelmaguid",
     "position": "DEF",
     "price": 3.6,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -10058,7 +10058,7 @@
       "r32": 1,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10084,7 +10084,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10099,18 +10099,18 @@
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 3.3,
-    "form": 3.7,
-    "lastRoundPoints": 1,
-    "totalPoints": 13,
+    "avgPoints": 4.4,
+    "form": 6,
+    "lastRoundPoints": 9,
+    "totalPoints": 22,
     "pointsByRound": {
       "md1": 2,
       "md2": 2,
       "md3": 8,
       "r32": 1,
-      "r16": 0
+      "r16": 9
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10125,18 +10125,18 @@
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 1.8,
-    "form": 1.7,
-    "lastRoundPoints": 2,
-    "totalPoints": 7,
+    "avgPoints": 1.6,
+    "form": 1.3,
+    "lastRoundPoints": 1,
+    "totalPoints": 8,
     "pointsByRound": {
       "md1": 2,
       "md2": 2,
       "md3": 1,
       "r32": 2,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10151,18 +10151,18 @@
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 5.7,
-    "form": 5.7,
+    "avgPoints": 4.5,
+    "form": 3.3,
     "lastRoundPoints": 1,
-    "totalPoints": 17,
+    "totalPoints": 18,
     "pointsByRound": {
       "md1": 0,
       "md2": 8,
       "md3": 8,
       "r32": 1,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10177,18 +10177,18 @@
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 0,
-    "form": 0,
-    "lastRoundPoints": 0,
-    "totalPoints": 0,
+    "avgPoints": 1.5,
+    "form": 1,
+    "lastRoundPoints": 3,
+    "totalPoints": 3,
     "pointsByRound": {
       "md1": 0,
       "md2": 0,
       "md3": 0,
       "r32": 0,
-      "r16": 0
+      "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10214,7 +10214,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10240,7 +10240,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10251,22 +10251,22 @@
     "lastName": "Mohamed Shobeir",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 3,
+    "percentSelected": 2.7,
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 3.8,
+    "avgPoints": 3.6,
     "form": 4,
-    "lastRoundPoints": 2,
-    "totalPoints": 15,
+    "lastRoundPoints": 3,
+    "totalPoints": 18,
     "pointsByRound": {
       "md1": 3,
       "md2": 3,
       "md3": 7,
       "r32": 2,
-      "r16": 0
+      "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10292,7 +10292,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10307,18 +10307,18 @@
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 2.3,
-    "form": 2.3,
-    "lastRoundPoints": 0,
-    "totalPoints": 7,
+    "avgPoints": 2.5,
+    "form": 2,
+    "lastRoundPoints": 3,
+    "totalPoints": 10,
     "pointsByRound": {
       "md1": 4,
       "md2": 2,
       "md3": 1,
       "r32": 0,
-      "r16": 0
+      "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10344,7 +10344,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -10355,7 +10355,7 @@
     "lastName": "O'Reilly",
     "position": "DEF",
     "price": 4.7,
-    "percentSelected": 10.6,
+    "percentSelected": 11.2,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10407,7 +10407,7 @@
     "lastName": "Guéhi",
     "position": "DEF",
     "price": 5.1,
-    "percentSelected": 6.1,
+    "percentSelected": 6.4,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10459,7 +10459,7 @@
     "lastName": "Konsa",
     "position": "DEF",
     "price": 4.8,
-    "percentSelected": 4.4,
+    "percentSelected": 5,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10511,7 +10511,7 @@
     "lastName": "Spence",
     "position": "DEF",
     "price": 4.5,
-    "percentSelected": 0.6,
+    "percentSelected": 0.8,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10537,7 +10537,7 @@
     "lastName": "Kane",
     "position": "FWD",
     "price": 10.5,
-    "percentSelected": 42.5,
+    "percentSelected": 43.5,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10563,7 +10563,7 @@
     "lastName": "Saka",
     "position": "MID",
     "price": 9.5,
-    "percentSelected": 4,
+    "percentSelected": 4.3,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10595,7 +10595,7 @@
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
     "avgPoints": 3.8,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 9,
@@ -10615,7 +10615,7 @@
     "lastName": "Gordon",
     "position": "MID",
     "price": 7,
-    "percentSelected": 1.5,
+    "percentSelected": 3.3,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10673,7 +10673,7 @@
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
     "avgPoints": 2.3,
     "form": 1.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 4,
@@ -10693,7 +10693,7 @@
     "lastName": "Pickford",
     "position": "GK",
     "price": 4.8,
-    "percentSelected": 15.9,
+    "percentSelected": 16.4,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10745,7 +10745,7 @@
     "lastName": "Trafford",
     "position": "GK",
     "price": 4,
-    "percentSelected": 0.4,
+    "percentSelected": 0.5,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10786,7 +10786,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "injured",
     "oneToWatch": false
   },
   {
@@ -10823,7 +10823,7 @@
     "lastName": "Anderson",
     "position": "MID",
     "price": 6.5,
-    "percentSelected": 1.1,
+    "percentSelected": 1.3,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10849,7 +10849,7 @@
     "lastName": "Rice",
     "position": "MID",
     "price": 7,
-    "percentSelected": 5.8,
+    "percentSelected": 5.9,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10875,7 +10875,7 @@
     "lastName": "Bellingham",
     "position": "MID",
     "price": 8.3,
-    "percentSelected": 25,
+    "percentSelected": 32.9,
     "teamCode": "ENG",
     "teamName": "England",
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
@@ -10907,7 +10907,7 @@
     "teamFlag": "🇫🇷",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 2,
@@ -10953,7 +10953,7 @@
     "lastName": "Upamecano",
     "position": "DEF",
     "price": 5.3,
-    "percentSelected": 9.8,
+    "percentSelected": 11.7,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -11031,7 +11031,7 @@
     "lastName": "Digne",
     "position": "DEF",
     "price": 5,
-    "percentSelected": 2.6,
+    "percentSelected": 4.3,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -11063,7 +11063,7 @@
     "teamFlag": "🇫🇷",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 0,
@@ -11083,7 +11083,7 @@
     "lastName": "Mbappé",
     "position": "FWD",
     "price": 10.5,
-    "percentSelected": 69.1,
+    "percentSelected": 69.8,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -11109,7 +11109,7 @@
     "lastName": "Dembélé",
     "position": "MID",
     "price": 10,
-    "percentSelected": 41.1,
+    "percentSelected": 43.1,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -11161,7 +11161,7 @@
     "lastName": "Doué",
     "position": "MID",
     "price": 7.5,
-    "percentSelected": 3.1,
+    "percentSelected": 3.3,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -11187,7 +11187,7 @@
     "lastName": "Maignan",
     "position": "GK",
     "price": 5,
-    "percentSelected": 15.4,
+    "percentSelected": 17,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -11265,7 +11265,7 @@
     "lastName": "Rabiot",
     "position": "MID",
     "price": 6.4,
-    "percentSelected": 0.6,
+    "percentSelected": 0.8,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -11317,7 +11317,7 @@
     "lastName": "Koné",
     "position": "MID",
     "price": 6.1,
-    "percentSelected": 0.1,
+    "percentSelected": 0.2,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -11375,7 +11375,7 @@
     "teamFlag": "🇫🇷",
     "avgPoints": 5,
     "form": 5,
-    "lastRoundPoints": 4,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 3,
@@ -11421,7 +11421,7 @@
     "lastName": "Olise",
     "position": "MID",
     "price": 9.5,
-    "percentSelected": 43.8,
+    "percentSelected": 46.1,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -11499,13 +11499,13 @@
     "lastName": "Rüdiger",
     "position": "DEF",
     "price": 5.5,
-    "percentSelected": 6,
+    "percentSelected": 5.9,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
@@ -11557,7 +11557,7 @@
     "teamFlag": "🇩🇪",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -11583,7 +11583,7 @@
     "teamFlag": "🇩🇪",
     "avgPoints": 1.8,
     "form": 1.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 2,
@@ -11603,13 +11603,13 @@
     "lastName": "Brown",
     "position": "DEF",
     "price": 4.7,
-    "percentSelected": 2.4,
+    "percentSelected": 2.2,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
     "avgPoints": 6,
     "form": 6,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 14,
@@ -11629,7 +11629,7 @@
     "lastName": "Schlotterbeck",
     "position": "DEF",
     "price": 5.3,
-    "percentSelected": 3,
+    "percentSelected": 2.9,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
@@ -11661,7 +11661,7 @@
     "teamFlag": "🇩🇪",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 1,
@@ -11681,13 +11681,13 @@
     "lastName": "Havertz",
     "position": "FWD",
     "price": 7.8,
-    "percentSelected": 5.9,
+    "percentSelected": 5.7,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
     "avgPoints": 6,
     "form": 3.7,
-    "lastRoundPoints": 7,
+    "lastRoundPoints": 0,
     "totalPoints": 24,
     "pointsByRound": {
       "md1": 13,
@@ -11713,7 +11713,7 @@
     "teamFlag": "🇩🇪",
     "avgPoints": 4,
     "form": 4.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 16,
     "pointsByRound": {
       "md1": 2,
@@ -11733,13 +11733,13 @@
     "lastName": "Undav",
     "position": "FWD",
     "price": 6.6,
-    "percentSelected": 1.3,
+    "percentSelected": 1.2,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
     "avgPoints": 7.8,
     "form": 5.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 31,
     "pointsByRound": {
       "md1": 14,
@@ -11765,7 +11765,7 @@
     "teamFlag": "🇩🇪",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -11869,7 +11869,7 @@
     "teamFlag": "🇩🇪",
     "avgPoints": 1.7,
     "form": 1.7,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
@@ -11889,13 +11889,13 @@
     "lastName": "Kimmich",
     "position": "DEF",
     "price": 5.5,
-    "percentSelected": 14.4,
+    "percentSelected": 13.8,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
     "avgPoints": 3.5,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 14,
     "pointsByRound": {
       "md1": 8,
@@ -11915,13 +11915,13 @@
     "lastName": "Wirtz",
     "position": "MID",
     "price": 7.5,
-    "percentSelected": 7.5,
+    "percentSelected": 7.2,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
     "avgPoints": 4.3,
     "form": 4,
-    "lastRoundPoints": 5,
+    "lastRoundPoints": 0,
     "totalPoints": 17,
     "pointsByRound": {
       "md1": 5,
@@ -12643,7 +12643,7 @@
     "lastName": "Rezaeian",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 0.7,
+    "percentSelected": 0.6,
     "teamCode": "IRN",
     "teamName": "Iran",
     "teamFlag": "🇮🇷",
@@ -14027,7 +14027,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 6.3,
     "form": 6.3,
-    "lastRoundPoints": 9,
+    "lastRoundPoints": 0,
     "totalPoints": 19,
     "pointsByRound": {
       "md1": 2,
@@ -14053,7 +14053,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
@@ -14105,7 +14105,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 3.3,
     "form": 4,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 1,
@@ -14131,7 +14131,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 0.7,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 1,
@@ -14203,13 +14203,13 @@
     "lastName": "Ito",
     "position": "MID",
     "price": 5,
-    "percentSelected": 1,
+    "percentSelected": 0.9,
     "teamCode": "JPN",
     "teamName": "Japan",
     "teamFlag": "🇯🇵",
     "avgPoints": 3.8,
     "form": 4.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 1,
@@ -14235,7 +14235,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 5,
     "form": 5,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 2,
@@ -14261,7 +14261,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 5.5,
     "form": 4,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 22,
     "pointsByRound": {
       "md1": 10,
@@ -14281,13 +14281,13 @@
     "lastName": "Ueda",
     "position": "FWD",
     "price": 7,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "JPN",
     "teamName": "Japan",
     "teamFlag": "🇯🇵",
     "avgPoints": 6,
     "form": 7.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 24,
     "pointsByRound": {
       "md1": 2,
@@ -14313,7 +14313,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 2,
     "form": 2,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 4,
@@ -14391,7 +14391,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 4,
     "form": 4.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 16,
     "pointsByRound": {
       "md1": 2,
@@ -14495,7 +14495,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 2.7,
     "form": 2.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 0,
@@ -14515,13 +14515,13 @@
     "lastName": "Kamada",
     "position": "MID",
     "price": 5.8,
-    "percentSelected": 1.3,
+    "percentSelected": 1.2,
     "teamCode": "JPN",
     "teamName": "Japan",
     "teamFlag": "🇯🇵",
     "avgPoints": 6.3,
     "form": 4.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 25,
     "pointsByRound": {
       "md1": 11,
@@ -14547,7 +14547,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 4.8,
     "form": 6,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 19,
     "pointsByRound": {
       "md1": 1,
@@ -15769,7 +15769,7 @@
     "teamFlag": "🇲🇽",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 0,
@@ -15789,7 +15789,7 @@
     "lastName": "Vásquez",
     "position": "DEF",
     "price": 4.7,
-    "percentSelected": 3,
+    "percentSelected": 2.5,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -15815,7 +15815,7 @@
     "lastName": "Montes",
     "position": "DEF",
     "price": 4.7,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -15841,7 +15841,7 @@
     "lastName": "Gallardo",
     "position": "DEF",
     "price": 4.7,
-    "percentSelected": 1.2,
+    "percentSelected": 0.9,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -15867,7 +15867,7 @@
     "lastName": "Sánchez",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 4.5,
+    "percentSelected": 3.2,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -15893,13 +15893,13 @@
     "lastName": "Reyes",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 0.8,
+    "percentSelected": 0.7,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
     "avgPoints": 5,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 20,
     "pointsByRound": {
       "md1": 9,
@@ -15997,7 +15997,7 @@
     "lastName": "Jiménez",
     "position": "FWD",
     "price": 7,
-    "percentSelected": 2,
+    "percentSelected": 1.8,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -16049,7 +16049,7 @@
     "lastName": "Quiñones",
     "position": "FWD",
     "price": 5.6,
-    "percentSelected": 2.9,
+    "percentSelected": 2.1,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -16101,7 +16101,7 @@
     "lastName": "Alvarado",
     "position": "FWD",
     "price": 5.3,
-    "percentSelected": 0.3,
+    "percentSelected": 0.2,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -16231,7 +16231,7 @@
     "lastName": "Rangel",
     "position": "GK",
     "price": 3.9,
-    "percentSelected": 9.4,
+    "percentSelected": 7.6,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -16257,7 +16257,7 @@
     "lastName": "Gutiérrez",
     "position": "MID",
     "price": 5,
-    "percentSelected": 1,
+    "percentSelected": 0.9,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -16283,7 +16283,7 @@
     "lastName": "Lira",
     "position": "MID",
     "price": 5.6,
-    "percentSelected": 0.3,
+    "percentSelected": 0.2,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -16367,7 +16367,7 @@
     "teamFlag": "🇲🇽",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -16387,7 +16387,7 @@
     "lastName": "Fidalgo",
     "position": "MID",
     "price": 6.4,
-    "percentSelected": 0.3,
+    "percentSelected": 0.2,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -16413,7 +16413,7 @@
     "lastName": "El Mourabet",
     "position": "MID",
     "price": 4.7,
-    "percentSelected": 0.1,
+    "percentSelected": 0.2,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -16497,7 +16497,7 @@
     "teamFlag": "🇲🇦",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 1,
@@ -16601,7 +16601,7 @@
     "teamFlag": "🇲🇦",
     "avgPoints": 4.5,
     "form": 3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 0,
@@ -16699,7 +16699,7 @@
     "lastName": "Saibari",
     "position": "MID",
     "price": 6.8,
-    "percentSelected": 21.8,
+    "percentSelected": 19.4,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -16777,13 +16777,13 @@
     "lastName": "Dumfries",
     "position": "DEF",
     "price": 5.7,
-    "percentSelected": 9.1,
+    "percentSelected": 8.8,
     "teamCode": "NED",
     "teamName": "Netherlands",
     "teamFlag": "🇳🇱",
     "avgPoints": 4,
     "form": 5,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 16,
     "pointsByRound": {
       "md1": 1,
@@ -16803,13 +16803,13 @@
     "lastName": "van Dijk",
     "position": "DEF",
     "price": 5.5,
-    "percentSelected": 13.7,
+    "percentSelected": 13.2,
     "teamCode": "NED",
     "teamName": "Netherlands",
     "teamFlag": "🇳🇱",
     "avgPoints": 4.3,
     "form": 3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 17,
     "pointsByRound": {
       "md1": 8,
@@ -16835,7 +16835,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 3.7,
     "form": 3.7,
-    "lastRoundPoints": 9,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 0,
@@ -16861,7 +16861,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 4,
     "form": 4,
-    "lastRoundPoints": 9,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 1,
@@ -16959,13 +16959,13 @@
     "lastName": "van Hecke",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 0.7,
+    "percentSelected": 0.6,
     "teamCode": "NED",
     "teamName": "Netherlands",
     "teamFlag": "🇳🇱",
     "avgPoints": 4,
     "form": 5,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 16,
     "pointsByRound": {
       "md1": 1,
@@ -16991,7 +16991,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -17011,13 +17011,13 @@
     "lastName": "Gakpo",
     "position": "FWD",
     "price": 7.7,
-    "percentSelected": 2.5,
+    "percentSelected": 2.4,
     "teamCode": "NED",
     "teamName": "Netherlands",
     "teamFlag": "🇳🇱",
     "avgPoints": 8,
     "form": 10,
-    "lastRoundPoints": 9,
+    "lastRoundPoints": 0,
     "totalPoints": 32,
     "pointsByRound": {
       "md1": 2,
@@ -17063,7 +17063,7 @@
     "lastName": "Lang",
     "position": "FWD",
     "price": 5.9,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "NED",
     "teamName": "Netherlands",
     "teamFlag": "🇳🇱",
@@ -17089,13 +17089,13 @@
     "lastName": "Brobbey",
     "position": "FWD",
     "price": 5.7,
-    "percentSelected": 0.6,
+    "percentSelected": 0.5,
     "teamCode": "NED",
     "teamName": "Netherlands",
     "teamFlag": "🇳🇱",
     "avgPoints": 6.8,
     "form": 8.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 27,
     "pointsByRound": {
       "md1": 1,
@@ -17121,7 +17121,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -17147,7 +17147,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 2.8,
     "form": 3.3,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 1,
@@ -17219,13 +17219,13 @@
     "lastName": "Gravenberch",
     "position": "MID",
     "price": 6.1,
-    "percentSelected": 1.1,
+    "percentSelected": 1,
     "teamCode": "NED",
     "teamName": "Netherlands",
     "teamFlag": "🇳🇱",
     "avgPoints": 4.5,
     "form": 2.7,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 10,
@@ -17277,7 +17277,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 1,
@@ -17355,7 +17355,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 1,
@@ -17583,7 +17583,7 @@
     "lastName": "Elliot",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "NZL",
     "teamName": "New Zealand",
     "teamFlag": "🇳🇿",
@@ -17869,7 +17869,7 @@
     "lastName": "Berge",
     "position": "MID",
     "price": 4.7,
-    "percentSelected": 0.4,
+    "percentSelected": 1,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -17895,7 +17895,7 @@
     "lastName": "Bobb",
     "position": "MID",
     "price": 5.1,
-    "percentSelected": 0.5,
+    "percentSelected": 0.7,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -17947,7 +17947,7 @@
     "lastName": "Berg",
     "position": "MID",
     "price": 5.6,
-    "percentSelected": 0.3,
+    "percentSelected": 0.6,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -17999,7 +17999,7 @@
     "lastName": "Ryerson",
     "position": "DEF",
     "price": 4.2,
-    "percentSelected": 2.5,
+    "percentSelected": 2.7,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -18025,13 +18025,13 @@
     "lastName": "Pedersen",
     "position": "DEF",
     "price": 4.1,
-    "percentSelected": 0.2,
+    "percentSelected": 0.3,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
     "avgPoints": 4.3,
     "form": 4.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 0,
@@ -18077,7 +18077,7 @@
     "lastName": "Møller Wolfe",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 0.9,
+    "percentSelected": 1.7,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -18129,7 +18129,7 @@
     "lastName": "Heggem",
     "position": "DEF",
     "price": 3.7,
-    "percentSelected": 0.2,
+    "percentSelected": 0.4,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -18155,7 +18155,7 @@
     "lastName": "Falchener",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 0.4,
+    "percentSelected": 0.6,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -18181,7 +18181,7 @@
     "lastName": "Haaland",
     "position": "FWD",
     "price": 10.5,
-    "percentSelected": 28.8,
+    "percentSelected": 30.5,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -18285,7 +18285,7 @@
     "lastName": "Nyland",
     "position": "GK",
     "price": 4.2,
-    "percentSelected": 1.4,
+    "percentSelected": 2.3,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -18311,7 +18311,7 @@
     "lastName": "Selvik",
     "position": "GK",
     "price": 3.8,
-    "percentSelected": 0.1,
+    "percentSelected": 0.2,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -18363,7 +18363,7 @@
     "lastName": "Nusa",
     "position": "MID",
     "price": 6.1,
-    "percentSelected": 1.8,
+    "percentSelected": 2.1,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -19013,7 +19013,7 @@
     "lastName": "Magalhães Prado",
     "position": "MID",
     "price": 4.6,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "PAR",
     "teamName": "Paraguay",
     "teamFlag": "🇵🇾",
@@ -19065,7 +19065,7 @@
     "lastName": "Galarza",
     "position": "MID",
     "price": 4.8,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "PAR",
     "teamName": "Paraguay",
     "teamFlag": "🇵🇾",
@@ -19123,7 +19123,7 @@
     "teamFlag": "🇵🇾",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -19143,7 +19143,7 @@
     "lastName": "Gómez",
     "position": "DEF",
     "price": 4.6,
-    "percentSelected": 0.3,
+    "percentSelected": 0.2,
     "teamCode": "PAR",
     "teamName": "Paraguay",
     "teamFlag": "🇵🇾",
@@ -19227,7 +19227,7 @@
     "teamFlag": "🇵🇾",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -19299,7 +19299,7 @@
     "lastName": "Cáceres",
     "position": "DEF",
     "price": 3.8,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "PAR",
     "teamName": "Paraguay",
     "teamFlag": "🇵🇾",
@@ -19383,7 +19383,7 @@
     "teamFlag": "🇵🇾",
     "avgPoints": 1.5,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 2,
@@ -19559,7 +19559,7 @@
     "lastName": "Olveira",
     "position": "GK",
     "price": 3.8,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "PAR",
     "teamName": "Paraguay",
     "teamFlag": "🇵🇾",
@@ -19585,7 +19585,7 @@
     "lastName": "Gill",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 1.4,
+    "percentSelected": 1.2,
     "teamCode": "PAR",
     "teamName": "Paraguay",
     "teamFlag": "🇵🇾",
@@ -19617,7 +19617,7 @@
     "teamFlag": "🇵🇾",
     "avgPoints": 1,
     "form": 1.7,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": -1,
@@ -19637,7 +19637,7 @@
     "lastName": "Enciso",
     "position": "MID",
     "price": 6.6,
-    "percentSelected": 0.4,
+    "percentSelected": 0.3,
     "teamCode": "PAR",
     "teamName": "Paraguay",
     "teamFlag": "🇵🇾",
@@ -19704,7 +19704,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19715,7 +19715,7 @@
     "lastName": "Tavares Mendes",
     "position": "DEF",
     "price": 5.8,
-    "percentSelected": 34.3,
+    "percentSelected": 28.7,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -19730,7 +19730,7 @@
       "r32": 2,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19741,7 +19741,7 @@
     "lastName": "Cavaco Cancelo",
     "position": "DEF",
     "price": 5.3,
-    "percentSelected": 5.2,
+    "percentSelected": 4.7,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -19756,7 +19756,7 @@
       "r32": 2,
       "r16": 7
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19767,7 +19767,7 @@
     "lastName": "Dalot Teixeira",
     "position": "DEF",
     "price": 5,
-    "percentSelected": 1.6,
+    "percentSelected": 1.5,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -19782,7 +19782,7 @@
       "r32": 0,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19808,7 +19808,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19819,7 +19819,7 @@
     "lastName": "Palma Veiga",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 0.6,
+    "percentSelected": 0.4,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -19834,7 +19834,7 @@
       "r32": 4,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19860,7 +19860,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19877,7 +19877,7 @@
     "teamFlag": "🇵🇹",
     "avgPoints": 4.5,
     "form": 3,
-    "lastRoundPoints": 8,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 1,
@@ -19886,7 +19886,7 @@
       "r32": 8,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19897,7 +19897,7 @@
     "lastName": "Félix Sequeira",
     "position": "FWD",
     "price": 6.5,
-    "percentSelected": 1.3,
+    "percentSelected": 1.2,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -19912,7 +19912,7 @@
       "r32": 0,
       "r16": 2
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19923,7 +19923,7 @@
     "lastName": "Lomba Neto",
     "position": "MID",
     "price": 6.4,
-    "percentSelected": 0.6,
+    "percentSelected": 0.5,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -19938,7 +19938,7 @@
       "r32": 2,
       "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19964,7 +19964,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -19990,7 +19990,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -20016,7 +20016,7 @@
       "r32": 1,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -20042,7 +20042,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -20068,7 +20068,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -20094,7 +20094,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "transferred",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -20111,7 +20111,7 @@
     "teamFlag": "🇵🇹",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -20120,7 +20120,7 @@
       "r32": 1,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -20146,7 +20146,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -20157,7 +20157,7 @@
     "lastName": "Machado Ferreira",
     "position": "MID",
     "price": 6.4,
-    "percentSelected": 7.3,
+    "percentSelected": 6.7,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -20172,7 +20172,7 @@
       "r32": 2,
       "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -20183,7 +20183,7 @@
     "lastName": "Gonçalves Neves",
     "position": "MID",
     "price": 6.5,
-    "percentSelected": 4.4,
+    "percentSelected": 3.8,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -20198,7 +20198,7 @@
       "r32": 3,
       "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -20209,7 +20209,7 @@
     "lastName": "Borges Fernandes",
     "position": "MID",
     "price": 8.5,
-    "percentSelected": 26.8,
+    "percentSelected": 23.7,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -20224,7 +20224,7 @@
       "r32": 2,
       "r16": 2
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -21431,7 +21431,7 @@
     "lastName": "McLean",
     "position": "MID",
     "price": 4.8,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "SCO",
     "teamName": "Scotland",
     "teamFlag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
@@ -21847,7 +21847,7 @@
     "lastName": "McTominay",
     "position": "MID",
     "price": 6.5,
-    "percentSelected": 3.6,
+    "percentSelected": 3.5,
     "teamCode": "SCO",
     "teamName": "Scotland",
     "teamFlag": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
@@ -21905,7 +21905,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 2.5,
     "form": 2.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 10,
     "pointsByRound": {
       "md1": 2,
@@ -21931,7 +21931,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -21957,7 +21957,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
@@ -21983,7 +21983,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 5.8,
     "form": 7,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 23,
     "pointsByRound": {
       "md1": 2,
@@ -22035,7 +22035,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 3,
     "form": 4,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 0,
@@ -22061,7 +22061,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 0.3,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -22185,13 +22185,13 @@
     "lastName": "Jackson",
     "position": "FWD",
     "price": 6.7,
-    "percentSelected": 0.3,
+    "percentSelected": 0.2,
     "teamCode": "SEN",
     "teamName": "Senegal",
     "teamFlag": "🇸🇳",
     "avgPoints": 3,
     "form": 3.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 2,
@@ -22217,7 +22217,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 6,
     "form": 6,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 4,
@@ -22237,13 +22237,13 @@
     "lastName": "Sarr",
     "position": "FWD",
     "price": 6.2,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "SEN",
     "teamName": "Senegal",
     "teamFlag": "🇸🇳",
     "avgPoints": 10.5,
     "form": 13.3,
-    "lastRoundPoints": 12,
+    "lastRoundPoints": 0,
     "totalPoints": 42,
     "pointsByRound": {
       "md1": 2,
@@ -22341,13 +22341,13 @@
     "lastName": "Mbaye",
     "position": "FWD",
     "price": 4.4,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "SEN",
     "teamName": "Senegal",
     "teamFlag": "🇸🇳",
     "avgPoints": 2.8,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 8,
@@ -22425,7 +22425,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 3.7,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 0,
@@ -22451,7 +22451,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 3,
     "form": 3,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 3,
@@ -22477,7 +22477,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 1.8,
     "form": 1.7,
-    "lastRoundPoints": -1,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 2,
@@ -22503,7 +22503,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 7,
     "form": 7,
-    "lastRoundPoints": 11,
+    "lastRoundPoints": 0,
     "totalPoints": 21,
     "pointsByRound": {
       "md1": 1,
@@ -22523,7 +22523,7 @@
     "lastName": "Adams",
     "position": "MID",
     "price": 4,
-    "percentSelected": 2.9,
+    "percentSelected": 2.8,
     "teamCode": "RSA",
     "teamName": "South Africa",
     "teamFlag": "🇿🇦",
@@ -22549,13 +22549,13 @@
     "lastName": "Mokoena",
     "position": "MID",
     "price": 4.3,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "RSA",
     "teamName": "South Africa",
     "teamFlag": "🇿🇦",
     "avgPoints": 4,
     "form": 4,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 1,
@@ -22607,7 +22607,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 1.8,
     "form": 2,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 1,
@@ -22633,7 +22633,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 2.5,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 0,
@@ -22659,7 +22659,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 2,
     "form": 2,
-    "lastRoundPoints": 4,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": -1,
@@ -22685,7 +22685,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 3.3,
     "form": 4,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 1,
@@ -22737,7 +22737,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 3.5,
     "form": 4.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 14,
     "pointsByRound": {
       "md1": 1,
@@ -22783,13 +22783,13 @@
     "lastName": "Mbokazi",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 0.3,
+    "percentSelected": 0.2,
     "teamCode": "RSA",
     "teamName": "South Africa",
     "teamFlag": "🇿🇦",
     "avgPoints": 3.5,
     "form": 4.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 14,
     "pointsByRound": {
       "md1": 1,
@@ -22841,7 +22841,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 3.5,
     "form": 4.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 14,
     "pointsByRound": {
       "md1": 1,
@@ -22919,7 +22919,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 0,
@@ -22945,7 +22945,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 1.8,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 1,
@@ -22971,7 +22971,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 1.8,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 1,
@@ -22991,13 +22991,13 @@
     "lastName": "Maseko",
     "position": "FWD",
     "price": 4.2,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "RSA",
     "teamName": "South Africa",
     "teamFlag": "🇿🇦",
     "avgPoints": 6,
     "form": 6,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 0,
@@ -23023,7 +23023,7 @@
     "teamFlag": "🇿🇦",
     "avgPoints": 3.8,
     "form": 4.7,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 1,
@@ -23095,7 +23095,7 @@
     "lastName": "Baena",
     "position": "MID",
     "price": 6,
-    "percentSelected": 1.9,
+    "percentSelected": 4.3,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23147,7 +23147,7 @@
     "lastName": "Porro",
     "position": "DEF",
     "price": 5.5,
-    "percentSelected": 4.9,
+    "percentSelected": 7.5,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23173,7 +23173,7 @@
     "lastName": "Laporte",
     "position": "DEF",
     "price": 5.5,
-    "percentSelected": 14.4,
+    "percentSelected": 17.4,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23225,7 +23225,7 @@
     "lastName": "Cucurella",
     "position": "DEF",
     "price": 5.1,
-    "percentSelected": 38.8,
+    "percentSelected": 43.9,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23251,7 +23251,7 @@
     "lastName": "Cubarsí",
     "position": "DEF",
     "price": 5,
-    "percentSelected": 7.5,
+    "percentSelected": 11,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23277,7 +23277,7 @@
     "lastName": "Nasraoui Ebana",
     "position": "MID",
     "price": 10,
-    "percentSelected": 36,
+    "percentSelected": 37.1,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23329,7 +23329,7 @@
     "lastName": "Oyarzabal",
     "position": "FWD",
     "price": 8.1,
-    "percentSelected": 12.5,
+    "percentSelected": 13.3,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23433,7 +23433,7 @@
     "lastName": "Simón",
     "position": "GK",
     "price": 5,
-    "percentSelected": 11.3,
+    "percentSelected": 15.2,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23485,7 +23485,7 @@
     "lastName": "Llorente",
     "position": "DEF",
     "price": 5.5,
-    "percentSelected": 4.2,
+    "percentSelected": 4.1,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23511,7 +23511,7 @@
     "lastName": "Hernández Cascante",
     "position": "MID",
     "price": 7.5,
-    "percentSelected": 1.6,
+    "percentSelected": 1.9,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23537,7 +23537,7 @@
     "lastName": "Olmo",
     "position": "MID",
     "price": 7.7,
-    "percentSelected": 1.8,
+    "percentSelected": 2.4,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -23595,7 +23595,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -23621,7 +23621,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 1.5,
     "form": 1.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 1,
@@ -23647,7 +23647,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -23699,7 +23699,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 1.8,
     "form": 1,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 4,
@@ -23725,7 +23725,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 5.5,
     "form": 1.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 22,
     "pointsByRound": {
       "md1": 17,
@@ -23777,7 +23777,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 5,
     "form": 3.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 10,
     "pointsByRound": {
       "md1": 9,
@@ -23933,7 +23933,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 5.8,
     "form": 3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 23,
     "pointsByRound": {
       "md1": 14,
@@ -23959,7 +23959,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 5.3,
     "form": 6.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 21,
     "pointsByRound": {
       "md1": 1,
@@ -23985,7 +23985,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 1.3,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 2,
@@ -24011,7 +24011,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -24057,13 +24057,13 @@
     "lastName": "Manzambi",
     "position": "MID",
     "price": 5.6,
-    "percentSelected": 11.1,
+    "percentSelected": 10.9,
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
     "avgPoints": 8.8,
     "form": 11.3,
-    "lastRoundPoints": 6,
+    "lastRoundPoints": 0,
     "totalPoints": 35,
     "pointsByRound": {
       "md1": 1,
@@ -24087,16 +24087,16 @@
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 4,
-    "form": 4.7,
-    "lastRoundPoints": 3,
-    "totalPoints": 16,
+    "avgPoints": 3.6,
+    "form": 2,
+    "lastRoundPoints": 2,
+    "totalPoints": 18,
     "pointsByRound": {
       "md1": 2,
       "md2": 10,
       "md3": 1,
       "r32": 3,
-      "r16": 0
+      "r16": 2
     },
     "status": "playing",
     "oneToWatch": false
@@ -24115,7 +24115,7 @@
     "teamFlag": "🇨🇭",
     "avgPoints": 2.3,
     "form": 2,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 3,
@@ -24139,16 +24139,16 @@
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 3.5,
-    "form": 2.3,
+    "avgPoints": 3.4,
+    "form": 2.7,
     "lastRoundPoints": 3,
-    "totalPoints": 14,
+    "totalPoints": 17,
     "pointsByRound": {
       "md1": 7,
       "md2": 2,
       "md3": 2,
       "r32": 3,
-      "r16": 0
+      "r16": 3
     },
     "status": "playing",
     "oneToWatch": false
@@ -24166,15 +24166,15 @@
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
     "avgPoints": 1,
-    "form": 0.3,
-    "lastRoundPoints": 0,
-    "totalPoints": 1,
+    "form": 0.7,
+    "lastRoundPoints": 1,
+    "totalPoints": 2,
     "pointsByRound": {
       "md1": 1,
       "md2": 0,
       "md3": 0,
       "r32": 0,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -24191,16 +24191,16 @@
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 2,
-    "form": 2,
-    "lastRoundPoints": 1,
-    "totalPoints": 6,
+    "avgPoints": 2.3,
+    "form": 2.7,
+    "lastRoundPoints": 3,
+    "totalPoints": 9,
     "pointsByRound": {
       "md1": 1,
       "md2": 4,
       "md3": 0,
       "r32": 1,
-      "r16": 0
+      "r16": 3
     },
     "status": "playing",
     "oneToWatch": false
@@ -24213,20 +24213,20 @@
     "lastName": "Akanji",
     "position": "DEF",
     "price": 5,
-    "percentSelected": 2.8,
+    "percentSelected": 2.9,
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 3.8,
-    "form": 4.3,
+    "avgPoints": 4.8,
+    "form": 6.7,
     "lastRoundPoints": 9,
-    "totalPoints": 15,
+    "totalPoints": 24,
     "pointsByRound": {
       "md1": 2,
       "md2": 2,
       "md3": 2,
       "r32": 9,
-      "r16": 0
+      "r16": 9
     },
     "status": "playing",
     "oneToWatch": false
@@ -24239,20 +24239,20 @@
     "lastName": "Rodríguez",
     "position": "DEF",
     "price": 4.5,
-    "percentSelected": 1.2,
+    "percentSelected": 1.9,
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 5.5,
-    "form": 4.3,
+    "avgPoints": 6.2,
+    "form": 6.7,
     "lastRoundPoints": 9,
-    "totalPoints": 22,
+    "totalPoints": 31,
     "pointsByRound": {
       "md1": 9,
       "md2": 2,
       "md3": 2,
       "r32": 9,
-      "r16": 0
+      "r16": 9
     },
     "status": "playing",
     "oneToWatch": false
@@ -24265,20 +24265,20 @@
     "lastName": "Elvedi",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 1.1,
+    "percentSelected": 1.3,
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 3.5,
-    "form": 4,
+    "avgPoints": 4.6,
+    "form": 6.7,
     "lastRoundPoints": 9,
-    "totalPoints": 14,
+    "totalPoints": 23,
     "pointsByRound": {
       "md1": 2,
       "md2": 1,
       "md3": 2,
       "r32": 9,
-      "r16": 0
+      "r16": 9
     },
     "status": "playing",
     "oneToWatch": false
@@ -24295,16 +24295,16 @@
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 3.7,
-    "form": 3.7,
+    "avgPoints": 3,
+    "form": 1,
     "lastRoundPoints": 1,
-    "totalPoints": 11,
+    "totalPoints": 12,
     "pointsByRound": {
       "md1": 0,
       "md2": 9,
       "md3": 1,
       "r32": 1,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -24321,7 +24321,7 @@
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": -1,
+    "avgPoints": -0.5,
     "form": -0.3,
     "lastRoundPoints": 0,
     "totalPoints": -1,
@@ -24369,7 +24369,7 @@
     "lastName": "Amenda",
     "position": "DEF",
     "price": 3.7,
-    "percentSelected": 0,
+    "percentSelected": 0.1,
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
@@ -24395,7 +24395,7 @@
     "lastName": "Jaquez",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 0.2,
+    "percentSelected": 0.4,
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
@@ -24425,16 +24425,16 @@
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 8.3,
-    "form": 8,
-    "lastRoundPoints": 9,
-    "totalPoints": 33,
+    "avgPoints": 7,
+    "form": 6.3,
+    "lastRoundPoints": 2,
+    "totalPoints": 35,
     "pointsByRound": {
       "md1": 9,
       "md2": 7,
       "md3": 8,
       "r32": 9,
-      "r16": 0
+      "r16": 2
     },
     "status": "playing",
     "oneToWatch": false
@@ -24453,7 +24453,7 @@
     "teamFlag": "🇨🇭",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -24477,16 +24477,16 @@
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 4,
-    "form": 4.3,
-    "lastRoundPoints": 9,
-    "totalPoints": 16,
+    "avgPoints": 3.6,
+    "form": 4,
+    "lastRoundPoints": 2,
+    "totalPoints": 18,
     "pointsByRound": {
       "md1": 3,
       "md2": 3,
       "md3": 1,
       "r32": 9,
-      "r16": 0
+      "r16": 2
     },
     "status": "playing",
     "oneToWatch": false
@@ -24499,20 +24499,20 @@
     "lastName": "Kobel",
     "position": "GK",
     "price": 4.7,
-    "percentSelected": 3.3,
+    "percentSelected": 3.5,
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 4.5,
-    "form": 5,
-    "lastRoundPoints": 9,
-    "totalPoints": 18,
+    "avgPoints": 5.6,
+    "form": 7.7,
+    "lastRoundPoints": 10,
+    "totalPoints": 28,
     "pointsByRound": {
       "md1": 3,
       "md2": 2,
       "md3": 4,
       "r32": 9,
-      "r16": 0
+      "r16": 10
     },
     "status": "playing",
     "oneToWatch": false
@@ -24551,7 +24551,7 @@
     "lastName": "Keller",
     "position": "GK",
     "price": 3.7,
-    "percentSelected": 0.1,
+    "percentSelected": 0.2,
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
@@ -24582,15 +24582,15 @@
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
     "avgPoints": 3,
-    "form": 2,
-    "lastRoundPoints": 0,
-    "totalPoints": 6,
+    "form": 3,
+    "lastRoundPoints": 3,
+    "totalPoints": 9,
     "pointsByRound": {
       "md1": 0,
       "md2": 3,
       "md3": 3,
       "r32": 0,
-      "r16": 0
+      "r16": 3
     },
     "status": "playing",
     "oneToWatch": false
@@ -24603,20 +24603,20 @@
     "lastName": "Zakaria",
     "position": "MID",
     "price": 6.1,
-    "percentSelected": 0,
+    "percentSelected": 0.1,
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 5.5,
-    "form": 3.7,
-    "lastRoundPoints": 9,
-    "totalPoints": 11,
+    "avgPoints": 4.3,
+    "form": 4.3,
+    "lastRoundPoints": 2,
+    "totalPoints": 13,
     "pointsByRound": {
       "md1": 2,
       "md2": 0,
       "md3": 0,
       "r32": 9,
-      "r16": 0
+      "r16": 2
     },
     "status": "playing",
     "oneToWatch": false
@@ -24633,16 +24633,16 @@
     "teamCode": "SUI",
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
-    "avgPoints": 7.8,
-    "form": 9.3,
-    "lastRoundPoints": 3,
-    "totalPoints": 31,
+    "avgPoints": 6.4,
+    "form": 4.7,
+    "lastRoundPoints": 1,
+    "totalPoints": 32,
     "pointsByRound": {
       "md1": 3,
       "md2": 15,
       "md3": 10,
       "r32": 3,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -25617,7 +25617,7 @@
     "lastName": "Yildiz",
     "position": "MID",
     "price": 7,
-    "percentSelected": 1.4,
+    "percentSelected": 1.3,
     "teamCode": "TUR",
     "teamName": "Türkiye",
     "teamFlag": "🇹🇷",
@@ -25799,7 +25799,7 @@
     "lastName": "Bayindir",
     "position": "GK",
     "price": 4,
-    "percentSelected": 0.4,
+    "percentSelected": 0.3,
     "teamCode": "TUR",
     "teamName": "Türkiye",
     "teamFlag": "🇹🇷",
@@ -26085,7 +26085,7 @@
     "lastName": "Araújo",
     "position": "MID",
     "price": 6.4,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "URU",
     "teamName": "Uruguay",
     "teamFlag": "🇺🇾",
@@ -26189,7 +26189,7 @@
     "lastName": "Giménez",
     "position": "DEF",
     "price": 4.4,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "URU",
     "teamName": "Uruguay",
     "teamFlag": "🇺🇾",
@@ -26735,7 +26735,7 @@
     "lastName": "Valverde",
     "position": "MID",
     "price": 7.5,
-    "percentSelected": 2.5,
+    "percentSelected": 2.4,
     "teamCode": "URU",
     "teamName": "Uruguay",
     "teamFlag": "🇺🇾",
@@ -26776,7 +26776,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -26787,7 +26787,7 @@
     "lastName": "Berhalter",
     "position": "MID",
     "price": 4.7,
-    "percentSelected": 0.6,
+    "percentSelected": 0.4,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -26802,7 +26802,7 @@
       "r32": 1,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -26828,7 +26828,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "transferred",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -26854,7 +26854,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "transferred",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -26880,7 +26880,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -26891,7 +26891,7 @@
     "lastName": "Tillman",
     "position": "MID",
     "price": 6.1,
-    "percentSelected": 1.3,
+    "percentSelected": 0.8,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -26906,7 +26906,7 @@
       "r32": 13,
       "r16": 10
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -26917,7 +26917,7 @@
     "lastName": "McKennie",
     "position": "MID",
     "price": 6.1,
-    "percentSelected": 0.9,
+    "percentSelected": 0.7,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -26932,7 +26932,7 @@
       "r32": 4,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -26943,7 +26943,7 @@
     "lastName": "Reyna",
     "position": "MID",
     "price": 5.5,
-    "percentSelected": 0.4,
+    "percentSelected": 0.3,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -26958,7 +26958,7 @@
       "r32": 1,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -26984,7 +26984,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "transferred",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -26995,7 +26995,7 @@
     "lastName": "Robinson",
     "position": "DEF",
     "price": 5,
-    "percentSelected": 3.2,
+    "percentSelected": 2.8,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -27010,7 +27010,7 @@
       "r32": 9,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27021,7 +27021,7 @@
     "lastName": "Richards",
     "position": "DEF",
     "price": 4.1,
-    "percentSelected": 0.7,
+    "percentSelected": 0.6,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -27036,7 +27036,7 @@
       "r32": 9,
       "r16": -1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27062,7 +27062,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27073,7 +27073,7 @@
     "lastName": "Ream",
     "position": "DEF",
     "price": 3.9,
-    "percentSelected": 0.8,
+    "percentSelected": 0.6,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -27088,7 +27088,7 @@
       "r32": 9,
       "r16": -1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27114,7 +27114,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27140,7 +27140,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27151,7 +27151,7 @@
     "lastName": "Freeman",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 10,
+    "percentSelected": 7.1,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -27166,7 +27166,7 @@
       "r32": 7,
       "r16": -1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27192,7 +27192,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27203,7 +27203,7 @@
     "lastName": "Pepi",
     "position": "FWD",
     "price": 5.9,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -27218,7 +27218,7 @@
       "r32": 1,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27229,7 +27229,7 @@
     "lastName": "Balogun",
     "position": "FWD",
     "price": 6,
-    "percentSelected": 2.2,
+    "percentSelected": 1.9,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -27244,7 +27244,7 @@
       "r32": 7,
       "r16": 7
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27270,7 +27270,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "transferred",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27296,7 +27296,7 @@
       "r32": 0,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27322,7 +27322,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27333,7 +27333,7 @@
     "lastName": "Freese",
     "position": "GK",
     "price": 4.2,
-    "percentSelected": 4.3,
+    "percentSelected": 3.4,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -27348,7 +27348,7 @@
       "r32": 10,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27374,7 +27374,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "transferred",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27385,7 +27385,7 @@
     "lastName": "Brady",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 0.8,
+    "percentSelected": 0.7,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -27400,7 +27400,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -27411,7 +27411,7 @@
     "lastName": "Pulisic",
     "position": "MID",
     "price": 7,
-    "percentSelected": 4.6,
+    "percentSelected": 3.9,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -27426,7 +27426,7 @@
       "r32": 3,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -28295,20 +28295,20 @@
     "lastName": "Martínez",
     "position": "DEF",
     "price": 4.6,
-    "percentSelected": 15.7,
+    "percentSelected": 19.6,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 9.7,
-    "form": 9.7,
-    "lastRoundPoints": 11,
-    "totalPoints": 29,
+    "avgPoints": 7.5,
+    "form": 7,
+    "lastRoundPoints": 1,
+    "totalPoints": 30,
     "pointsByRound": {
       "md1": 9,
       "md2": 9,
       "md3": 0,
       "r32": 11,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -28347,20 +28347,20 @@
     "lastName": "Medina",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 15.1,
+    "percentSelected": 15.2,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 7.3,
-    "form": 7.3,
-    "lastRoundPoints": 2,
-    "totalPoints": 22,
+    "avgPoints": 5.8,
+    "form": 4.7,
+    "lastRoundPoints": 1,
+    "totalPoints": 23,
     "pointsByRound": {
       "md1": 9,
       "md2": 11,
       "md3": 0,
       "r32": 2,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -28425,20 +28425,20 @@
     "lastName": "Montiel",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 0.2,
+    "percentSelected": 0.3,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
-    "avgPoints": 0.5,
-    "form": 0.3,
-    "lastRoundPoints": 0,
-    "totalPoints": 1,
+    "avgPoints": 1.7,
+    "form": 1.7,
+    "lastRoundPoints": 4,
+    "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
       "md2": 0,
       "md3": 0,
       "r32": 0,
-      "r16": 0
+      "r16": 4
     },
     "status": "playing",
     "oneToWatch": false
@@ -28451,7 +28451,7 @@
     "lastName": "Mac Allister",
     "position": "DEF",
     "price": 3.8,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "ARG",
     "teamName": "Argentina",
     "teamFlag": "🇦🇷",
@@ -28821,14 +28821,14 @@
     "teamFlag": "🇦🇷",
     "avgPoints": 4,
     "form": 5,
-    "lastRoundPoints": 2,
-    "totalPoints": 16,
+    "lastRoundPoints": 4,
+    "totalPoints": 20,
     "pointsByRound": {
       "md1": 1,
       "md2": 4,
       "md3": 9,
       "r32": 2,
-      "r16": 0
+      "r16": 4
     },
     "status": "playing",
     "oneToWatch": false
@@ -28919,13 +28919,13 @@
     "lastName": "Mahmic",
     "position": "MID",
     "price": 4.2,
-    "percentSelected": 0.2,
+    "percentSelected": 0.1,
     "teamCode": "BIH",
     "teamName": "Bosnia & Herzegovina",
     "teamFlag": "🇧🇦",
     "avgPoints": 6,
     "form": 6,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 18,
     "pointsByRound": {
       "md1": 0,
@@ -29023,7 +29023,7 @@
     "lastName": "Guimarães Rodriguez Moura",
     "position": "MID",
     "price": 6.8,
-    "percentSelected": 7.3,
+    "percentSelected": 4.9,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -29049,7 +29049,7 @@
     "lastName": "Dias Belloli",
     "position": "MID",
     "price": 8.2,
-    "percentSelected": 8.3,
+    "percentSelected": 8.1,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -29075,7 +29075,7 @@
     "lastName": "da Silva Santos Júnior",
     "position": "MID",
     "price": 7.2,
-    "percentSelected": 2.1,
+    "percentSelected": 2,
     "teamCode": "BRA",
     "teamName": "Brazil",
     "teamFlag": "🇧🇷",
@@ -29105,18 +29105,18 @@
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 0,
-    "form": 0,
-    "lastRoundPoints": 0,
-    "totalPoints": 0,
+    "avgPoints": 1,
+    "form": 0.3,
+    "lastRoundPoints": 1,
+    "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
       "md2": 0,
       "md3": 0,
       "r32": 0,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -29142,7 +29142,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -29168,7 +29168,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -29183,18 +29183,18 @@
     "teamCode": "COL",
     "teamName": "Colombia",
     "teamFlag": "🇨🇴",
-    "avgPoints": 4,
-    "form": 1.3,
-    "lastRoundPoints": 0,
-    "totalPoints": 4,
+    "avgPoints": 2.5,
+    "form": 1.7,
+    "lastRoundPoints": 1,
+    "totalPoints": 5,
     "pointsByRound": {
       "md1": 4,
       "md2": 0,
       "md3": 0,
       "r32": 0,
-      "r16": 0
+      "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -29413,7 +29413,7 @@
     "lastName": "Risser",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 0.3,
+    "percentSelected": 0.5,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -29439,7 +29439,7 @@
     "lastName": "Saliba",
     "position": "DEF",
     "price": 5.3,
-    "percentSelected": 13.8,
+    "percentSelected": 14.6,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -29465,7 +29465,7 @@
     "lastName": "Koundé",
     "position": "DEF",
     "price": 5.4,
-    "percentSelected": 9.1,
+    "percentSelected": 10.2,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -29491,7 +29491,7 @@
     "lastName": "Barcola",
     "position": "MID",
     "price": 8,
-    "percentSelected": 4.1,
+    "percentSelected": 5.1,
     "teamCode": "FRA",
     "teamName": "France",
     "teamFlag": "🇫🇷",
@@ -29523,7 +29523,7 @@
     "teamFlag": "🇫🇷",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -29653,7 +29653,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 3.7,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 1,
@@ -29907,7 +29907,7 @@
     "lastName": "Chávez",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 1.3,
+    "percentSelected": 1.1,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -30141,7 +30141,7 @@
     "lastName": "Mora",
     "position": "MID",
     "price": 4.5,
-    "percentSelected": 0.8,
+    "percentSelected": 0.7,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -30193,7 +30193,7 @@
     "lastName": "Romo",
     "position": "MID",
     "price": 5.5,
-    "percentSelected": 0.9,
+    "percentSelected": 0.6,
     "teamCode": "MEX",
     "teamName": "Mexico",
     "teamFlag": "🇲🇽",
@@ -31135,7 +31135,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 2.5,
     "form": 1.7,
-    "lastRoundPoints": 3,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 0,
@@ -31265,7 +31265,7 @@
     "teamFlag": "🇸🇪",
     "avgPoints": 7,
     "form": 4,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 28,
     "pointsByRound": {
       "md1": 16,
@@ -31285,7 +31285,7 @@
     "lastName": "Bernhardsson",
     "position": "FWD",
     "price": 4.9,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "SWE",
     "teamName": "Sweden",
     "teamFlag": "🇸🇪",
@@ -31337,7 +31337,7 @@
     "lastName": "Penders",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 0.6,
+    "percentSelected": 0.7,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -31363,7 +31363,7 @@
     "lastName": "Vanaken",
     "position": "MID",
     "price": 5.5,
-    "percentSelected": 0.1,
+    "percentSelected": 0.3,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -31415,7 +31415,7 @@
     "lastName": "Trossard",
     "position": "MID",
     "price": 6.6,
-    "percentSelected": 6.2,
+    "percentSelected": 8,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
@@ -31441,13 +31441,13 @@
     "lastName": "Moreira",
     "position": "MID",
     "price": 4.7,
-    "percentSelected": 0.1,
+    "percentSelected": 0.2,
     "teamCode": "BEL",
     "teamName": "Belgium",
     "teamFlag": "🇧🇪",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -31525,7 +31525,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 2.8,
     "form": 2.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 4,
@@ -31551,7 +31551,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 3.7,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 0,
@@ -31577,7 +31577,7 @@
     "teamFlag": "🇨🇻",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -31603,7 +31603,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -31629,7 +31629,7 @@
     "teamFlag": "🇨🇮",
     "avgPoints": 1.8,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 1,
@@ -31675,13 +31675,13 @@
     "lastName": "Gvardiol",
     "position": "DEF",
     "price": 5,
-    "percentSelected": 3,
+    "percentSelected": 2.9,
     "teamCode": "CRO",
     "teamName": "Croatia",
     "teamFlag": "🇭🇷",
     "avgPoints": 0.5,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": -1,
@@ -31707,7 +31707,7 @@
     "teamFlag": "🇭🇷",
     "avgPoints": 3.3,
     "form": 4,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 13,
     "pointsByRound": {
       "md1": 1,
@@ -32533,7 +32533,7 @@
     "lastName": "Meireles da Costa",
     "position": "GK",
     "price": 4.9,
-    "percentSelected": 6.9,
+    "percentSelected": 6.1,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -32548,7 +32548,7 @@
       "r32": 3,
       "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -32559,7 +32559,7 @@
     "lastName": "dos Santos Gato Alves Dias",
     "position": "DEF",
     "price": 5,
-    "percentSelected": 4.2,
+    "percentSelected": 3.7,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -32574,7 +32574,7 @@
       "r32": 1,
       "r16": 2
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -32600,7 +32600,7 @@
       "r32": 1,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -32611,7 +32611,7 @@
     "lastName": "Mota Veiga de Carvalho e Silva",
     "position": "MID",
     "price": 7.8,
-    "percentSelected": 1.5,
+    "percentSelected": 1.4,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -32626,7 +32626,7 @@
       "r32": 1,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -32637,7 +32637,7 @@
     "lastName": "dos Santos Aveiro",
     "position": "FWD",
     "price": 10,
-    "percentSelected": 8.9,
+    "percentSelected": 8,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -32652,7 +32652,7 @@
       "r32": 7,
       "r16": 3
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -32663,7 +32663,7 @@
     "lastName": "da Conceição Leão",
     "position": "MID",
     "price": 7.8,
-    "percentSelected": 1.4,
+    "percentSelected": 1.3,
     "teamCode": "POR",
     "teamName": "Portugal",
     "teamFlag": "🇵🇹",
@@ -32678,7 +32678,7 @@
       "r32": 7,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -32876,15 +32876,15 @@
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
     "avgPoints": 1,
-    "form": 0.7,
+    "form": 1,
     "lastRoundPoints": 1,
-    "totalPoints": 2,
+    "totalPoints": 3,
     "pointsByRound": {
       "md1": 1,
       "md2": 0,
       "md3": 0,
       "r32": 1,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -32902,15 +32902,15 @@
     "teamName": "Switzerland",
     "teamFlag": "🇨🇭",
     "avgPoints": 1,
-    "form": 0.7,
-    "lastRoundPoints": 0,
-    "totalPoints": 2,
+    "form": 1,
+    "lastRoundPoints": 1,
+    "totalPoints": 3,
     "pointsByRound": {
       "md1": 0,
       "md2": 1,
       "md3": 1,
       "r32": 0,
-      "r16": 0
+      "r16": 1
     },
     "status": "playing",
     "oneToWatch": false
@@ -33135,9 +33135,9 @@
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 4,
+    "avgPoints": 2.7,
     "form": 2.7,
-    "lastRoundPoints": 7,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 1,
@@ -33146,7 +33146,7 @@
       "r32": 7,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -33172,7 +33172,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -33183,22 +33183,22 @@
     "lastName": "Zaki Abdelraouf",
     "position": "MID",
     "price": 4.2,
-    "percentSelected": 1.9,
+    "percentSelected": 1.6,
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 5.3,
-    "form": 6.3,
-    "lastRoundPoints": 3,
-    "totalPoints": 21,
+    "avgPoints": 6.2,
+    "form": 5,
+    "lastRoundPoints": 10,
+    "totalPoints": 31,
     "pointsByRound": {
       "md1": 2,
       "md2": 14,
       "md3": 2,
       "r32": 3,
-      "r16": 0
+      "r16": 10
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -33224,7 +33224,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "transferred",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -33241,7 +33241,7 @@
     "teamFlag": "🇪🇬",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 1,
@@ -33250,7 +33250,7 @@
       "r32": 1,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -33261,22 +33261,22 @@
     "lastName": "Salah Hamed Mahrous Ghaly",
     "position": "MID",
     "price": 10,
-    "percentSelected": 4.9,
+    "percentSelected": 4.5,
     "teamCode": "EGY",
     "teamName": "Egypt",
     "teamFlag": "🇪🇬",
-    "avgPoints": 5.3,
-    "form": 4.7,
+    "avgPoints": 4.6,
+    "form": 1.7,
     "lastRoundPoints": 2,
-    "totalPoints": 21,
+    "totalPoints": 23,
     "pointsByRound": {
       "md1": 7,
       "md2": 11,
       "md3": 1,
       "r32": 2,
-      "r16": 0
+      "r16": 2
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -33287,13 +33287,13 @@
     "lastName": "Neuer",
     "position": "GK",
     "price": 5,
-    "percentSelected": 6.9,
+    "percentSelected": 6.7,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
     "avgPoints": 1.8,
     "form": 1.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 2,
@@ -33319,7 +33319,7 @@
     "teamFlag": "🇩🇪",
     "avgPoints": 2.5,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 0,
@@ -33339,7 +33339,7 @@
     "lastName": "Musiala",
     "position": "MID",
     "price": 8,
-    "percentSelected": 5.8,
+    "percentSelected": 5.6,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
@@ -33365,13 +33365,13 @@
     "lastName": "Nmecha",
     "position": "MID",
     "price": 5.6,
-    "percentSelected": 3.1,
+    "percentSelected": 2.7,
     "teamCode": "GER",
     "teamName": "Germany",
     "teamFlag": "🇩🇪",
     "avgPoints": 6.5,
     "form": 4.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 26,
     "pointsByRound": {
       "md1": 13,
@@ -33397,7 +33397,7 @@
     "teamFlag": "🇩🇪",
     "avgPoints": 1.8,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 7,
     "pointsByRound": {
       "md1": 3,
@@ -33651,7 +33651,7 @@
     "lastName": "Cubas",
     "position": "MID",
     "price": 4.7,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "PAR",
     "teamName": "Paraguay",
     "teamFlag": "🇵🇾",
@@ -33885,7 +33885,7 @@
     "lastName": "Belammari",
     "position": "DEF",
     "price": 3.6,
-    "percentSelected": 0.1,
+    "percentSelected": 0.2,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -34041,7 +34041,7 @@
     "lastName": "Bouaddi",
     "position": "MID",
     "price": 5.5,
-    "percentSelected": 0.5,
+    "percentSelected": 0.6,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -34067,7 +34067,7 @@
     "lastName": "Saadane",
     "position": "MID",
     "price": 4.7,
-    "percentSelected": 0,
+    "percentSelected": 0.1,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -34223,7 +34223,7 @@
     "lastName": "Tangvik",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 0.7,
+    "percentSelected": 0.9,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -34249,7 +34249,7 @@
     "lastName": "Aasgaard",
     "position": "MID",
     "price": 5.5,
-    "percentSelected": 0.2,
+    "percentSelected": 0.3,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -34301,7 +34301,7 @@
     "lastName": "Ødegaard",
     "position": "MID",
     "price": 7.7,
-    "percentSelected": 4.2,
+    "percentSelected": 5.2,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -34593,7 +34593,7 @@
     "teamFlag": "🇸🇳",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -34613,13 +34613,13 @@
     "lastName": "Mané",
     "position": "MID",
     "price": 7.6,
-    "percentSelected": 1.3,
+    "percentSelected": 1.2,
     "teamCode": "SEN",
     "teamName": "Senegal",
     "teamFlag": "🇸🇳",
     "avgPoints": 3.8,
     "form": 4.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 2,
@@ -34899,13 +34899,13 @@
     "lastName": "Rayners",
     "position": "MID",
     "price": 5.3,
-    "percentSelected": 0.1,
+    "percentSelected": 0,
     "teamCode": "RSA",
     "teamName": "South Africa",
     "teamFlag": "🇿🇦",
     "avgPoints": 1.5,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 2,
@@ -34983,7 +34983,7 @@
     "teamFlag": "🏴󠁧󠁢󠁥󠁮󠁧󠁿",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 0,
@@ -35055,7 +35055,7 @@
     "lastName": "Sbaï",
     "position": "FWD",
     "price": 4.8,
-    "percentSelected": 0,
+    "percentSelected": 0.1,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -35081,7 +35081,7 @@
     "lastName": "Langås",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 0.2,
+    "percentSelected": 0.3,
     "teamCode": "NOR",
     "teamName": "Norway",
     "teamFlag": "🇳🇴",
@@ -35321,7 +35321,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 3.5,
     "form": 4.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 14,
     "pointsByRound": {
       "md1": 1,
@@ -35627,13 +35627,13 @@
     "lastName": "Davies",
     "position": "DEF",
     "price": 4.9,
-    "percentSelected": 2.1,
+    "percentSelected": 2,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -35679,7 +35679,7 @@
     "lastName": "Johnston",
     "position": "DEF",
     "price": 4,
-    "percentSelected": 0.8,
+    "percentSelected": 0.7,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
@@ -35783,7 +35783,7 @@
     "lastName": "Eustaquio",
     "position": "MID",
     "price": 5,
-    "percentSelected": 1.1,
+    "percentSelected": 0.9,
     "teamCode": "CAN",
     "teamName": "Canada",
     "teamFlag": "🇨🇦",
@@ -35893,7 +35893,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 2.5,
     "form": 1.7,
-    "lastRoundPoints": 4,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 1,
@@ -35971,7 +35971,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -36017,7 +36017,7 @@
     "lastName": "Adjetey",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 0.5,
+    "percentSelected": 0.4,
     "teamCode": "GHA",
     "teamName": "Ghana",
     "teamFlag": "🇬🇭",
@@ -36095,13 +36095,13 @@
     "lastName": "Senaya",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 1,
+    "percentSelected": 0.9,
     "teamCode": "GHA",
     "teamName": "Ghana",
     "teamFlag": "🇬🇭",
     "avgPoints": 5,
     "form": 3.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 20,
     "pointsByRound": {
       "md1": 9,
@@ -36127,7 +36127,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 6.7,
     "form": 6.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 20,
     "pointsByRound": {
       "md1": 9,
@@ -36153,7 +36153,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 5.3,
     "form": 4,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 21,
     "pointsByRound": {
       "md1": 9,
@@ -36179,7 +36179,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 3.8,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 15,
     "pointsByRound": {
       "md1": 10,
@@ -36205,7 +36205,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 2.7,
     "form": 2.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 0,
@@ -36231,7 +36231,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 2,
     "form": 2,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 4,
@@ -36257,7 +36257,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 2,
     "form": 2.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 1,
@@ -36283,7 +36283,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 2,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 2,
@@ -36309,7 +36309,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 1.5,
     "form": 1,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 0,
@@ -36335,7 +36335,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 2,
     "form": 2,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 1,
@@ -36361,7 +36361,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 1,
@@ -36439,7 +36439,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 2,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 2,
@@ -36543,7 +36543,7 @@
     "teamFlag": "🇪🇸",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -36563,7 +36563,7 @@
     "lastName": "Merino",
     "position": "MID",
     "price": 6.2,
-    "percentSelected": 0.3,
+    "percentSelected": 0.5,
     "teamCode": "ESP",
     "teamName": "Spain",
     "teamFlag": "🇪🇸",
@@ -36621,7 +36621,7 @@
     "teamFlag": "🇪🇸",
     "avgPoints": 2.5,
     "form": 1.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 5,
     "pointsByRound": {
       "md1": 4,
@@ -36699,7 +36699,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 5,
     "form": 3.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 20,
     "pointsByRound": {
       "md1": 9,
@@ -36751,7 +36751,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 1.5,
     "form": 1.7,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 6,
     "pointsByRound": {
       "md1": 1,
@@ -36803,7 +36803,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 2,
@@ -36875,7 +36875,7 @@
     "lastName": "Tagnaouti",
     "position": "GK",
     "price": 3.5,
-    "percentSelected": 1.1,
+    "percentSelected": 1.3,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -36901,7 +36901,7 @@
     "lastName": "Bounou",
     "position": "GK",
     "price": 4.7,
-    "percentSelected": 5.6,
+    "percentSelected": 5.7,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -36953,7 +36953,7 @@
     "lastName": "Hakimi",
     "position": "DEF",
     "price": 6,
-    "percentSelected": 33.3,
+    "percentSelected": 33.7,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -36985,7 +36985,7 @@
     "teamFlag": "🇲🇦",
     "avgPoints": 4.3,
     "form": 5,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 17,
     "pointsByRound": {
       "md1": 2,
@@ -37005,7 +37005,7 @@
     "lastName": "Mazraoui",
     "position": "DEF",
     "price": 4.4,
-    "percentSelected": 3,
+    "percentSelected": 3.2,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -37031,7 +37031,7 @@
     "lastName": "Halhal",
     "position": "DEF",
     "price": 3.5,
-    "percentSelected": 2.7,
+    "percentSelected": 2.9,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -37057,7 +37057,7 @@
     "lastName": "Diop",
     "position": "DEF",
     "price": 4.5,
-    "percentSelected": 1.8,
+    "percentSelected": 2.1,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -37083,7 +37083,7 @@
     "lastName": "El Ouahdi",
     "position": "DEF",
     "price": 4.1,
-    "percentSelected": 0,
+    "percentSelected": 0.1,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -37135,7 +37135,7 @@
     "lastName": "El Aynaoui",
     "position": "MID",
     "price": 5.6,
-    "percentSelected": 0.2,
+    "percentSelected": 0.3,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -37161,7 +37161,7 @@
     "lastName": "Díaz",
     "position": "MID",
     "price": 6.4,
-    "percentSelected": 4.1,
+    "percentSelected": 4.9,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -37187,7 +37187,7 @@
     "lastName": "Ounahi",
     "position": "MID",
     "price": 6.2,
-    "percentSelected": 0.2,
+    "percentSelected": 0.5,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -37239,7 +37239,7 @@
     "lastName": "Rahimi",
     "position": "FWD",
     "price": 5.6,
-    "percentSelected": 0.3,
+    "percentSelected": 0.5,
     "teamCode": "MAR",
     "teamName": "Morocco",
     "teamFlag": "🇲🇦",
@@ -37447,7 +37447,7 @@
     "lastName": "Dest",
     "position": "DEF",
     "price": 4.3,
-    "percentSelected": 14.3,
+    "percentSelected": 10.3,
     "teamCode": "USA",
     "teamName": "United States",
     "teamFlag": "🇺🇸",
@@ -37462,7 +37462,7 @@
       "r32": 10,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -37488,7 +37488,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -37514,7 +37514,7 @@
       "r32": 3,
       "r16": 2
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -37540,7 +37540,7 @@
       "r32": 0,
       "r16": 1
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -37566,7 +37566,7 @@
       "r32": 0,
       "r16": 0
     },
-    "status": "playing",
+    "status": "eliminated",
     "oneToWatch": false
   },
   {
@@ -37687,7 +37687,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 2.3,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 9,
     "pointsByRound": {
       "md1": 3,
@@ -37713,7 +37713,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
@@ -37739,7 +37739,7 @@
     "teamFlag": "🇳🇱",
     "avgPoints": 1,
     "form": 0.7,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 2,
     "pointsByRound": {
       "md1": 0,
@@ -37785,13 +37785,13 @@
     "lastName": "Summerville",
     "position": "MID",
     "price": 5.3,
-    "percentSelected": 2.5,
+    "percentSelected": 2.3,
     "teamCode": "NED",
     "teamName": "Netherlands",
     "teamFlag": "🇳🇱",
     "avgPoints": 7,
     "form": 6.3,
-    "lastRoundPoints": 6,
+    "lastRoundPoints": 0,
     "totalPoints": 28,
     "pointsByRound": {
       "md1": 9,
@@ -37921,7 +37921,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 2,
     "form": 2,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 8,
     "pointsByRound": {
       "md1": 2,
@@ -37947,7 +37947,7 @@
     "teamFlag": "🇦🇺",
     "avgPoints": 1.3,
     "form": 1.3,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 4,
     "pointsByRound": {
       "md1": 0,
@@ -37999,7 +37999,7 @@
     "teamFlag": "🇪🇨",
     "avgPoints": 2.8,
     "form": 3,
-    "lastRoundPoints": -1,
+    "lastRoundPoints": 0,
     "totalPoints": 11,
     "pointsByRound": {
       "md1": 2,
@@ -38019,13 +38019,13 @@
     "lastName": "Pacho",
     "position": "DEF",
     "price": 4.4,
-    "percentSelected": 3,
+    "percentSelected": 2.9,
     "teamCode": "ECU",
     "teamName": "Ecuador",
     "teamFlag": "🇪🇨",
     "avgPoints": 3.5,
     "form": 4,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 14,
     "pointsByRound": {
       "md1": 2,
@@ -38363,7 +38363,7 @@
     "teamFlag": "🇩🇿",
     "avgPoints": 1,
     "form": 1,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 3,
     "pointsByRound": {
       "md1": 0,
@@ -38415,7 +38415,7 @@
     "teamFlag": "🇬🇭",
     "avgPoints": 6,
     "form": 4,
-    "lastRoundPoints": 2,
+    "lastRoundPoints": 0,
     "totalPoints": 12,
     "pointsByRound": {
       "md1": 0,
@@ -38623,7 +38623,7 @@
     "teamFlag": "🇯🇵",
     "avgPoints": 1,
     "form": 0.3,
-    "lastRoundPoints": 1,
+    "lastRoundPoints": 0,
     "totalPoints": 1,
     "pointsByRound": {
       "md1": 0,
