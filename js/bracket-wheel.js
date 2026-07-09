@@ -116,6 +116,7 @@ export function collectTravelMarkers(tree) {
         markers.push({
           team: c.team,
           delay,
+          round: n.round,  // the round this team is advancing INTO
           d: travelPath(c._angle, c._r, n._angle, n._r, n.round),
           parentAngle: n._angle,
           parentR: n._r,
@@ -126,6 +127,15 @@ export function collectTravelMarkers(tree) {
   })(tree);
   return markers;
 }
+
+// Badge size grows as teams advance inward towards the centre.
+const TRAVEL_BADGE_SIZE = {
+  r32:   { r: 22, fs: '18px' },
+  r16:   { r: 26, fs: '21px' },
+  qf:    { r: 31, fs: '26px' },
+  sf:    { r: 37, fs: '32px' },
+  final: { r: 44, fs: '38px' },
+};
 
 // Sample an arc (centered on the canvas) into a polyline path — avoids SVG
 // elliptical-arc flag ambiguity and guarantees correct curvature.
@@ -423,21 +433,22 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
   collectTravelMarkers(tree).forEach((m) => {
+    const size = TRAVEL_BADGE_SIZE[m.round] || TRAVEL_BADGE_SIZE.r32;
     if (reduceMotion) {
       const [px, py] = xy(m.parentAngle, m.parentR);
       const g = el('g', {
         class: 'wheel-travel-badge',
         transform: `translate(${px.toFixed(1)} ${py.toFixed(1)})`,
       });
-      g.appendChild(el('circle', { r: 22, class: 'wheel-travel-bg' }));
-      const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
+      g.appendChild(el('circle', { r: size.r, class: 'wheel-travel-bg' }));
+      const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1, style: `font-size:${size.fs}` });
       flag.textContent = (m.team && m.team.flag) || '🏳️';
       g.appendChild(flag);
       gTravel.appendChild(g);
     } else {
       const g = el('g', { class: 'wheel-travel-badge', opacity: '0' });
-      g.appendChild(el('circle', { r: 22, class: 'wheel-travel-bg' }));
-      const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
+      g.appendChild(el('circle', { r: size.r, class: 'wheel-travel-bg' }));
+      const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1, style: `font-size:${size.fs}` });
       flag.textContent = (m.team && m.team.flag) || '🏳️';
       g.appendChild(flag);
       

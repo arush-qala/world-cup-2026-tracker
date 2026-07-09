@@ -70,6 +70,7 @@ test('collectTravelMarkers: one marker for the advanced child', () => {
   assert.deepEqual(markers, [{
     team: { flag: '🇫🇷', code: 'FRA', label: 'France' },
     delay: 0.70,
+    round: 'r32',
     d: 'M500.0 68.0 L500.0 189.0 L500.0 189.0 L500.0 189.0',
     parentAngle: 0,
     parentR: 0.72,
