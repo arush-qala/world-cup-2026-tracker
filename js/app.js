@@ -1071,12 +1071,16 @@ function getEliminatedTeams() {
   );
 
   knockoutMatches.forEach(f => {
-    const hg = f.score.home ?? 0;
-    const ag = f.score.away ?? 0;
-    // The loser is eliminated (scores should never be equal in knockout — extra time decides)
-    if (hg > ag) eliminated.add(f.away);
-    else if (ag > hg) eliminated.add(f.home);
-    // If still equal (data not yet updated), don't eliminate either
+    if (f.winner) {
+      const loser = f.winner === f.home ? f.away : f.home;
+      if (loser) eliminated.add(loser);
+    } else {
+      const hg = f.score.home ?? 0;
+      const ag = f.score.away ?? 0;
+      // The loser is eliminated (scores should never be equal in knockout — extra time decides)
+      if (hg > ag) eliminated.add(f.away);
+      else if (ag > hg) eliminated.add(f.home);
+    }
   });
 
   // Also eliminate teams that didn't qualify from the group stage
