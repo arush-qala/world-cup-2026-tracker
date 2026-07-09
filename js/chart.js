@@ -1,22 +1,15 @@
 /**
- * chart.js — Reusable midnight SVG line-chart renderer for World Cup 2026 tracker.
+ * chart.js — Upgraded SVG line-chart renderer for World Cup 2026 tracker.
  *
  * Exports one function:
- *   renderChart(svg, { series, qualifiers, view, animate })
- *
- * Visual style is LOCKED (not configurable) — see STYLE / THEME constants below.
- * Per-chart hover state is local to each svg call, so 12 charts on one page work correctly.
+ *   renderChart(svg, { series, qualifiers, view, animate, maxPlayedMD })
  */
 
-/* ------------------------------------------------------------------ */
-/* Locked visual style                                                  */
-/* ------------------------------------------------------------------ */
-// Only live style knobs: thickness, glowI, flagSize, speed.
 const STYLE = {
   thickness: 3,
-  glowI:     4,         // feGaussianBlur stdDeviation = glowI / 3
+  glowI:     4,
   flagSize:  17,
-  speed:     0.5,       // draw-on duration = 1.1 / speed seconds
+  speed:     0.5,
 };
 
 const THEME = {
@@ -24,9 +17,6 @@ const THEME = {
   sub:  'var(--muted)',
 };
 
-/* ------------------------------------------------------------------ */
-/* Geometry constants (match the playground exactly)                    */
-/* ------------------------------------------------------------------ */
 const W   = 640;
 const H   = 320;
 const PAD = { l: 42, r: 78, t: 26, b: 34 };
@@ -37,21 +27,13 @@ const plot = {
   y1: H - PAD.b,
 };
 
-/** px to separate teams that share the same value at a matchday, so tied lines stay visible */
 const DODGE = 9;
 
-/**
- * Spread apart points that coincide at the same column (matchday).
- * Tied teams would otherwise draw directly on top of each other (e.g. two teams
- * level on points). For each column we group near-equal y values and fan the
- * members out symmetrically around their shared y, ordered stably by team code
- * so a given team stays on the same side across matchdays.
- */
 function applyDodge(coordSeries, n) {
   for (let i = 0; i < n; i++) {
     const groups = {};
     coordSeries.forEach((cs, idx) => {
-      if (!cs.pts[i]) return;
+      if (cs.pts[i] === undefined) return;
       const key = Math.round(cs.pts[i].y);
       (groups[key] ??= []).push(idx);
     });
@@ -67,18 +49,12 @@ function applyDodge(coordSeries, n) {
   }
 }
 
-
-/** x pixel for data-index i out of n total points */
 function xFor(i, n) {
   return plot.x0 + (plot.x1 - plot.x0) * (i / (n - 1));
 }
 
-/**
- * Build a smooth SVG path `d` string using catmull-rom → cubic bezier interpolation.
- */
 function pathD(pts) {
   if (pts.length === 0) return '';
-  // smooth: catmull-rom → bezier
   let d = `M${pts[0].x},${pts[0].y}`;
   for (let i = 0; i < pts.length - 1; i++) {
     const p0 = pts[i - 1] || pts[i];
@@ -94,9 +70,6 @@ function pathD(pts) {
   return d;
 }
 
-/* ------------------------------------------------------------------ */
-/* SVG element helper                                                   */
-/* ------------------------------------------------------------------ */
 const NS = 'http://www.w3.org/2000/svg';
 function el(tag, attrs) {
   const e = document.createElementNS(NS, tag);
@@ -104,29 +77,14 @@ function el(tag, attrs) {
   return e;
 }
 
-/* ------------------------------------------------------------------ */
-/* Main export                                                          */
-/* ------------------------------------------------------------------ */
-
-/**
- * Render (or re-render) a group-stage progression chart into `svg`.
- *
- * @param {SVGElement} svg         - Target <svg> element (viewBox="0 0 640 320").
- * @param {object}     opts
- * @param {Array}      opts.series     - [{code, name, flag, color, points:[0..3], rank:[1..3]}]
- * @param {string[]}   opts.qualifiers - Team codes that are top-2 (advancing).
- * @param {'points'|'rank'} opts.view  - Which view to render.
- * @param {boolean}    opts.animate    - Play draw-on entrance animation on first draw.
- */
 export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedMD }) {
-  // Build per-team pixel coords for this view.
-  // In points view, also returns maxP so it can be reused for the cutoff line.
+  const limit = maxPlayedMD !== undefined ? maxPlayedMD : 3;
+  const n = view === 'points' ? 4 : 3;
+
   function buildSeriesCoords() {
-    const limit = maxPlayedMD !== undefined ? maxPlayedMD : 3;
     if (view === 'points') {
-      const n = 4; // MD0..MD3
       const allVals = series.flatMap(s => s.points);
-      const maxP = Math.max(1, ...allVals); // guard against 0
+      const maxP = Math.max(1, ...allVals);
       const yFor = p => plot.y1 - (plot.y1 - plot.y0) * (p / maxP);
       const coordSeries = series.map(s => {
         const slicedPoints = s.points.slice(0, limit + 1);
@@ -138,9 +96,7 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
       applyDodge(coordSeries, n);
       return { coordSeries, maxP };
     } else {
-      // rank view: MD1..MD3 (3 points)
-      const n = 3;
-      const yFor = r => plot.y0 + (plot.y1 - plot.y0) * ((r - 1) / 3); // rank 1 at top
+      const yFor = r => plot.y0 + (plot.y1 - plot.y0) * ((r - 1) / 3);
       const coordSeries = series.map(s => {
         const slicedRank = s.rank.slice(0, limit);
         return {
@@ -153,12 +109,32 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
     }
   }
 
-  /**
-   * Inner draw function — called on first render and on every hover change.
-   * `hoveredCode` is null (no hover) or a team code string.
-   * `isFirstDraw` controls whether the draw-on animation fires.
-   */
-  function draw(hoveredCode, isFirstDraw) {
+  const { coordSeries, maxP } = buildSeriesCoords();
+
+  // Create persistent HTML tooltip element
+  let tooltip = document.getElementById('chart-tooltip');
+  if (!tooltip) {
+    tooltip = document.createElement('div');
+    tooltip.id = 'chart-tooltip';
+    tooltip.style.position = 'fixed';
+    tooltip.style.pointerEvents = 'none';
+    tooltip.style.zIndex = '9999';
+    tooltip.style.padding = '10px 14px';
+    tooltip.style.borderRadius = '12px';
+    tooltip.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
+    tooltip.style.fontSize = '12px';
+    tooltip.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.06)';
+    tooltip.style.border = '1px solid var(--line)';
+    tooltip.style.background = 'color-mix(in srgb, var(--panel) 88%, transparent)';
+    tooltip.style.backdropFilter = 'blur(12px)';
+    tooltip.style.webkitBackdropFilter = 'blur(12px)';
+    tooltip.style.color = 'var(--text)';
+    tooltip.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
+    tooltip.style.opacity = '0';
+    document.body.appendChild(tooltip);
+  }
+
+  function draw(hoveredCode, isFirstDraw, activePoint = null) {
     svg.innerHTML = '';
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
 
@@ -168,10 +144,7 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
       const f = el('filter', { 
         id: 'glow', 
         filterUnits: 'userSpaceOnUse',
-        x: '-20%', 
-        y: '-20%', 
-        width: '140%', 
-        height: '140%' 
+        x: '-20%', y: '-20%', width: '140%', height: '140%' 
       });
       f.appendChild(el('feGaussianBlur', { stdDeviation: STYLE.glowI / 3, result: 'b' }));
       const m = el('feMerge', {});
@@ -182,10 +155,33 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
       svg.appendChild(defs);
     }
 
-    const { coordSeries, maxP } = buildSeriesCoords();
-    const n = view === 'points' ? 4 : 3;
+    /* --- Gridlines (Dotted) --- */
+    // Horizontal gridlines
+    const gridRows = 4;
+    for (let i = 0; i < gridRows; i++) {
+      const y = plot.y0 + (plot.y1 - plot.y0) * (i / (gridRows - 1));
+      svg.appendChild(el('line', {
+        x1: plot.x0, y1: y, x2: plot.x1, y2: y,
+        stroke: 'var(--line)',
+        'stroke-width': 1,
+        'stroke-dasharray': '3 5',
+        opacity: 0.4,
+      }));
+    }
 
-    /* --- x-axis labels (no gridlines) --- */
+    // Vertical gridlines for each Matchday
+    for (let i = 0; i < n; i++) {
+      const x = xFor(i, n);
+      svg.appendChild(el('line', {
+        x1: x, y1: plot.y0, x2: x, y2: plot.y1,
+        stroke: 'var(--line)',
+        'stroke-width': 1,
+        'stroke-dasharray': '3 5',
+        opacity: 0.4,
+      }));
+    }
+
+    /* --- x-axis labels --- */
     const labels = view === 'points'
       ? ['MD0', 'MD1', 'MD2', 'MD3']
       : ['MD1', 'MD2', 'MD3'];
@@ -197,6 +193,7 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
         'font-size': 11,
         'text-anchor': 'middle',
         'font-family': 'system-ui',
+        'font-weight': '600',
       });
       tx.textContent = lab;
       svg.appendChild(tx);
@@ -209,6 +206,7 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
       fill: THEME.sub,
       'font-size': 10,
       'font-family': 'system-ui',
+      'font-weight': '700',
     });
     yhint.textContent = view === 'points' ? 'PTS' : '1st';
     svg.appendChild(yhint);
@@ -219,6 +217,7 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
         fill: THEME.sub,
         'font-size': 10,
         'font-family': 'system-ui',
+        'font-weight': '700',
       });
       yb.textContent = '4th';
       svg.appendChild(yb);
@@ -226,59 +225,66 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
 
     /* --- qualification cutoff line --- */
     if (view === 'rank') {
-      // dashed line between rank 2 and 3
       const yCut = plot.y0 + (plot.y1 - plot.y0) * (1.5 / 3);
       svg.appendChild(el('line', {
         x1: plot.x0, y1: yCut, x2: plot.x1, y2: yCut,
-        stroke: THEME.sub,
+        stroke: 'var(--accent)',
         'stroke-width': 1.2,
-        'stroke-dasharray': '5 5',
-        opacity: 0.6,
+        'stroke-dasharray': '4 4',
+        opacity: 0.5,
       }));
       const ct = el('text', {
         x: plot.x1,
         y: yCut - 6,
-        fill: THEME.sub,
+        fill: 'var(--accent)',
         'font-size': 9.5,
         'text-anchor': 'end',
         'font-family': 'system-ui',
+        'font-weight': '700',
       });
       ct.textContent = '▲ qualify';
       svg.appendChild(ct);
     } else {
-      // points view: dashed line at 2nd-placed team's FINAL points value
       const finals = series.map(s => s.points[s.points.length - 1]).sort((a, b) => b - a);
       const cut = finals[1] ?? 0;
       if (cut > 0) {
         const yCut = plot.y1 - (plot.y1 - plot.y0) * (cut / maxP);
         svg.appendChild(el('line', {
           x1: plot.x0, y1: yCut, x2: plot.x1, y2: yCut,
-          stroke: THEME.sub,
+          stroke: 'var(--accent)',
           'stroke-width': 1.2,
-          'stroke-dasharray': '5 5',
+          'stroke-dasharray': '4 4',
           opacity: 0.5,
         }));
         const ct = el('text', {
           x: plot.x1,
           y: yCut - 6,
-          fill: THEME.sub,
+          fill: 'var(--accent)',
           'font-size': 9.5,
           'text-anchor': 'end',
           'font-family': 'system-ui',
+          'font-weight': '700',
         });
         ct.textContent = 'qualify cutoff';
         svg.appendChild(ct);
       }
     }
 
-    /* --- lines, markers, labels, hover hit paths --- */
+    /* --- Active matchday vertical guide line --- */
+    if (activePoint) {
+      svg.appendChild(el('line', {
+        x1: activePoint.x, y1: plot.y0, x2: activePoint.x, y2: plot.y1,
+        stroke: 'var(--accent)',
+        'stroke-width': 1.5,
+        opacity: 0.7,
+      }));
+    }
+
+    /* --- lines, markers, labels --- */
     coordSeries.forEach(({ s, pts }) => {
-      const col = s.color; // de-collided color already on series item
+      const col = s.color;
       const isQual = qualifiers.includes(s.code);
 
-      // Opacity logic (mirrors playground exactly):
-      // qual emphasis: non-qualifiers at 0.32
-      // hover: hovered team at 1.0, others at min(qual-opacity, 0.15)
       let opacity = 1;
       if (!isQual) opacity = 0.32;
       if (hoveredCode && hoveredCode !== s.code) opacity = Math.min(opacity, 0.15);
@@ -300,13 +306,12 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
       path.style.transition = 'opacity .2s';
       svg.appendChild(path);
 
-      /* draw-on animation (first draw only) */
+      /* draw-on animation */
       if (isFirstDraw && animate && pts.length > 1) {
         const len = path.getTotalLength();
         path.style.strokeDasharray = len;
         path.style.strokeDashoffset = len;
         path.style.transition = 'none';
-        // Use double-rAF to ensure the initial offset is painted before transitioning
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             path.style.transition = `stroke-dashoffset ${1.1 / STYLE.speed}s ease`;
@@ -315,7 +320,7 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
         });
       }
 
-      /* flag emoji markers at each data point */
+      /* flag emoji markers */
       pts.forEach(p => {
         const fx = el('text', {
           x: p.x,
@@ -329,7 +334,7 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
         svg.appendChild(fx);
       });
 
-      /* end-of-line label: "{flag} {CODE}" */
+      /* end-of-line label */
       if (pts.length > 0) {
         const last = pts[pts.length - 1];
         const tx = el('text', {
@@ -344,32 +349,99 @@ export function renderChart(svg, { series, qualifiers, view, animate, maxPlayedM
         tx.textContent = `${s.flag} ${s.code}`;
         svg.appendChild(tx);
       }
-
-      /* invisible fat hover hit path */
-      const hit = el('path', {
-        d,
-        fill: 'none',
-        stroke: 'transparent',
-        'stroke-width': 16,
-        'pointer-events': 'stroke',
-        style: 'cursor:pointer',
-      });
-      hit.addEventListener('mouseenter', () => draw(s.code, false));
-      hit.addEventListener('mouseleave', () => draw(null, false));
-      hit.addEventListener('touchstart', (e) => {
-        draw(s.code, false);
-      }, { passive: true });
-      svg.appendChild(hit);
     });
+
+    /* --- Hover Snapped Highlight Circle --- */
+    if (activePoint && activePoint.seriesColor) {
+      svg.appendChild(el('circle', {
+        cx: activePoint.x,
+        cy: activePoint.y,
+        r: 6.5,
+        fill: activePoint.seriesColor,
+        stroke: 'var(--panel)',
+        'stroke-width': 2,
+        filter: 'url(#glow)',
+      }));
+    }
   }
 
-  // Clear highlight when tapping on the empty space of SVG
+  // Mouse interactivity handlers
+  function handleMouseMove(e) {
+    const rect = svg.getBoundingClientRect();
+    const mouseX = ((e.clientX - rect.left) / rect.width) * W;
+    const mouseY = ((e.clientY - rect.top) / rect.height) * H;
+
+    // Nearest Matchday Column
+    const pct = (mouseX - plot.x0) / (plot.x1 - plot.x0);
+    let colIdx = Math.round(pct * (n - 1));
+    colIdx = Math.max(0, Math.min(n - 1, colIdx));
+
+    // Nearest Line (Series) at that Matchday Column
+    let closestSeries = null;
+    let minDy = Infinity;
+    let closestPt = null;
+
+    coordSeries.forEach(cs => {
+      const pt = cs.pts[colIdx];
+      if (!pt) return;
+      const dy = Math.abs(mouseY - pt.y);
+      if (dy < minDy) {
+        minDy = dy;
+        closestSeries = cs;
+        closestPt = pt;
+      }
+    });
+
+    if (closestSeries && closestPt) {
+      const activePoint = {
+        x: closestPt.x,
+        y: closestPt.y,
+        seriesColor: closestSeries.s.color
+      };
+
+      // Redraw SVG with highlighting
+      draw(closestSeries.s.code, false, activePoint);
+
+      // Update Tooltip details
+      const mdLabel = view === 'points' ? `MD${colIdx}` : `MD${colIdx + 1}`;
+      const statLabel = view === 'points' 
+        ? `Points: <strong>${closestSeries.s.points[colIdx]}</strong>`
+        : `Rank: <strong>${closestSeries.s.rank[colIdx]}</strong>`;
+
+      tooltip.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; margin-bottom: 4px;">
+          <span>${closestSeries.s.flag}</span>
+          <span>${closestSeries.s.name}</span>
+          <span style="color: ${closestSeries.s.color}; font-size: 10px; font-weight: 800;">(${closestSeries.s.code})</span>
+        </div>
+        <div style="display: flex; gap: 12px; color: var(--muted); font-size: 11px;">
+          <span>${mdLabel}</span>
+          <span>${statLabel}</span>
+        </div>
+      `;
+
+      tooltip.style.left = `${e.clientX + 16}px`;
+      tooltip.style.top = `${e.clientY - 20}px`;
+      tooltip.style.opacity = '1';
+      tooltip.style.transform = 'scale(1)';
+    }
+  }
+
+  function handleMouseLeave() {
+    draw(null, false);
+    tooltip.style.opacity = '0';
+    tooltip.style.transform = 'scale(0.95)';
+  }
+
+  svg.addEventListener('mousemove', handleMouseMove);
+  svg.addEventListener('mouseleave', handleMouseLeave);
   svg.addEventListener('touchstart', (e) => {
-    if (e.target === svg) {
-      draw(null, false);
+    if (e.touches && e.touches[0]) {
+      handleMouseMove(e.touches[0]);
     }
   }, { passive: true });
+  svg.addEventListener('touchend', handleMouseLeave);
 
-  // Initial render (entrance animation if requested)
+  // Initial draw
   draw(null, true);
 }

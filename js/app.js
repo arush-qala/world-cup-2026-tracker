@@ -270,20 +270,28 @@ function switchTab(tabId) {
     return;
   }
 
-  document.getElementById('groups-view').hidden   = tabId!=='groups';
-  document.getElementById('fixtures-view').hidden = tabId!=='fixtures';
-  document.getElementById('strength-view').hidden = tabId!=='strength';
-  document.getElementById('fantasy-view').hidden  = tabId!=='fantasy';
-  document.getElementById('fantasy-players-view').hidden = tabId!=='fantasy-players';
-  document.getElementById('knockout-view').hidden = tabId!=='knockout';
-  
-  const predictionsView = document.getElementById('predictions-view');
-  if (predictionsView) predictionsView.hidden = tabId!=='predictions';
-  
-  const wheelView = document.getElementById('wheel-view');
-  if (wheelView) wheelView.hidden = tabId!=='wheel';
-  const statsView = document.getElementById('stats-view');
-  if (statsView) statsView.hidden = tabId!=='stats';
+  const updateDOM = () => {
+    document.getElementById('groups-view').hidden   = tabId!=='groups';
+    document.getElementById('fixtures-view').hidden = tabId!=='fixtures';
+    document.getElementById('strength-view').hidden = tabId!=='strength';
+    document.getElementById('fantasy-view').hidden  = tabId!=='fantasy';
+    document.getElementById('fantasy-players-view').hidden = tabId!=='fantasy-players';
+    document.getElementById('knockout-view').hidden = tabId!=='knockout';
+    
+    const predictionsView = document.getElementById('predictions-view');
+    if (predictionsView) predictionsView.hidden = tabId!=='predictions';
+    
+    const wheelView = document.getElementById('wheel-view');
+    if (wheelView) wheelView.hidden = tabId!=='wheel';
+    const statsView = document.getElementById('stats-view');
+    if (statsView) statsView.hidden = tabId!=='stats';
+  };
+
+  if (document.startViewTransition) {
+    document.startViewTransition(() => updateDOM());
+  } else {
+    updateDOM();
+  }
 
   if (tabId === 'knockout') {
     requestAnimationFrame(() => {
@@ -3033,6 +3041,52 @@ function initCompareMode() {
       }
     }
   });
+
+  // Dual Iframe Scroll Sync
+  let isScrollingLeft = false;
+  let isScrollingRight = false;
+
+  const syncScrollLeftToRight = () => {
+    if (isScrollingRight) return;
+    try {
+      const leftDoc = leftIframe.contentDocument;
+      const rightDoc = rightIframe.contentDocument;
+      if (leftDoc && rightDoc) {
+        isScrollingLeft = true;
+        rightDoc.documentElement.scrollTop = leftDoc.documentElement.scrollTop;
+        rightDoc.documentElement.scrollLeft = leftDoc.documentElement.scrollLeft;
+        setTimeout(() => { isScrollingLeft = false; }, 30);
+      }
+    } catch (e) {}
+  };
+
+  const syncScrollRightToLeft = () => {
+    if (isScrollingLeft) return;
+    try {
+      const leftDoc = leftIframe.contentDocument;
+      const rightDoc = rightIframe.contentDocument;
+      if (leftDoc && rightDoc) {
+        isScrollingRight = true;
+        leftDoc.documentElement.scrollTop = rightDoc.documentElement.scrollTop;
+        leftDoc.documentElement.scrollLeft = rightDoc.documentElement.scrollLeft;
+        setTimeout(() => { isScrollingRight = false; }, 30);
+      }
+    } catch (e) {}
+  };
+
+  leftIframe.addEventListener('load', () => {
+    try {
+      leftIframe.contentWindow.removeEventListener('scroll', syncScrollLeftToRight);
+      leftIframe.contentWindow.addEventListener('scroll', syncScrollLeftToRight, { passive: true });
+    } catch(e) {}
+  });
+
+  rightIframe.addEventListener('load', () => {
+    try {
+      rightIframe.contentWindow.removeEventListener('scroll', syncScrollRightToLeft);
+      rightIframe.contentWindow.addEventListener('scroll', syncScrollRightToLeft, { passive: true });
+    } catch(e) {}
+  });
 }
 
 function toggleParentViewsVisibility(hide) {
@@ -3106,6 +3160,8 @@ function resetAllFantasyControls() {
   document.getElementById('filter-one-to-watch').checked = false;
   document.getElementById('filter-hide-unavailable').checked = false;
 
+  document.querySelectorAll('.pitch-node').forEach(n => n.classList.remove('active'));
+
   activeFantasyPreset = 'all';
 
   fantasyPlayersLimit = fantasyPlayersPageSize;
@@ -3133,8 +3189,39 @@ function wireFantasyPlayersEvents() {
     renderFantasyPlayers();
   };
 
+  const pitchNodes = document.querySelectorAll('.pitch-node');
+  const syncPitchNodesWithSelect = () => {
+    const currentPos = posSelect ? posSelect.value : 'ALL';
+    pitchNodes.forEach(n => {
+      const isActive = n.dataset.pos === currentPos;
+      n.classList.toggle('active', isActive);
+    });
+  };
+
+  pitchNodes.forEach(node => {
+    node.onclick = () => {
+      const pos = node.dataset.pos;
+      const isAlreadyActive = node.classList.contains('active');
+      
+      pitchNodes.forEach(n => n.classList.remove('active'));
+      
+      if (isAlreadyActive) {
+        if (posSelect) posSelect.value = 'ALL';
+      } else {
+        node.classList.add('active');
+        if (posSelect) posSelect.value = pos;
+      }
+      triggerRender();
+    };
+  });
+
   if (searchInput) searchInput.oninput = triggerRender;
-  if (posSelect) posSelect.onchange = triggerRender;
+  if (posSelect) {
+    posSelect.onchange = () => {
+      syncPitchNodesWithSelect();
+      triggerRender();
+    };
+  }
   if (countrySelect) countrySelect.onchange = triggerRender;
   if (statusSelect) statusSelect.onchange = triggerRender;
 
@@ -3194,9 +3281,47 @@ function getFieldValue(obj, field) {
   return obj[field];
 }
 
+function renderTacticalPitch() {
+  if (!FANTASY_PLAYERS || FANTASY_PLAYERS.length === 0) return;
+  
+  // Sort active players by totalPoints descending
+  const sorted = [...FANTASY_PLAYERS].filter(p => p.status !== 'eliminated').sort((a, b) => b.totalPoints - a.totalPoints);
+  
+  // Get top players for GK, DEF, MID, FWD
+  const gk = sorted.find(p => p.position === 'GK');
+  const defs = sorted.filter(p => p.position === 'DEF').slice(0, 2);
+  const mids = sorted.filter(p => p.position === 'MID').slice(0, 2);
+  const fwd = sorted.find(p => p.position === 'FWD');
+  
+  // Helper to safely update node content
+  const updateNode = (selector, player) => {
+    const node = document.querySelector(selector);
+    if (!node) return;
+    if (player) {
+      const shirtEl = node.querySelector('.player-shirt');
+      if (shirtEl) shirtEl.textContent = player.teamFlag || '🏳️';
+      
+      const nameEl = node.querySelector('.player-name');
+      if (nameEl) {
+        nameEl.innerHTML = `${player.name.split(' ').pop()} <span style="color:var(--accent); font-weight:800; margin-left:4px;">${player.totalPoints}p</span>`;
+      }
+      node.setAttribute('title', `${player.name} (${player.teamCode}) - Price: $${player.price}m, Pts: ${player.totalPoints}`);
+    }
+  };
+
+  updateNode('.pitch-node.pos-gk', gk);
+  updateNode('.pitch-node.pos-def1', defs[0]);
+  updateNode('.pitch-node.pos-def2', defs[1]);
+  updateNode('.pitch-node.pos-mid1', mids[0]);
+  updateNode('.pitch-node.pos-mid2', mids[1]);
+  updateNode('.pitch-node.pos-fwd', fwd);
+}
+
 function renderFantasyPlayers() {
   const list = document.getElementById('fantasy-players-list');
   if (!list) return;
+
+  renderTacticalPitch();
 
   const searchQuery = (document.getElementById('player-search')?.value || '').toLowerCase().trim();
   const posFilter = document.getElementById('filter-player-position')?.value || 'ALL';

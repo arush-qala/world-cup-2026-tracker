@@ -192,6 +192,22 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
 
   layout(tree);
 
+  function wireHover(element, code) {
+    element.style.cursor = 'pointer';
+    const onEnter = () => {
+      svg.classList.add('hover-mode');
+      svg.querySelectorAll(`[data-team-code="${code}"]`).forEach(el => el.classList.add('highlight'));
+    };
+    const onLeave = () => {
+      svg.classList.remove('hover-mode');
+      svg.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+    };
+    element.addEventListener('mouseenter', onEnter);
+    element.addEventListener('mouseleave', onLeave);
+    element.addEventListener('touchstart', onEnter, { passive: true });
+    element.addEventListener('touchend', onLeave, { passive: true });
+  }
+
   // Connectors + junction dots (every internal node).
   (function walk(n) {
     if (!n.children || n.children.length === 0) return;
@@ -202,16 +218,32 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
       // Centre: straight spokes from each semi-final node to the trophy.
       n.children.forEach((c) => {
         const [cx, cy] = xy(c._angle, c._r);
-        gLines.appendChild(drawnPath(linePath(cx, cy, CENTER, CENTER), c.advanced, delay));
+        const p = drawnPath(linePath(cx, cy, CENTER, CENTER), c.advanced, delay);
+        if (c.team && !c.team.dummy) {
+          p.setAttribute('data-team-code', c.team.code);
+          wireHover(p, c.team.code);
+        }
+        gLines.appendChild(p);
       });
     } else {
       // Concentric arc at the parent radius spanning the two children…
-      gLines.appendChild(drawnPath(arcPath(c1._angle, c2._angle, n._r), n.decided, delay));
+      const pArc = drawnPath(arcPath(c1._angle, c2._angle, n._r), n.decided, delay);
+      if (n.team && !n.team.dummy) {
+        pArc.setAttribute('data-team-code', n.team.code);
+        wireHover(pArc, n.team.code);
+      }
+      gLines.appendChild(pArc);
+      
       // …plus a radial spoke out to each child.
       n.children.forEach((c) => {
         const [ax, ay] = xy(c._angle, n._r);
         const [cx, cy] = xy(c._angle, c._r);
-        gLines.appendChild(drawnPath(linePath(ax, ay, cx, cy), c.advanced, delay));
+        const pSpoke = drawnPath(linePath(ax, ay, cx, cy), c.advanced, delay);
+        if (c.team && !c.team.dummy) {
+          pSpoke.setAttribute('data-team-code', c.team.code);
+          wireHover(pSpoke, c.team.code);
+        }
+        gLines.appendChild(pSpoke);
       });
     }
 
@@ -222,6 +254,10 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
       class: 'wheel-dot' + (n.advanced ? ' active' : ''),
     });
     dot.style.setProperty('--d', delay + 's');
+    if (n.team && !n.team.dummy) {
+      dot.setAttribute('data-team-code', n.team.code);
+      wireHover(dot, n.team.code);
+    }
     gDots.appendChild(dot);
 
     n.children.forEach(walk);
@@ -241,6 +277,10 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
         + (team.dummy ? ' dummy' : ''),
     });
     badge.style.setProperty('--d', (0.02 * i).toFixed(2) + 's');
+    if (!team.dummy) {
+      badge.setAttribute('data-team-code', team.code);
+      wireHover(badge, team.code);
+    }
 
     const title = el('title');
     title.textContent = team.dummy ? team.label : `${team.label} (${team.code})`;

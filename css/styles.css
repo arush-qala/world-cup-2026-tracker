@@ -168,6 +168,7 @@ body {
   background: var(--accent);
   border-radius: 2px;
   box-shadow: 0 2px 8px var(--accent-glow);
+  view-transition-name: tab-underline;
 }
 
 /* ── Secondary Segmented Controls (Sub-views) ── */
@@ -2245,4 +2246,181 @@ body.in-iframe .topbar {
   font-weight: 700;
 }
 
+/* Bracket Wheel Hover Mode Styling */
+.wheel-svg.hover-mode .wheel-line,
+.wheel-svg.hover-mode .wheel-dot,
+.wheel-svg.hover-mode .wheel-badge {
+  opacity: 0.15;
+  filter: grayscale(0.8);
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
 
+.wheel-svg.hover-mode .wheel-line.highlight,
+.wheel-svg.hover-mode .wheel-dot.highlight,
+.wheel-svg.hover-mode .wheel-badge.highlight {
+  opacity: 1;
+  filter: none;
+  stroke-width: 4px !important;
+}
+
+.wheel-svg.hover-mode .wheel-badge.highlight .wheel-badge-bg {
+  stroke-width: 4px !important;
+  stroke: var(--accent) !important;
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+
+.wheel-svg.hover-mode .wheel-line.highlight {
+  stroke: var(--accent) !important;
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+
+/* ── Tactical Pitch Builder ── */
+.pitch-layout-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 0;
+  width: 100%;
+}
+.football-pitch {
+  position: relative;
+  width: 100%;
+  max-width: 580px;
+  height: 380px;
+  background: radial-gradient(circle, #2e7d32 0%, #1b5e20 100%);
+  border: 4px solid #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.4), var(--shadow);
+}
+.pitch-line {
+  position: absolute;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+}
+.pitch-line.half-way {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+}
+.pitch-line.center-circle {
+  top: 50%;
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.pitch-line.penalty-area.home-box {
+  bottom: 0;
+  left: 50%;
+  width: 220px;
+  height: 70px;
+  transform: translateX(-50%);
+  border-bottom: none;
+}
+.pitch-line.penalty-area.away-box {
+  top: 0;
+  left: 50%;
+  width: 220px;
+  height: 70px;
+  transform: translateX(-50%);
+  border-top: none;
+}
+
+/* Player Nodes on Pitch */
+.pitch-node {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s ease;
+}
+.pitch-node:hover {
+  transform: scale(1.1);
+}
+.pitch-node.active .player-shirt {
+  background: var(--accent);
+  color: var(--accent-text);
+  box-shadow: 0 0 14px var(--accent-glow);
+  transform: scale(1.15);
+}
+.player-shirt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--panel);
+  border: 3px solid var(--line-hover);
+  box-shadow: var(--shadow);
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+.player-name {
+  margin-top: 6px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text);
+  background: color-mix(in srgb, var(--panel) 90%, transparent);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+/* Positioning nodes on pitch */
+.pitch-node.pos-gk {
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.pitch-node.pos-gk:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+.pitch-node.pos-def1 {
+  bottom: 86px;
+  left: 25%;
+  transform: translateX(-50%);
+}
+.pitch-node.pos-def1:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+.pitch-node.pos-def2 {
+  bottom: 86px;
+  left: 75%;
+  transform: translateX(-50%);
+}
+.pitch-node.pos-def2:hover {
+  transform: translateX(-50%) scale(1.1);
+}
+.pitch-node.pos-mid1 {
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+.pitch-node.pos-mid1:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+.pitch-node.pos-mid2 {
+  top: 50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
+.pitch-node.pos-mid2:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+.pitch-node.pos-fwd {
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.pitch-node.pos-fwd:hover {
+  transform: translateX(-50%) scale(1.1);
+}

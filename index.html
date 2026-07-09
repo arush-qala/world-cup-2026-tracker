@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>World Cup 2026 — Group Tracker</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=20260709_2040">
 </head>
 <body>
   <header class="topbar">
@@ -183,6 +183,50 @@
         <div class="stat-card-title">Top Country 🌍</div>
         <div id="top-country-val" class="stat-card-value">-</div>
         <div id="top-country-sub" class="stat-card-subtitle">0 pts</div>
+      </div>
+    </div>
+
+    <!-- Tactical Pitch Container -->
+    <div class="fantasy-grid" style="max-width: 1200px; margin-bottom: 24px;" id="fantasy-pitch-container">
+      <div class="fantasy-card" style="height: auto; max-height: none; padding: 24px;">
+        <div class="fantasy-card-title">🛡️ Tactical Pitch Builder</div>
+        <div class="fantasy-card-desc">Click on any position (Goalkeeper, Defender, Midfielder, Forward) to filter the player selection list below and see top recommendations.</div>
+        
+        <div class="pitch-layout-wrapper">
+          <div class="football-pitch">
+            <!-- Pitch lines -->
+            <div class="pitch-line center-circle"></div>
+            <div class="pitch-line half-way"></div>
+            <div class="pitch-line penalty-area home-box"></div>
+            <div class="pitch-line penalty-area away-box"></div>
+            
+            <!-- Pitch Player nodes -->
+            <div class="pitch-node pos-gk" data-pos="GK">
+              <div class="player-shirt">🧤</div>
+              <div class="player-name">Goalkeeper</div>
+            </div>
+            <div class="pitch-node pos-def1" data-pos="DEF">
+              <div class="player-shirt">🛡️</div>
+              <div class="player-name">Defender 1</div>
+            </div>
+            <div class="pitch-node pos-def2" data-pos="DEF">
+              <div class="player-shirt">🛡️</div>
+              <div class="player-name">Defender 2</div>
+            </div>
+            <div class="pitch-node pos-mid1" data-pos="MID">
+              <div class="player-shirt">⚙️</div>
+              <div class="player-name">Midfielder 1</div>
+            </div>
+            <div class="pitch-node pos-mid2" data-pos="MID">
+              <div class="player-shirt">⚙️</div>
+              <div class="player-name">Midfielder 2</div>
+            </div>
+            <div class="pitch-node pos-fwd" data-pos="FWD">
+              <div class="player-shirt">⚽</div>
+              <div class="player-name">Forward</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -418,6 +462,6 @@
     <div class="modal-card" id="goals-detail-card"></div>
   </div>
 
-  <script type="module" src="js/app.js?v=20260701_1810"></script>
+  <script type="module" src="js/app.js?v=20260709_2040"></script>
 </body>
 </html>
