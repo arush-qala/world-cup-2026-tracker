@@ -54,6 +54,9 @@ function run() {
     const md3 = parseInt(roundPoints["3"], 10) || 0;
     const r32 = parseInt(roundPoints["4"], 10) || 0;
     const r16 = parseInt(roundPoints["5"], 10) || 0; // Round of 16 points
+    const qf = parseInt(roundPoints["6"], 10) || 0;  // Quarter-finals points
+    const sf = parseInt(roundPoints["7"], 10) || 0;  // Semi-finals points
+    const fi = parseInt(roundPoints["8"], 10) || 0;  // Final / 3rd place points
 
     // Total points can be parsed from stats or recalculated
     const totalPoints = parseInt(stats.totalPoints, 10) || 0;
@@ -82,7 +85,10 @@ function run() {
         md2,
         md3,
         r32,
-        r16
+        r16,
+        qf,
+        sf,
+        fi
       },
       status: p.status || 'playing',
       oneToWatch: p.oneToWatch === true

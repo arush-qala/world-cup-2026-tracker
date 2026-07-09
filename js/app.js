@@ -3462,6 +3462,9 @@ function renderFantasyPlayers() {
         <td class="text-center">${p.pointsByRound.md3}</td>
         <td class="text-center">${p.pointsByRound.r32}</td>
         <td class="text-center">${p.pointsByRound.r16 || 0}</td>
+        <td class="text-center">${p.pointsByRound.qf || 0}</td>
+        <td class="text-center">${p.pointsByRound.sf || 0}</td>
+        <td class="text-center">${p.pointsByRound.fi || 0}</td>
         <td class="text-center" style="font-weight: 700; color: ${p.status === 'eliminated' ? 'var(--muted)' : 'var(--accent)'}; font-size: 14px;">${p.totalPoints}</td>
       `;
       list.appendChild(tr);
@@ -3558,7 +3561,10 @@ function openPlayerModal(p) {
     { label: 'MD2', val: p.pointsByRound.md2 },
     { label: 'MD3', val: p.pointsByRound.md3 },
     { label: 'R32', val: p.pointsByRound.r32 },
-    { label: 'R16', val: p.pointsByRound.r16 || 0 }
+    { label: 'R16', val: p.pointsByRound.r16 || 0 },
+    { label: 'QF', val: p.pointsByRound.qf || 0 },
+    { label: 'SF', val: p.pointsByRound.sf || 0 },
+    { label: 'FI', val: p.pointsByRound.fi || 0 }
   ];
   const maxVal = Math.max(1, ...rounds.map(r => r.val));
 
