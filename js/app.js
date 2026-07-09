@@ -321,7 +321,7 @@ function switchTab(tabId) {
 function handleRouting() {
   let fullHash = window.location.hash.replace('#/', '').replace('#', '');
   const [tabId] = fullHash.split('?');
-  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'fantasy-players', 'knockout', 'stats'];
+  const validTabs = ['fixtures', 'strength', 'fantasy', 'fantasy-players', 'knockout', 'stats'];
   const defaultTab = 'fixtures';
   
   if (!tabId || !validTabs.includes(tabId)) {
