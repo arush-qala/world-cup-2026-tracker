@@ -1715,7 +1715,7 @@ body {
   stroke-width: 2;
 }
 .wheel-flag {
-  font-size: 30px;
+  font-size: 38px;
   text-anchor: middle;
   dominant-baseline: central;
 }
@@ -1729,7 +1729,7 @@ body {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
 }
 .wheel-travel-flag {
-  font-size: 18px;
+  font-size: 24px;
   text-anchor: middle;
   dominant-baseline: central;
 }
@@ -1737,12 +1737,12 @@ body {
 /* Centre trophy / champion */
 .wheel-trophy { transform-origin: 500px 500px; }
 .wheel-trophy-icon {
-  font-size: 60px;
+  font-size: 72px;
   text-anchor: middle;
   dominant-baseline: central;
 }
 .wheel-champ-flag {
-  font-size: 26px;
+  font-size: 32px;
   text-anchor: middle;
   dominant-baseline: central;
 }
@@ -1797,8 +1797,12 @@ body {
 }
 
 @media (max-width: 560px) {
-  .wheel-flag { font-size: 26px; }
-  .wheel-badge-bg { r: 24; }
+  .wheel-flag { font-size: 32px; }
+  .wheel-badge-bg { r: 28; }
+  .wheel-travel-bg { r: 18; }
+  .wheel-travel-flag { font-size: 19px; }
+  .wheel-trophy-icon { font-size: 56px; }
+  .wheel-champ-flag { font-size: 26px; }
 }
 
 /* ── High-Tech Bracket Wheel Hologram Draw Animation ── */

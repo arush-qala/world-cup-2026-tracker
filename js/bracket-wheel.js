@@ -324,7 +324,7 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
     const title = el('title');
     title.textContent = team.dummy ? team.label : `${team.label} (${team.code})`;
     badge.appendChild(title);
-    badge.appendChild(el('circle', { r: 27, class: 'wheel-badge-bg' }));
+    badge.appendChild(el('circle', { r: 34, class: 'wheel-badge-bg' }));
     const flag = el('text', { class: 'wheel-flag', x: 0, y: 1 });
     flag.textContent = team.flag || '🏳️';
     badge.appendChild(flag);
@@ -346,14 +346,14 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
         class: 'wheel-travel-badge',
         transform: `translate(${px.toFixed(1)} ${py.toFixed(1)})`,
       });
-      g.appendChild(el('circle', { r: 16, class: 'wheel-travel-bg' }));
+      g.appendChild(el('circle', { r: 22, class: 'wheel-travel-bg' }));
       const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
       flag.textContent = (m.team && m.team.flag) || '🏳️';
       g.appendChild(flag);
       gTravel.appendChild(g);
     } else {
       const g = el('g', { class: 'wheel-travel-badge', opacity: '0' });
-      g.appendChild(el('circle', { r: 16, class: 'wheel-travel-bg' }));
+      g.appendChild(el('circle', { r: 22, class: 'wheel-travel-bg' }));
       const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
       flag.textContent = (m.team && m.team.flag) || '🏳️';
       g.appendChild(flag);
@@ -378,14 +378,14 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   const gTrophy = el('g', { class: 'wheel-trophy' });
   gTrophy.style.setProperty('--d', '2.2s');
   if (champ) {
-    const ring = el('circle', { cx: CENTER, cy: CENTER, r: 52, class: 'wheel-champ-ring' });
+    const ring = el('circle', { cx: CENTER, cy: CENTER, r: 65, class: 'wheel-champ-ring' });
     gTrophy.appendChild(ring);
   }
-  const trophy = el('text', { class: 'wheel-trophy-icon', x: CENTER, y: champ ? CENTER - 10 : CENTER });
+  const trophy = el('text', { class: 'wheel-trophy-icon', x: CENTER, y: champ ? CENTER - 14 : CENTER });
   trophy.textContent = '🏆';
   gTrophy.appendChild(trophy);
   if (champ) {
-    const cf = el('text', { class: 'wheel-champ-flag', x: CENTER, y: CENTER + 30 });
+    const cf = el('text', { class: 'wheel-champ-flag', x: CENTER, y: CENTER + 38 });
     cf.textContent = champ.flag;
     gTrophy.appendChild(cf);
   }
