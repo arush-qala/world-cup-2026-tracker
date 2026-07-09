@@ -215,6 +215,35 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   });
   svg.appendChild(gridBg);
 
+  // Ambient floating background particles
+  const gParticles = el('g', { class: 'wheel-particles' });
+  for (let i = 0; i < 40; i++) {
+    const pAngle = Math.random() * 360;
+    const pR = 0.15 + Math.random() * 0.85;
+    const [px, py] = xy(pAngle, pR);
+    const part = el('circle', {
+      cx: px.toFixed(1),
+      cy: py.toFixed(1),
+      r: (0.8 + Math.random() * 1.6).toFixed(1),
+      class: 'ambient-particle'
+    });
+    part.style.setProperty('--pd', (Math.random() * 6).toFixed(2) + 's');
+    part.style.setProperty('--pax', (Math.random() * 24 - 12).toFixed(1) + 'px');
+    part.style.setProperty('--pay', (Math.random() * 24 - 12).toFixed(1) + 'px');
+    gParticles.appendChild(part);
+  }
+  svg.appendChild(gParticles);
+
+  // Sonar sweep scanner line
+  const sonarSweep = el('line', {
+    x1: CENTER,
+    y1: CENTER,
+    x2: CENTER,
+    y2: CENTER - MAX_R,
+    class: 'sonar-sweep-line'
+  });
+  svg.appendChild(sonarSweep);
+
   // Background orbit rings (for hologram/radar blueprint layout)
   const gOrbits = el('g', { class: 'wheel-orbits' });
   const radii = [311, 233.3, 159.8, 95];
@@ -231,15 +260,67 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
 
   layout(tree);
 
-  function wireHover(element, code) {
+  const eliminatedCodes = new Set(
+    inOrderLeaves(tree)
+      .filter(lf => lf.eliminated && lf.team && lf.team.code)
+      .map(lf => lf.team.code)
+  );
+
+  const hud = document.getElementById('wheel-hud');
+  const updateHUD = (titleText, bodyHTML) => {
+    if (hud) {
+      hud.querySelector('.hud-header').textContent = titleText;
+      hud.querySelector('.hud-body').innerHTML = bodyHTML;
+      hud.style.opacity = '1';
+    }
+  };
+  const clearHUD = () => {
+    if (hud) {
+      hud.querySelector('.hud-header').textContent = 'SYSTEM ACTIVE';
+      hud.querySelector('.hud-body').innerHTML = 'Hover over a team flag or node to query tournament telemetry...';
+      hud.style.opacity = '0.7';
+    }
+  };
+
+  const getMatchHoverInfo = (n) => {
+    const match = n.match;
+    if (!match) return null;
+    const homeLabel = match.home ? `${match.home.flag} ${match.home.code}` : 'TBD';
+    const awayLabel = match.away ? `${match.away.flag} ${match.away.code}` : 'TBD';
+    const scoreStr = match.status === 'finished' 
+      ? `${match.score.home} - ${match.score.away}` 
+      : 'VS';
+    const roundLabel = n.round === 'final' ? 'FINAL' : n.round.toUpperCase();
+    
+    let statusText = match.status.toUpperCase();
+    let statusColor = 'var(--muted)';
+    if (match.status === 'finished') {
+      statusColor = 'var(--accent)';
+    } else if (match.status === 'live') {
+      statusColor = '#ef4444';
+    }
+
+    return {
+      title: `MATCH ${match.id.replace('M', '')} (${roundLabel})`,
+      body: `<div style="font-size: 13px; font-weight: 700; margin: 4px 0; color: var(--text);">${homeLabel} ${scoreStr} ${awayLabel}</div>`
+          + `STATUS: <strong style="color: ${statusColor}">${statusText}</strong><br>`
+          + (match.winner ? `WINNER: <strong>${match.winner.flag} ${match.winner.label}</strong>` : 'DECISION PENDING')
+    };
+  };
+
+  function wireHover(element, code, hoverInfo) {
     element.style.cursor = 'pointer';
     const onEnter = () => {
       svg.classList.add('hover-mode');
       svg.querySelectorAll(`[data-team-code="${code}"]`).forEach(el => el.classList.add('highlight'));
+      if (hoverInfo) {
+        updateHUD(hoverInfo.title, hoverInfo.body);
+      }
     };
     const onLeave = () => {
       svg.classList.remove('hover-mode');
       svg.querySelectorAll('.highlight').forEach(el => el.classList.remove('highlight'));
+      clearHUD();
     };
     element.addEventListener('mouseenter', onEnter);
     element.addEventListener('mouseleave', onLeave);
@@ -250,26 +331,28 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   // Connectors + junction dots (every internal node).
   (function walk(n) {
     if (!n.children || n.children.length === 0) return;
-    const delay = DRAW_DELAY[n.round] ?? 0.7;
+    const delay = ((n._angle / 360) * 2.2).toFixed(2);
     const [c1, c2] = n.children;
 
     if (n.round === 'final') {
       // Centre: straight spokes from each semi-final node to the trophy.
       n.children.forEach((c) => {
         const [cx, cy] = xy(c._angle, c._r);
+        const teamCode = c.team && !c.team.dummy ? c.team.code : null;
         const p = drawnPath(linePath(cx, cy, CENTER, CENTER), c.advanced, delay);
-        if (c.team && !c.team.dummy) {
-          p.setAttribute('data-team-code', c.team.code);
-          wireHover(p, c.team.code);
+        if (teamCode) {
+          p.setAttribute('data-team-code', teamCode);
+          wireHover(p, teamCode, getMatchHoverInfo(c));
         }
         gLines.appendChild(p);
       });
     } else {
       // Concentric arc at the parent radius spanning the two children…
+      const teamCode = n.team && !n.team.dummy ? n.team.code : null;
       const pArc = drawnPath(arcPath(c1._angle, c2._angle, n._r), n.decided, delay);
-      if (n.team && !n.team.dummy) {
-        pArc.setAttribute('data-team-code', n.team.code);
-        wireHover(pArc, n.team.code);
+      if (teamCode) {
+        pArc.setAttribute('data-team-code', teamCode);
+        wireHover(pArc, teamCode, getMatchHoverInfo(n));
       }
       gLines.appendChild(pArc);
       
@@ -277,10 +360,12 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
       n.children.forEach((c) => {
         const [ax, ay] = xy(c._angle, n._r);
         const [cx, cy] = xy(c._angle, c._r);
-        const pSpoke = drawnPath(linePath(ax, ay, cx, cy), c.advanced, delay);
-        if (c.team && !c.team.dummy) {
-          pSpoke.setAttribute('data-team-code', c.team.code);
-          wireHover(pSpoke, c.team.code);
+        const childTeamCode = c.team && !c.team.dummy ? c.team.code : null;
+        const childDelay = ((c._angle / 360) * 2.2).toFixed(2);
+        const pSpoke = drawnPath(linePath(ax, ay, cx, cy), c.advanced, childDelay);
+        if (childTeamCode) {
+          pSpoke.setAttribute('data-team-code', childTeamCode);
+          wireHover(pSpoke, childTeamCode, getMatchHoverInfo(c));
         }
         gLines.appendChild(pSpoke);
       });
@@ -293,9 +378,10 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
       class: 'wheel-dot' + (n.advanced ? ' active' : ''),
     });
     dot.style.setProperty('--d', delay + 's');
-    if (n.team && !n.team.dummy) {
-      dot.setAttribute('data-team-code', n.team.code);
-      wireHover(dot, n.team.code);
+    const nodeTeamCode = n.team && !n.team.dummy ? n.team.code : null;
+    if (nodeTeamCode) {
+      dot.setAttribute('data-team-code', nodeTeamCode);
+      wireHover(dot, nodeTeamCode, getMatchHoverInfo(n));
     }
     gDots.appendChild(dot);
 
@@ -315,10 +401,19 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
         + (lf.advanced && !lf.eliminated ? ' advanced' : '')
         + (team.dummy ? ' dummy' : ''),
     });
-    badge.style.setProperty('--d', (0.02 * i).toFixed(2) + 's');
+    const badgeDelay = ((lf._angle / 360) * 2.2).toFixed(2);
+    badge.style.setProperty('--d', badgeDelay + 's');
+    
+    const hoverInfo = team.dummy ? null : {
+      title: `${team.flag} ${team.label}`,
+      body: `CODE: <strong>${team.code}</strong><br>`
+          + `STATUS: <strong style="color: ${lf.eliminated ? '#ef4444' : 'var(--accent)'}">${lf.eliminated ? 'ELIMINATED' : 'ACTIVE'}</strong><br>`
+          + `SEED SLOT: <strong>${lf.id}</strong>`
+    };
+
     if (!team.dummy) {
       badge.setAttribute('data-team-code', team.code);
-      wireHover(badge, team.code);
+      wireHover(badge, team.code, hoverInfo);
     }
 
     const title = el('title');
@@ -357,17 +452,19 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
       const flag = el('text', { class: 'wheel-travel-flag', x: 0, y: 1 });
       flag.textContent = (m.team && m.team.flag) || '🏳️';
       g.appendChild(flag);
+      
+      const travelDelay = (2.4 + (m.delay - 0.7) * 0.8).toFixed(2);
       g.appendChild(el('animateMotion', {
-        path: m.d, begin: `${m.delay}s`, dur: '0.55s', rotate: '0', fill: 'freeze',
+        path: m.d, begin: `${travelDelay}s`, dur: '0.55s', rotate: '0', fill: 'freeze',
       }));
       g.appendChild(el('animate', {
         attributeName: 'opacity', values: '0;1;1', keyTimes: '0;0.2;1',
-        begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
+        begin: `${travelDelay}s`, dur: '0.55s', fill: 'freeze',
       }));
       g.appendChild(el('animateTransform', {
         attributeName: 'transform', type: 'scale',
         values: '0.3;1.15;1', keyTimes: '0;0.4;1',
-        begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
+        begin: `${travelDelay}s`, dur: '0.55s', fill: 'freeze',
       }));
       gTravel.appendChild(g);
     }

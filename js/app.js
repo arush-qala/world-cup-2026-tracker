@@ -1149,11 +1149,11 @@ function buildBracketTree() {
           advanced: !!(winner && winner.code === team.code), // won this R32 tie
         };
       });
-      return { id: s.id, round: 'r32', team: winner, decided, advanced, children };
+      return { id: s.id, round: 'r32', team: winner, decided, advanced, children, match: m };
     }
 
     const children = s.children.map(c => decorate(c, winner ? winner.code : null));
-    return { id: s.id, round: s.round, team: winner, decided, advanced, children };
+    return { id: s.id, round: s.round, team: winner, decided, advanced, children, match: m };
   };
 
   return decorate(buildBracketStructure(), null);

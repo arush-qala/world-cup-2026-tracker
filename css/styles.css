@@ -1881,10 +1881,91 @@ body {
 @keyframes orbit-spin-reverse {
   from { transform: rotate(360deg); }
   to { transform: rotate(0deg); }
+}/* Sonar Sweep Line */
+.sonar-sweep-line {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  opacity: 0;
+  transform-origin: 500px 500px;
+  pointer-events: none;
+}
+.wheel-svg.anim-hologram .sonar-sweep-line {
+  opacity: 0.5;
+  animation: sonar-sweep-animation 2.2s cubic-bezier(0.1, 0.45, 0.1, 1) forwards;
+}
+@keyframes sonar-sweep-animation {
+  0% { transform: rotate(0deg); opacity: 0.8; }
+  85% { opacity: 0.4; }
+  100% { transform: rotate(360deg); opacity: 0; }
 }
 
+/* Ambient Vortex Background Particles */
+.ambient-particle {
+  fill: var(--accent);
+  opacity: 0.12;
+  transform-origin: 500px 500px;
+  animation: particle-drift 8s ease-in-out infinite alternate;
+  animation-delay: var(--pd, 0s);
+  pointer-events: none;
+}
+@keyframes particle-drift {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.08;
+  }
+  50% {
+    opacity: 0.18;
+  }
+  100% {
+    transform: translate(var(--pax, 6px), var(--pay, -6px));
+    opacity: 0.04;
+  }
+}
 
-
+/* Floating Holographic Telemetry HUD */
+.wheel-wrap {
+  position: relative;
+}
+.wheel-hud {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 250px;
+  background: rgba(255, 255, 255, 0.85); /* fallback for white theme */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(37, 99, 235, 0.2);
+  border-radius: 8px;
+  padding: 14px;
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--text);
+  pointer-events: none;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  transition: opacity 0.3s ease;
+  font-size: 11px;
+  line-height: 1.45;
+}
+.wheel-hud::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  width: 12px;
+  height: 12px;
+  border-top: 2.5px solid var(--accent);
+  border-left: 2.5px solid var(--accent);
+}
+.wheel-hud .hud-header {
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid rgba(37, 99, 235, 0.15);
+  padding-bottom: 4px;
+  font-size: 12px;
+}
 /* ── Interactive Bracket Predictions ── */
 .bracket-match-team.draggable {
   cursor: grab;
