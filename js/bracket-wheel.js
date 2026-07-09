@@ -234,16 +234,6 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   }
   svg.appendChild(gParticles);
 
-  // Sonar sweep scanner line
-  const sonarSweep = el('line', {
-    x1: CENTER,
-    y1: CENTER,
-    x2: CENTER,
-    y2: CENTER - MAX_R,
-    class: 'sonar-sweep-line'
-  });
-  svg.appendChild(sonarSweep);
-
   // Background orbit rings (for hologram/radar blueprint layout)
   const gOrbits = el('g', { class: 'wheel-orbits' });
   const radii = [311, 233.3, 159.8, 95];
@@ -331,7 +321,7 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   // Connectors + junction dots (every internal node).
   (function walk(n) {
     if (!n.children || n.children.length === 0) return;
-    const delay = ((n._angle / 360) * 2.2).toFixed(2);
+    const delay = DRAW_DELAY[n.round] ?? 0.7;
     const [c1, c2] = n.children;
 
     if (n.round === 'final') {
@@ -361,8 +351,7 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
         const [ax, ay] = xy(c._angle, n._r);
         const [cx, cy] = xy(c._angle, c._r);
         const childTeamCode = c.team && !c.team.dummy ? c.team.code : null;
-        const childDelay = ((c._angle / 360) * 2.2).toFixed(2);
-        const pSpoke = drawnPath(linePath(ax, ay, cx, cy), c.advanced, childDelay);
+        const pSpoke = drawnPath(linePath(ax, ay, cx, cy), c.advanced, delay);
         if (childTeamCode) {
           pSpoke.setAttribute('data-team-code', childTeamCode);
           wireHover(pSpoke, childTeamCode, getMatchHoverInfo(c));
@@ -401,8 +390,7 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
         + (lf.advanced && !lf.eliminated ? ' advanced' : '')
         + (team.dummy ? ' dummy' : ''),
     });
-    const badgeDelay = ((lf._angle / 360) * 2.2).toFixed(2);
-    badge.style.setProperty('--d', badgeDelay + 's');
+    badge.style.setProperty('--d', (0.02 * i).toFixed(2) + 's');
     
     const hoverInfo = team.dummy ? null : {
       title: `${team.flag} ${team.label}`,
@@ -453,18 +441,17 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
       flag.textContent = (m.team && m.team.flag) || '🏳️';
       g.appendChild(flag);
       
-      const travelDelay = (2.4 + (m.delay - 0.7) * 0.8).toFixed(2);
       g.appendChild(el('animateMotion', {
-        path: m.d, begin: `${travelDelay}s`, dur: '0.55s', rotate: '0', fill: 'freeze',
+        path: m.d, begin: `${m.delay}s`, dur: '0.55s', rotate: '0', fill: 'freeze',
       }));
       g.appendChild(el('animate', {
         attributeName: 'opacity', values: '0;1;1', keyTimes: '0;0.2;1',
-        begin: `${travelDelay}s`, dur: '0.55s', fill: 'freeze',
+        begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
       }));
       g.appendChild(el('animateTransform', {
         attributeName: 'transform', type: 'scale',
         values: '0.3;1.15;1', keyTimes: '0;0.4;1',
-        begin: `${travelDelay}s`, dur: '0.55s', fill: 'freeze',
+        begin: `${m.delay}s`, dur: '0.55s', fill: 'freeze',
       }));
       gTravel.appendChild(g);
     }

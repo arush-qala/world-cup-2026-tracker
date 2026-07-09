@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup 2026 — Group Tracker</title>
+  <link rel="stylesheet" href="css/styles.css?v=20260709_2040">
+</head>
+<body>
+  <header class="topbar">
+    <h1>World Cup 2026 · Group Tracker</h1>
+    <nav class="tabs" style="margin-left: auto;">
+      <button class="tab active" data-tab="fixtures">Fixtures</button>
+      <button class="tab" data-tab="groups">Groups</button>
+      <!-- <button class="tab" data-tab="strength">Strength</button> -->
+      <button class="tab" data-tab="fantasy">Set Piece Takers</button>
+      <button class="tab" data-tab="fantasy-players">Fantasy Points</button>
+      <button class="tab" data-tab="knockout">Knockouts</button>
+      <button class="tab" data-tab="stats">Stats</button>
+    </nav>
+    <button class="btn-compare" id="btn-toggle-compare">
+      <svg class="icon-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M5 4h4v16H5zM15 4h4v16h-4z"/>
+      </svg>
+      <span>Compare</span>
+    </button>
+  </header>
+
+  <div id="comparator-container" class="comparator-container" style="display: none;">
+    <iframe id="left-pane-iframe" class="comparator-pane"></iframe>
+    <iframe id="right-pane-iframe" class="comparator-pane"></iframe>
+  </div>
+
+  <section id="groups-view" hidden>
+    <div class="viewbar">
+      <div class="seg" id="viewseg">
+        <button data-view="standings" class="active">Standings</button>
+        <button data-view="points">Points</button>
+        <button data-view="rank">Rank</button>
+      </div>
+      <span class="updated" id="updated"></span>
+    </div>
+    <div class="group-grid" id="group-grid"></div>
+  </section>
+
+  <section id="fixtures-view">
+    <div class="viewbar">
+      <div class="seg" id="fixtureseg">
+        <button data-status="ALL">All</button>
+        <button data-status="today" class="active">Today</button>
+        <button data-status="upcoming">Upcoming</button>
+        <button data-status="results">Results</button>
+      </div>
+      <span class="updated" id="fixtures-count"></span>
+    </div>
+    <div class="filter-bar" id="fixtures-filter-bar">
+      <div class="filter-group">
+        <label for="filter-stage">Stage</label>
+        <select id="filter-stage">
+          <option value="ALL">All Stages</option>
+          <option value="group">Group Stage (All)</option>
+          <option value="group-md1">Group Matchday 1</option>
+          <option value="group-md2">Group Matchday 2</option>
+          <option value="group-md3">Group Matchday 3</option>
+          <option value="round of 32">Round of 32</option>
+          <option value="round of 16">Round of 16</option>
+          <option value="quarter-finals">Quarter-finals</option>
+          <option value="semi-finals">Semi-finals</option>
+          <option value="third-place match">Third-place match</option>
+          <option value="final">Final</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Group</label>
+        <div class="custom-select-container" id="group-select-container">
+          <button class="custom-select-trigger" id="group-select-trigger">All Groups</button>
+          <div class="custom-select-options" id="group-select-options">
+            <div class="custom-options-wrapper" id="group-options-wrapper">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label>Country</label>
+        <div class="custom-select-container" id="country-select-container">
+          <button class="custom-select-trigger" id="country-select-trigger">All Countries</button>
+          <div class="custom-select-options" id="country-select-options">
+            <div class="dropdown-search-container">
+              <input type="text" id="country-search-input" class="dropdown-search-input" placeholder="Search countries..." autocomplete="off">
+            </div>
+            <div class="custom-options-wrapper" id="country-options-wrapper">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="filter-group">
+        <label for="filter-date">Date</label>
+        <select id="filter-date">
+          <option value="ALL">All Dates</option>
+        </select>
+      </div>
+      <button class="btn-reset" id="btn-reset-filters">Reset</button>
+    </div>
+    <div class="fixtures-list" id="fixtures-list"></div>
+  </section>
+
+  <section id="strength-view" hidden>
+    <div class="viewbar">
+      <div class="seg" id="strengthseg" style="flex-wrap: wrap; gap: 4px;">
+        <button data-metric="group-stage" class="active">Group Stage</button>
+        <button data-metric="r32">Round of 32</button>
+        <button data-metric="r16">Round of 16</button>
+        <button data-metric="qf">Quarter-finals</button>
+        <button data-metric="sf">Semi-finals</button>
+        <button data-metric="final">Finals</button>
+      </div>
+      <span class="updated" id="strength-caption"></span>
+    </div>
+    <div class="strength-list" id="strength-list"></div>
+  </section>
+
+  <section id="fantasy-view" hidden>
+    <div class="viewbar">
+      <h2>Set Piece Takers</h2>
+      <span class="updated">Expected Set-Piece Takers</span>
+    </div>
+    
+    <div class="fantasy-grid">
+      <!-- Section 1: Set Piece Tracker -->
+      <div class="fantasy-card">
+        <div class="fantasy-card-title">🎯 Expected Set-Piece Takers</div>
+        <div class="fantasy-card-desc">Find the primary takers for penalties, free kicks, and corners by team.</div>
+        
+        <div class="search-box">
+          <input type="text" id="setpiece-search" placeholder="Search team or player...">
+        </div>
+        
+        <div class="setpiece-table-wrap">
+          <table class="fantasy-table">
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th>Penalties ⚽</th>
+                <th>Free Kicks 📐</th>
+                <th>Corners 🚩</th>
+              </tr>
+            </thead>
+            <tbody id="setpiece-list">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fantasy-players-view" hidden>
+    <div class="viewbar">
+      <h2>Fantasy Player Stats</h2>
+      <span class="updated">Points up to Round of 32</span>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="fantasy-stats-cards">
+      <div class="fantasy-card" style="height: auto; padding: 16px; justify-content: center;">
+        <div class="stat-card-title">Top Scorer 👑</div>
+        <div id="top-scorer-val" class="stat-card-value">-</div>
+        <div id="top-scorer-sub" class="stat-card-subtitle">0 pts</div>
+      </div>
+      <div class="fantasy-card" style="height: auto; padding: 16px; justify-content: center;">
+        <div class="stat-card-title">Most Selected 📈</div>
+        <div id="most-selected-val" class="stat-card-value">-</div>
+        <div id="most-selected-sub" class="stat-card-subtitle">0%</div>
+      </div>
+      <div class="fantasy-card" style="height: auto; padding: 16px; justify-content: center;">
+        <div class="stat-card-title">Best Value 💎</div>
+        <div id="best-value-val" class="stat-card-value">-</div>
+        <div id="best-value-sub" class="stat-card-subtitle">0.0 pts/m</div>
+      </div>
+      <div class="fantasy-card" style="height: auto; padding: 16px; justify-content: center;">
+        <div class="stat-card-title">Top Country 🌍</div>
+        <div id="top-country-val" class="stat-card-value">-</div>
+        <div id="top-country-sub" class="stat-card-subtitle">0 pts</div>
+      </div>
+    </div>
+
+    <!-- Tactical Pitch Container -->
+    <div class="fantasy-grid" style="max-width: 1200px; margin-bottom: 24px;" id="fantasy-pitch-container">
+      <div class="fantasy-card" style="height: auto; max-height: none; padding: 24px;">
+        <div class="fantasy-card-title">🛡️ Tactical Pitch Builder</div>
+        <div class="fantasy-card-desc">Click on any position (Goalkeeper, Defender, Midfielder, Forward) to filter the player selection list below and see top recommendations.</div>
+        
+        <div class="pitch-layout-wrapper">
+          <div class="football-pitch">
+            <!-- Pitch lines -->
+            <div class="pitch-line center-circle"></div>
+            <div class="pitch-line half-way"></div>
+            <div class="pitch-line penalty-area home-box"></div>
+            <div class="pitch-line penalty-area away-box"></div>
+            
+            <!-- Pitch Player nodes -->
+            <div class="pitch-node pos-gk" data-pos="GK">
+              <div class="player-shirt">🧤</div>
+              <div class="player-name">Goalkeeper</div>
+            </div>
+            <div class="pitch-node pos-def1" data-pos="DEF">
+              <div class="player-shirt">🛡️</div>
+              <div class="player-name">Defender 1</div>
+            </div>
+            <div class="pitch-node pos-def2" data-pos="DEF">
+              <div class="player-shirt">🛡️</div>
+              <div class="player-name">Defender 2</div>
+            </div>
+            <div class="pitch-node pos-mid1" data-pos="MID">
+              <div class="player-shirt">⚙️</div>
+              <div class="player-name">Midfielder 1</div>
+            </div>
+            <div class="pitch-node pos-mid2" data-pos="MID">
+              <div class="player-shirt">⚙️</div>
+              <div class="player-name">Midfielder 2</div>
+            </div>
+            <div class="pitch-node pos-fwd" data-pos="FWD">
+              <div class="player-shirt">⚽</div>
+              <div class="player-name">Forward</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fantasy-grid" style="max-width: 1200px;">
+      <div class="fantasy-card" style="height: auto; max-height: none;">
+        <div class="fantasy-card-title">⚽ Player Performance & Points</div>
+        <div class="fantasy-card-desc">Track and filter player points from Group Stage Matchdays and the Round of 32. Click table headers to sort.</div>
+        
+        <!-- Expanded Filters Panel -->
+        <div class="fantasy-filter-dashboard" style="background: rgba(37, 99, 235, 0.01); border: 1px solid var(--line); border-radius: 14px; padding: 20px; margin-bottom: 24px; display: flex; flex-direction: column; gap: 16px;">
+          
+          <!-- Row 1: Search & Basic Filters -->
+          <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center; width: 100%;">
+            <input type="text" id="player-search" placeholder="Search player or country..." style="flex: 2; min-width: 240px; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none; transition: 0.2s;">
+            
+            <select id="filter-player-position" style="width: 140px; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer; font-weight: 600;">
+              <option value="ALL">All Positions</option>
+              <option value="GK">Goalkeepers 🧤</option>
+              <option value="DEF">Defenders 🛡️</option>
+              <option value="MID">Midfielders ⚙️</option>
+              <option value="FWD">Forwards ⚽</option>
+            </select>
+
+            <select id="filter-player-country" style="width: 170px; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer; font-weight: 600;">
+              <option value="ALL">All Countries 🌍</option>
+              <!-- Dynamically populated -->
+            </select>
+
+            <select id="filter-player-status" style="width: 140px; background: var(--bg); border: 1px solid var(--line); color: var(--text); padding: 10px 14px; border-radius: 10px; font-size: 13px; outline: none; cursor: pointer; font-weight: 600;">
+              <option value="ALL">All Statuses</option>
+              <option value="playing">Playing</option>
+              <option value="injured">Injured</option>
+              <option value="suspended">Suspended</option>
+            </select>
+          </div>
+
+          <!-- Expanded Advanced Drawer (visible by default) -->
+          <div id="advanced-filters-drawer" style="display: flex; flex-direction: column; gap: 16px; border-top: 1px solid var(--line); padding-top: 14px;">
+            
+            <!-- Grid for Sliders -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+              <!-- Price slider -->
+              <div style="display: flex; flex-direction: column; gap: 6px; background: var(--bg); border: 1px solid var(--line); padding: 12px; border-radius: 10px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                  <span style="font-weight: 700; color: var(--text);">Max Price</span>
+                  <span id="label-max-price" style="font-weight: 800; color: var(--accent);">$12.0m</span>
+                </div>
+                <input type="range" id="filter-max-price" min="4.0" max="12.0" step="0.5" value="12.0" style="width: 100%; accent-color: var(--accent); cursor: pointer;">
+              </div>
+
+              <!-- Min form slider -->
+              <div style="display: flex; flex-direction: column; gap: 6px; background: var(--bg); border: 1px solid var(--line); padding: 12px; border-radius: 10px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12px;">
+                  <span style="font-weight: 700; color: var(--text);">Min Form</span>
+                  <span id="label-min-form" style="font-weight: 800; color: var(--accent);">0.0</span>
+                </div>
+                <input type="range" id="filter-min-form" min="0.0" max="15.0" step="0.5" value="0.0" style="width: 100%; accent-color: var(--accent); cursor: pointer;">
+              </div>
+            </div>
+
+            <!-- Bottom Row: Toggles + Reset button -->
+            <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center; background: var(--bg); border: 1px solid var(--line); padding: 14px; border-radius: 10px; font-size: 13px;">
+              <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+                <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; font-weight: 600;">
+                  <input type="checkbox" id="filter-one-to-watch" style="width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer;">
+                  <span>⭐ One to Watch</span>
+                </label>
+
+                <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; user-select: none; font-weight: 600;">
+                  <input type="checkbox" id="filter-hide-unavailable" style="width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer;">
+                  <span>🟢 Hide Unavailable</span>
+                </label>
+              </div>
+              
+              <button id="btn-reset-fantasy-filters" class="btn" style="padding: 8px 14px; font-size: 12px; border-radius: 8px; background: rgba(220, 38, 38, 0.08); border: 1px solid rgba(220, 38, 38, 0.15); color: #ef4444; font-weight: 700; cursor: pointer; margin-left: auto; transition: 0.2s;">Reset Controls</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="setpiece-table-wrap" style="max-height: 600px; border-radius: 12px; border: 1px solid var(--line);">
+          <table class="fantasy-table">
+            <thead>
+              <tr id="player-table-headers">
+                <th data-sort="name" class="sort-header" style="width: 22%;">Player</th>
+                <th data-sort="teamCode" class="sort-header" style="width: 12%;">Country</th>
+                <th data-sort="position" class="sort-header" style="width: 7%;">Pos</th>
+                <th data-sort="price" class="sort-header text-right" style="width: 8%;">Price</th>
+                <th data-sort="percentSelected" class="sort-header text-right" style="width: 8%;">Sel %</th>
+                <th data-sort="avgPoints" class="sort-header text-center" style="width: 5%;">Avg</th>
+                <th data-sort="form" class="sort-header text-center" style="width: 5%;">Form</th>
+                <th data-sort="pointsByRound.md1" class="sort-header text-center" style="width: 5%;">MD1</th>
+                <th data-sort="pointsByRound.md2" class="sort-header text-center" style="width: 5%;">MD2</th>
+                <th data-sort="pointsByRound.md3" class="sort-header text-center" style="width: 5%;">MD3</th>
+                <th data-sort="pointsByRound.r32" class="sort-header text-center" style="width: 5%;">R32</th>
+                <th data-sort="pointsByRound.r16" class="sort-header text-center" style="width: 5%;">R16</th>
+                <th data-sort="totalPoints" class="sort-header text-center text-accent" style="width: 5%;">Total</th>
+              </tr>
+            </thead>
+            <tbody id="fantasy-players-list">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Pagination/Show More -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; font-size: 12px; color: var(--muted);">
+          <span id="player-count-label">Showing 0 of 0 players</span>
+          <button id="btn-show-more-players" class="btn" style="padding: 8px 16px; font-size: 12px; border-radius: 8px; background: rgba(59, 130, 246, 0.1); border: 1px solid var(--line); color: var(--accent); font-weight: 600; cursor: pointer; transition: 0.2s;">Show More</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="knockout-view" hidden>
+    <div class="viewbar">
+      <div class="seg" id="knockoutseg">
+        <button data-view="bracket" class="active">Bracket</button>
+        <button data-view="third-place">3rd Place Standings</button>
+      </div>
+      <span class="updated" id="knockout-caption"></span>
+    </div>
+
+    <!-- View 1: Bracket -->
+    <div id="knockout-bracket-container" class="bracket-container">
+      <!-- Dynamically populated bracket -->
+    </div>
+
+    <!-- View 2: 3rd Place Standings Table -->
+    <div id="knockout-third-place-container" class="third-place-container" hidden>
+      <div class="fantasy-grid" style="max-width: 900px;">
+        <div class="fantasy-card" style="height: auto; max-height: none;">
+          <div class="fantasy-card-title">🥉 3rd Place Teams Comparison</div>
+          <div class="fantasy-card-desc">The top 8 third-placed teams across the 12 groups qualify for the Round of 32. Ranked by: Points ➔ Goal Difference ➔ Goals Scored ➔ FIFA Rank.</div>
+          <div class="setpiece-table-wrap">
+            <table class="fantasy-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px; text-align: center;">Pos</th>
+                  <th>Group</th>
+                  <th>Team</th>
+                  <th style="text-align: center;">P</th>
+                  <th style="text-align: center;">W</th>
+                  <th style="text-align: center;">D</th>
+                  <th style="text-align: center;">L</th>
+                  <th style="text-align: center;">GF</th>
+                  <th style="text-align: center;">GA</th>
+                  <th style="text-align: center;">GD</th>
+                  <th style="text-align: center;">Pts</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="third-place-table-body">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="predictions-view" hidden>
+    <div class="viewbar">
+      <div class="seg" style="gap: 8px; display: flex; align-items: center; border: none; background: transparent; padding: 0;">
+        <h2 style="margin: 0; font-size: 16px; font-weight: 700; color: var(--text);">Bracket Predictor</h2>
+        <button id="reset-predictions" class="btn" style="padding: 6px 12px; font-size: 11px; border-radius: 8px; margin-left: 12px; background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); color: #ef4444; font-weight: 600; cursor: pointer; transition: 0.2s;">Reset Predictions</button>
+        <button id="share-predictions" class="btn" style="padding: 6px 12px; font-size: 11px; border-radius: 8px; margin-left: 8px; background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.2); color: var(--accent); font-weight: 600; cursor: pointer; transition: 0.2s;">Share Bracket</button>
+      </div>
+      <span class="updated" id="predictions-caption">Drag a team name to the next round slot, or click to advance.</span>
+    </div>
+
+    <!-- Predictions Bracket Container -->
+    <div id="predictions-bracket-container" class="bracket-container">
+      <!-- Dynamically populated predictions bracket -->
+    </div>
+  </section>
+
+  <section id="wheel-view" hidden>
+    <div class="viewbar">
+      <h2>Bracket Wheel</h2>
+      <span class="updated" id="wheel-caption"></span>
+    </div>
+    <div class="wheel-wrap">
+      <div id="wheel-canvas" class="wheel-canvas"></div>
+    </div>
+  </section>
+
+  <section id="stats-view" hidden>
+    <div class="viewbar">
+      <h2>Goal Analytics</h2>
+      <span class="updated">Tournament Averages</span>
+    </div>
+
+    <!-- Country Filter Panel -->
+    <div class="stats-filter-panel" id="stats-filter-panel">
+      <div class="stats-filter-header">
+        <span class="stats-filter-label">🌍 Filter by Country</span>
+        <div class="stats-filter-controls">
+          <input type="search" id="stats-country-search" class="stats-country-search" placeholder="Search team…" autocomplete="off">
+          <button class="stats-filter-clear" id="stats-filter-clear" hidden>Clear all</button>
+        </div>
+      </div>
+      <div class="stats-country-chips" id="stats-country-chips">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+
+    <!-- Option 2 Container: Trend Line -->
+    <div class="fantasy-grid" style="max-width: 900px;" id="stats-trend-container">
+      <div class="fantasy-card" style="height: auto; max-height: none;">
+        <div class="fantasy-card-title">📊 Average Goals per Match by Stage</div>
+        <div class="fantasy-card-desc" id="stats-chart-desc">Tracking the scoring rate as the tournament progresses.</div>
+        <div class="stats-chart-container" id="goals-chart">
+          <!-- Bars will be inserted here dynamically -->
+        </div>
+      </div>
+      
+      <!-- Shared Totals Card inside grid -->
+      <div class="fantasy-card" style="height: auto; max-height: none; margin-top: 16px;">
+        <div class="fantasy-card-title">🏆 Tournament Totals</div>
+        <div class="stats-summary" id="goals-summary">
+          <!-- Totals inserted dynamically -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modal-card" id="modal-card"></div>
+  </div>
+
+  <div class="modal" id="goals-detail-modal" hidden>
+    <div class="modal-card" id="goals-detail-card"></div>
+  </div>
+
+  <script type="module" src="js/app.js?v=20260709_2040"></script>
+</body>
+</html>
