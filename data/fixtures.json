@@ -1513,8 +1513,8 @@
       "home": 0,
       "away": 0
     },
-    "note": "SUI win 4-3 on penalties (AET 0-0)",
-    "winner": "SUI"
+    "note": "COL win 4-3 on penalties (AET 0-0)",
+    "winner": "COL"
   },
   {
     "id": "M97",
@@ -1558,7 +1558,7 @@
     "kickoffUK": "2026-07-12T02:00:00+01:00",
     "venue": "Arrowhead Stadium, Kansas City",
     "home": "ARG",
-    "away": "SUI",
+    "away": "COL",
     "status": "scheduled"
   }
 ]
