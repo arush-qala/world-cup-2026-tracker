@@ -221,6 +221,16 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
   svg.appendChild(radarWave1);
   svg.appendChild(radarWave2);
 
+  // Background orbit rings (for hologram/radar blueprint layout)
+  const gOrbits = el('g', { class: 'wheel-orbits' });
+  const radii = [311, 233.3, 159.8, 95];
+  radii.forEach((r, idx) => {
+    const orb = el('circle', { cx: CENTER, cy: CENTER, r: r, class: 'wheel-orbit-ring' });
+    orb.style.setProperty('--d', (0.3 * idx).toFixed(2) + 's');
+    gOrbits.appendChild(orb);
+  });
+  svg.appendChild(gOrbits);
+
   const gLines = el('g');
   const gDots = el('g');
   const gBadges = el('g');

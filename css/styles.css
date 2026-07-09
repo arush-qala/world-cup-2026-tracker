@@ -1888,6 +1888,41 @@ body {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+.wheel-svg.anim-hologram .wheel-travel-bg {
+  filter: drop-shadow(0 0 5px var(--accent)) brightness(1.2);
+}
+.wheel-svg .wheel-orbit-ring {
+  fill: none;
+  stroke: var(--line);
+  stroke-dasharray: 4 6;
+  stroke-width: 0.8;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  transform-origin: 500px 500px;
+}
+.wheel-svg.anim-hologram .wheel-orbit-ring,
+.wheel-svg.anim-radar .wheel-orbit-ring {
+  opacity: 0.25;
+  animation: orbit-spin 30s linear infinite, orbit-draw 1.5s ease-out forwards;
+  animation-delay: 0s, var(--d, 0s);
+}
+.wheel-svg.anim-hologram .wheel-orbit-ring:nth-child(even),
+.wheel-svg.anim-radar .wheel-orbit-ring:nth-child(even) {
+  animation: orbit-spin-reverse 25s linear infinite, orbit-draw 1.5s ease-out forwards;
+  animation-delay: 0s, var(--d, 0s);
+}
+@keyframes orbit-draw {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 0.25; transform: scale(1); }
+}
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes orbit-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
 
 /* 4. Active Animation Switcher CSS styling */
 .animation-selector .anim-btn {
