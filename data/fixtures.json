@@ -1515,5 +1515,50 @@
     },
     "note": "SUI win 4-3 on penalties (AET 0-0)",
     "winner": "SUI"
+  },
+  {
+    "id": "M97",
+    "stage": "quarter-finals",
+    "dateUK": "2026-07-09",
+    "kickoffUK": "2026-07-09T21:00:00+01:00",
+    "venue": "Gillette Stadium, Foxborough",
+    "home": "FRA",
+    "away": "MAR",
+    "status": "finished",
+    "score": {
+      "home": 2,
+      "away": 0
+    },
+    "winner": "FRA"
+  },
+  {
+    "id": "M98",
+    "stage": "quarter-finals",
+    "dateUK": "2026-07-10",
+    "kickoffUK": "2026-07-10T20:00:00+01:00",
+    "venue": "SoFi Stadium, Los Angeles",
+    "home": "ESP",
+    "away": "BEL",
+    "status": "scheduled"
+  },
+  {
+    "id": "M99",
+    "stage": "quarter-finals",
+    "dateUK": "2026-07-11",
+    "kickoffUK": "2026-07-11T22:00:00+01:00",
+    "venue": "Hard Rock Stadium, Miami",
+    "home": "NOR",
+    "away": "ENG",
+    "status": "scheduled"
+  },
+  {
+    "id": "M100",
+    "stage": "quarter-finals",
+    "dateUK": "2026-07-12",
+    "kickoffUK": "2026-07-12T02:00:00+01:00",
+    "venue": "Arrowhead Stadium, Kansas City",
+    "home": "ARG",
+    "away": "SUI",
+    "status": "scheduled"
   }
 ]
