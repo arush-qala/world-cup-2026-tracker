@@ -1128,6 +1128,12 @@ function buildBracketTree() {
     const sh = m.score.home ?? 0, sa = m.score.away ?? 0;
     if (sh > sa) return m.home;
     if (sa > sh) return m.away;
+    // Draw in regular time — check fixture's explicit winner (penalties / ET)
+    const f = DATA.fixtures.find(fx => fx.id === m.id);
+    if (f && f.winner) {
+      if (m.home && m.home.code === f.winner) return m.home;
+      if (m.away && m.away.code === f.winner) return m.away;
+    }
     return (m.home.fifaPoints ?? 0) >= (m.away.fifaPoints ?? 0) ? m.home : m.away;
   };
 
