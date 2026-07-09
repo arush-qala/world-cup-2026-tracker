@@ -1723,8 +1723,10 @@ body {
 /* Travel markers — flag glides from child to parent position when a
    country advances (see collectTravelMarkers() in bracket-wheel.js) */
 .wheel-travel-bg {
-  fill: var(--accent);
-  filter: drop-shadow(0 0 6px var(--accent));
+  fill: var(--panel);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
 }
 .wheel-travel-flag {
   font-size: 18px;
