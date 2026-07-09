@@ -1710,6 +1710,10 @@ body {
   opacity: 0.32;
   filter: grayscale(1);
 }
+.wheel-badge.eliminated .wheel-badge-bg {
+  stroke: var(--line-hover);
+  stroke-width: 2;
+}
 .wheel-flag {
   font-size: 30px;
   text-anchor: middle;

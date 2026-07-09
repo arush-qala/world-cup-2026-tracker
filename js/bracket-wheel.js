@@ -312,7 +312,7 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
     const badge = el('g', {
       class: 'wheel-badge'
         + (lf.eliminated ? ' eliminated' : '')
-        + (lf.advanced ? ' advanced' : '')
+        + (lf.advanced && !lf.eliminated ? ' advanced' : '')
         + (team.dummy ? ' dummy' : ''),
     });
     badge.style.setProperty('--d', (0.02 * i).toFixed(2) + 's');
