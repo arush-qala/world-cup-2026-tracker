@@ -24,6 +24,7 @@ let activeFilters = {
 };
 let statsCountryFilter = new Set(); // codes of countries selected on the Goal Analytics filter
 let compareMode = false;
+let activeWheelAnim = 'laser';
 
 async function boot(){
   const [groups, fixtures, fantasy, fantasyPlayers] = await Promise.all([
@@ -72,7 +73,7 @@ async function boot(){
     };
   }
 
-  wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle(); wireFantasyPlayersEvents();
+  wireTabs(); wireToggle(); wireStrengthToggle(); wireFixtureToggle(); wireFantasySearch(); wireKnockoutToggle(); wireFantasyPlayersEvents(); wireWheelAnimationSelector();
   showUpdated();
   handleRouting();
 
@@ -321,7 +322,7 @@ function switchTab(tabId) {
 function handleRouting() {
   let fullHash = window.location.hash.replace('#/', '').replace('#', '');
   const [tabId] = fullHash.split('?');
-  const validTabs = ['fixtures', 'strength', 'fantasy-players', 'knockout', 'stats'];
+  const validTabs = ['fixtures', 'strength', 'fantasy-players', 'knockout', 'wheel', 'stats'];
   const defaultTab = 'fixtures';
   
   if (!tabId || !validTabs.includes(tabId)) {
@@ -1170,6 +1171,12 @@ function renderWheel() {
     return; // group data not ready yet
   }
   renderBracketWheel(tree, { container, caption });
+  
+  const svg = container.querySelector('.wheel-svg');
+  if (svg) {
+    svg.classList.remove('anim-laser', 'anim-radar', 'anim-hologram');
+    svg.classList.add('anim-' + activeWheelAnim);
+  }
 }
 
 function renderFantasyHub(setpieceFilter = '') {
@@ -2540,6 +2547,19 @@ function wireFantasySearch() {
   setpieceSearch.oninput = () => {
     renderFantasyHub(setpieceSearch.value);
   };
+}
+
+function wireWheelAnimationSelector() {
+  const selector = document.getElementById('wheel-animation-selector');
+  if (!selector) return;
+  
+  selector.querySelectorAll('.anim-btn').forEach(btn => {
+    btn.onclick = () => {
+      activeWheelAnim = btn.dataset.anim;
+      selector.querySelectorAll('.anim-btn').forEach(x => x.classList.toggle('active', x === btn));
+      renderWheel();
+    };
+  });
 }
 
 boot();

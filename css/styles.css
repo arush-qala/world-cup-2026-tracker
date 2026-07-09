@@ -1795,6 +1795,122 @@ body {
   .wheel-badge-bg { r: 24; }
 }
 
+/* ── High-Tech Bracket Wheel Animation Modes ── */
+
+/* 1. Laser Pulse Mode */
+.wheel-svg.anim-laser .wheel-line.active {
+  stroke-dasharray: 0.15 0.15;
+  filter: drop-shadow(0 0 4px var(--accent));
+  animation: wheel-draw 0.55s ease forwards, laser-flow 2s linear infinite 0.55s;
+  animation-delay: var(--d, 0s), calc(var(--d, 0s) + 0.55s);
+}
+@keyframes laser-flow {
+  0% { stroke-dashoffset: 1; }
+  100% { stroke-dashoffset: 0; }
+}
+.wheel-svg.anim-laser .wheel-badge.advanced {
+  animation: wheel-pop 0.5s ease forwards, laser-pulse 2s ease-in-out infinite alternate 0.5s;
+  animation-delay: var(--d, 0s), calc(var(--d, 0s) + 0.5s);
+}
+@keyframes laser-pulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--accent)); }
+  100% { transform: scale(1.06); filter: drop-shadow(0 0 10px var(--accent)); }
+}
+
+/* 2. Cyber Radar Mode */
+.wheel-svg .radar-wave {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  opacity: 0;
+  pointer-events: none;
+}
+.wheel-svg.anim-radar .radar-wave {
+  animation: radar-ping 4s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+}
+@keyframes radar-ping {
+  0% { r: 0; opacity: 0.9; stroke-width: 3; }
+  50% { opacity: 0.5; stroke-width: 1.5; }
+  100% { r: 460; opacity: 0; stroke-width: 0.5; }
+}
+.wheel-svg.anim-radar .wheel-dot.active {
+  animation: radar-dot-glow 2s ease-in-out infinite;
+}
+@keyframes radar-dot-glow {
+  0%, 100% { r: 4; filter: drop-shadow(0 0 2px var(--accent)); }
+  50% { r: 6.5; filter: drop-shadow(0 0 8px var(--accent)); }
+}
+.wheel-svg.anim-radar .wheel-badge.advanced .wheel-badge-bg {
+  animation: radar-badge-ripple 2s ease-in-out infinite alternate;
+}
+@keyframes radar-badge-ripple {
+  0% { stroke-width: 3.5; r: 27; }
+  100% { stroke-width: 5.5; r: 29; }
+}
+
+/* 3. Hologram Draw Mode */
+.wheel-svg .hologram-grid-bg {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.wheel-svg.anim-hologram .hologram-grid-bg {
+  opacity: 1;
+}
+.wheel-svg.anim-hologram .wheel-line {
+  animation: wheel-draw 0.55s ease forwards, hologram-flicker 0.4s ease-out 0.55s;
+  animation-delay: var(--d, 0s), calc(var(--d, 0s) + 0.55s);
+}
+@keyframes hologram-flicker {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.45; }
+  50% { opacity: 0.85; }
+  75% { opacity: 0.55; }
+}
+.wheel-svg.anim-hologram .wheel-badge {
+  animation: hologram-pop 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+  animation-delay: var(--d, 0s);
+}
+@keyframes hologram-pop {
+  0% { opacity: 0; transform: scale(0.1) rotate(-45deg); filter: brightness(2) contrast(1.5); }
+  70% { opacity: 0.85; transform: scale(1.1) rotate(8deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); filter: none; }
+}
+.wheel-svg.anim-hologram .wheel-trophy {
+  animation: hologram-trophy-pop 0.7s cubic-bezier(0.2, 1.3, 0.4, 1) forwards, hologram-rotate 12s linear infinite 0.7s;
+  animation-delay: var(--d, 0s), calc(var(--d, 0s) + 0.7s);
+}
+@keyframes hologram-trophy-pop {
+  0% { opacity: 0; transform: scale(0.2) rotate(180deg); }
+  100% { opacity: 1; transform: scale(1) rotate(0deg); }
+}
+@keyframes hologram-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 4. Active Animation Switcher CSS styling */
+.animation-selector .anim-btn {
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  cursor: pointer;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 16px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.animation-selector .anim-btn:hover {
+  color: var(--text);
+  background: var(--accent-bg-hover);
+}
+.animation-selector .anim-btn.active {
+  background: var(--accent);
+  color: var(--accent-text);
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+
 /* ── Interactive Bracket Predictions ── */
 .bracket-match-team.draggable {
   cursor: grab;

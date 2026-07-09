@@ -186,6 +186,41 @@ export function renderBracketWheel(tree, { container, caption } = {}) {
     role: 'img',
     'aria-label': 'World Cup 2026 knockout bracket wheel',
   });
+
+  // Definitions for grid pattern and filters
+  const defs = el('defs');
+  const pattern = el('pattern', {
+    id: 'hologram-grid',
+    width: '40',
+    height: '40',
+    patternUnits: 'userSpaceOnUse'
+  });
+  const gridPath = el('path', {
+    d: 'M 40 0 L 0 0 0 40',
+    fill: 'none',
+    stroke: 'var(--line)',
+    'stroke-width': '0.5',
+    opacity: '0.15'
+  });
+  pattern.appendChild(gridPath);
+  defs.appendChild(pattern);
+  svg.appendChild(defs);
+
+  // Hologram grid background (rendered behind lines)
+  const gridBg = el('rect', {
+    width: '1000',
+    height: '1000',
+    fill: 'url(#hologram-grid)',
+    class: 'hologram-grid-bg'
+  });
+  svg.appendChild(gridBg);
+
+  // Radar wave ripple circles
+  const radarWave1 = el('circle', { cx: CENTER, cy: CENTER, r: 0, class: 'radar-wave' });
+  const radarWave2 = el('circle', { cx: CENTER, cy: CENTER, r: 0, class: 'radar-wave', style: 'animation-delay: 2s;' });
+  svg.appendChild(radarWave1);
+  svg.appendChild(radarWave2);
+
   const gLines = el('g');
   const gDots = el('g');
   const gBadges = el('g');
