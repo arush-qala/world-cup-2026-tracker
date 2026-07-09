@@ -287,26 +287,34 @@ function switchTab(tabId) {
     if (statsView) statsView.hidden = tabId!=='stats';
   };
 
+  const postDOMUpdate = () => {
+    if (tabId === 'knockout') {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          drawBracketLines();
+        });
+      });
+    }
+    if (tabId === 'predictions') {
+      renderPredictions();
+    }
+    if (tabId === 'wheel') {
+      // Re-render so the draw-in animation replays each time the tab opens.
+      requestAnimationFrame(() => renderWheel());
+    }
+    if (tabId === 'fantasy-players') {
+      renderFantasyPlayers();
+    }
+  };
+
   if (document.startViewTransition) {
-    document.startViewTransition(() => updateDOM());
+    const transition = document.startViewTransition(() => updateDOM());
+    transition.updateCallbackDone.then(() => {
+      postDOMUpdate();
+    });
   } else {
     updateDOM();
-  }
-
-  if (tabId === 'knockout') {
-    requestAnimationFrame(() => {
-      drawBracketLines();
-    });
-  }
-  if (tabId === 'predictions') {
-    renderPredictions();
-  }
-  if (tabId === 'wheel') {
-    // Re-render so the draw-in animation replays each time the tab opens.
-    requestAnimationFrame(() => renderWheel());
-  }
-  if (tabId === 'fantasy-players') {
-    renderFantasyPlayers();
+    postDOMUpdate();
   }
 }
 
