@@ -1539,7 +1539,12 @@
     "venue": "SoFi Stadium, Los Angeles",
     "home": "ESP",
     "away": "BEL",
-    "status": "scheduled"
+    "status": "finished",
+    "score": {
+      "home": 2,
+      "away": 1
+    },
+    "winner": "ESP"
   },
   {
     "id": "M99",
