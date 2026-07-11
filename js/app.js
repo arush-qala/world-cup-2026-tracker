@@ -1013,13 +1013,17 @@ function renderFixtures(fixturesToRender = DATA.fixtures){
     return;
   }
 
+  const isResultsView = fixtureStatus === 'results';
+
   const byDate = {};
   for(const f of fixturesToRender){ (byDate[f.dateUK] ??= []).push(f); }
-  for(const date of Object.keys(byDate).sort()){
+  const sortedDates = Object.keys(byDate).sort((a,b) => isResultsView ? b.localeCompare(a) : a.localeCompare(b));
+  for(const date of sortedDates){
     const h = document.createElement('div'); h.className='fx-date';
     h.textContent = new Date(date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'Europe/London'});
     wrap.appendChild(h);
-    for(const f of byDate[date].sort((a,b)=>a.kickoffUK.localeCompare(b.kickoffUK))){
+    const dayFixtures = byDate[date].sort((a,b) => isResultsView ? b.kickoffUK.localeCompare(a.kickoffUK) : a.kickoffUK.localeCompare(b.kickoffUK));
+    for(const f of dayFixtures){
       const played = f.status==='finished';
       const isLive = !played && (() => {
         const ko = f.kickoffUK ? new Date(f.kickoffUK).getTime() : null;
