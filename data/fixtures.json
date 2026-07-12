@@ -1570,6 +1570,12 @@
     "venue": "Arrowhead Stadium, Kansas City",
     "home": "ARG",
     "away": "SUI",
-    "status": "scheduled"
+    "status": "finished",
+    "score": {
+      "home": 3,
+      "away": 1
+    },
+    "note": "ARG win 3-1 after extra time",
+    "winner": "ARG"
   }
 ]
