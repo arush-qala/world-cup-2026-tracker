@@ -1554,7 +1554,13 @@
     "venue": "Hard Rock Stadium, Miami",
     "home": "NOR",
     "away": "ENG",
-    "status": "scheduled"
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 2
+    },
+    "note": "ENG win 2-1 after extra time",
+    "winner": "ENG"
   },
   {
     "id": "M100",
