@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>World Cup 2026 — Group Tracker</title>
-  <link rel="stylesheet" href="css/styles.css?v=20260709_2040">
+  <link rel="stylesheet" href="css/styles.css?v=20260712_0055">
 </head>
 <body>
   <header class="topbar">
@@ -451,7 +451,20 @@
           <!-- Bars will be inserted here dynamically -->
         </div>
       </div>
-      
+
+      <!-- Multi-edition comparison card -->
+      <div class="fantasy-card" style="height: auto; max-height: none; margin-top: 16px;" id="editions-card" hidden>
+        <div class="fantasy-card-title">📈 Goals per Match — Editions Compared</div>
+        <div class="fantasy-card-desc" id="editions-chart-desc">How goals per match by stage compare across the last four World Cups (2010–2022).</div>
+        <div class="editions-legend" id="editions-legend">
+          <!-- Legend inserted dynamically -->
+        </div>
+        <div class="stats-chart-container" id="editions-chart">
+          <!-- Multi-line SVG inserted dynamically -->
+        </div>
+        <div class="editions-footnote" id="editions-footnote"></div>
+      </div>
+
       <!-- Shared Totals Card inside grid -->
       <div class="fantasy-card" style="height: auto; max-height: none; margin-top: 16px;">
         <div class="fantasy-card-title">🏆 Tournament Totals</div>
@@ -470,6 +483,6 @@
     <div class="modal-card" id="goals-detail-card"></div>
   </div>
 
-  <script type="module" src="js/app.js?v=20260709_2040"></script>
+  <script type="module" src="js/app.js?v=20260712_0055"></script>
 </body>
 </html>

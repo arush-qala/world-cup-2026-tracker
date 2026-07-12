@@ -1472,6 +1472,59 @@ body {
   letter-spacing: 1px;
 }
 
+/* ── Editions Comparison Legend ── */
+.editions-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+.edition-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 11px 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s, border-color 0.15s, background 0.15s;
+}
+.edition-chip:hover {
+  border-color: var(--line-hover);
+  background: var(--accent-bg-hover);
+}
+.edition-chip.active {
+  border-color: var(--accent-border);
+  background: var(--accent-glow);
+}
+.edition-chip.muted {
+  opacity: 0.4;
+}
+.edition-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+.edition-year {
+  font-weight: 800;
+}
+.edition-host {
+  color: var(--muted);
+  font-weight: 500;
+  font-size: 0.72rem;
+}
+.editions-footnote {
+  margin-top: 12px;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
 /* ── Stats Country Filter Panel ── */
 .stats-filter-panel {
   max-width: 900px;

@@ -24,15 +24,18 @@ let activeFilters = {
 };
 let statsCountryFilter = new Set(); // codes of countries selected on the Goal Analytics filter
 let compareMode = false;
+let HISTORICAL = null; // past World Cup goals-per-stage data (data/historical-goals.json); null if unavailable
 
 async function boot(){
-  const [groups, fixtures, fantasy, fantasyPlayers] = await Promise.all([
+  const [groups, fixtures, fantasy, fantasyPlayers, historical] = await Promise.all([
     fetch('data/groups.json').then(r=>r.json()),
     fetch(`data/fixtures.json?t=${Date.now()}`).then(r=>r.json()),
     fetch('data/fantasy.json').then(r=>r.json()),
     fetch('data/fantasy_players.json').then(r=>r.json()),
+    fetch('data/historical-goals.json').then(r=>r.json()).catch(()=>null),
   ]);
   DATA = { groups, fixtures };
+  HISTORICAL = historical;
   FANTASY = fantasy;
   FANTASY_PLAYERS = fantasyPlayers;
   loadPredictions();
@@ -2157,6 +2160,9 @@ function renderStats() {
       ${stageMarkers}
     </svg>`;
 
+  // Multi-edition comparison chart (tournament-wide; independent of the country filter)
+  renderEditionsChart();
+
   // --- Live auto-refresh polling ---
   // Start or restart a 60-second poller only while live matches exist
   if (_statsPoller) clearInterval(_statsPoller);
@@ -2172,6 +2178,162 @@ function renderStats() {
     }, 60000);
   }
 }
+
+// ── Multi-Edition Goals Comparison Chart ──
+// Compares average goals per match by stage across past World Cups (2010–2022),
+// all in the 32-team format. Data comes from the static, auditable
+// data/historical-goals.json. Tournament-wide, so it ignores statsCountryFilter.
+let editionsHighlight = null; // year currently emphasised via the legend, or null
+
+// x-axis stages for the 32-team format (no Round of 32).
+const EDITION_STAGES = [
+  { id: 'MD1', label: 'MD1' },
+  { id: 'MD2', label: 'MD2' },
+  { id: 'MD3', label: 'MD3' },
+  { id: 'R16', label: 'R16' },
+  { id: 'QF',  label: 'QF'  },
+  { id: 'SF',  label: 'SF'  },
+  { id: 'FIN', label: 'FIN' },
+];
+
+const X0 = 60, X_END = 740, Y_BOTTOM = 170, Y_TOP = 40, PLOT_H = Y_BOTTOM - Y_TOP;
+const X_STEP = (X_END - X0) / (EDITION_STAGES.length - 1);
+const xForStage = idx => X0 + idx * X_STEP;
+
+function buildHistoricalSeries(edition) {
+  const avgs = {};
+  for (const s of EDITION_STAGES) {
+    const rec = edition.stages[s.id];
+    avgs[s.id] = rec ? { avg: rec.goals / rec.matches, goals: rec.goals, matches: rec.matches } : null;
+  }
+  return { year: edition.year, host: edition.host, color: edition.color, avgs };
+}
+
+// Break a series into runs of consecutive present stages so any absent stage
+// leaves a gap rather than a line drawn through it.
+function seriesRuns(series, maxAvg) {
+  const runs = [];
+  let run = [];
+  EDITION_STAGES.forEach((s, idx) => {
+    const rec = series.avgs[s.id];
+    if (rec) {
+      run.push({ idx, x: xForStage(idx), y: Y_BOTTOM - (rec.avg / maxAvg) * PLOT_H, ...rec });
+    } else if (run.length) {
+      runs.push(run);
+      run = [];
+    }
+  });
+  if (run.length) runs.push(run);
+  return runs;
+}
+
+function renderEditionsChart() {
+  const card = document.getElementById('editions-card');
+  const chartEl = document.getElementById('editions-chart');
+  if (!card || !chartEl) return;
+
+  // Hide gracefully if the historical dataset failed to load.
+  if (!HISTORICAL || !Array.isArray(HISTORICAL.editions) || HISTORICAL.editions.length === 0) {
+    card.hidden = true;
+    return;
+  }
+  card.hidden = false;
+
+  const historical = [...HISTORICAL.editions]
+    .sort((a, b) => a.year - b.year)
+    .map(buildHistoricalSeries);
+  const drawOrder = historical;
+
+  // Y-scale from the max stage-average across every edition (10% headroom).
+  let peak = 0;
+  for (const ser of drawOrder) {
+    for (const s of EDITION_STAGES) {
+      const rec = ser.avgs[s.id];
+      if (rec && rec.avg > peak) peak = rec.avg;
+    }
+  }
+  const maxAvg = (peak > 0 ? peak : 3) * 1.1;
+
+  // Grid lines + y labels (goals/match), matching the chart above.
+  const divisions = 4;
+  const gridLines = [];
+  for (let i = 0; i <= divisions; i++) {
+    const val = (maxAvg * (i / divisions)).toFixed(1);
+    const y = Y_BOTTOM - (i / divisions) * PLOT_H;
+    gridLines.push(`
+      <line x1="60" y1="${y}" x2="740" y2="${y}" stroke="var(--line)" stroke-width="1" stroke-dasharray="4,4" />
+      <text x="50" y="${y + 4}" fill="var(--muted)" font-size="10" font-weight="700" text-anchor="end">${val}</text>`);
+  }
+
+  // x-axis stage labels.
+  const xLabels = EDITION_STAGES.map((s, idx) =>
+    `<text x="${xForStage(idx)}" y="192" fill="var(--muted)" font-size="11" font-weight="700" text-anchor="middle">${s.label}</text>`
+  ).join('');
+
+  // Series paths + nodes.
+  const seriesSvg = drawOrder.map(ser => {
+    const dimmed = editionsHighlight !== null && editionsHighlight !== ser.year;
+    const highlighted = editionsHighlight === ser.year;
+    const width = highlighted ? 3.5 : 2.5;
+    const opacity = dimmed ? 0.12 : (highlighted ? 1 : 0.82);
+    const glow = highlighted && !dimmed
+      ? `filter="drop-shadow(0 0 5px ${ser.color})"` : '';
+
+    const runs = seriesRuns(ser, maxAvg);
+    const paths = runs.map(run => {
+      const d = `M ${run[0].x} ${run[0].y} ` + run.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
+      return `<path d="${d}" fill="none" stroke="${ser.color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}" ${glow} />`;
+    }).join('');
+
+    const nodes = runs.flat().map(p => {
+      const stageId = EDITION_STAGES[p.idx].id;
+      const label = highlighted
+        ? `<text x="${p.x}" y="${p.y - 9}" fill="${ser.color}" font-size="9" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>`
+        : '';
+      return `
+        <circle cx="${p.x}" cy="${p.y}" r="${highlighted ? 4 : 3}" fill="${ser.color}" stroke="var(--panel)" stroke-width="1.5" opacity="${opacity}">
+          <title>${ser.year} · ${stageId}: ${p.avg.toFixed(2)} goals/match (${p.goals} in ${p.matches})</title>
+        </circle>
+        ${label}`;
+    }).join('');
+
+    return paths + nodes;
+  }).join('');
+
+  chartEl.innerHTML = `
+    <svg width="100%" height="210" viewBox="0 0 800 210" preserveAspectRatio="xMidYMid meet" style="overflow: visible;">
+      ${gridLines.join('')}
+      ${xLabels}
+      ${seriesSvg}
+    </svg>`;
+
+  // Legend — newest edition first; click to emphasise a line.
+  const legendEl = document.getElementById('editions-legend');
+  if (legendEl) {
+    const legendOrder = [...historical].reverse(); // newest edition first
+    legendEl.innerHTML = legendOrder.map(ser => {
+      const active = editionsHighlight === ser.year;
+      return `
+        <button type="button" class="edition-chip${active ? ' active' : ''}${editionsHighlight !== null && !active ? ' muted' : ''}"
+                onclick="window.toggleEditionHighlight(${ser.year})">
+          <span class="edition-swatch" style="background:${ser.color}"></span>
+          <span class="edition-year">${ser.year}</span>
+          <span class="edition-host">${ser.host}</span>
+        </button>`;
+    }).join('');
+  }
+
+  // Footnote.
+  const footEl = document.getElementById('editions-footnote');
+  if (footEl) {
+    footEl.textContent = 'Past editions in the 32-team format (2010–2022). Goals count regulation + extra time and exclude penalty-shootout goals.';
+  }
+}
+
+window.toggleEditionHighlight = (year) => {
+  editionsHighlight = (editionsHighlight === year) ? null : year;
+  renderEditionsChart();
+};
 
 // ── Stage Goals Detail Modal Helper Functions ──
 let selectedMatchId = null;
