@@ -1544,7 +1544,7 @@ const KNOCKOUT_SCHEDULE = {
   M100: { kickoffUK: '2026-07-12T02:00:00+01:00', venue: 'Arrowhead Stadium, Kansas City' },
 
   // Semi-finals
-  M101: { kickoffUK: '2026-07-14T21:00:00+01:00', venue: 'AT&T Stadium, Arlington' },
+  M101: { kickoffUK: '2026-07-14T20:00:00+01:00', venue: 'AT&T Stadium, Arlington' },
   M102: { kickoffUK: '2026-07-15T20:00:00+01:00', venue: 'Mercedes-Benz Stadium, Atlanta' },
 
   // Final & 3rd Place
@@ -1725,8 +1725,9 @@ function renderKnockouts() {
 
   const ukDate = (iso) => {
     const d = new Date(iso);
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    return `${d.getDate()} ${months[d.getMonth()]}`;
+    const day = d.toLocaleDateString('en-GB', { day: 'numeric', timeZone: 'Europe/London' });
+    const month = d.toLocaleDateString('en-GB', { month: 'short', timeZone: 'Europe/London' });
+    return `${day} ${month}`;
   };
 
   const renderMatchCardHTML = (m) => {
