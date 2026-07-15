@@ -11,13 +11,25 @@
     <h1>World Cup 2026 · Group Tracker</h1>
     <nav class="tabs" style="margin-left: auto;">
       <button class="tab active" data-tab="fixtures">Fixtures</button>
-      <button class="tab" data-tab="groups">Groups</button>
+      <!-- <button class="tab" data-tab="groups">Groups</button> -->
       <!-- <button class="tab" data-tab="strength">Strength</button> -->
-      <button class="tab" data-tab="fantasy">Set Piece Takers</button>
+      <!-- <button class="tab" data-tab="fantasy">Set Piece Takers</button> -->
       <button class="tab" data-tab="fantasy-players">Fantasy Points</button>
       <button class="tab" data-tab="knockout">Knockouts</button>
+      <button class="tab" data-tab="wheel">Bracket Wheel</button>
       <button class="tab" data-tab="stats">Stats</button>
     </nav>
+    <div class="timezone-control-wrap">
+      <svg class="icon-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="2" y1="12" x2="22" y2="12"></line>
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+      </svg>
+      <select id="timezone-selector" class="timezone-select">
+        <option value="LOCAL">Local Time</option>
+        <option value="Europe/London">UK Time (BST)</option>
+      </select>
+    </div>
     <button class="btn-compare" id="btn-toggle-compare">
       <svg class="icon-compare" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M5 4h4v16H5zM15 4h4v16h-4z"/>
@@ -310,19 +322,22 @@
           <table class="fantasy-table">
             <thead>
               <tr id="player-table-headers">
-                <th data-sort="name" class="sort-header" style="width: 22%;">Player</th>
-                <th data-sort="teamCode" class="sort-header" style="width: 12%;">Country</th>
-                <th data-sort="position" class="sort-header" style="width: 7%;">Pos</th>
-                <th data-sort="price" class="sort-header text-right" style="width: 8%;">Price</th>
-                <th data-sort="percentSelected" class="sort-header text-right" style="width: 8%;">Sel %</th>
-                <th data-sort="avgPoints" class="sort-header text-center" style="width: 5%;">Avg</th>
-                <th data-sort="form" class="sort-header text-center" style="width: 5%;">Form</th>
-                <th data-sort="pointsByRound.md1" class="sort-header text-center" style="width: 5%;">MD1</th>
-                <th data-sort="pointsByRound.md2" class="sort-header text-center" style="width: 5%;">MD2</th>
-                <th data-sort="pointsByRound.md3" class="sort-header text-center" style="width: 5%;">MD3</th>
-                <th data-sort="pointsByRound.r32" class="sort-header text-center" style="width: 5%;">R32</th>
-                <th data-sort="pointsByRound.r16" class="sort-header text-center" style="width: 5%;">R16</th>
-                <th data-sort="totalPoints" class="sort-header text-center text-accent" style="width: 5%;">Total</th>
+                <th data-sort="name" class="sort-header" style="width: 17%;">Player</th>
+                <th data-sort="teamCode" class="sort-header" style="width: 10%;">Country</th>
+                <th data-sort="position" class="sort-header" style="width: 5%;">Pos</th>
+                <th data-sort="price" class="sort-header text-right" style="width: 7%;">Price</th>
+                <th data-sort="percentSelected" class="sort-header text-right" style="width: 7%;">Sel %</th>
+                <th data-sort="avgPoints" class="sort-header text-center" style="width: 4%;">Avg</th>
+                <th data-sort="form" class="sort-header text-center" style="width: 4%;">Form</th>
+                <th data-sort="pointsByRound.md1" class="sort-header text-center" style="width: 4%;">MD1</th>
+                <th data-sort="pointsByRound.md2" class="sort-header text-center" style="width: 4%;">MD2</th>
+                <th data-sort="pointsByRound.md3" class="sort-header text-center" style="width: 4%;">MD3</th>
+                <th data-sort="pointsByRound.r32" class="sort-header text-center" style="width: 4%;">R32</th>
+                <th data-sort="pointsByRound.r16" class="sort-header text-center" style="width: 4%;">R16</th>
+                <th data-sort="pointsByRound.qf" class="sort-header text-center" style="width: 4%;">QF</th>
+                <th data-sort="pointsByRound.sf" class="sort-header text-center" style="width: 4%;">SF</th>
+                <th data-sort="pointsByRound.fi" class="sort-header text-center" style="width: 4%;">FI</th>
+                <th data-sort="totalPoints" class="sort-header text-center text-accent" style="width: 4%;">Total</th>
               </tr>
             </thead>
             <tbody id="fantasy-players-list">
@@ -407,10 +422,14 @@
   <section id="wheel-view" hidden>
     <div class="viewbar">
       <h2>Bracket Wheel</h2>
-      <span class="updated" id="wheel-caption"></span>
+      <span class="updated" id="wheel-caption">Live projected bracket — winners light up as results come in</span>
     </div>
     <div class="wheel-wrap">
       <div id="wheel-canvas" class="wheel-canvas"></div>
+      <div id="wheel-hud" class="wheel-hud" style="opacity: 0; pointer-events: none;">
+        <div class="hud-header">SYSTEM ACTIVE</div>
+        <div class="hud-body">Hover over a team flag or node to query tournament telemetry...</div>
+      </div>
     </div>
   </section>
 
@@ -443,7 +462,20 @@
           <!-- Bars will be inserted here dynamically -->
         </div>
       </div>
-      
+
+      <!-- Multi-edition comparison card -->
+      <div class="fantasy-card" style="height: auto; max-height: none; margin-top: 16px;" id="editions-card" hidden>
+        <div class="fantasy-card-title">📈 Goals per Match — Editions Compared</div>
+        <div class="fantasy-card-desc" id="editions-chart-desc">How goals per match by stage compare across the last four World Cups (2010–2022).</div>
+        <div class="editions-legend" id="editions-legend">
+          <!-- Legend inserted dynamically -->
+        </div>
+        <div class="stats-chart-container" id="editions-chart">
+          <!-- Multi-line SVG inserted dynamically -->
+        </div>
+        <div class="editions-footnote" id="editions-footnote"></div>
+      </div>
+
       <!-- Shared Totals Card inside grid -->
       <div class="fantasy-card" style="height: auto; max-height: none; margin-top: 16px;">
         <div class="fantasy-card-title">🏆 Tournament Totals</div>

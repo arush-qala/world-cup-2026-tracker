@@ -35,6 +35,7 @@ async function boot(){
     fetch('data/historical-goals.json').then(r=>r.json()).catch(()=>null),
   ]);
   DATA = { groups, fixtures };
+  initTimezoneSelector();
   HISTORICAL = historical;
   FANTASY = fantasy;
   FANTASY_PLAYERS = fantasyPlayers;
@@ -706,7 +707,118 @@ function showUpdated(){
 }
 
 function flagOf(code){ for(const g of Object.values(DATA.groups)){ const t=g.find(x=>x.code===code); if(t) return t.flag; } return '🏳️'; }
-function ukTime(iso){ return new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'}); }
+
+let userTimezoneSetting = localStorage.getItem('world_cup_tracker_timezone') || 'LOCAL';
+
+function getSelectedTimezone() {
+  return userTimezoneSetting;
+}
+
+function getLocalTimezoneLabel() {
+  try {
+    const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const parts = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' }).formatToParts(new Date());
+    const shortName = parts.find(p => p.type === 'timeZoneName')?.value || tzName;
+    return `Local (${shortName})`;
+  } catch (e) {
+    return 'Local Time';
+  }
+}
+
+function getMatchLocalDateKey(f) {
+  if (!f.kickoffUK) return f.dateUK || 'TBD';
+  const tz = getSelectedTimezone();
+  const d = new Date(f.kickoffUK);
+  try {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: tz === 'LOCAL' ? undefined : tz
+    }).format(d);
+  } catch (e) {
+    return f.dateUK || 'TBD';
+  }
+}
+
+function populateDateFilter() {
+  const dateSelect = document.getElementById('filter-date');
+  if (!dateSelect) return;
+  const currentVal = activeFilters.date;
+  
+  const tz = getSelectedTimezone();
+  const localDates = [...new Set(DATA.fixtures.map(f => getMatchLocalDateKey(f)))].sort();
+  
+  dateSelect.innerHTML = '<option value="ALL">All Dates</option>';
+  for (const date of localDates) {
+    if (date === 'TBD' || !date) continue;
+    const opt = document.createElement('option');
+    opt.value = date;
+    
+    const matchForDate = DATA.fixtures.find(f => getMatchLocalDateKey(f) === date);
+    if (matchForDate && matchForDate.kickoffUK) {
+      opt.textContent = new Date(matchForDate.kickoffUK).toLocaleDateString('en-GB', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        timeZone: tz === 'LOCAL' ? undefined : tz
+      });
+    } else {
+      opt.textContent = new Date(date).toLocaleDateString('en-GB', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        timeZone: 'UTC'
+      });
+    }
+    dateSelect.appendChild(opt);
+  }
+  
+  if (localDates.includes(currentVal)) {
+    dateSelect.value = currentVal;
+    activeFilters.date = currentVal;
+  } else {
+    dateSelect.value = 'ALL';
+    activeFilters.date = 'ALL';
+  }
+}
+
+function initTimezoneSelector() {
+  const tzSelector = document.getElementById('timezone-selector');
+  if (!tzSelector) return;
+  
+  const localOption = tzSelector.querySelector('option[value="LOCAL"]');
+  if (localOption) {
+    localOption.textContent = getLocalTimezoneLabel();
+  }
+  
+  tzSelector.value = userTimezoneSetting;
+  
+  tzSelector.onchange = () => {
+    userTimezoneSetting = tzSelector.value;
+    localStorage.setItem('world_cup_tracker_timezone', userTimezoneSetting);
+    
+    populateDateFilter();
+    applyFilters();
+    renderKnockouts();
+  };
+}
+
+function ukTime(iso){
+  if (!iso) return '';
+  const tz = getSelectedTimezone();
+  try {
+    return new Date(iso).toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: tz === 'LOCAL' ? undefined : tz
+    });
+  } catch (e) {
+    return new Date(iso).toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Europe/London'
+    });
+  }
+}
+
 
 function setupCustomMultiSelect(containerId, onChange){
   const container = document.getElementById(containerId);
@@ -814,17 +926,7 @@ function initFilters(){
   }
 
   // Populate date filter
-  const uniqueDates = [...new Set(DATA.fixtures.map(f=>f.dateUK))].sort();
-  const dateSelect = document.getElementById('filter-date');
-  dateSelect.innerHTML = '<option value="ALL">All Dates</option>';
-  for(const date of uniqueDates){
-    const opt = document.createElement('option');
-    opt.value = date;
-    opt.textContent = new Date(date).toLocaleDateString('en-GB',{
-      weekday:'short',day:'numeric',month:'short',timeZone:'Europe/London'
-    });
-    dateSelect.appendChild(opt);
-  }
+  populateDateFilter();
 
   // Bind change events for standard inputs
   const stageSelect = document.getElementById('filter-stage');
@@ -935,8 +1037,11 @@ function applyFilters(){
     // 0. Status filter (All / Upcoming / Results)
     if (fixtureStatus !== 'ALL') {
       if (fixtureStatus === 'today') {
-        const todayUK = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(new Date());
-        if (f.dateUK !== todayUK) return false;
+        const tz = getSelectedTimezone();
+        const todayLocal = new Intl.DateTimeFormat('en-CA', {
+          timeZone: tz === 'LOCAL' ? undefined : tz
+        }).format(new Date());
+        if (getMatchLocalDateKey(f) !== todayLocal) return false;
       }
       if (fixtureStatus === 'upcoming' && f.status !== 'scheduled') return false;
       if (fixtureStatus === 'results' && f.status !== 'finished') return false;
@@ -972,7 +1077,7 @@ function applyFilters(){
 
     // 4. Date filter
     if (activeFilters.date !== 'ALL') {
-      if (f.dateUK !== activeFilters.date) return false;
+      if (getMatchLocalDateKey(f) !== activeFilters.date) return false;
     }
 
     return true;
@@ -1019,13 +1124,36 @@ function renderFixtures(fixturesToRender = DATA.fixtures){
   const isResultsView = fixtureStatus === 'results';
 
   const byDate = {};
-  for(const f of fixturesToRender){ (byDate[f.dateUK] ??= []).push(f); }
+  for(const f of fixturesToRender){
+    const dateKey = getMatchLocalDateKey(f);
+    (byDate[dateKey] ??= []).push(f);
+  }
   const sortedDates = Object.keys(byDate).sort((a,b) => isResultsView ? b.localeCompare(a) : a.localeCompare(b));
   for(const date of sortedDates){
     const h = document.createElement('div'); h.className='fx-date';
-    h.textContent = new Date(date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'Europe/London'});
+    const matchForDate = byDate[date][0];
+    if (matchForDate && matchForDate.kickoffUK) {
+      const tz = getSelectedTimezone();
+      h.textContent = new Date(matchForDate.kickoffUK).toLocaleDateString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        timeZone: tz === 'LOCAL' ? undefined : tz
+      });
+    } else {
+      h.textContent = date === 'TBD' ? 'Date TBD' : new Date(date).toLocaleDateString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        timeZone: 'UTC'
+      });
+    }
     wrap.appendChild(h);
-    const dayFixtures = byDate[date].sort((a,b) => isResultsView ? b.kickoffUK.localeCompare(a.kickoffUK) : a.kickoffUK.localeCompare(b.kickoffUK));
+    const dayFixtures = byDate[date].sort((a,b) => {
+      const timeA = a.kickoffUK ? new Date(a.kickoffUK).getTime() : 0;
+      const timeB = b.kickoffUK ? new Date(b.kickoffUK).getTime() : 0;
+      return isResultsView ? timeB - timeA : timeA - timeB;
+    });
     for(const f of dayFixtures){
       const played = f.status==='finished';
       const isLive = !played && (() => {
@@ -1725,10 +1853,12 @@ function renderKnockouts() {
 
   const ukDate = (iso) => {
     const d = new Date(iso);
-    const day = d.toLocaleDateString('en-GB', { day: 'numeric', timeZone: 'Europe/London' });
-    const month = d.toLocaleDateString('en-GB', { month: 'short', timeZone: 'Europe/London' });
+    const tz = getSelectedTimezone();
+    const day = d.toLocaleDateString('en-GB', { day: 'numeric', timeZone: tz === 'LOCAL' ? undefined : tz });
+    const month = d.toLocaleDateString('en-GB', { month: 'short', timeZone: tz === 'LOCAL' ? undefined : tz });
     return `${day} ${month}`;
   };
+
 
   const renderMatchCardHTML = (m) => {
     const played = m.status === 'finished';

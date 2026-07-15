@@ -2336,6 +2336,58 @@ body {
   height: 14px;
 }
 
+/* ── Timezone Selector ────────────────────────── */
+.timezone-control-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 20px;
+  transition: all 0.2s ease;
+  margin-left: 8px;
+  letter-spacing: 0.5px;
+  position: relative;
+}
+.timezone-control-wrap:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 2px 8px var(--accent-glow);
+}
+.timezone-control-wrap svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: var(--muted);
+}
+.timezone-control-wrap:hover svg {
+  color: var(--accent);
+}
+.timezone-select {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+  padding-right: 2px;
+}
+.timezone-select option {
+  background: var(--panel);
+  color: var(--text);
+  font-family: sans-serif;
+  text-transform: none;
+}
+
+
 .comparator-container {
   display: none;
   width: 100%;

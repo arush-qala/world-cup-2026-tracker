@@ -24,15 +24,19 @@ let activeFilters = {
 };
 let statsCountryFilter = new Set(); // codes of countries selected on the Goal Analytics filter
 let compareMode = false;
+let HISTORICAL = null; // past World Cup goals-per-stage data (data/historical-goals.json); null if unavailable
 
 async function boot(){
-  const [groups, fixtures, fantasy, fantasyPlayers] = await Promise.all([
+  const [groups, fixtures, fantasy, fantasyPlayers, historical] = await Promise.all([
     fetch('data/groups.json').then(r=>r.json()),
     fetch(`data/fixtures.json?t=${Date.now()}`).then(r=>r.json()),
     fetch('data/fantasy.json').then(r=>r.json()),
     fetch('data/fantasy_players.json').then(r=>r.json()),
+    fetch('data/historical-goals.json').then(r=>r.json()).catch(()=>null),
   ]);
   DATA = { groups, fixtures };
+  initTimezoneSelector();
+  HISTORICAL = historical;
   FANTASY = fantasy;
   FANTASY_PLAYERS = fantasyPlayers;
   loadPredictions();
@@ -321,7 +325,7 @@ function switchTab(tabId) {
 function handleRouting() {
   let fullHash = window.location.hash.replace('#/', '').replace('#', '');
   const [tabId] = fullHash.split('?');
-  const validTabs = ['fixtures', 'groups', 'strength', 'fantasy', 'fantasy-players', 'knockout', 'stats'];
+  const validTabs = ['fixtures', 'strength', 'fantasy-players', 'knockout', 'wheel', 'stats'];
   const defaultTab = 'fixtures';
   
   if (!tabId || !validTabs.includes(tabId)) {
@@ -703,7 +707,118 @@ function showUpdated(){
 }
 
 function flagOf(code){ for(const g of Object.values(DATA.groups)){ const t=g.find(x=>x.code===code); if(t) return t.flag; } return '🏳️'; }
-function ukTime(iso){ return new Date(iso).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',timeZone:'Europe/London'}); }
+
+let userTimezoneSetting = localStorage.getItem('world_cup_tracker_timezone') || 'LOCAL';
+
+function getSelectedTimezone() {
+  return userTimezoneSetting;
+}
+
+function getLocalTimezoneLabel() {
+  try {
+    const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const parts = new Intl.DateTimeFormat('en-US', { timeZoneName: 'short' }).formatToParts(new Date());
+    const shortName = parts.find(p => p.type === 'timeZoneName')?.value || tzName;
+    return `Local (${shortName})`;
+  } catch (e) {
+    return 'Local Time';
+  }
+}
+
+function getMatchLocalDateKey(f) {
+  if (!f.kickoffUK) return f.dateUK || 'TBD';
+  const tz = getSelectedTimezone();
+  const d = new Date(f.kickoffUK);
+  try {
+    return new Intl.DateTimeFormat('en-CA', {
+      timeZone: tz === 'LOCAL' ? undefined : tz
+    }).format(d);
+  } catch (e) {
+    return f.dateUK || 'TBD';
+  }
+}
+
+function populateDateFilter() {
+  const dateSelect = document.getElementById('filter-date');
+  if (!dateSelect) return;
+  const currentVal = activeFilters.date;
+  
+  const tz = getSelectedTimezone();
+  const localDates = [...new Set(DATA.fixtures.map(f => getMatchLocalDateKey(f)))].sort();
+  
+  dateSelect.innerHTML = '<option value="ALL">All Dates</option>';
+  for (const date of localDates) {
+    if (date === 'TBD' || !date) continue;
+    const opt = document.createElement('option');
+    opt.value = date;
+    
+    const matchForDate = DATA.fixtures.find(f => getMatchLocalDateKey(f) === date);
+    if (matchForDate && matchForDate.kickoffUK) {
+      opt.textContent = new Date(matchForDate.kickoffUK).toLocaleDateString('en-GB', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        timeZone: tz === 'LOCAL' ? undefined : tz
+      });
+    } else {
+      opt.textContent = new Date(date).toLocaleDateString('en-GB', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        timeZone: 'UTC'
+      });
+    }
+    dateSelect.appendChild(opt);
+  }
+  
+  if (localDates.includes(currentVal)) {
+    dateSelect.value = currentVal;
+    activeFilters.date = currentVal;
+  } else {
+    dateSelect.value = 'ALL';
+    activeFilters.date = 'ALL';
+  }
+}
+
+function initTimezoneSelector() {
+  const tzSelector = document.getElementById('timezone-selector');
+  if (!tzSelector) return;
+  
+  const localOption = tzSelector.querySelector('option[value="LOCAL"]');
+  if (localOption) {
+    localOption.textContent = getLocalTimezoneLabel();
+  }
+  
+  tzSelector.value = userTimezoneSetting;
+  
+  tzSelector.onchange = () => {
+    userTimezoneSetting = tzSelector.value;
+    localStorage.setItem('world_cup_tracker_timezone', userTimezoneSetting);
+    
+    populateDateFilter();
+    applyFilters();
+    renderKnockouts();
+  };
+}
+
+function ukTime(iso){
+  if (!iso) return '';
+  const tz = getSelectedTimezone();
+  try {
+    return new Date(iso).toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: tz === 'LOCAL' ? undefined : tz
+    });
+  } catch (e) {
+    return new Date(iso).toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Europe/London'
+    });
+  }
+}
+
 
 function setupCustomMultiSelect(containerId, onChange){
   const container = document.getElementById(containerId);
@@ -811,17 +926,7 @@ function initFilters(){
   }
 
   // Populate date filter
-  const uniqueDates = [...new Set(DATA.fixtures.map(f=>f.dateUK))].sort();
-  const dateSelect = document.getElementById('filter-date');
-  dateSelect.innerHTML = '<option value="ALL">All Dates</option>';
-  for(const date of uniqueDates){
-    const opt = document.createElement('option');
-    opt.value = date;
-    opt.textContent = new Date(date).toLocaleDateString('en-GB',{
-      weekday:'short',day:'numeric',month:'short',timeZone:'Europe/London'
-    });
-    dateSelect.appendChild(opt);
-  }
+  populateDateFilter();
 
   // Bind change events for standard inputs
   const stageSelect = document.getElementById('filter-stage');
@@ -932,8 +1037,11 @@ function applyFilters(){
     // 0. Status filter (All / Upcoming / Results)
     if (fixtureStatus !== 'ALL') {
       if (fixtureStatus === 'today') {
-        const todayUK = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/London' }).format(new Date());
-        if (f.dateUK !== todayUK) return false;
+        const tz = getSelectedTimezone();
+        const todayLocal = new Intl.DateTimeFormat('en-CA', {
+          timeZone: tz === 'LOCAL' ? undefined : tz
+        }).format(new Date());
+        if (getMatchLocalDateKey(f) !== todayLocal) return false;
       }
       if (fixtureStatus === 'upcoming' && f.status !== 'scheduled') return false;
       if (fixtureStatus === 'results' && f.status !== 'finished') return false;
@@ -969,7 +1077,7 @@ function applyFilters(){
 
     // 4. Date filter
     if (activeFilters.date !== 'ALL') {
-      if (f.dateUK !== activeFilters.date) return false;
+      if (getMatchLocalDateKey(f) !== activeFilters.date) return false;
     }
 
     return true;
@@ -1013,13 +1121,40 @@ function renderFixtures(fixturesToRender = DATA.fixtures){
     return;
   }
 
+  const isResultsView = fixtureStatus === 'results';
+
   const byDate = {};
-  for(const f of fixturesToRender){ (byDate[f.dateUK] ??= []).push(f); }
-  for(const date of Object.keys(byDate).sort()){
+  for(const f of fixturesToRender){
+    const dateKey = getMatchLocalDateKey(f);
+    (byDate[dateKey] ??= []).push(f);
+  }
+  const sortedDates = Object.keys(byDate).sort((a,b) => isResultsView ? b.localeCompare(a) : a.localeCompare(b));
+  for(const date of sortedDates){
     const h = document.createElement('div'); h.className='fx-date';
-    h.textContent = new Date(date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',timeZone:'Europe/London'});
+    const matchForDate = byDate[date][0];
+    if (matchForDate && matchForDate.kickoffUK) {
+      const tz = getSelectedTimezone();
+      h.textContent = new Date(matchForDate.kickoffUK).toLocaleDateString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        timeZone: tz === 'LOCAL' ? undefined : tz
+      });
+    } else {
+      h.textContent = date === 'TBD' ? 'Date TBD' : new Date(date).toLocaleDateString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        timeZone: 'UTC'
+      });
+    }
     wrap.appendChild(h);
-    for(const f of byDate[date].sort((a,b)=>a.kickoffUK.localeCompare(b.kickoffUK))){
+    const dayFixtures = byDate[date].sort((a,b) => {
+      const timeA = a.kickoffUK ? new Date(a.kickoffUK).getTime() : 0;
+      const timeB = b.kickoffUK ? new Date(b.kickoffUK).getTime() : 0;
+      return isResultsView ? timeB - timeA : timeA - timeB;
+    });
+    for(const f of dayFixtures){
       const played = f.status==='finished';
       const isLive = !played && (() => {
         const ko = f.kickoffUK ? new Date(f.kickoffUK).getTime() : null;
@@ -1071,12 +1206,16 @@ function getEliminatedTeams() {
   );
 
   knockoutMatches.forEach(f => {
-    const hg = f.score.home ?? 0;
-    const ag = f.score.away ?? 0;
-    // The loser is eliminated (scores should never be equal in knockout — extra time decides)
-    if (hg > ag) eliminated.add(f.away);
-    else if (ag > hg) eliminated.add(f.home);
-    // If still equal (data not yet updated), don't eliminate either
+    if (f.winner) {
+      const loser = f.winner === f.home ? f.away : f.home;
+      if (loser) eliminated.add(loser);
+    } else {
+      const hg = f.score.home ?? 0;
+      const ag = f.score.away ?? 0;
+      // The loser is eliminated (scores should never be equal in knockout — extra time decides)
+      if (hg > ag) eliminated.add(f.away);
+      else if (ag > hg) eliminated.add(f.home);
+    }
   });
 
   // Also eliminate teams that didn't qualify from the group stage
@@ -1124,6 +1263,12 @@ function buildBracketTree() {
     const sh = m.score.home ?? 0, sa = m.score.away ?? 0;
     if (sh > sa) return m.home;
     if (sa > sh) return m.away;
+    // Draw in regular time — check fixture's explicit winner (penalties / ET)
+    const f = DATA.fixtures.find(fx => fx.id === m.id);
+    if (f && f.winner) {
+      if (m.home && m.home.code === f.winner) return m.home;
+      if (m.away && m.away.code === f.winner) return m.away;
+    }
     return (m.home.fifaPoints ?? 0) >= (m.away.fifaPoints ?? 0) ? m.home : m.away;
   };
 
@@ -1145,11 +1290,11 @@ function buildBracketTree() {
           advanced: !!(winner && winner.code === team.code), // won this R32 tie
         };
       });
-      return { id: s.id, round: 'r32', team: winner, decided, advanced, children };
+      return { id: s.id, round: 'r32', team: winner, decided, advanced, children, match: m };
     }
 
     const children = s.children.map(c => decorate(c, winner ? winner.code : null));
-    return { id: s.id, round: s.round, team: winner, decided, advanced, children };
+    return { id: s.id, round: s.round, team: winner, decided, advanced, children, match: m };
   };
 
   return decorate(buildBracketStructure(), null);
@@ -1166,6 +1311,11 @@ function renderWheel() {
     return; // group data not ready yet
   }
   renderBracketWheel(tree, { container, caption });
+  
+  const svg = container.querySelector('.wheel-svg');
+  if (svg) {
+    svg.classList.add('anim-hologram');
+  }
 }
 
 function renderFantasyHub(setpieceFilter = '') {
@@ -1703,10 +1853,12 @@ function renderKnockouts() {
 
   const ukDate = (iso) => {
     const d = new Date(iso);
-    const day = d.toLocaleDateString('en-GB', { day: 'numeric', timeZone: 'Europe/London' });
-    const month = d.toLocaleDateString('en-GB', { month: 'short', timeZone: 'Europe/London' });
+    const tz = getSelectedTimezone();
+    const day = d.toLocaleDateString('en-GB', { day: 'numeric', timeZone: tz === 'LOCAL' ? undefined : tz });
+    const month = d.toLocaleDateString('en-GB', { month: 'short', timeZone: tz === 'LOCAL' ? undefined : tz });
     return `${day} ${month}`;
   };
+
 
   const renderMatchCardHTML = (m) => {
     const played = m.status === 'finished';
@@ -2139,6 +2291,9 @@ function renderStats() {
       ${stageMarkers}
     </svg>`;
 
+  // Multi-edition comparison chart (tournament-wide; independent of the country filter)
+  renderEditionsChart();
+
   // --- Live auto-refresh polling ---
   // Start or restart a 60-second poller only while live matches exist
   if (_statsPoller) clearInterval(_statsPoller);
@@ -2154,6 +2309,162 @@ function renderStats() {
     }, 60000);
   }
 }
+
+// ── Multi-Edition Goals Comparison Chart ──
+// Compares average goals per match by stage across past World Cups (2010–2022),
+// all in the 32-team format. Data comes from the static, auditable
+// data/historical-goals.json. Tournament-wide, so it ignores statsCountryFilter.
+let editionsHighlight = null; // year currently emphasised via the legend, or null
+
+// x-axis stages for the 32-team format (no Round of 32).
+const EDITION_STAGES = [
+  { id: 'MD1', label: 'MD1' },
+  { id: 'MD2', label: 'MD2' },
+  { id: 'MD3', label: 'MD3' },
+  { id: 'R16', label: 'R16' },
+  { id: 'QF',  label: 'QF'  },
+  { id: 'SF',  label: 'SF'  },
+  { id: 'FIN', label: 'FIN' },
+];
+
+const X0 = 60, X_END = 740, Y_BOTTOM = 170, Y_TOP = 40, PLOT_H = Y_BOTTOM - Y_TOP;
+const X_STEP = (X_END - X0) / (EDITION_STAGES.length - 1);
+const xForStage = idx => X0 + idx * X_STEP;
+
+function buildHistoricalSeries(edition) {
+  const avgs = {};
+  for (const s of EDITION_STAGES) {
+    const rec = edition.stages[s.id];
+    avgs[s.id] = rec ? { avg: rec.goals / rec.matches, goals: rec.goals, matches: rec.matches } : null;
+  }
+  return { year: edition.year, host: edition.host, color: edition.color, avgs };
+}
+
+// Break a series into runs of consecutive present stages so any absent stage
+// leaves a gap rather than a line drawn through it.
+function seriesRuns(series, maxAvg) {
+  const runs = [];
+  let run = [];
+  EDITION_STAGES.forEach((s, idx) => {
+    const rec = series.avgs[s.id];
+    if (rec) {
+      run.push({ idx, x: xForStage(idx), y: Y_BOTTOM - (rec.avg / maxAvg) * PLOT_H, ...rec });
+    } else if (run.length) {
+      runs.push(run);
+      run = [];
+    }
+  });
+  if (run.length) runs.push(run);
+  return runs;
+}
+
+function renderEditionsChart() {
+  const card = document.getElementById('editions-card');
+  const chartEl = document.getElementById('editions-chart');
+  if (!card || !chartEl) return;
+
+  // Hide gracefully if the historical dataset failed to load.
+  if (!HISTORICAL || !Array.isArray(HISTORICAL.editions) || HISTORICAL.editions.length === 0) {
+    card.hidden = true;
+    return;
+  }
+  card.hidden = false;
+
+  const historical = [...HISTORICAL.editions]
+    .sort((a, b) => a.year - b.year)
+    .map(buildHistoricalSeries);
+  const drawOrder = historical;
+
+  // Y-scale from the max stage-average across every edition (10% headroom).
+  let peak = 0;
+  for (const ser of drawOrder) {
+    for (const s of EDITION_STAGES) {
+      const rec = ser.avgs[s.id];
+      if (rec && rec.avg > peak) peak = rec.avg;
+    }
+  }
+  const maxAvg = (peak > 0 ? peak : 3) * 1.1;
+
+  // Grid lines + y labels (goals/match), matching the chart above.
+  const divisions = 4;
+  const gridLines = [];
+  for (let i = 0; i <= divisions; i++) {
+    const val = (maxAvg * (i / divisions)).toFixed(1);
+    const y = Y_BOTTOM - (i / divisions) * PLOT_H;
+    gridLines.push(`
+      <line x1="60" y1="${y}" x2="740" y2="${y}" stroke="var(--line)" stroke-width="1" stroke-dasharray="4,4" />
+      <text x="50" y="${y + 4}" fill="var(--muted)" font-size="10" font-weight="700" text-anchor="end">${val}</text>`);
+  }
+
+  // x-axis stage labels.
+  const xLabels = EDITION_STAGES.map((s, idx) =>
+    `<text x="${xForStage(idx)}" y="192" fill="var(--muted)" font-size="11" font-weight="700" text-anchor="middle">${s.label}</text>`
+  ).join('');
+
+  // Series paths + nodes.
+  const seriesSvg = drawOrder.map(ser => {
+    const dimmed = editionsHighlight !== null && editionsHighlight !== ser.year;
+    const highlighted = editionsHighlight === ser.year;
+    const width = highlighted ? 3.5 : 2.5;
+    const opacity = dimmed ? 0.12 : (highlighted ? 1 : 0.82);
+    const glow = highlighted && !dimmed
+      ? `filter="drop-shadow(0 0 5px ${ser.color})"` : '';
+
+    const runs = seriesRuns(ser, maxAvg);
+    const paths = runs.map(run => {
+      const d = `M ${run[0].x} ${run[0].y} ` + run.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
+      return `<path d="${d}" fill="none" stroke="${ser.color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}" ${glow} />`;
+    }).join('');
+
+    const nodes = runs.flat().map(p => {
+      const stageId = EDITION_STAGES[p.idx].id;
+      const label = highlighted
+        ? `<text x="${p.x}" y="${p.y - 9}" fill="${ser.color}" font-size="9" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>`
+        : '';
+      return `
+        <circle cx="${p.x}" cy="${p.y}" r="${highlighted ? 4 : 3}" fill="${ser.color}" stroke="var(--panel)" stroke-width="1.5" opacity="${opacity}">
+          <title>${ser.year} · ${stageId}: ${p.avg.toFixed(2)} goals/match (${p.goals} in ${p.matches})</title>
+        </circle>
+        ${label}`;
+    }).join('');
+
+    return paths + nodes;
+  }).join('');
+
+  chartEl.innerHTML = `
+    <svg width="100%" height="210" viewBox="0 0 800 210" preserveAspectRatio="xMidYMid meet" style="overflow: visible;">
+      ${gridLines.join('')}
+      ${xLabels}
+      ${seriesSvg}
+    </svg>`;
+
+  // Legend — newest edition first; click to emphasise a line.
+  const legendEl = document.getElementById('editions-legend');
+  if (legendEl) {
+    const legendOrder = [...historical].reverse(); // newest edition first
+    legendEl.innerHTML = legendOrder.map(ser => {
+      const active = editionsHighlight === ser.year;
+      return `
+        <button type="button" class="edition-chip${active ? ' active' : ''}${editionsHighlight !== null && !active ? ' muted' : ''}"
+                onclick="window.toggleEditionHighlight(${ser.year})">
+          <span class="edition-swatch" style="background:${ser.color}"></span>
+          <span class="edition-year">${ser.year}</span>
+          <span class="edition-host">${ser.host}</span>
+        </button>`;
+    }).join('');
+  }
+
+  // Footnote.
+  const footEl = document.getElementById('editions-footnote');
+  if (footEl) {
+    footEl.textContent = 'Past editions in the 32-team format (2010–2022). Goals count regulation + extra time and exclude penalty-shootout goals.';
+  }
+}
+
+window.toggleEditionHighlight = (year) => {
+  editionsHighlight = (editionsHighlight === year) ? null : year;
+  renderEditionsChart();
+};
 
 // ── Stage Goals Detail Modal Helper Functions ──
 let selectedMatchId = null;
@@ -3463,6 +3774,9 @@ function renderFantasyPlayers() {
         <td class="text-center">${p.pointsByRound.md3}</td>
         <td class="text-center">${p.pointsByRound.r32}</td>
         <td class="text-center">${p.pointsByRound.r16 || 0}</td>
+        <td class="text-center">${p.pointsByRound.qf || 0}</td>
+        <td class="text-center">${p.pointsByRound.sf || 0}</td>
+        <td class="text-center">${p.pointsByRound.fi || 0}</td>
         <td class="text-center" style="font-weight: 700; color: ${p.status === 'eliminated' ? 'var(--muted)' : 'var(--accent)'}; font-size: 14px;">${p.totalPoints}</td>
       `;
       list.appendChild(tr);
@@ -3559,7 +3873,10 @@ function openPlayerModal(p) {
     { label: 'MD2', val: p.pointsByRound.md2 },
     { label: 'MD3', val: p.pointsByRound.md3 },
     { label: 'R32', val: p.pointsByRound.r32 },
-    { label: 'R16', val: p.pointsByRound.r16 || 0 }
+    { label: 'R16', val: p.pointsByRound.r16 || 0 },
+    { label: 'QF', val: p.pointsByRound.qf || 0 },
+    { label: 'SF', val: p.pointsByRound.sf || 0 },
+    { label: 'FI', val: p.pointsByRound.fi || 0 }
   ];
   const maxVal = Math.max(1, ...rounds.map(r => r.val));
 
