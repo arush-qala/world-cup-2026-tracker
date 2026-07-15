@@ -1577,5 +1577,30 @@
     },
     "note": "ARG win 3-1 after extra time",
     "winner": "ARG"
+  },
+  {
+    "id": "M101",
+    "stage": "semi-finals",
+    "dateUK": "2026-07-14",
+    "kickoffUK": "2026-07-14T20:00:00+01:00",
+    "venue": "AT&T Stadium, Arlington",
+    "home": "FRA",
+    "away": "ESP",
+    "status": "finished",
+    "score": {
+      "home": 0,
+      "away": 2
+    },
+    "winner": "ESP"
+  },
+  {
+    "id": "M102",
+    "stage": "semi-finals",
+    "dateUK": "2026-07-15",
+    "kickoffUK": "2026-07-15T20:00:00+01:00",
+    "venue": "Mercedes-Benz Stadium, Atlanta",
+    "home": "ENG",
+    "away": "ARG",
+    "status": "scheduled"
   }
 ]
