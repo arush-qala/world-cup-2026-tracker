@@ -2140,7 +2140,8 @@ function renderStats() {
     { id: 'R16', label: 'Round of 16', filter: m => m.stage === 'round of 16' },
     { id: 'QF', label: 'Quarter-Finals', filter: m => m.stage === 'quarter-finals' },
     { id: 'SF', label: 'Semi-Finals', filter: m => m.stage === 'semi-finals' },
-    { id: 'FIN', label: 'Finals', filter: m => m.stage === 'final' || m.stage === 'third-place match' }
+    { id: '3RD', label: '3rd Place', filter: m => m.stage === 'third-place match' },
+    { id: 'FIN', label: 'Final', filter: m => m.stage === 'final' }
   ];
 
   let totalGoals = 0;
@@ -2218,8 +2219,9 @@ function renderStats() {
 
 
   // Render Line Trend view (Option 2)
+  const step = 720 / (stages.length - 1);
   const points = stageData.map((s, idx) => {
-    const x = 60 + idx * 102.85;
+    const x = 60 + idx * step;
     const y = s.count > 0 && maxAvg > 0
       ? 170 - (s.avg / (maxAvg * 1.1)) * 130
       : 170;
@@ -2254,7 +2256,7 @@ function renderStats() {
     return `
       <g class="clickable-node" style="opacity: ${opacity}" onclick="window.openStageGoalsDetail('${p.id}')">
         <!-- Interactive background column highlight hitbox -->
-        <rect x="${p.x - 46}" y="5" width="92" height="206" rx="12" fill="var(--accent)" fill-opacity="0" class="column-hitbox" style="transition: fill-opacity 0.2s;" />
+        <rect x="${p.x - (step / 2)}" y="5" width="${step}" height="206" rx="12" fill="var(--accent)" fill-opacity="0" class="column-hitbox" style="transition: fill-opacity 0.2s;" />
         
         <!-- Background vertical guideline -->
         <line x1="${p.x}" y1="170" x2="${p.x}" y2="20" stroke="var(--line)" stroke-width="1" stroke-dasharray="2,2" />
@@ -2324,6 +2326,7 @@ const EDITION_STAGES = [
   { id: 'R16', label: 'R16' },
   { id: 'QF',  label: 'QF'  },
   { id: 'SF',  label: 'SF'  },
+  { id: '3RD', label: '3RD' },
   { id: 'FIN', label: 'FIN' },
 ];
 
@@ -2585,7 +2588,8 @@ window.openStageGoalsDetail = (stageId) => {
     { id: 'R16', label: 'Round of 16', filter: m => m.stage === 'round of 16' },
     { id: 'QF', label: 'Quarter-Finals', filter: m => m.stage === 'quarter-finals' },
     { id: 'SF', label: 'Semi-Finals', filter: m => m.stage === 'semi-finals' },
-    { id: 'FIN', label: 'Finals', filter: m => m.stage === 'final' || m.stage === 'third-place match' }
+    { id: '3RD', label: '3rd Place', filter: m => m.stage === 'third-place match' },
+    { id: 'FIN', label: 'Final', filter: m => m.stage === 'final' }
   ];
 
   const stage = stages.find(s => s.id === stageId);
