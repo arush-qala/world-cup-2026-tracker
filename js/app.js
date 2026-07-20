@@ -2398,13 +2398,13 @@ function seriesRuns(series, maxAvg) {
   return runs;
 }
 
-function renderEditionsChart() {
+function renderEditionsChart(options = {}) {
+  const skipLegend = options && options.skipLegend;
   const card = document.getElementById('editions-card');
   const chartEl = document.getElementById('editions-chart');
-  if (!card || !chartEl) return;
+  if (!card || !chartEl || !HISTORICAL || !HISTORICAL.editions) return;
 
-  // Hide gracefully if the historical dataset failed to load.
-  if (!HISTORICAL || !Array.isArray(HISTORICAL.editions) || HISTORICAL.editions.length === 0) {
+  if (activeView !== 'stats' || statsOption !== 'trend') {
     card.hidden = true;
     return;
   }
@@ -2457,7 +2457,7 @@ function renderEditionsChart() {
   let seriesSvg = '';
 
   if (selectedSeries.length === 0) {
-    seriesSvg = `<text x="400" y="115" fill="var(--muted)" font-size="13" font-weight="600" text-anchor="middle">No editions selected. Click chips below or preset filters to enable World Cups.</text>`;
+    seriesSvg = `<text x="400" y="115" fill="var(--muted)" font-size="13" font-weight="600" text-anchor="middle">No editions selected. Select editions from the dropdown or presets above.</text>`;
   } else {
     // 1. Individual edition lines
     const editionLinesSvg = selectedSeries.map(ser => {
@@ -2535,6 +2535,8 @@ function renderEditionsChart() {
       ${seriesSvg}
     </svg>`;
 
+  if (skipLegend) return;
+
   // Toolbar & Legend controls
   const legendEl = document.getElementById('editions-legend');
   if (legendEl) {
@@ -2562,6 +2564,7 @@ function renderEditionsChart() {
       const isHighlighted = editionsHighlight === ser.year;
       return `
         <label class="custom-option${isHighlighted ? ' highlighted' : ''}"
+               data-year="${ser.year}"
                onmouseenter="window.setEditionHighlight(${ser.year})"
                onmouseleave="window.setEditionHighlight(null)">
           <input type="checkbox" ${isSelected ? 'checked' : ''}
@@ -2607,7 +2610,7 @@ function renderEditionsChart() {
           </div>
         </div>
 
-        <button type="button" class="edition-trend-chip${!showAverageTrendline ? ' disabled' : ''}"
+        <button type="button" class="edition-trend-chip${!showAverageTrendline ? ' disabled' : ''}${editionsHighlight === 'AVG' ? ' highlighted' : ''}"
                 onclick="window.toggleAverageTrendline()"
                 onmouseenter="window.setEditionHighlight('AVG')"
                 onmouseleave="window.setEditionHighlight(null)">
@@ -2620,6 +2623,7 @@ function renderEditionsChart() {
       const isHighlighted = editionsHighlight === ser.year;
       return `
         <button type="button" class="edition-chip selected${isHighlighted ? ' highlighted' : ''}"
+                data-year="${ser.year}"
                 onclick="window.toggleEditionSelect(${ser.year}, event)"
                 onmouseenter="window.setEditionHighlight(${ser.year})"
                 onmouseleave="window.setEditionHighlight(null)">
@@ -2691,8 +2695,28 @@ window.toggleEditionSelect = (year, e) => {
 };
 
 window.setEditionHighlight = (val) => {
+  if (editionsHighlight === val) return;
   editionsHighlight = val;
-  renderEditionsChart();
+  
+  // Re-render only SVG chart so legend DOM is never destroyed during hover/scroll
+  renderEditionsChart({ skipLegend: true });
+
+  // Update highlighted class directly on existing legend items
+  const legendEl = document.getElementById('editions-legend');
+  if (legendEl) {
+    legendEl.querySelectorAll('.custom-option').forEach(opt => {
+      const yr = opt.getAttribute('data-year');
+      opt.classList.toggle('highlighted', val !== null && String(yr) === String(val));
+    });
+    legendEl.querySelectorAll('.edition-chip').forEach(chip => {
+      const yr = chip.getAttribute('data-year');
+      chip.classList.toggle('highlighted', val !== null && String(yr) === String(val));
+    });
+    const trendBtn = legendEl.querySelector('.edition-trend-chip');
+    if (trendBtn) {
+      trendBtn.classList.toggle('highlighted', val === 'AVG');
+    }
+  }
 };
 
 window.selectAllEditions = (e) => {
