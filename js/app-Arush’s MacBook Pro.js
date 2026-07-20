@@ -2402,10 +2402,8 @@ function renderEditionsChart(options = {}) {
   const skipLegend = options && options.skipLegend;
   const card = document.getElementById('editions-card');
   const chartEl = document.getElementById('editions-chart');
-  if (!card || !chartEl || !HISTORICAL || !HISTORICAL.editions) return;
-
-  if (activeView !== 'stats' || statsOption !== 'trend') {
-    card.hidden = true;
+  if (!card || !chartEl || !HISTORICAL || !HISTORICAL.editions || !Array.isArray(HISTORICAL.editions) || HISTORICAL.editions.length === 0) {
+    if (card) card.hidden = true;
     return;
   }
   card.hidden = false;
