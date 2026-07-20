@@ -2344,6 +2344,50 @@ function buildHistoricalSeries(edition) {
   return { year: edition.year, host: edition.host, color: edition.color, avgs };
 }
 
+function build2026Series() {
+  if (typeof DATA === 'undefined' || !DATA || !Array.isArray(DATA.fixtures)) return null;
+
+  const stageFilters = {
+    'MD1': m => m.stage === 'group' && (m.matchday === 1 || m.groupMatchday === 1),
+    'MD2': m => m.stage === 'group' && (m.matchday === 2 || m.groupMatchday === 2),
+    'MD3': m => m.stage === 'group' && (m.matchday === 3 || m.groupMatchday === 3),
+    'R16': m => m.stage === 'round of 32' || m.stage === 'round of 16',
+    'QF':  m => m.stage === 'quarter-finals',
+    'SF':  m => m.stage === 'semi-finals',
+    '3RD': m => m.stage === 'third-place match',
+    'FIN': m => m.stage === 'final'
+  };
+
+  const avgs = {};
+  let total2026Matches = 0;
+
+  for (const s of EDITION_STAGES) {
+    const filterFn = stageFilters[s.id];
+    if (!filterFn) {
+      avgs[s.id] = null;
+      continue;
+    }
+    const matches = DATA.fixtures.filter(m => m.status === 'finished' && filterFn(m));
+    if (matches.length > 0) {
+      const goals = matches.reduce((sum, m) => sum + (m.score?.home || 0) + (m.score?.away || 0), 0);
+      const count = matches.length;
+      avgs[s.id] = { avg: goals / count, goals, matches: count };
+      total2026Matches += count;
+    } else {
+      avgs[s.id] = null;
+    }
+  }
+
+  return {
+    year: 2026,
+    host: 'USA / CAN / MEX',
+    color: '#00f2fe',
+    is2026: true,
+    totalMatchesPlayed: total2026Matches,
+    avgs
+  };
+}
+
 function computeAverageSeries(selectedSeriesList) {
   if (!selectedSeriesList || selectedSeriesList.length === 0) return null;
   const avgs = {};
@@ -2408,9 +2452,12 @@ function renderEditionsChart(options = {}) {
   }
   card.hidden = false;
 
-  const allHistorical = [...HISTORICAL.editions]
+  const pastEditions = [...HISTORICAL.editions]
     .sort((a, b) => a.year - b.year)
     .map(buildHistoricalSeries);
+
+  const series2026 = build2026Series();
+  const allHistorical = series2026 ? [...pastEditions, series2026] : pastEditions;
 
   // Initialize selectedEditionYears to all available years if null
   if (!selectedEditionYears) {
@@ -2647,7 +2694,7 @@ function renderEditionsChart(options = {}) {
   // Footnote
   const footEl = document.getElementById('editions-footnote');
   if (footEl) {
-    footEl.textContent = `Comparing ${selectedSeries.length} selected World Cup edition(s) (1958–2022). Glowing cyan dashed line indicates the weighted average goals/match per stage for selected editions. Goals count regulation + extra time.`;
+    footEl.textContent = `Comparing ${selectedSeries.length} selected World Cup edition(s) (1958–2026). Glowing cyan dashed line indicates the weighted average goals/match per stage for selected editions. Goals count regulation + extra time.`;
   }
 }
 
