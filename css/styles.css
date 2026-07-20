@@ -12,6 +12,7 @@
   --accent-bg-hover: rgba(0, 0, 0, 0.04);
   --shadow: 0 4px 20px rgba(15,23,42,0.08);
   --accent-gradient-start: #3b82f6;
+  --trendline-stroke: #0284c7;
 }
 
 [data-theme="default"] {
@@ -28,6 +29,7 @@
   --accent-bg-hover: rgba(255, 255, 255, 0.04);
   --shadow: 0 8px 30px rgba(0,0,0,0.5);
   --accent-gradient-start: #22c55e;
+  --trendline-stroke: #00f2fe;
 }
 
 [data-theme="emerald"] {
@@ -1518,19 +1520,19 @@ body {
   align-items: center;
   gap: 8px;
   padding: 5px 12px;
-  border: 1px solid #00f2fe;
+  border: 1px solid var(--trendline-stroke, #0284c7);
   border-radius: 999px;
-  background: rgba(0, 242, 254, 0.12);
-  color: #00f2fe;
+  background: var(--panel);
+  color: var(--trendline-stroke, #0284c7);
   font-size: 0.8rem;
   font-weight: 800;
   cursor: pointer;
   transition: all 0.15s ease;
-  box-shadow: 0 0 10px rgba(0, 242, 254, 0.15);
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.12);
 }
 .edition-trend-chip:hover {
-  background: rgba(0, 242, 254, 0.22);
-  box-shadow: 0 0 14px rgba(0, 242, 254, 0.3);
+  background: var(--accent-bg-hover);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.2);
 }
 .edition-trend-chip.disabled {
   border-color: var(--line);
@@ -1543,7 +1545,7 @@ body {
   display: inline-block;
   width: 16px;
   height: 3px;
-  background: repeating-linear-gradient(90deg, #00f2fe 0 4px, transparent 4px 7px);
+  background: repeating-linear-gradient(90deg, var(--trendline-stroke, #0284c7) 0 4px, transparent 4px 7px);
   border-radius: 1px;
 }
 .edition-trend-chip.disabled .edition-trend-dash {

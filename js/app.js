@@ -2476,7 +2476,10 @@ function renderEditionsChart() {
       const nodes = runs.flat().map(p => {
         const stageId = EDITION_STAGES[p.idx].id;
         const label = isHighlighted
-          ? `<text x="${p.x}" y="${p.y - 9}" fill="${ser.color}" font-size="9" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>`
+          ? `<g opacity="${opacity}">
+              <rect x="${p.x - 18}" y="${p.y + 7}" width="36" height="15" rx="3.5" fill="var(--panel)" stroke="${ser.color}" stroke-width="1.5" />
+              <text x="${p.x}" y="${p.y + 18}" fill="${ser.color}" font-size="9" font-weight="900" text-anchor="middle">${p.avg.toFixed(2)}</text>
+             </g>`
           : '';
         return `
           <circle cx="${p.x}" cy="${p.y}" r="${isHighlighted ? 4.5 : 3}" fill="${ser.color}" stroke="var(--panel)" stroke-width="1.5" opacity="${opacity}">
@@ -2494,20 +2497,24 @@ function renderEditionsChart() {
       const isHighlighted = editionsHighlight === 'AVG';
       const isDimmed = editionsHighlight !== null && editionsHighlight !== 'AVG';
       const opacity = isDimmed ? 0.35 : 1;
-      const strokeColor = '#00f2fe';
+      const strokeColor = 'var(--trendline-stroke, #0284c7)';
       const strokeWidth = isHighlighted ? 4 : 3.2;
 
       const runs = seriesRuns(avgSeries, maxAvg);
       const paths = runs.map(run => {
         const d = `M ${run[0].x} ${run[0].y} ` + run.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
-        return `<path d="${d}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4" opacity="${opacity}" filter="drop-shadow(0 0 6px rgba(0, 242, 254, 0.6))" />`;
+        return `<path d="${d}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4" opacity="${opacity}" filter="drop-shadow(0 1px 4px rgba(2, 132, 199, 0.4))" />`;
       }).join('');
 
       const nodes = runs.flat().map(p => {
         const stageId = EDITION_STAGES[p.idx].id;
         const r = isHighlighted ? 5.5 : 4.5;
         const pts = `${p.x},${p.y - r} ${p.x + r},${p.y} ${p.x},${p.y + r} ${p.x - r},${p.y}`;
-        const label = `<text x="${p.x}" y="${p.y - 9}" fill="${strokeColor}" font-size="9.5" font-weight="900" text-anchor="middle" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.8))">${p.avg.toFixed(2)}</text>`;
+        const label = `
+          <g opacity="${opacity}">
+            <rect x="${p.x - 19}" y="${p.y - 23}" width="38" height="15" rx="3.5" fill="var(--panel)" stroke="${strokeColor}" stroke-width="1.5" />
+            <text x="${p.x}" y="${p.y - 12}" fill="var(--text)" font-size="9.5" font-weight="900" text-anchor="middle">${p.avg.toFixed(2)}</text>
+          </g>`;
         return `
           <polygon points="${pts}" fill="${strokeColor}" stroke="var(--panel)" stroke-width="1.5" opacity="${opacity}">
             <title>Selected Average (${p.editionsCount} editions) · ${stageId}: ${p.avg.toFixed(2)} goals/match (${p.goals} goals in ${p.matches} matches)</title>
