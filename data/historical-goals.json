@@ -1,37 +1,478 @@
 {
-  "_note": "Goals per stage for past FIFA World Cups (32-team format, no Round of 32). Goal tallies count regulation + extra time and exclude penalty-shootout goals, matching FIFA's official goal counts. Stage figures were derived from match-level results (martj42/international_results dataset) by assigning each group match to a matchday from the two teams' game order, and bucketing knockout matches by date. Each edition's grand total is validated against the published tournament total: 2010=145, 2014=171, 2018=169, 2022=172. 3RD = 3rd-place play-off (1 match), FIN = final (1 match).",
-  "stageOrder": ["MD1", "MD2", "MD3", "R16", "QF", "SF", "3RD", "FIN"],
+  "_note": "Goals per stage for past FIFA World Cups (1958–2022). Goal tallies count regulation + extra time and exclude penalty-shootout goals, matching FIFA official goal counts. Stage figures were derived from match-level results (martj42/international_results dataset) by assigning group matches to matchdays from team fixture order, and bucketing knockout matches by date. Each edition grand total is validated against published tournament totals: 1958=126, 1962=89, 1966=89, 1970=95, 1986=132, 1990=115, 1994=141, 1998=171, 2002=161, 2006=147, 2010=145, 2014=171, 2018=169, 2022=172. 3RD = 3rd-place play-off (1 match), FIN = final (1 match).",
+  "stageOrder": [
+    "MD1",
+    "MD2",
+    "MD3",
+    "R16",
+    "QF",
+    "SF",
+    "3RD",
+    "FIN"
+  ],
   "editions": [
+    {
+      "year": 1958,
+      "host": "Sweden",
+      "teams": 16,
+      "color": "#ec4899",
+      "stages": {
+        "MD1": {
+          "goals": 29,
+          "matches": 8
+        },
+        "MD2": {
+          "goals": 25,
+          "matches": 8
+        },
+        "MD3": {
+          "goals": 37,
+          "matches": 11
+        },
+        "QF": {
+          "goals": 8,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 11,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 9,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 7,
+          "matches": 1
+        }
+      }
+    },
+    {
+      "year": 1962,
+      "host": "Chile",
+      "teams": 16,
+      "color": "#14b8a6",
+      "stages": {
+        "MD1": {
+          "goals": 16,
+          "matches": 8
+        },
+        "MD2": {
+          "goals": 29,
+          "matches": 8
+        },
+        "MD3": {
+          "goals": 20,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 9,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 10,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 1,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 4,
+          "matches": 1
+        }
+      }
+    },
+    {
+      "year": 1966,
+      "host": "England",
+      "teams": 16,
+      "color": "#eab308",
+      "stages": {
+        "MD1": {
+          "goals": 21,
+          "matches": 8
+        },
+        "MD2": {
+          "goals": 18,
+          "matches": 8
+        },
+        "MD3": {
+          "goals": 19,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 16,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 6,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 3,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 6,
+          "matches": 1
+        }
+      }
+    },
+    {
+      "year": 1970,
+      "host": "Mexico",
+      "teams": 16,
+      "color": "#84cc16",
+      "stages": {
+        "MD1": {
+          "goals": 20,
+          "matches": 8
+        },
+        "MD2": {
+          "goals": 25,
+          "matches": 8
+        },
+        "MD3": {
+          "goals": 16,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 17,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 11,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 1,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 5,
+          "matches": 1
+        }
+      }
+    },
+    {
+      "year": 1986,
+      "host": "Mexico",
+      "teams": 24,
+      "color": "#a855f7",
+      "stages": {
+        "MD1": {
+          "goals": 24,
+          "matches": 12
+        },
+        "MD2": {
+          "goals": 28,
+          "matches": 12
+        },
+        "MD3": {
+          "goals": 32,
+          "matches": 12
+        },
+        "R16": {
+          "goals": 26,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 7,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 4,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 6,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 5,
+          "matches": 1
+        }
+      }
+    },
+    {
+      "year": 1990,
+      "host": "Italy",
+      "teams": 24,
+      "color": "#06b6d4",
+      "stages": {
+        "MD1": {
+          "goals": 27,
+          "matches": 12
+        },
+        "MD2": {
+          "goals": 26,
+          "matches": 12
+        },
+        "MD3": {
+          "goals": 29,
+          "matches": 12
+        },
+        "R16": {
+          "goals": 18,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 7,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 4,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 3,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 1,
+          "matches": 1
+        }
+      }
+    },
+    {
+      "year": 1994,
+      "host": "United States",
+      "teams": 24,
+      "color": "#22c55e",
+      "stages": {
+        "MD1": {
+          "goals": 30,
+          "matches": 12
+        },
+        "MD2": {
+          "goals": 32,
+          "matches": 12
+        },
+        "MD3": {
+          "goals": 31,
+          "matches": 12
+        },
+        "R16": {
+          "goals": 25,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 15,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 4,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 4,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 0,
+          "matches": 1
+        }
+      }
+    },
+    {
+      "year": 1998,
+      "host": "France",
+      "teams": 32,
+      "color": "#3b82f6",
+      "stages": {
+        "MD1": {
+          "goals": 37,
+          "matches": 16
+        },
+        "MD2": {
+          "goals": 43,
+          "matches": 16
+        },
+        "MD3": {
+          "goals": 46,
+          "matches": 16
+        },
+        "R16": {
+          "goals": 23,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 11,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 5,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 3,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 3,
+          "matches": 1
+        }
+      }
+    },
+    {
+      "year": 2002,
+      "host": "South Korea & Japan",
+      "teams": 32,
+      "color": "#e11d48",
+      "stages": {
+        "MD1": {
+          "goals": 46,
+          "matches": 16
+        },
+        "MD2": {
+          "goals": 35,
+          "matches": 16
+        },
+        "MD3": {
+          "goals": 49,
+          "matches": 16
+        },
+        "R16": {
+          "goals": 17,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 5,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 2,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 5,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 2,
+          "matches": 1
+        }
+      }
+    },
+    {
+      "year": 2006,
+      "host": "Germany",
+      "teams": 32,
+      "color": "#f97316",
+      "stages": {
+        "MD1": {
+          "goals": 39,
+          "matches": 16
+        },
+        "MD2": {
+          "goals": 36,
+          "matches": 16
+        },
+        "MD3": {
+          "goals": 42,
+          "matches": 16
+        },
+        "R16": {
+          "goals": 15,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 6,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 3,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 4,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 2,
+          "matches": 1
+        }
+      }
+    },
     {
       "year": 2010,
       "host": "South Africa",
       "teams": 32,
       "color": "#ef4444",
       "stages": {
-        "MD1": { "goals": 25, "matches": 16 },
-        "MD2": { "goals": 42, "matches": 16 },
-        "MD3": { "goals": 34, "matches": 16 },
-        "R16": { "goals": 22, "matches": 8 },
-        "QF": { "goals": 10, "matches": 4 },
-        "SF": { "goals": 6, "matches": 2 },
-        "3RD": { "goals": 5, "matches": 1 },
-        "FIN": { "goals": 1, "matches": 1 }
+        "MD1": {
+          "goals": 25,
+          "matches": 16
+        },
+        "MD2": {
+          "goals": 42,
+          "matches": 16
+        },
+        "MD3": {
+          "goals": 34,
+          "matches": 16
+        },
+        "R16": {
+          "goals": 22,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 10,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 6,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 5,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 1,
+          "matches": 1
+        }
       }
     },
     {
       "year": 2014,
       "host": "Brazil",
       "teams": 32,
-      "color": "#06b6d4",
+      "color": "#0284c7",
       "stages": {
-        "MD1": { "goals": 49, "matches": 16 },
-        "MD2": { "goals": 45, "matches": 16 },
-        "MD3": { "goals": 42, "matches": 16 },
-        "R16": { "goals": 18, "matches": 8 },
-        "QF": { "goals": 5, "matches": 4 },
-        "SF": { "goals": 8, "matches": 2 },
-        "3RD": { "goals": 3, "matches": 1 },
-        "FIN": { "goals": 1, "matches": 1 }
+        "MD1": {
+          "goals": 49,
+          "matches": 16
+        },
+        "MD2": {
+          "goals": 45,
+          "matches": 16
+        },
+        "MD3": {
+          "goals": 42,
+          "matches": 16
+        },
+        "R16": {
+          "goals": 18,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 5,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 8,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 3,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 1,
+          "matches": 1
+        }
       }
     },
     {
@@ -40,14 +481,38 @@
       "teams": 32,
       "color": "#8b5cf6",
       "stages": {
-        "MD1": { "goals": 38, "matches": 16 },
-        "MD2": { "goals": 47, "matches": 16 },
-        "MD3": { "goals": 37, "matches": 16 },
-        "R16": { "goals": 24, "matches": 8 },
-        "QF": { "goals": 11, "matches": 4 },
-        "SF": { "goals": 4, "matches": 2 },
-        "3RD": { "goals": 2, "matches": 1 },
-        "FIN": { "goals": 6, "matches": 1 }
+        "MD1": {
+          "goals": 38,
+          "matches": 16
+        },
+        "MD2": {
+          "goals": 47,
+          "matches": 16
+        },
+        "MD3": {
+          "goals": 37,
+          "matches": 16
+        },
+        "R16": {
+          "goals": 24,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 11,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 4,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 2,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 6,
+          "matches": 1
+        }
       }
     },
     {
@@ -56,14 +521,38 @@
       "teams": 32,
       "color": "#f59e0b",
       "stages": {
-        "MD1": { "goals": 41, "matches": 16 },
-        "MD2": { "goals": 40, "matches": 16 },
-        "MD3": { "goals": 39, "matches": 16 },
-        "R16": { "goals": 28, "matches": 8 },
-        "QF": { "goals": 10, "matches": 4 },
-        "SF": { "goals": 5, "matches": 2 },
-        "3RD": { "goals": 3, "matches": 1 },
-        "FIN": { "goals": 6, "matches": 1 }
+        "MD1": {
+          "goals": 41,
+          "matches": 16
+        },
+        "MD2": {
+          "goals": 40,
+          "matches": 16
+        },
+        "MD3": {
+          "goals": 39,
+          "matches": 16
+        },
+        "R16": {
+          "goals": 28,
+          "matches": 8
+        },
+        "QF": {
+          "goals": 10,
+          "matches": 4
+        },
+        "SF": {
+          "goals": 5,
+          "matches": 2
+        },
+        "3RD": {
+          "goals": 3,
+          "matches": 1
+        },
+        "FIN": {
+          "goals": 6,
+          "matches": 1
+        }
       }
     }
   ]

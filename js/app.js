@@ -2313,12 +2313,13 @@ function renderStats() {
 }
 
 // ── Multi-Edition Goals Comparison Chart ──
-// Compares average goals per match by stage across past World Cups (2010–2022),
-// all in the 32-team format. Data comes from the static, auditable
-// data/historical-goals.json. Tournament-wide, so it ignores statsCountryFilter.
-let editionsHighlight = null; // year currently emphasised via the legend, or null
+// Compares average goals per match by stage across past World Cups (1958–2022).
+// Data comes from the static, auditable data/historical-goals.json.
+let editionsHighlight = null; // year number or 'AVG' currently focused, or null
+let selectedEditionYears = null; // Set of selected year numbers; defaults to all
+let showAverageTrendline = true; // whether average trendline across selected editions is drawn
 
-// x-axis stages for the 32-team format (no Round of 32).
+// x-axis stages for World Cup editions.
 const EDITION_STAGES = [
   { id: 'MD1', label: 'MD1' },
   { id: 'MD2', label: 'MD2' },
@@ -2341,6 +2342,42 @@ function buildHistoricalSeries(edition) {
     avgs[s.id] = rec ? { avg: rec.goals / rec.matches, goals: rec.goals, matches: rec.matches } : null;
   }
   return { year: edition.year, host: edition.host, color: edition.color, avgs };
+}
+
+function computeAverageSeries(selectedSeriesList) {
+  if (!selectedSeriesList || selectedSeriesList.length === 0) return null;
+  const avgs = {};
+  for (const s of EDITION_STAGES) {
+    let totalGoals = 0;
+    let totalMatches = 0;
+    let count = 0;
+    for (const ser of selectedSeriesList) {
+      const rec = ser.avgs[s.id];
+      if (rec && rec.matches > 0) {
+        totalGoals += rec.goals;
+        totalMatches += rec.matches;
+        count++;
+      }
+    }
+    if (totalMatches > 0) {
+      avgs[s.id] = {
+        avg: totalGoals / totalMatches,
+        goals: totalGoals,
+        matches: totalMatches,
+        editionsCount: count
+      };
+    } else {
+      avgs[s.id] = null;
+    }
+  }
+  return {
+    year: 'AVG',
+    label: 'Average Trendline',
+    color: '#00f2fe',
+    avgs,
+    isAverage: true,
+    editionsCount: selectedSeriesList.length
+  };
 }
 
 // Break a series into runs of consecutive present stages so any absent stage
@@ -2373,22 +2410,35 @@ function renderEditionsChart() {
   }
   card.hidden = false;
 
-  const historical = [...HISTORICAL.editions]
+  const allHistorical = [...HISTORICAL.editions]
     .sort((a, b) => a.year - b.year)
     .map(buildHistoricalSeries);
-  const drawOrder = historical;
 
-  // Y-scale from the max stage-average across every edition (10% headroom).
+  // Initialize selectedEditionYears to all available years if null
+  if (!selectedEditionYears) {
+    selectedEditionYears = new Set(allHistorical.map(e => e.year));
+  }
+
+  const selectedSeries = allHistorical.filter(ser => selectedEditionYears.has(ser.year));
+  const avgSeries = computeAverageSeries(selectedSeries);
+
+  // Y-scale from the max stage-average across selected editions & average trendline (10% headroom).
   let peak = 0;
-  for (const ser of drawOrder) {
+  for (const ser of selectedSeries) {
     for (const s of EDITION_STAGES) {
       const rec = ser.avgs[s.id];
       if (rec && rec.avg > peak) peak = rec.avg;
     }
   }
+  if (showAverageTrendline && avgSeries) {
+    for (const s of EDITION_STAGES) {
+      const rec = avgSeries.avgs[s.id];
+      if (rec && rec.avg > peak) peak = rec.avg;
+    }
+  }
   const maxAvg = (peak > 0 ? peak : 3) * 1.1;
 
-  // Grid lines + y labels (goals/match), matching the chart above.
+  // Grid lines + y labels (goals/match).
   const divisions = 4;
   const gridLines = [];
   for (let i = 0; i <= divisions; i++) {
@@ -2404,35 +2454,72 @@ function renderEditionsChart() {
     `<text x="${xForStage(idx)}" y="192" fill="var(--muted)" font-size="11" font-weight="700" text-anchor="middle">${s.label}</text>`
   ).join('');
 
-  // Series paths + nodes.
-  const seriesSvg = drawOrder.map(ser => {
-    const dimmed = editionsHighlight !== null && editionsHighlight !== ser.year;
-    const highlighted = editionsHighlight === ser.year;
-    const width = highlighted ? 3.5 : 2.5;
-    const opacity = dimmed ? 0.12 : (highlighted ? 1 : 0.82);
-    const glow = highlighted && !dimmed
-      ? `filter="drop-shadow(0 0 5px ${ser.color})"` : '';
+  let seriesSvg = '';
 
-    const runs = seriesRuns(ser, maxAvg);
-    const paths = runs.map(run => {
-      const d = `M ${run[0].x} ${run[0].y} ` + run.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
-      return `<path d="${d}" fill="none" stroke="${ser.color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}" ${glow} />`;
+  if (selectedSeries.length === 0) {
+    seriesSvg = `<text x="400" y="115" fill="var(--muted)" font-size="13" font-weight="600" text-anchor="middle">No editions selected. Click chips below or preset filters to enable World Cups.</text>`;
+  } else {
+    // 1. Individual edition lines
+    const editionLinesSvg = selectedSeries.map(ser => {
+      const isDimmed = editionsHighlight !== null && editionsHighlight !== ser.year;
+      const isHighlighted = editionsHighlight === ser.year;
+      const width = isHighlighted ? 3.5 : 2;
+      const opacity = isDimmed ? 0.12 : (isHighlighted ? 1 : (editionsHighlight === 'AVG' ? 0.35 : 0.65));
+      const glow = isHighlighted ? `filter="drop-shadow(0 0 6px ${ser.color})"` : '';
+
+      const runs = seriesRuns(ser, maxAvg);
+      const paths = runs.map(run => {
+        const d = `M ${run[0].x} ${run[0].y} ` + run.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
+        return `<path d="${d}" fill="none" stroke="${ser.color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round" opacity="${opacity}" ${glow} />`;
+      }).join('');
+
+      const nodes = runs.flat().map(p => {
+        const stageId = EDITION_STAGES[p.idx].id;
+        const label = isHighlighted
+          ? `<text x="${p.x}" y="${p.y - 9}" fill="${ser.color}" font-size="9" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>`
+          : '';
+        return `
+          <circle cx="${p.x}" cy="${p.y}" r="${isHighlighted ? 4.5 : 3}" fill="${ser.color}" stroke="var(--panel)" stroke-width="1.5" opacity="${opacity}">
+            <title>${ser.year} · ${stageId}: ${p.avg.toFixed(2)} goals/match (${p.goals} goals in ${p.matches} matches)</title>
+          </circle>
+          ${label}`;
+      }).join('');
+
+      return paths + nodes;
     }).join('');
 
-    const nodes = runs.flat().map(p => {
-      const stageId = EDITION_STAGES[p.idx].id;
-      const label = highlighted
-        ? `<text x="${p.x}" y="${p.y - 9}" fill="${ser.color}" font-size="9" font-weight="800" text-anchor="middle">${p.avg.toFixed(2)}</text>`
-        : '';
-      return `
-        <circle cx="${p.x}" cy="${p.y}" r="${highlighted ? 4 : 3}" fill="${ser.color}" stroke="var(--panel)" stroke-width="1.5" opacity="${opacity}">
-          <title>${ser.year} · ${stageId}: ${p.avg.toFixed(2)} goals/match (${p.goals} in ${p.matches})</title>
-        </circle>
-        ${label}`;
-    }).join('');
+    // 2. Average Trendline
+    let avgSvg = '';
+    if (showAverageTrendline && avgSeries) {
+      const isHighlighted = editionsHighlight === 'AVG';
+      const isDimmed = editionsHighlight !== null && editionsHighlight !== 'AVG';
+      const opacity = isDimmed ? 0.35 : 1;
+      const strokeColor = '#00f2fe';
+      const strokeWidth = isHighlighted ? 4 : 3.2;
 
-    return paths + nodes;
-  }).join('');
+      const runs = seriesRuns(avgSeries, maxAvg);
+      const paths = runs.map(run => {
+        const d = `M ${run[0].x} ${run[0].y} ` + run.slice(1).map(p => `L ${p.x} ${p.y}`).join(' ');
+        return `<path d="${d}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="6,4" opacity="${opacity}" filter="drop-shadow(0 0 6px rgba(0, 242, 254, 0.6))" />`;
+      }).join('');
+
+      const nodes = runs.flat().map(p => {
+        const stageId = EDITION_STAGES[p.idx].id;
+        const r = isHighlighted ? 5.5 : 4.5;
+        const pts = `${p.x},${p.y - r} ${p.x + r},${p.y} ${p.x},${p.y + r} ${p.x - r},${p.y}`;
+        const label = `<text x="${p.x}" y="${p.y - 9}" fill="${strokeColor}" font-size="9.5" font-weight="900" text-anchor="middle" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.8))">${p.avg.toFixed(2)}</text>`;
+        return `
+          <polygon points="${pts}" fill="${strokeColor}" stroke="var(--panel)" stroke-width="1.5" opacity="${opacity}">
+            <title>Selected Average (${p.editionsCount} editions) · ${stageId}: ${p.avg.toFixed(2)} goals/match (${p.goals} goals in ${p.matches} matches)</title>
+          </polygon>
+          ${label}`;
+      }).join('');
+
+      avgSvg = paths + nodes;
+    }
+
+    seriesSvg = editionLinesSvg + avgSvg;
+  }
 
   chartEl.innerHTML = `
     <svg width="100%" height="210" viewBox="0 0 800 210" preserveAspectRatio="xMidYMid meet" style="overflow: visible;">
@@ -2441,31 +2528,99 @@ function renderEditionsChart() {
       ${seriesSvg}
     </svg>`;
 
-  // Legend — newest edition first; click to emphasise a line.
+  // Toolbar & Legend controls
   const legendEl = document.getElementById('editions-legend');
   if (legendEl) {
-    const legendOrder = [...historical].reverse(); // newest edition first
-    legendEl.innerHTML = legendOrder.map(ser => {
-      const active = editionsHighlight === ser.year;
+    const legendOrder = [...allHistorical].reverse();
+    const selCount = selectedEditionYears.size;
+    const totalCount = allHistorical.length;
+
+    const toolbarHtml = `
+      <div class="editions-toolbar">
+        <div class="editions-preset-group">
+          <span class="editions-label">Editions (${selCount}/${totalCount}):</span>
+          <button type="button" class="editions-preset-btn" onclick="window.selectAllEditions()">Select All</button>
+          <button type="button" class="editions-preset-btn" onclick="window.filterEraEditions('32-team')">32-Team ('98–'22)</button>
+          <button type="button" class="editions-preset-btn" onclick="window.filterEraEditions('24-team')">24-Team ('86–'94)</button>
+          <button type="button" class="editions-preset-btn" onclick="window.filterEraEditions('16-team')">16-Team ('58–'70)</button>
+          <button type="button" class="editions-preset-btn" onclick="window.deselectAllEditions()">Clear All</button>
+        </div>
+        <button type="button" class="edition-trend-chip${!showAverageTrendline ? ' disabled' : ''}"
+                onclick="window.toggleAverageTrendline()"
+                onmouseenter="window.setEditionHighlight('AVG')"
+                onmouseleave="window.setEditionHighlight(null)">
+          <span class="edition-trend-dash"></span>
+          <span>Average Trendline (${selCount})</span>
+        </button>
+      </div>`;
+
+    const chipsHtml = legendOrder.map(ser => {
+      const isSelected = selectedEditionYears.has(ser.year);
+      const isHighlighted = editionsHighlight === ser.year;
       return `
-        <button type="button" class="edition-chip${active ? ' active' : ''}${editionsHighlight !== null && !active ? ' muted' : ''}"
-                onclick="window.toggleEditionHighlight(${ser.year})">
+        <button type="button" class="edition-chip ${isSelected ? 'selected' : 'unselected'}${isHighlighted ? ' highlighted' : ''}"
+                onclick="window.toggleEditionSelect(${ser.year})"
+                onmouseenter="window.setEditionHighlight(${ser.year})"
+                onmouseleave="window.setEditionHighlight(null)">
           <span class="edition-swatch" style="background:${ser.color}"></span>
           <span class="edition-year">${ser.year}</span>
           <span class="edition-host">${ser.host}</span>
         </button>`;
     }).join('');
+
+    legendEl.innerHTML = toolbarHtml + '<div class="editions-legend-chips" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">' + chipsHtml + '</div>';
   }
 
-  // Footnote.
+  // Footnote
   const footEl = document.getElementById('editions-footnote');
   if (footEl) {
-    footEl.textContent = 'Past editions in the 32-team format (2010–2022). Goals count regulation + extra time and exclude penalty-shootout goals.';
+    footEl.textContent = `Comparing ${selectedSeries.length} selected World Cup edition(s) (1958–2022). Glowing cyan dashed line indicates the weighted average goals/match per stage for selected editions. Goals count regulation + extra time.`;
   }
 }
 
-window.toggleEditionHighlight = (year) => {
-  editionsHighlight = (editionsHighlight === year) ? null : year;
+window.toggleEditionSelect = (year) => {
+  if (!selectedEditionYears) {
+    selectedEditionYears = new Set(HISTORICAL.editions.map(e => e.year));
+  }
+  if (selectedEditionYears.has(year)) {
+    selectedEditionYears.delete(year);
+  } else {
+    selectedEditionYears.add(year);
+  }
+  renderEditionsChart();
+};
+
+window.setEditionHighlight = (val) => {
+  editionsHighlight = val;
+  renderEditionsChart();
+};
+
+window.selectAllEditions = () => {
+  if (HISTORICAL && HISTORICAL.editions) {
+    selectedEditionYears = new Set(HISTORICAL.editions.map(e => e.year));
+    renderEditionsChart();
+  }
+};
+
+window.deselectAllEditions = () => {
+  selectedEditionYears = new Set();
+  renderEditionsChart();
+};
+
+window.filterEraEditions = (era) => {
+  if (!HISTORICAL || !HISTORICAL.editions) return;
+  if (era === '32-team') {
+    selectedEditionYears = new Set(HISTORICAL.editions.filter(e => e.year >= 1998).map(e => e.year));
+  } else if (era === '24-team') {
+    selectedEditionYears = new Set(HISTORICAL.editions.filter(e => e.year >= 1986 && e.year <= 1994).map(e => e.year));
+  } else if (era === '16-team') {
+    selectedEditionYears = new Set(HISTORICAL.editions.filter(e => e.year >= 1958 && e.year <= 1970).map(e => e.year));
+  }
+  renderEditionsChart();
+};
+
+window.toggleAverageTrendline = () => {
+  showAverageTrendline = !showAverageTrendline;
   renderEditionsChart();
 };
 
