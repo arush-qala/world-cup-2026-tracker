@@ -1631,7 +1631,14 @@
     "venue": "MetLife Stadium, East Rutherford",
     "home": "ESP",
     "away": "ARG",
-    "status": "scheduled"
+    "status": "finished",
+    "score": {
+      "home": 1,
+      "away": 0
+    },
+    "note": "ESP win 1-0 after extra time",
+    "winner": "ESP"
   }
 ]
+
 
