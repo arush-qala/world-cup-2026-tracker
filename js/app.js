@@ -2542,16 +2542,71 @@ function renderEditionsChart() {
     const selCount = selectedEditionYears.size;
     const totalCount = allHistorical.length;
 
+    // Check if dropdown was open before re-rendering
+    const existingOptions = document.getElementById('editions-select-options');
+    const wasOpen = existingOptions ? existingOptions.classList.contains('open') : false;
+    const searchInput = document.getElementById('editions-search-input');
+    const currentSearch = searchInput ? searchInput.value : '';
+
+    let triggerLabel = '';
+    if (selCount === totalCount) {
+      triggerLabel = `🏆 All Editions (${selCount}/${totalCount})`;
+    } else if (selCount === 0) {
+      triggerLabel = `Select Editions (0/${totalCount})`;
+    } else {
+      triggerLabel = `Editions Selected (${selCount}/${totalCount})`;
+    }
+
+    const dropdownOptionsHtml = legendOrder.map(ser => {
+      const isSelected = selectedEditionYears.has(ser.year);
+      const isHighlighted = editionsHighlight === ser.year;
+      return `
+        <label class="custom-option${isHighlighted ? ' highlighted' : ''}"
+               onmouseenter="window.setEditionHighlight(${ser.year})"
+               onmouseleave="window.setEditionHighlight(null)">
+          <input type="checkbox" ${isSelected ? 'checked' : ''}
+                 onchange="window.toggleEditionSelect(${ser.year}, event)">
+          <span class="edition-swatch" style="background:${ser.color}"></span>
+          <span class="edition-option-year">${ser.year}</span>
+          <span class="edition-option-host">${ser.host}</span>
+        </label>`;
+    }).join('');
+
     const toolbarHtml = `
       <div class="editions-toolbar">
-        <div class="editions-preset-group">
-          <span class="editions-label">Editions (${selCount}/${totalCount}):</span>
-          <button type="button" class="editions-preset-btn" onclick="window.selectAllEditions()">Select All</button>
-          <button type="button" class="editions-preset-btn" onclick="window.filterEraEditions('32-team')">32-Team ('98–'22)</button>
-          <button type="button" class="editions-preset-btn" onclick="window.filterEraEditions('24-team')">24-Team ('86–'94)</button>
-          <button type="button" class="editions-preset-btn" onclick="window.filterEraEditions('16-team')">16-Team ('58–'70)</button>
-          <button type="button" class="editions-preset-btn" onclick="window.deselectAllEditions()">Clear All</button>
+        <div class="editions-toolbar-left">
+          <div class="custom-select-container editions-select-container" id="editions-select-container">
+            <button type="button" class="custom-select-trigger editions-select-trigger" id="editions-select-trigger" onclick="window.toggleEditionsDropdown(event)">
+              <span>${triggerLabel}</span>
+            </button>
+            <div class="custom-select-options editions-select-options${wasOpen ? ' open' : ''}" id="editions-select-options" onclick="event.stopPropagation()">
+              <div class="dropdown-search-container">
+                <input type="text" id="editions-search-input" class="dropdown-search-input"
+                       placeholder="Search year or host..." value="${currentSearch}"
+                       oninput="window.filterEditionsDropdown(this.value)">
+              </div>
+              <div class="editions-dropdown-preset-bar">
+                <button type="button" class="editions-preset-btn mini" onclick="window.selectAllEditions(event)">All</button>
+                <button type="button" class="editions-preset-btn mini" onclick="window.filterEraEditions('32-team', event)">32-Team</button>
+                <button type="button" class="editions-preset-btn mini" onclick="window.filterEraEditions('24-team', event)">24-Team</button>
+                <button type="button" class="editions-preset-btn mini" onclick="window.filterEraEditions('16-team', event)">16-Team</button>
+                <button type="button" class="editions-preset-btn mini" onclick="window.deselectAllEditions(event)">Clear</button>
+              </div>
+              <div class="custom-options-wrapper" id="editions-options-wrapper">
+                ${dropdownOptionsHtml}
+              </div>
+            </div>
+          </div>
+
+          <div class="editions-preset-group">
+            <button type="button" class="editions-preset-btn" onclick="window.selectAllEditions()">Select All</button>
+            <button type="button" class="editions-preset-btn" onclick="window.filterEraEditions('32-team')">32-Team ('98–'22)</button>
+            <button type="button" class="editions-preset-btn" onclick="window.filterEraEditions('24-team')">24-Team ('86–'94)</button>
+            <button type="button" class="editions-preset-btn" onclick="window.filterEraEditions('16-team')">16-Team ('58–'70)</button>
+            <button type="button" class="editions-preset-btn" onclick="window.deselectAllEditions()">Clear All</button>
+          </div>
         </div>
+
         <button type="button" class="edition-trend-chip${!showAverageTrendline ? ' disabled' : ''}"
                 onclick="window.toggleAverageTrendline()"
                 onmouseenter="window.setEditionHighlight('AVG')"
@@ -2561,21 +2616,30 @@ function renderEditionsChart() {
         </button>
       </div>`;
 
-    const chipsHtml = legendOrder.map(ser => {
-      const isSelected = selectedEditionYears.has(ser.year);
+    const activeChipsHtml = legendOrder.filter(ser => selectedEditionYears.has(ser.year)).map(ser => {
       const isHighlighted = editionsHighlight === ser.year;
       return `
-        <button type="button" class="edition-chip ${isSelected ? 'selected' : 'unselected'}${isHighlighted ? ' highlighted' : ''}"
-                onclick="window.toggleEditionSelect(${ser.year})"
+        <button type="button" class="edition-chip selected${isHighlighted ? ' highlighted' : ''}"
+                onclick="window.toggleEditionSelect(${ser.year}, event)"
                 onmouseenter="window.setEditionHighlight(${ser.year})"
                 onmouseleave="window.setEditionHighlight(null)">
           <span class="edition-swatch" style="background:${ser.color}"></span>
           <span class="edition-year">${ser.year}</span>
           <span class="edition-host">${ser.host}</span>
+          <span class="edition-chip-remove">×</span>
         </button>`;
     }).join('');
 
-    legendEl.innerHTML = toolbarHtml + '<div class="editions-legend-chips" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">' + chipsHtml + '</div>';
+    const emptyChipsState = selCount === 0
+      ? `<div class="editions-empty-notice">No editions selected. Select editions from the dropdown or presets above.</div>`
+      : '';
+
+    legendEl.innerHTML = toolbarHtml + '<div class="editions-legend-chips" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:10px;">' + activeChipsHtml + emptyChipsState + '</div>';
+
+    // Filter dropdown options if search query was active
+    if (wasOpen && currentSearch) {
+      window.filterEditionsDropdown(currentSearch);
+    }
   }
 
   // Footnote
@@ -2585,7 +2649,36 @@ function renderEditionsChart() {
   }
 }
 
-window.toggleEditionSelect = (year) => {
+window.toggleEditionsDropdown = (e) => {
+  if (e) e.stopPropagation();
+  const options = document.getElementById('editions-select-options');
+  if (!options) return;
+
+  document.querySelectorAll('.custom-select-options').forEach(el => {
+    if (el !== options) el.classList.remove('open');
+  });
+
+  options.classList.toggle('open');
+  if (options.classList.contains('open')) {
+    const searchInput = document.getElementById('editions-search-input');
+    if (searchInput) {
+      setTimeout(() => searchInput.focus(), 50);
+    }
+  }
+};
+
+window.filterEditionsDropdown = (query) => {
+  const optionsEl = document.getElementById('editions-select-options');
+  if (!optionsEl) return;
+  const q = (query || '').toLowerCase().trim();
+  optionsEl.querySelectorAll('.custom-option').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(q) ? '' : 'none';
+  });
+};
+
+window.toggleEditionSelect = (year, e) => {
+  if (e) e.stopPropagation();
   if (!selectedEditionYears) {
     selectedEditionYears = new Set(HISTORICAL.editions.map(e => e.year));
   }
@@ -2602,19 +2695,22 @@ window.setEditionHighlight = (val) => {
   renderEditionsChart();
 };
 
-window.selectAllEditions = () => {
+window.selectAllEditions = (e) => {
+  if (e) e.stopPropagation();
   if (HISTORICAL && HISTORICAL.editions) {
     selectedEditionYears = new Set(HISTORICAL.editions.map(e => e.year));
     renderEditionsChart();
   }
 };
 
-window.deselectAllEditions = () => {
+window.deselectAllEditions = (e) => {
+  if (e) e.stopPropagation();
   selectedEditionYears = new Set();
   renderEditionsChart();
 };
 
-window.filterEraEditions = (era) => {
+window.filterEraEditions = (era, e) => {
+  if (e) e.stopPropagation();
   if (!HISTORICAL || !HISTORICAL.editions) return;
   if (era === '32-team') {
     selectedEditionYears = new Set(HISTORICAL.editions.filter(e => e.year >= 1998).map(e => e.year));

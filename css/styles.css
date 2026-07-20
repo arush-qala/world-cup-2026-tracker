@@ -1485,6 +1485,75 @@ body {
   padding-bottom: 10px;
   border-bottom: 1px dashed var(--line);
 }
+.editions-toolbar-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+.editions-select-container {
+  position: relative;
+  width: auto;
+  min-width: 210px;
+  max-width: 280px;
+}
+.editions-select-trigger {
+  height: 34px;
+  padding: 6px 32px 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+}
+#editions-select-options {
+  left: 0;
+  right: auto;
+  min-width: 290px;
+  max-width: 340px;
+}
+.editions-dropdown-preset-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 6px 10px;
+  background: var(--panel-hover, rgba(255, 255, 255, 0.03));
+  border-bottom: 1px solid var(--line);
+}
+.editions-preset-btn.mini {
+  padding: 2px 7px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+}
+.edition-option-year {
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: var(--text);
+  margin-left: 2px;
+}
+.edition-option-host {
+  font-size: 0.76rem;
+  color: var(--muted);
+  margin-left: auto;
+  font-weight: 500;
+}
+.edition-chip-remove {
+  font-size: 0.9rem;
+  margin-left: 3px;
+  opacity: 0.6;
+  transition: opacity 0.15s;
+}
+.edition-chip:hover .edition-chip-remove {
+  opacity: 1;
+  color: #ef4444;
+}
+.editions-empty-notice {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-style: italic;
+  padding: 6px 0;
+}
 .editions-preset-group {
   display: flex;
   flex-wrap: wrap;
@@ -1553,7 +1622,7 @@ body {
 }
 .editions-legend {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 8px;
   margin-top: 10px;
 }
