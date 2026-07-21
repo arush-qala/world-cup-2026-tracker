@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup 2026 Tracker — Data Architecture</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0b0f19;
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #00f2fe;
+      --secondary: #4facfe;
+      --accent: #ec4899;
+      --accent-green: #10b981;
+      --accent-yellow: #f59e0b;
+      --code-bg: #1e293b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1.5rem;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(79, 172, 254, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: 0 auto 3rem auto;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.025em;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(0, 242, 254, 0.3);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--card-border);
+      padding-bottom: 0.75rem;
+      color: #fff;
+    }
+
+    .card-title span {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Diagram Styles */
+    .flowchart {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      padding: 1rem 0;
+    }
+
+    .flow-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      width: 100%;
+    }
+
+    .flow-node {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      min-width: 180px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .flow-node:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 242, 254, 0.2);
+    }
+
+    .flow-node.data {
+      border-left: 4px solid var(--accent);
+    }
+
+    .flow-node.script {
+      border-left: 4px solid var(--accent-yellow);
+    }
+
+    .flow-node.state {
+      border-left: 4px solid var(--primary);
+    }
+
+    .flow-node.view {
+      border-left: 4px solid var(--accent-green);
+    }
+
+    .node-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .node-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .flow-arrow-down {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    .flow-arrow-right {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      opacity: 0.6;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Tab styles for schema explorer */
+    .tabs-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .tabs-headers {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .tab-btn {
+      background: rgba(30, 41, 59, 0.5);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 500;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(30, 41, 59, 0.8);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #0b0f19;
+      font-weight: 600;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .schema-info {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .schema-info {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .schema-table-wrapper {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    th {
+      font-weight: 600;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    td code {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--primary);
+      background: rgba(0, 242, 254, 0.1);
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.25rem;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.825rem;
+      max-height: 400px;
+    }
+
+    /* Steps list styling */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .step-item {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .step-num {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #0b0f19;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    .step-text h4 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      color: #fff;
+    }
+
+    .step-text p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>World Cup 2026 Tracker</h1>
+    <div class="subtitle">System Data Architecture & Lifecycle Flow</div>
+  </header>
+
+  <div class="container">
+
+    <!-- Section 1: Data Flow Pipeline -->
+    <div class="card">
+      <div class="card-title">
+        <span>🔄 System Data Pipeline Diagram</span>
+      </div>
+      <div class="flowchart">
+        <!-- Raw / Capture Pipeline -->
+        <div class="flow-row">
+          <div class="flow-node script">
+            <div class="node-title">capture_fantasy.js</div>
+            <div class="node-desc">Playwright scraper</div>
+          </div>
+          <div class="flow-arrow-right">→</div>
+          <div class="flow-node data">
+            <div class="node-title">raw_fantasy_players.json</div>
+            <div class="node-desc">Unprocessed API response</div>
+          </div>
+          <div class="flow-arrow-right">→</div>
+          <div class="flow-node script">
+            <div class="node-title">process_captured_players.js</div>
+            <div class="node-desc">Data formatter script</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow-down">↓</div>
+
+        <!-- Production JSON Datasets -->
+        <div class="flow-row">
+          <div class="flow-node data">
+            <div class="node-title">groups.json</div>
+            <div class="node-desc">Teams, flags, ranks</div>
+          </div>
+          <div class="flow-node data">
+            <div class="node-title">fixtures.json</div>
+            <div class="node-desc">Match data & results</div>
+          </div>
+          <div class="flow-node data">
+            <div class="node-title">fantasy.json</div>
+            <div class="node-desc">Set-piece takers</div>
+          </div>
+          <div class="flow-node data">
+            <div class="node-title">fantasy_players.json</div>
+            <div class="node-desc">Refined fantasy stats</div>
+          </div>
+          <div class="flow-node data">
+            <div class="node-title">historical-goals.json</div>
+            <div class="node-desc">Past goals/stage (1958-2022)</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow-down">↓ (Promise.all Boot Loader)</div>
+
+        <!-- Javascript Variables & State -->
+        <div class="flow-row">
+          <div class="flow-node state">
+            <div class="node-title">DATA</div>
+            <div class="node-desc">groups & fixtures</div>
+          </div>
+          <div class="flow-node state">
+            <div class="node-title">FANTASY</div>
+            <div class="node-desc">set-piece takers config</div>
+          </div>
+          <div class="flow-node state">
+            <div class="node-title">FANTASY_PLAYERS</div>
+            <div class="node-desc">Flat Array of active athletes</div>
+          </div>
+          <div class="flow-node state">
+            <div class="node-title">HISTORICAL</div>
+            <div class="node-desc">Historical data + Dynamic 2026</div>
+          </div>
+        </div>
+
+        <div class="flow-arrow-down">↓ (Dynamic Rendering Functions)</div>
+
+        <!-- Rendering & View Layers -->
+        <div class="flow-row">
+          <div class="flow-node view">
+            <div class="node-title">renderFixtures()</div>
+            <div class="node-desc">Groups schedule template</div>
+          </div>
+          <div class="flow-node view">
+            <div class="node-title">renderGroups()</div>
+            <div class="node-desc">Interactive standings lines</div>
+          </div>
+          <div class="flow-node view">
+            <div class="node-title">renderBracketWheel()</div>
+            <div class="node-desc">Knockout spiral radial diagram</div>
+          </div>
+          <div class="flow-node view">
+            <div class="node-title">renderEditionsChart()</div>
+            <div class="node-desc">Historical vs. Live 2026 goals</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Interactive Schema Explorer -->
+    <div class="card">
+      <div class="card-title">
+        <span>📁 Database Schema Explorer</span>
+      </div>
+      <div class="tabs-container">
+        <div class="tabs-headers" id="schema-tabs-header">
+          <button class="tab-btn active" onclick="showSchemaTab('schema-fixtures')">fixtures.json</button>
+          <button class="tab-btn" onclick="showSchemaTab('schema-groups')">groups.json</button>
+          <button class="tab-btn" onclick="showSchemaTab('schema-fantasy')">fantasy.json</button>
+          <button class="tab-btn" onclick="showSchemaTab('schema-fantasy-players')">fantasy_players.json</button>
+          <button class="tab-btn" onclick="showSchemaTab('schema-historical')">historical-goals.json</button>
+        </div>
+
+        <!-- Fixtures Schema -->
+        <div class="tab-content active" id="schema-fixtures">
+          <div class="schema-info">
+            <div class="schema-table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>id</code></td>
+                    <td>String</td>
+                    <td>Unique match code identifier (e.g. M01, M73)</td>
+                  </tr>
+                  <tr>
+                    <td><code>stage</code></td>
+                    <td>String</td>
+                    <td>Stage name: "group", "round of 32", "round of 16", "quarter-finals", "semi-finals", "third-place match", "final"</td>
+                  </tr>
+                  <tr>
+                    <td><code>group</code></td>
+                    <td>String</td>
+                    <td>Group letter (A-L), present in group stage fixtures</td>
+                  </tr>
+                  <tr>
+                    <td><code>matchday</code></td>
+                    <td>Number</td>
+                    <td>Matchday number (1, 2, or 3) for group phase</td>
+                  </tr>
+                  <tr>
+                    <td><code>venue</code></td>
+                    <td>String</td>
+                    <td>Stadium & host city locations</td>
+                  </tr>
+                  <tr>
+                    <td><code>home</code> / <code>away</code></td>
+                    <td>String</td>
+                    <td>ISO-style 3-letter country codes (e.g. MEX, CAN)</td>
+                  </tr>
+                  <tr>
+                    <td><code>status</code></td>
+                    <td>String</td>
+                    <td>Match state: "future", "scheduled", "finished"</td>
+                  </tr>
+                  <tr>
+                    <td><code>score</code></td>
+                    <td>Object</td>
+                    <td>Contains <code>home</code> and <code>away</code> numeric tallies</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <pre><code>[
+  {
+    "id": "M01",
+    "stage": "group",
+    "group": "A",
+    "matchday": 1,
+    "dateUK": "2026-06-11",
+    "kickoffUK": "2026-06-11T20:00:00+01:00",
+    "venue": "Estadio Azteca, Mexico City",
+    "home": "MEX",
+    "away": "RSA",
+    "status": "finished",
+    "score": {
+      "home": 2,
+      "away": 0
+    }
+  }
+]</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Groups Schema -->
+        <div class="tab-content" id="schema-groups">
+          <div class="schema-info">
+            <div class="schema-table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>code</code></td>
+                    <td>String</td>
+                    <td>Unique 3-letter abbreviation</td>
+                  </tr>
+                  <tr>
+                    <td><code>name</code></td>
+                    <td>String</td>
+                    <td>Country display name</td>
+                  </tr>
+                  <tr>
+                    <td><code>flag</code></td>
+                    <td>String</td>
+                    <td>Emoji representation of flag</td>
+                  </tr>
+                  <tr>
+                    <td><code>color</code></td>
+                    <td>String</td>
+                    <td>HEX code of representative national kit/branding</td>
+                  </tr>
+                  <tr>
+                    <td><code>fifaRank</code></td>
+                    <td>Number</td>
+                    <td>Tournament seed FIFA Rank</td>
+                  </tr>
+                  <tr>
+                    <td><code>fifaPoints</code></td>
+                    <td>Number</td>
+                    <td>Raw index points used for seed rankings</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <pre><code>{
+  "A": [
+    { 
+      "code": "MEX", 
+      "name": "Mexico", 
+      "flag": "🇲🇽", 
+      "color": "#006847", 
+      "fifaRank": 14, 
+      "fifaPoints": 1687.48 
+    },
+    ...
+  ]
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fantasy Config Schema -->
+        <div class="tab-content" id="schema-fantasy">
+          <div class="schema-info">
+            <div class="schema-table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>penalties</code></td>
+                    <td>String</td>
+                    <td>Primary penalty kick taker</td>
+                  </tr>
+                  <tr>
+                    <td><code>freeKicks</code></td>
+                    <td>String</td>
+                    <td>Primary direct/indirect free-kick specialist</td>
+                  </tr>
+                  <tr>
+                    <td><code>corners</code></td>
+                    <td>String</td>
+                    <td>Primary corner-kick provider</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <pre><code>{
+  "setPieces": {
+    "ARG": { 
+      "penalties": "Lionel Messi", 
+      "freeKicks": "Lionel Messi", 
+      "corners": "Alexis Mac Allister" 
+    },
+    "FRA": { 
+      "penalties": "Kylian Mbappé", 
+      "freeKicks": "Michael Olise", 
+      "corners": "Michael Olise" 
+    }
+  }
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fantasy Players Schema -->
+        <div class="tab-content" id="schema-fantasy-players">
+          <div class="schema-info">
+            <div class="schema-table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>name</code></td>
+                    <td>String</td>
+                    <td>Formatted full name of player</td>
+                  </tr>
+                  <tr>
+                    <td><code>position</code></td>
+                    <td>String</td>
+                    <td>GKP (Goalie), DEF (Defender), MID (Midfielder), FWD (Forward)</td>
+                  </tr>
+                  <tr>
+                    <td><code>price</code></td>
+                    <td>Number</td>
+                    <td>Fifa Fantasy value index in million currency credits</td>
+                  </tr>
+                  <tr>
+                    <td><code>percentSelected</code></td>
+                    <td>Number</td>
+                    <td>Popularity proportion choice rate</td>
+                  </tr>
+                  <tr>
+                    <td><code>teamCode</code></td>
+                    <td>String</td>
+                    <td>Country identifier match link</td>
+                  </tr>
+                  <tr>
+                    <td><code>totalPoints</code></td>
+                    <td>Number</td>
+                    <td>Cumulative sum of score rounds</td>
+                  </tr>
+                  <tr>
+                    <td><code>pointsByRound</code></td>
+                    <td>Object</td>
+                    <td>Score Breakdown for stages: <code>md1, md2, md3, r32, r16, qf, sf, fi</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>status</code></td>
+                    <td>String</td>
+                    <td>Current condition ("playing", "eliminated", etc.)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <pre><code>[
+  {
+    "id": "1",
+    "name": "Rayan Aït-Nouri",
+    "position": "DEF",
+    "price": 4.9,
+    "percentSelected": 0.7,
+    "teamCode": "ALG",
+    "totalPoints": 4,
+    "pointsByRound": {
+      "md1": 0, "md2": 2, "md3": 1, "r32": 1,
+      "r16": 0, "qf": 0, "sf": 0, "fi": 0
+    },
+    "status": "eliminated"
+  }
+]</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historical Schema -->
+        <div class="tab-content" id="schema-historical">
+          <div class="schema-info">
+            <div class="schema-table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Field</th>
+                    <th>Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>year</code></td>
+                    <td>Number</td>
+                    <td>Editions Year (1958–2022)</td>
+                  </tr>
+                  <tr>
+                    <td><code>host</code></td>
+                    <td>String</td>
+                    <td>Host country name</td>
+                  </tr>
+                  <tr>
+                    <td><code>teams</code></td>
+                    <td>Number</td>
+                    <td>Number of participating countries</td>
+                  </tr>
+                  <tr>
+                    <td><code>stages</code></td>
+                    <td>Object</td>
+                    <td>Goal counts per stage: <code>MD1, MD2, MD3, R16, QF, SF, 3RD, FIN</code></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <pre><code>{
+  "stageOrder": ["MD1", "MD2", "MD3", "R16", "QF", "SF", "3RD", "FIN"],
+  "editions": [
+    {
+      "year": 1958,
+      "host": "Sweden",
+      "teams": 16,
+      "color": "#ec4899",
+      "stages": {
+        "MD1": { "goals": 29, "matches": 8 },
+        "MD2": { "goals": 25, "matches": 8 },
+        ...
+      }
+    }
+  ]
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: App Lifecycle Flow -->
+    <div class="card">
+      <div class="card-title">
+        <span>⏱️ Application Boot & Rendering Lifecycle</span>
+      </div>
+      <div class="steps">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <h4>Bootstrapping & Data Resolution</h4>
+            <p>The application triggers <code>boot()</code>, which executes a parallel <code>Promise.all</code> fetching 5 JSON datasets. Once loaded, global configurations (e.g. timezone filters) are initialized.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <h4>Standings and Ranking Computations</h4>
+            <p>For each group, <code>computeGroup()</code> dynamically tallies matches played, goals for/against, points, and ranks them per matchday. Ranks are determined using: Points → Goal Difference → Goals Scored → Head-to-Head.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <h4>Bracket Tree Decoration</h4>
+            <p>In the knockout tab, <code>buildBracketStructure()</code> creates a binary tree starting from the Final. The application dynamically assigns the real qualified group winners/runners-up or prediction states to the leaves, propagating winners to higher rounds.</p>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">4</div>
+          <div class="step-text">
+            <h4>Visualization Render Engine</h4>
+            <p>DOM renders occur. High-performance SVGs are rendered: group trends line charts in <code>chart.js</code>, the polar coordinates knockout layout in <code>renderBracketWheel()</code>, and comparison timelines in <code>renderEditionsChart()</code>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showSchemaTab(tabId) {
+      // Hide all contents
+      document.querySelectorAll('.tab-content').forEach(el => {
+        el.classList.remove('active');
+      });
+      // Deactivate all buttons
+      document.querySelectorAll('#schema-tabs-header .tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      // Show targeted
+      document.getElementById(tabId).classList.add('active');
+      // Highlight button
+      event.currentTarget.classList.add('active');
+    }
+  </script>
+</body>
+</html>
